@@ -1,0 +1,88 @@
+swagger: "2.0"
+info:
+  description: |
+    An API used to fetch information about dataset recipes.
+  version: "1.0.0"
+  title: "ONS Recipe API"
+  license:
+    name: "Open Government Licence v3.0"
+    url: "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+schemes:
+- "http"
+parameters:
+  recipe_id:
+    name: recipe_id
+    description: "A unique id for a recipe"
+    type: string
+    in: path
+    required: true
+paths:
+  /recipes:
+    get:
+      summary: "Get a list of recipes"
+      description: |
+        MOO
+      produces:
+      - "application/json"
+      responses:
+        201:
+          description: "A list of recipes"
+          schema:
+            $ref: '#/definitions/Recipe'
+        500:
+          $ref: '#/responses/InternalError'
+  /recipes/{recipe_id}:
+    get:
+      summary: "Get a specific recipe"
+      description: |
+        MOO
+      parameters:
+      - $ref: '#/parameters/recipe_id'
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "A specific recipe"
+        404:
+          description: "Recipe not found"
+        500:
+          $ref: '#/responses/InternalError'
+responses:
+  InternalError:
+    description: "Failed to process the request due to an internal error"
+definitions:
+  Recipe:
+    type: object
+    description: "An object returned when an import job is created"
+    properties:
+      job_id:
+        type: string
+        readOnly: true
+        description: "A unique id for an import job"
+      recipe:
+        type: string
+        description: |
+          The recipe to use when baking data. Below is a list of predefined recipes;
+          * v4 - This will skip the data baking process.
+      state:
+        type: string
+        description: |
+          The state of the job, this can be;
+           * created - The job has been created;
+           * submitted - The job has been queue to be imported
+           * completed - The job has been imported
+           * error - The job was not imported (See the events in the instances)
+      links:
+        type: object
+        readOnly: true
+        properties:
+          instance_ids:
+            type: array
+            description: "A list of URL to instances"
+            items:
+              type: string
+      files:
+        description: "A list of all files to be used in the job"
+        type: array
+        items:
+          $ref: '#/definitions/File'
