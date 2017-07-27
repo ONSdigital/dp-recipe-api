@@ -21,21 +21,21 @@ paths:
     get:
       summary: "Get a list of recipes"
       description: |
-        MOO
+        Returns a paged list of recipes
       produces:
       - "application/json"
       responses:
-        201:
+        200:
           description: "A list of recipes"
           schema:
-            $ref: '#/definitions/Recipe'
+            $ref: '#/definitions/RecipeList'
         500:
           $ref: '#/responses/InternalError'
   /recipes/{recipe_id}:
     get:
       summary: "Get a specific recipe"
       description: |
-        MOO
+        Returns a specific recipe
       parameters:
       - $ref: '#/parameters/recipe_id'
       produces:
@@ -43,6 +43,8 @@ paths:
       responses:
         200:
           description: "A specific recipe"
+          schema:
+            $ref: '#/definitions/Recipe'
         404:
           description: "Recipe not found"
         500:
@@ -51,38 +53,60 @@ responses:
   InternalError:
     description: "Failed to process the request due to an internal error"
 definitions:
+  RecipeList:
+    type: object
+    description: "A list of recipes"
+    properties:
+      count:
+        type: number
+        readOnly: true
+        description: "The number of recipes returned"
+      total_count:
+        type: number
+        readOnly: true
+        description: "The total number of recipes"
+      start:
+        type: number
+        readOnly: true
+        description: "The start index for the results"
+      items_per_page:
+        type: number
+        readOnly: true
+        description: "The number of items per page"
+      items:
+        type: array
+        readOnly: true
+        items:
+          $ref: '#/definitions/Recipe'
   Recipe:
     type: object
-    description: "An object returned when an import job is created"
+    description: "An object returned for a recipe"
     properties:
-      job_id:
+      id:
         type: string
         readOnly: true
-        description: "A unique id for an import job"
-      recipe:
+        description: "A unique id for the recipe"
+      alias:
         type: string
-        description: |
-          The recipe to use when baking data. Below is a list of predefined recipes;
-          * v4 - This will skip the data baking process.
-      state:
-        type: string
-        description: |
-          The state of the job, this can be;
-           * created - The job has been created;
-           * submitted - The job has been queue to be imported
-           * completed - The job has been imported
-           * error - The job was not imported (See the events in the instances)
-      links:
-        type: object
         readOnly: true
-        properties:
-          instance_ids:
-            type: array
-            description: "A list of URL to instances"
-            items:
-              type: string
-      files:
-        description: "A list of all files to be used in the job"
+        description: "An alias for the recipe"
+      format:
+        type: string
+        readOnly: true
+        description: "The recipe format, e.g. v4"
+      input_files:
         type: array
-        items:
-          $ref: '#/definitions/File'
+        items: 
+          $ref: '#/definitions/InputFile'
+      output_instances:
+        type: number
+        readOnly: true
+        description: "The number of output instances"
+  InputFile:
+    type: object
+    description: "An input file"
+    properties:
+      description: 
+        type: string
+        readOnly: true
+        description: "The description of the input file"

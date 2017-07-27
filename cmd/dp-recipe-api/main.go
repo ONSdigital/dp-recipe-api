@@ -38,6 +38,7 @@ type recipeListResponse struct {
 	Start        int              `json:"start_index"`
 	ItemsPerPage int              `json:"items_per_page"`
 	Items        []recipeResponse `json:"items"`
+	TotalCount   int              `json:"total_count"`
 }
 
 type recipeResponse struct {
@@ -46,7 +47,6 @@ type recipeResponse struct {
 	Format          string `json:"format"`
 	InputFiles      []file `json:"files"`
 	OutputInstances int    `json:"output_instances"`
-	ScriptURL       string `json:"script_url,omitempty"`
 }
 
 type file struct {
@@ -56,16 +56,17 @@ type file struct {
 var cpiRecipeList = recipeListResponse{
 	Items:        []recipeResponse{cpiRecipe},
 	Count:        1,
+	TotalCount:   1,
 	ItemsPerPage: 10,
 	Start:        0,
 }
 
 var cpiRecipe = recipeResponse{
 	ID:     "b944be78-f56d-409b-9ebd-ab2b77ffe187",
-	Alias:  "coicop",
+	Alias:  "CPI COICOP",
 	Format: "v4",
 	InputFiles: []file{
-		{"coicop"},
+		{"CPI COICOP v4"},
 	},
 	OutputInstances: 1,
 }
