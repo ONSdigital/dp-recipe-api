@@ -9,7 +9,7 @@ DP Recipe API
 
 | Environment variable | Default                                   | Description
 | -------------------- | ----------------------------------------- | -----------
-| BIND_ADDR            | :21800                                    | The host and port to bind to
+| BIND_ADDR            | :22300                                    | The host and port to bind to
 
 ### Contributing
 
