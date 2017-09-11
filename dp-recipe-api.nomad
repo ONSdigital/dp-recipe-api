@@ -32,6 +32,7 @@ job "dp-recipe-api" {
 
       service {
         name = "dp-recipe-api"
+        port = "http"
         tags = ["publishing"]
       }
 
