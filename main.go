@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	log.Namespace = "dp-recipe-api"
+	log.Namespace = "recipe-api"
 	configuration, configErr := config.Get()
 	if configErr != nil {
 		log.Error(configErr, nil)

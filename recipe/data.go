@@ -5,6 +5,7 @@ package recipe
 // - add the var name to the list of Items
 // - increment the Count and Total count in the RecipeList
 
+//FullLit of recipes available via this API
 var FullList = List{
 	Items:        []Response{CPI},
 	Count:        1,
@@ -13,6 +14,7 @@ var FullList = List{
 	Start:        0,
 }
 
+//CPI recipe for transforming a given input to a CPI COICOP dataset
 var CPI = Response{
 	ID:     "b944be78-f56d-409b-9ebd-ab2b77ffe187",
 	Alias:  "CPI COICOP",
