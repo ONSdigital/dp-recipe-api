@@ -25,6 +25,7 @@ type CodeList struct {
 type instance struct {
 	DatasetID string     `json:"dataset_id"`
 	Editions  []string   `json:"editions"`
+	Title     string     `json:"title"`
 	CodeLists []CodeList `json:"code_lists"`
 }
 
