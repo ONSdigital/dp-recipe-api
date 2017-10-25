@@ -86,22 +86,27 @@ definitions:
         type: string
         readOnly: true
         description: "A unique id for the recipe"
+        example: "b944be78-f56d-409b-9ebd-ab2b77ffe187"
       alias:
         type: string
         readOnly: true
         description: "An alias for the recipe"
+        example: "CPI COICOP"
       format:
         type: string
         readOnly: true
-        description: "The recipe format, e.g. v4"
+        description: "The recipe format"
+        example: "v4"
       input_files:
         type: array
         items: 
           $ref: '#/definitions/InputFile'
       output_instances:
-        type: number
+        type: array
         readOnly: true
-        description: "The number of output instances"
+        description: "A list of all instances created using this recipe"
+        items:
+          $ref: '#/definitions/Instance'
   InputFile:
     type: object
     description: "An input file"
@@ -110,3 +115,45 @@ definitions:
         type: string
         readOnly: true
         description: "The description of the input file"
+        example: "CPI COICOP v4"
+  Instance:
+    type: object
+    description: "An instance represents a single dataset"
+    properties:
+      dataset_id:
+        type: string
+        readOnly: true
+        description: "A unique id for a dataset"
+        example: "931a8a2a-0dc8-42b6-a884-7b6054ed3b68"
+      editions:
+        type: array
+        readOnly: true
+        description: "Types of editions within the dataset"
+        items:
+          type: string
+          example: "Time-serie"
+      title:
+        type: string
+        readOnly: true
+        description: "The title for the dataset"
+        example: "UK consumer price inflation"
+      code_lists:
+        type: array
+        readOnly: true
+        description: "A list of all code lists within this instance"
+        items:
+          $ref: '#/definitions/CodeList'
+  CodeList:
+    type: object
+    description: "A code list refers to a list of all possible codes"
+    properties:
+      id:
+        type: string
+        readOnly: true
+        description: "A unique id for a single code list"
+        example: "e44de4c4-d39e-4e2f-942b-3ca10584d078"
+      href:
+        type: string
+        readOnly: true
+        description: "A URL to the code list"
+        example: "http://localhost/code-lists/e44de4c4-d39e-4e2f-942b-3ca10584d0782"
