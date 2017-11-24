@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, SAPE},
-	Count:        1,
-	TotalCount:   1,
+	Items:        []Response{CPI, SAPE, CPIH},
+	Count:        3,
+	TotalCount:   3,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -49,6 +49,25 @@ var SAPE = Response{
 				{ID: "65107A9f-7da3-4b41-a410-6f6d9fbd68c3", Name: "geography", HRef: "http://localhost:22400/code-lists/65107A9f-7da3-4b41-a410-6f6d9fbd68c3"},
 				{ID: "4e1a21a9-3fb9-4a71-b2ad-9be29457236b", Name: "age", HRef: "http://localhost:22400/code-lists/4e1a21a9-3fb9-4a71-b2ad-9be29457236b"},
 				{ID: "54ff5089-ea78-45ef-afa2-0dfe58f89497", Name: "sex", HRef: "http://localhost:22400/code-lists/54ff5089-ea78-45ef-afa2-0dfe58f89497"}},
+		},
+	},
+}
+
+var CPIH = Response{
+	ID:     "2943f3c5-c3f1-4a9a-aa6e-14d21c33524c",
+	Alias:  "CPIH",
+	Format: "v4",
+	InputFiles: []file{
+		{"CPIH v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "CPIH01",
+			Editions:  []string{"Time-series"},
+			Title:     "CPIH",
+			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
+				{ID: "UK-only", Name: "geography", HRef: "http://localhost:22400/code-lists/UK-only"},
+				{ID: "cpih1dim1aggid", Name: "aggregate", HRef: "http://localhost:22400/code-lists/cpih1dim1aggid"}},
 		},
 	},
 }
