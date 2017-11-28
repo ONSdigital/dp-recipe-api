@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, SAPE, CPIH},
-	Count:        3,
-	TotalCount:   3,
+	Items:        []Response{CPI, SAPE, CPIH, ASHEP01, POPTC},
+	Count:        5,
+	TotalCount:   5,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -68,6 +68,48 @@ var CPIH = Response{
 			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
 				{ID: "UK-only", Name: "geography", HRef: "http://localhost:22400/code-lists/UK-only"},
 				{ID: "cpih1dim1aggid", Name: "aggregate", HRef: "http://localhost:22400/code-lists/cpih1dim1aggid"}},
+		},
+	},
+}
+
+var ASHEP01 = Response{
+	ID:     "7b160747-bc5a-4baa-857a-aa72545d9899",
+	Alias:  "ASHEP01",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHEP01 v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ASHEP01",
+			Editions:  []string{"Time-series"},
+			Title:     "CPIH",
+			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
+				{ID: "UK-only", Name: "geography", HRef: "http://localhost:22400/code-lists/UK-only"},
+				{ID: "asheagegroup", Name: "agegroup", HRef: "http://localhost:22400/code-lists/asheagegroup"},
+				{ID: "asheearnings", Name: "earnings", HRef: "http://localhost:22400/code-lists/asheearnings"},
+				{ID: "ashegender", Name: "gender", HRef: "http://localhost:22400/code-lists/ashegender"},
+				{ID: "asheprovision", Name: "provision", HRef: "http://localhost:22400/code-lists/asheprovision"},
+				{ID: "asheunits", Name: "units", HRef: "http://localhost:22400/code-lists/asheprovision"}},
+		},
+	},
+}
+
+var POPTC = Response{
+	ID:     "e295af68-d9e4-43ba-b6ea-972301229da8",
+	Alias:  "POPTC",
+	Format: "v4",
+	InputFiles: []file{
+		{"POPTC v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "POPTC",
+			Editions:  []string{"2011"},
+			Title:     "POPTC (experimental)",
+			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
+				{ID: "towncities", Name: "geography", HRef: "http://localhost:22400/code-lists/townscities"},
+				{ID: "townscitiesagegroup", Name: "agegroup", HRef: "http://localhost:22400/code-lists/townscitiesagegroup"}},
 		},
 	},
 }
