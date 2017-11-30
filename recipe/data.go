@@ -5,11 +5,11 @@ package recipe
 // - add the var name to the list of Items
 // - increment the Count and Total count in the RecipeList
 
-//FullLit of recipes available via this API
+//FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI},
-	Count:        1,
-	TotalCount:   1,
+	Items:        []Response{CPI, CPIH},
+	Count:        2,
+	TotalCount:   2,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -33,3 +33,23 @@ var CPI = Response{
 		},
 	},
 }
+
+var CPIH = Response{
+	ID:     "2943f3c5-c3f1-4a9a-aa6e-14d21c33524c",
+	Alias:  "CPIH",
+	Format: "v4",
+	InputFiles: []file{
+		{"CPIH v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "cpih01",
+			Editions:  []string{"time-series"},
+			Title:     "Consumer Prices Index including owner occupiers’ housing costs (CPIH)",
+			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
+				{ID: "uk-only", Name: "geography", HRef: "http://localhost:22400/code-lists/uk-only"},
+				{ID: "cpih1dim1aggid", Name: "aggregate", HRef: "http://localhost:22400/code-lists/cpih1dim1aggid"}},
+		},
+	},
+}
+
