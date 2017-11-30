@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, SAPE, CPIH, ASHEP01, POPTC},
-	Count:        5,
-	TotalCount:   5,
+	Items:        []Response{CPI, CPIH},
+	Count:        2,
+	TotalCount:   2,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -34,25 +34,6 @@ var CPI = Response{
 	},
 }
 
-var SAPE = Response{
-	ID:     "8ef16b08-fef5-4bd3-8300-8066b0c777ce",
-	Alias:  "sape",
-	Format: "v4",
-	InputFiles: []file{
-		{"sape"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "4e1a21a9-3fb9-4a71-b2ad-9be29457236b",
-			Editions:  []string{"Time-series"},
-			CodeLists: []CodeList{{ID: "64d384f1-ea3b-445c-8fb8-aa453f96e58a", Name: "time", HRef: "http://localhost:22400/code-lists/64d384f1-ea3b-445c-8fb8-aa453f96e58a"},
-				{ID: "65107A9f-7da3-4b41-a410-6f6d9fbd68c3", Name: "geography", HRef: "http://localhost:22400/code-lists/65107A9f-7da3-4b41-a410-6f6d9fbd68c3"},
-				{ID: "4e1a21a9-3fb9-4a71-b2ad-9be29457236b", Name: "age", HRef: "http://localhost:22400/code-lists/4e1a21a9-3fb9-4a71-b2ad-9be29457236b"},
-				{ID: "54ff5089-ea78-45ef-afa2-0dfe58f89497", Name: "sex", HRef: "http://localhost:22400/code-lists/54ff5089-ea78-45ef-afa2-0dfe58f89497"}},
-		},
-	},
-}
-
 var CPIH = Response{
 	ID:     "2943f3c5-c3f1-4a9a-aa6e-14d21c33524c",
 	Alias:  "CPIH",
@@ -62,54 +43,13 @@ var CPIH = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "CPIH01",
-			Editions:  []string{"Time-series"},
-			Title:     "CPIH",
+			DatasetID: "cpih01",
+			Editions:  []string{"time-series"},
+			Title:     "Consumer Prices Index including owner occupiers’ housing costs (CPIH)",
 			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
-				{ID: "UK-only", Name: "geography", HRef: "http://localhost:22400/code-lists/UK-only"},
+				{ID: "uk-only", Name: "geography", HRef: "http://localhost:22400/code-lists/uk-only"},
 				{ID: "cpih1dim1aggid", Name: "aggregate", HRef: "http://localhost:22400/code-lists/cpih1dim1aggid"}},
 		},
 	},
 }
 
-var ASHEP01 = Response{
-	ID:     "7b160747-bc5a-4baa-857a-aa72545d9899",
-	Alias:  "ASHEP01",
-	Format: "v4",
-	InputFiles: []file{
-		{"ASHEP01 v4"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "ASHEP01",
-			Editions:  []string{"Time-series"},
-			Title:     "CPIH",
-			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
-				{ID: "UK-only", Name: "geography", HRef: "http://localhost:22400/code-lists/UK-only"},
-				{ID: "asheagegroup", Name: "agegroup", HRef: "http://localhost:22400/code-lists/asheagegroup"},
-				{ID: "asheearnings", Name: "earnings", HRef: "http://localhost:22400/code-lists/asheearnings"},
-				{ID: "ashegender", Name: "gender", HRef: "http://localhost:22400/code-lists/ashegender"},
-				{ID: "asheprovision", Name: "provision", HRef: "http://localhost:22400/code-lists/asheprovision"},
-				{ID: "asheunits", Name: "units", HRef: "http://localhost:22400/code-lists/asheprovision"}},
-		},
-	},
-}
-
-var POPTC = Response{
-	ID:     "e295af68-d9e4-43ba-b6ea-972301229da8",
-	Alias:  "POPTC",
-	Format: "v4",
-	InputFiles: []file{
-		{"POPTC v4"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "POPTC",
-			Editions:  []string{"2011"},
-			Title:     "POPTC (experimental)",
-			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
-				{ID: "towncities", Name: "geography", HRef: "http://localhost:22400/code-lists/townscities"},
-				{ID: "townscitiesagegroup", Name: "agegroup", HRef: "http://localhost:22400/code-lists/townscitiesagegroup"}},
-		},
-	},
-}
