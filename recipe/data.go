@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, SAPE, CPIH, ASHEP01, POPTC},
-	Count:        5,
-	TotalCount:   5,
+	Items:        []Response{CPI, SAPE, CPIH, ASHEP01, POPTC, MIDYEARPOPEST},
+	Count:        6,
+	TotalCount:   6,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -110,6 +110,26 @@ var POPTC = Response{
 			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
 				{ID: "towncities", Name: "geography", HRef: "http://localhost:22400/code-lists/townscities"},
 				{ID: "townscitiesagegroup", Name: "agegroup", HRef: "http://localhost:22400/code-lists/townscitiesagegroup"}},
+		},
+	},
+}
+
+var MIDYEARPOPEST = Response{
+	ID:     "40AA070E-7A43-4EC5-A1FC-84CEA2BC4461",
+	Alias:  "MIDYEARPOPEST",
+	Format: "v4",
+	InputFiles: []file{
+		{"MIDYEARPOPEST v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "midyearpopest",
+			Editions:  []string{"Time-series"},
+			Title:     "Mid Year Population Estimates",
+			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
+				{ID: "midyearpop", Name: "geography", HRef: "http://localhost:22400/code-lists/midyearpop"},
+				{ID: "midyearpopsex", Name: "sex", HRef: "http://localhost:22400/code-lists/midyearpopsex"},
+				{ID: "midyearpopage", Name: "age", HRef: "http://localhost:22400/code-lists/midyearpopage"}},
 		},
 	},
 }
