@@ -44,14 +44,15 @@ var CPIH = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "cpih01",
-			Editions:  []string{"Time-series"},
-			Title:     "CPIH",
+			Editions:  []string{"time-series"},
+			Title:     "Consumer Prices Index including owner occupiers’ housing costs (CPIH)",
 			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
-				{ID: "UK-only", Name: "geography", HRef: "http://localhost:22400/code-lists/UK-only"},
+				{ID: "uk-only", Name: "geography", HRef: "http://localhost:22400/code-lists/uk-only"},
 				{ID: "cpih1dim1aggid", Name: "aggregate", HRef: "http://localhost:22400/code-lists/cpih1dim1aggid"}},
 		},
 	},
 }
+
 
 var MIDYEARPOPEST = Response{
 	ID:     "40AA070E-7A43-4EC5-A1FC-84CEA2BC4461",
@@ -72,3 +73,4 @@ var MIDYEARPOPEST = Response{
 		},
 	},
 }
+
