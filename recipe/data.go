@@ -24,7 +24,7 @@ var CPI = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "cpi",
+			DatasetID: "931a8a2a-0dc8-42b6-a884-7b6054ed3b68",
 			Editions:  []string{"Time-series"},
 			Title:     "UK consumer price inflation",
 			CodeLists: []CodeList{{ID: "64d384f1-ea3b-445c-8fb8-aa453f96e58a", Name: "time", HRef: "http://localhost:22400/code-lists/64d384f1-ea3b-445c-8fb8-aa453f96e58a"},
