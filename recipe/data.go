@@ -34,6 +34,7 @@ var CPI = Response{
 	},
 }
 
+//CPIH recipe for transforming a given input to a CPIH dataset
 var CPIH = Response{
 	ID:     "2943f3c5-c3f1-4a9a-aa6e-14d21c33524c",
 	Alias:  "CPIH",
@@ -53,6 +54,7 @@ var CPIH = Response{
 	},
 }
 
+//MidYearPopEst recipe for transforming a given input to a mid year population estimate dataset
 var MidYearPopEst = Response{
 	ID:     "40AA070E-7A43-4EC5-A1FC-84CEA2BC4461",
 	Alias:  "Mid-year Population Estimates",
