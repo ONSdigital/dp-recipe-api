@@ -7,7 +7,7 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MIDYEARPOPEST},
+	Items:        []Response{CPI, CPIH, MidYearPopEst},
 	Count:        3,
 	TotalCount:   3,
 	ItemsPerPage: 10,
@@ -53,24 +53,22 @@ var CPIH = Response{
 	},
 }
 
-
-var MIDYEARPOPEST = Response{
+var MidYearPopEst = Response{
 	ID:     "40AA070E-7A43-4EC5-A1FC-84CEA2BC4461",
-	Alias:  "MIDYEARPOPEST",
+	Alias:  "Mid-year Population Estimates",
 	Format: "v4",
 	InputFiles: []file{
-		{"MIDYEARPOPEST v4"},
+		{"Mid-year Population Estimates v4"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "midyearpopest",
+			DatasetID: "mid-year-pop-est",
 			Editions:  []string{"time-series"},
-			Title:     "Mid Year Population Estimates",
-			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
-				{ID: "midyearpopgeography", Name: "geography", HRef: "http://localhost:22400/code-lists/midyearpop"},
-				{ID: "midyearpopsex", Name: "sex", HRef: "http://localhost:22400/code-lists/midyearpopsex"},
-				{ID: "midyearpopage", Name: "age", HRef: "http://localhost:22400/code-lists/midyearpopage"}},
+			Title:     "Population Estimates for UK, England and Wales, Scotland and Northern Ireland",
+			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
+				{ID: "mid-year-pop-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/mid-year-pop"},
+				{ID: "mid-year-pop-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/mid-year-pop-sex"},
+				{ID: "mid-year-pop-age", Name: "age", HRef: "http://localhost:22400/code-lists/mid-year-pop-age"}},
 		},
 	},
 }
-
