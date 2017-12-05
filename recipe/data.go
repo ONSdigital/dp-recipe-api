@@ -66,7 +66,7 @@ var MidYearPopEst = Response{
 			Editions:  []string{"time-series"},
 			Title:     "Population Estimates for UK, England and Wales, Scotland and Northern Ireland",
 			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
-				{ID: "mid-year-pop-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/mid-year-pop"},
+				{ID: "mid-year-pop-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/mid-year-pop-geography"},
 				{ID: "mid-year-pop-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/mid-year-pop-sex"},
 				{ID: "mid-year-pop-age", Name: "age", HRef: "http://localhost:22400/code-lists/mid-year-pop-age"}},
 		},
