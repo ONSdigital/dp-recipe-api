@@ -67,7 +67,7 @@ var MIDYEARPOPEST = Response{
 			Editions:  []string{"time-series"},
 			Title:     "Mid Year Population Estimates",
 			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
-				{ID: "midyearpop", Name: "geography", HRef: "http://localhost:22400/code-lists/midyearpop"},
+				{ID: "midyearpopgeography", Name: "geography", HRef: "http://localhost:22400/code-lists/midyearpop"},
 				{ID: "midyearpopsex", Name: "sex", HRef: "http://localhost:22400/code-lists/midyearpopsex"},
 				{ID: "midyearpopage", Name: "age", HRef: "http://localhost:22400/code-lists/midyearpopage"}},
 		},
