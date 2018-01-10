@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst},
-	Count:        3,
-	TotalCount:   3,
+	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings},
+	Count:        4,
+	TotalCount:   4,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -71,6 +71,52 @@ var MidYearPopEst = Response{
 				{ID: "mid-year-pop-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/mid-year-pop-geography"},
 				{ID: "mid-year-pop-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/mid-year-pop-sex"},
 				{ID: "mid-year-pop-age", Name: "age", HRef: "http://localhost:22400/code-lists/mid-year-pop-age"}},
+		},
+	},
+}
+
+// ASHE7Hours recipe for transforming a given input to an ASHE table 7 hours dataset
+var ASHE7Hours = Response{
+	ID:     "613C1384-01FF-4E3E-A24A-3A98A75BBAD8",
+	Alias:  "ASHE Table 7 (hours)",
+	Format: "v4",
+	InputFiles: []file{
+		{"Ashe Table 7 Hours Dataset v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-table-7-hours",
+			Editions:  []string{"time-series"},
+			Title:     "Annual Summary of Hours Worked by Local Authority",
+			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
+				{ID: "ashe-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/ashe-sex"},
+				{ID: "ashe-working-pattern", Name: "working pattern", HRef: "http://localhost:22400/code-lists/ashe-working-pattern"},
+				{ID: "ashe-hours", Name: "hours", HRef: "http://localhost:22400/code-lists/ashe-hours"},
+				{ID: "ashe-statistics", Name: "statistics", HRef: "http://localhost:22400/code-lists/ashe-statistics"},
+				{ID: "ashe-table-7-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/ashe-table-7-geography"}},
+		},
+	},
+}
+
+// ASHE7Earnings recipe for transforming a given input to an ASHE table 7 hours dataset
+var ASHE7Earnings = Response{
+	ID:     "18FFF4C4-1A2A-466A-B157-8CA872F6FCF0",
+	Alias:  "ASHE Table 7 (earnings)",
+	Format: "v4",
+	InputFiles: []file{
+		{"Ashe Table 7 Earnings Dataset v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-table-7-earnings",
+			Editions:  []string{"time-series"},
+			Title:     "Annual Summary of Earnings by Local Authority",
+			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
+				{ID: "ashe-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/ashe-sex"},
+				{ID: "ashe-working-pattern", Name: "working pattern", HRef: "http://localhost:22400/code-lists/ashe-working-pattern"},
+				{ID: "ashe-earnings", Name: "earnings", HRef: "http://localhost:22400/code-lists/ashe-earnings"},
+				{ID: "ashe-statistics", Name: "statistics", HRef: "http://localhost:22400/code-lists/ashe-statistics"},
+				{ID: "ashe-table-7-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/ashe-table-7-geography"}},
 		},
 	},
 }
