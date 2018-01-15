@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings},
-	Count:        6,
-	TotalCount:   6,
+	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates},
+	Count:        8,
+	TotalCount:   8,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -163,6 +163,53 @@ var ASHE8Earnings = Response{
 				{ID: "ashe-earnings", Name: "earnings", HRef: "http://localhost:22400/code-lists/ashe-earnings"},
 				{ID: "ashe-statistics", Name: "statistics", HRef: "http://localhost:22400/code-lists/ashe-statistics"},
 				{ID: "ashe-table-8-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/ashe-table-8-geography"}},
+		},
+	},
+}
+
+//OPSSMembership recipe for transforming a given input to a OPSSMembership dataset
+var OPSSMembership = Response{
+	ID:     "F09C8D91-5A1E-4A1E-B2E9-A029C784E1F1",
+	Alias:  "OPSSMembership",
+	Format: "v4",
+	InputFiles: []file{
+		{"OPSSMembership v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "opss-membership",
+			Editions:  []string{"time-series"},
+			Title:     "Occupational Pension Schemes Survey, Membership",
+			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
+				{ID: "uk-only", Name: "geography", HRef: "http://localhost:22400/code-lists/uk-only"},
+				{ID: "opss-scheme-membership-sizeband", Name: "schememembershipsizeband", HRef: "http://localhost:22400/code-lists/opss-scheme-membership-sizeband"},
+				{ID: "opss-status", Name: "status", HRef: "http://localhost:22400/code-lists/opss-status"},
+				{ID: "opss-benefit-type", Name: "benefittype", HRef: "http://localhost:22400/code-lists/opss-benefit-type"},
+				{ID: "opss-public-private-sector", Name: "publicprivatesector", HRef: "http://localhost:22400/code-lists/opss-public-private-sector"},
+				{ID: "opss-membership-type", Name: "membershiptype", HRef: "http://localhost:22400/code-lists/opss-membership-type"}},
+		},
+	},
+}
+
+//OPSSRates recipe for transforming a given input to a OPSSMembership dataset
+var OPSSRates = Response{
+	ID:     "84FBAFE3-C40C-428E-A6C6-7717DAB89900",
+	Alias:  "OPSSRates",
+	Format: "v4",
+	InputFiles: []file{
+		{"OPSSRates v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "opss-rates",
+			Editions:  []string{"time-series"},
+			Title:     "Occupational Pension Schemes Survey, Rates",
+			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
+				{ID: "uk-only", Name: "geography", HRef: "http://localhost:22400/code-lists/uk-only"},
+				{ID: "opss-scheme-membership-sizeband", Name: "schememembershipsizeband", HRef: "http://localhost:22400/code-lists/opss-scheme-membership-sizeband"},
+				{ID: "opss-status", Name: "status", HRef: "http://localhost:22400/code-lists/opss-status"},
+				{ID: "opss-benefit-type", Name: "benefittype", HRef: "http://localhost:22400/code-lists/opss-benefit-type"},
+				{ID: "opss-contributor", Name: "contributor", HRef: "http://localhost:22400/code-lists/opss-contributor"}},
 		},
 	},
 }
