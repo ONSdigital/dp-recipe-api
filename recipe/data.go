@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings},
-	Count:        4,
-	TotalCount:   4,
+	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings},
+	Count:        6,
+	TotalCount:   6,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -87,7 +87,7 @@ var ASHE7Hours = Response{
 		{
 			DatasetID: "ashe-table-7-hours",
 			Editions:  []string{"time-series"},
-			Title:     "Annual Summary of Hours Worked by Local Authority",
+			Title:     "Annual Summary of Hours Worked, Place of Work by Local Authority",
 			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
 				{ID: "ashe-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/ashe-sex"},
 				{ID: "ashe-working-pattern", Name: "workingpattern", HRef: "http://localhost:22400/code-lists/ashe-working-pattern"},
@@ -110,13 +110,59 @@ var ASHE7Earnings = Response{
 		{
 			DatasetID: "ashe-table-7-earnings",
 			Editions:  []string{"time-series"},
-			Title:     "Annual Summary of Earnings by Local Authority",
+			Title:     "Annual Summary of Earnings, Place of Work by Local Authority",
 			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
 				{ID: "ashe-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/ashe-sex"},
 				{ID: "ashe-working-pattern", Name: "workingpattern", HRef: "http://localhost:22400/code-lists/ashe-working-pattern"},
 				{ID: "ashe-earnings", Name: "earnings", HRef: "http://localhost:22400/code-lists/ashe-earnings"},
 				{ID: "ashe-statistics", Name: "statistics", HRef: "http://localhost:22400/code-lists/ashe-statistics"},
 				{ID: "ashe-table-7-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/ashe-table-7-geography"}},
+		},
+	},
+}
+
+// ASHE8Hours recipe for transforming a given input to an ASHE table 8 hours dataset
+var ASHE8Hours = Response{
+	ID:     "15340072-5D80-4581-A29A-E61BE1B2D815",
+	Alias:  "ASHE Table 8 (hours)",
+	Format: "v4",
+	InputFiles: []file{
+		{"Ashe Table 8 Hours Dataset v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-table-8-hours",
+			Editions:  []string{"time-series"},
+			Title:     "Annual Summary of Hours Worked, Place of Residence by Local Authority",
+			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
+				{ID: "ashe-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/ashe-sex"},
+				{ID: "ashe-working-pattern", Name: "workingpattern", HRef: "http://localhost:22400/code-lists/ashe-working-pattern"},
+				{ID: "ashe-hours", Name: "hours", HRef: "http://localhost:22400/code-lists/ashe-hours"},
+				{ID: "ashe-statistics", Name: "statistics", HRef: "http://localhost:22400/code-lists/ashe-statistics"},
+				{ID: "ashe-table-8-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/ashe-table-8-geography"}},
+		},
+	},
+}
+
+// ASHE8Earnings recipe for transforming a given input to an ASHE table 8 hours dataset
+var ASHE8Earnings = Response{
+	ID:     "2CE32F03-C2B3-4582-9989-1832935D4BA0",
+	Alias:  "ASHE Table 8 (earnings)",
+	Format: "v4",
+	InputFiles: []file{
+		{"Ashe Table 8 Earnings Dataset v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-table-8-earnings",
+			Editions:  []string{"time-series"},
+			Title:     "Annual Summary of Earnings, Place of Residence by Local Authority",
+			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
+				{ID: "ashe-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/ashe-sex"},
+				{ID: "ashe-working-pattern", Name: "workingpattern", HRef: "http://localhost:22400/code-lists/ashe-working-pattern"},
+				{ID: "ashe-earnings", Name: "earnings", HRef: "http://localhost:22400/code-lists/ashe-earnings"},
+				{ID: "ashe-statistics", Name: "statistics", HRef: "http://localhost:22400/code-lists/ashe-statistics"},
+				{ID: "ashe-table-8-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/ashe-table-8-geography"}},
 		},
 	},
 }
