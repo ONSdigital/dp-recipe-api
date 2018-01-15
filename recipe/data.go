@@ -37,7 +37,7 @@ var CPI = Response{
 					ID:   "65107A9F-7DA3-4B41-A410-6F6D9FBD68C3",
 					Name: "geography",
 					HRef: "http://localhost:22400/code-lists/65107A9F-7DA3-4B41-A410-6F6D9FBD68C3",
-					IsHierarchy:true,
+					IsHierarchy:false,
 				}, {
 					ID:   "e44de4c4-d39e-4e2f-942b-3ca10584d078",
 					Name: "aggregate",
@@ -72,7 +72,7 @@ var CPIH = Response{
 					ID:   "uk-only",
 					Name: "geography",
 					HRef: "http://localhost:22400/code-lists/uk-only",
-					IsHierarchy:true,
+					IsHierarchy:false,
 				}, {
 					ID:   "cpih1dim1aggid",
 					Name: "aggregate",
