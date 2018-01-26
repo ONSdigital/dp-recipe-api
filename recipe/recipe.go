@@ -17,9 +17,10 @@ type Response struct {
 }
 
 type CodeList struct {
-	ID   string `json:"id"`
-	HRef string `json:"href"`
-	Name string `json:"name"`
+	ID          string `json:"id"`
+	HRef        string `json:"href"`
+	Name        string `json:"name"`
+	IsHierarchy bool   `json:"is_hierarchy"`
 }
 
 type instance struct {
