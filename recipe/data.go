@@ -27,9 +27,24 @@ var CPI = Response{
 			DatasetID: "931a8a2a-0dc8-42b6-a884-7b6054ed3b68",
 			Editions:  []string{"time-series"},
 			Title:     "UK consumer price inflation",
-			CodeLists: []CodeList{{ID: "64d384f1-ea3b-445c-8fb8-aa453f96e58a", Name: "time", HRef: "http://localhost:22400/code-lists/64d384f1-ea3b-445c-8fb8-aa453f96e58a"},
-				{ID: "65107A9F-7DA3-4B41-A410-6F6D9FBD68C3", Name: "geography", HRef: "http://localhost:22400/code-lists/65107A9F-7DA3-4B41-A410-6F6D9FBD68C3"},
-				{ID: "e44de4c4-d39e-4e2f-942b-3ca10584d078", Name: "aggregate", HRef: "http://localhost:22400/code-lists/e44de4c4-d39e-4e2f-942b-3ca10584d078"}},
+			CodeLists: []CodeList{
+				{
+					ID:   "64d384f1-ea3b-445c-8fb8-aa453f96e58a",
+					Name: "time",
+					HRef: "http://localhost:22400/code-lists/64d384f1-ea3b-445c-8fb8-aa453f96e58a",
+					IsHierarchy:false,
+				}, {
+					ID:   "65107A9F-7DA3-4B41-A410-6F6D9FBD68C3",
+					Name: "geography",
+					HRef: "http://localhost:22400/code-lists/65107A9F-7DA3-4B41-A410-6F6D9FBD68C3",
+					IsHierarchy:false,
+				}, {
+					ID:   "e44de4c4-d39e-4e2f-942b-3ca10584d078",
+					Name: "aggregate",
+					HRef: "http://localhost:22400/code-lists/e44de4c4-d39e-4e2f-942b-3ca10584d078",
+					IsHierarchy:true,
+				},
+			},
 		},
 	},
 }
@@ -47,9 +62,24 @@ var CPIH = Response{
 			DatasetID: "cpih01",
 			Editions:  []string{"time-series"},
 			Title:     "Consumer Prices Index including owner occupiers’ housing costs (CPIH)",
-			CodeLists: []CodeList{{ID: "time", Name: "time", HRef: "http://localhost:22400/code-lists/time"},
-				{ID: "uk-only", Name: "geography", HRef: "http://localhost:22400/code-lists/uk-only"},
-				{ID: "cpih1dim1aggid", Name: "aggregate", HRef: "http://localhost:22400/code-lists/cpih1dim1aggid"}},
+			CodeLists: []CodeList{
+				{
+					ID:   "time",
+					Name: "time",
+					HRef: "http://localhost:22400/code-lists/time",
+					IsHierarchy:false,
+				}, {
+					ID:   "uk-only",
+					Name: "geography",
+					HRef: "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy:false,
+				}, {
+					ID:   "cpih1dim1aggid",
+					Name: "aggregate",
+					HRef: "http://localhost:22400/code-lists/cpih1dim1aggid",
+					IsHierarchy:true,
+				},
+			},
 		},
 	},
 }
@@ -67,10 +97,29 @@ var MidYearPopEst = Response{
 			DatasetID: "mid-year-pop-est",
 			Editions:  []string{"time-series"},
 			Title:     "Population Estimates for UK, England and Wales, Scotland and Northern Ireland",
-			CodeLists: []CodeList{{ID: "calendar-years", Name: "time", HRef: "http://localhost:22400/code-lists/calendar-years"},
-				{ID: "mid-year-pop-geography", Name: "geography", HRef: "http://localhost:22400/code-lists/mid-year-pop-geography"},
-				{ID: "mid-year-pop-sex", Name: "sex", HRef: "http://localhost:22400/code-lists/mid-year-pop-sex"},
-				{ID: "mid-year-pop-age", Name: "age", HRef: "http://localhost:22400/code-lists/mid-year-pop-age"}},
+			CodeLists: []CodeList{
+				{
+					ID:   "calendar-years",
+					Name: "time",
+					HRef: "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy:false,
+				}, {
+					ID:   "mid-year-pop-geography",
+					Name: "geography",
+					HRef: "http://localhost:22400/code-lists/mid-year-pop-geography",
+					IsHierarchy:true,
+				}, {
+					ID:   "mid-year-pop-sex",
+					Name: "sex",
+					HRef: "http://localhost:22400/code-lists/mid-year-pop-sex",
+					IsHierarchy:false,
+				}, {
+					ID:   "mid-year-pop-age",
+					Name: "age",
+					HRef: "http://localhost:22400/code-lists/mid-year-pop-age",
+					IsHierarchy:false,
+				},
+			},
 		},
 	},
 }
