@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates},
-	Count:        8,
-	TotalCount:   8,
+	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation},
+	Count:        9,
+	TotalCount:   9,
 	ItemsPerPage: 10,
 	Start:        0,
 }
