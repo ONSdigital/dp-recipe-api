@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates},
-	Count:        8,
-	TotalCount:   8,
+	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation},
+	Count:        9,
+	TotalCount:   9,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -422,6 +422,61 @@ var OPSSRates = Response{
 					ID:          "opss-contributor",
 					Name:        "contributor",
 					HRef:        "http://localhost:22400/code-lists/opss-contributor",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//CrimeAccommodation recipe for transforming a given input to a Personnal Crime by Accommodation dataset
+var CrimeAccommodation = Response{
+	ID:     "171708A8-27CC-4ACD-B3D6-E0FE5131D9F8",
+	Alias:  "CrimeAccommodation",
+	Format: "v4",
+	InputFiles: []file{
+		{"Personal Crime by Accomodation v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "crime-accommodation",
+			Editions:  []string{"time-series"},
+			Title:     "Personal Crime by Accommodation",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "crime-accommodation-type",
+					Name:        "accommodationtype",
+					HRef:        "http://localhost:22400/code-lists/crime-accommodation-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "crime-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/crime-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "england-and-wales-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/england-and-wales-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "crime-type",
+					Name:        "crimetype",
+					HRef:        "http://localhost:22400/code-lists/crime-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "crime-measurement-type",
+					Name:        "measurementtype",
+					HRef:        "http://localhost:22400/code-lists/crime-measurement-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "crime-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/crime-sex",
 					IsHierarchy: false,
 				},
 			},
