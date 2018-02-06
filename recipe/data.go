@@ -429,7 +429,7 @@ var OPSSRates = Response{
 	},
 }
 
-//CrimeAccommodation recipe for transforming a given input to a Personnal Crime by Accomidation dataset
+//CrimeAccommodation recipe for transforming a given input to a Personnal Crime by Accommodation dataset
 var CrimeAccommodation = Response{
 	ID:     "171708A8-27CC-4ACD-B3D6-E0FE5131D9F8",
 	Alias:  "CrimeAccommodation",
