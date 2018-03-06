@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation},
-	Count:        9,
-	TotalCount:   9,
+	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation, NPP},
+	Count:        10,
+	TotalCount:   10,
 	ItemsPerPage: 10,
 	Start:        0,
 }
@@ -347,7 +347,7 @@ var OPSSMembership = Response{
 					ID:          "uk-only",
 					Name:        "geography",
 					HRef:        "http://localhost:22400/code-lists/uk-only",
-					IsHierarchy: true,
+					IsHierarchy: false,
 				}, {
 					ID:          "opss-scheme-membership-sizeband",
 					Name:        "schememembershipsizeband",
@@ -402,7 +402,7 @@ var OPSSRates = Response{
 					ID:          "uk-only",
 					Name:        "geography",
 					HRef:        "http://localhost:22400/code-lists/uk-only",
-					IsHierarchy: true,
+					IsHierarchy: false,
 				}, {
 					ID:          "opss-scheme-membership-sizeband",
 					Name:        "schememembershipsizeband",
@@ -477,6 +477,56 @@ var CrimeAccommodation = Response{
 					ID:          "crime-sex",
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/crime-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//NPP recipe for transforming a given input to a npp dataset
+var NPP = Response{
+	ID:     "d5626f70-8fff-4538-88f1-764870f9e1ee",
+	Alias:  "NPP",
+	Format: "v4",
+	InputFiles: []file{
+		{"NPP_Experimental"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "npp",
+			Editions:  []string{"2012-based", "2014-based", "2016-based", "2018-based", "2020-based", "2022-based"},
+			Title:     "National Population Projection",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-projection-type",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-projection-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-population-measure",
+					Name:        "populationmeasure",
+					HRef:        "http://localhost:22400/code-lists/npp-population-measure",
 					IsHierarchy: false,
 				},
 			},
