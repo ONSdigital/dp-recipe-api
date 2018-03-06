@@ -7,7 +7,7 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation, NPPNational},
+	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation, NPP},
 	Count:        10,
 	TotalCount:   10,
 	ItemsPerPage: 10,
@@ -484,8 +484,8 @@ var CrimeAccommodation = Response{
 	},
 }
 
-//npp-national recipe for transforming a given input to a npp-national dataset
-var NPPNational = Response{
+//NPP recipe for transforming a given input to a npp dataset
+var NPP = Response{
 	ID:     "d5626f70-8fff-4538-88f1-764870f9e1ee",
 	Alias:  "NPP",
 	Format: "v4",
@@ -494,7 +494,7 @@ var NPPNational = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "npp-national",
+			DatasetID: "npp",
 			Editions:  []string{"2012-based", "2014-based", "2016-based", "2018-based", "2020-based", "2022-based"},
 			Title:     "Occupational Pension Schemes Survey, Membership",
 			CodeLists: []CodeList{
