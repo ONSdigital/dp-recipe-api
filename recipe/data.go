@@ -496,7 +496,7 @@ var NPP = Response{
 		{
 			DatasetID: "npp",
 			Editions:  []string{"2012-based", "2014-based", "2016-based", "2018-based", "2020-based", "2022-based"},
-			Title:     "Occupational Pension Schemes Survey, Membership",
+			Title:     "National Population Projection",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
