@@ -7,10 +7,10 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation, NPP},
-	Count:        10,
-	TotalCount:   10,
-	ItemsPerPage: 10,
+	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation, NPP, CrimeOffences, Migration},
+	Count:        13,
+	TotalCount:   20,
+	ItemsPerPage: 20,
 	Start:        0,
 }
 
@@ -527,6 +527,96 @@ var NPP = Response{
 					ID:          "npp-population-measure",
 					Name:        "populationmeasure",
 					HRef:        "http://localhost:22400/code-lists/npp-population-measure",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//CrimeOffences recipe for transforming a given input to a Crime offences dataset
+var CrimeOffences = Response{
+	ID:     "5d716747-0f45-4f55-a228-24e54a25bc57",
+	Alias:  "crime-offences",
+	Format: "v4",
+	InputFiles: []file{
+		{"NPP_Experimental"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "crime-offences",
+			Editions:  []string{"time-series"},
+			Title:     "Crime offences",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "offence",
+					Name:        "offence",
+					HRef:        "http://localhost:22400/code-lists/offence",
+					IsHierarchy: true,
+				},
+			},
+		},
+	},
+}
+
+//Migration recipe for transforming a given input to a Migration estimates dataset
+var Migration = Response{
+	ID:     "b0756977-36ab-4d2f-8038-257c18233d8d",
+	Alias:  "migration01",
+	Format: "v4",
+	InputFiles: []file{
+		{"AGQcombinedYears"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "migration01",
+			Editions:  []string{"time-series"},
+			Title:     "Migration estimates",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "flow",
+					Name:        "flow",
+					HRef:        "http://localhost:22400/code-lists/flow",
+					IsHierarchy: false,
+				}, {
+					ID:          "citizenshipgroup",
+					Name:        "citizenshipgroup",
+					HRef:        "http://localhost:22400/code-lists/citizenshipgroup",
+					IsHierarchy: false,
+				}, {
+					ID:          "sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/age",
+					IsHierarchy: false,
+				}, {
+					ID:          "country",
+					Name:        "country",
+					HRef:        "http://localhost:22400/code-lists/country",
 					IsHierarchy: false,
 				},
 			},
