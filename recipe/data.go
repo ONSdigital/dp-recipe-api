@@ -7,11 +7,8 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items:        []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation, NPP, CrimeOffences, Migration},
-	Count:        13,
-	TotalCount:   20,
-	ItemsPerPage: 20,
-	Start:        0,
+	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation, NPP, CrimeOffences, Migration},
+	Start: 0,
 }
 
 //CPI recipe for transforming a given input to a CPI COICOP dataset
