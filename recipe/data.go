@@ -547,9 +547,9 @@ var CrimeOffences = Response{
 			Title:     "Crime with home Office: Offences",
 			CodeLists: []CodeList{
 				{
-					ID:          "calendar-years",
+					ID:          "financial-years",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
 					IsHierarchy: false,
 				}, {
 					ID:          "police-force-geography",
@@ -582,9 +582,9 @@ var Migration401AGQ = Response{
 			Title:     "Migration estimates by Citizen Group, Quinary Age Groups",
 			CodeLists: []CodeList{
 				{
-					ID:          "calendar-years",
+					ID:          "financial-years",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
