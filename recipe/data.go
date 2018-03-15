@@ -7,7 +7,8 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates, CrimeAccommodation, NPP, CrimeOffences, Migration},
+	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
+		CrimeAccommodation, NPP, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402},
 	Start: 0,
 }
 
@@ -537,13 +538,13 @@ var CrimeOffences = Response{
 	Alias:  "crime-offences",
 	Format: "v4",
 	InputFiles: []file{
-		{"NPP_Experimental"},
+		{"Crime with home office, offence data"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "crime-offences",
+			DatasetID: "crime-with-home-office-offences",
 			Editions:  []string{"time-series"},
-			Title:     "Crime offences",
+			Title:     "Crime with home Office: Offences",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -551,14 +552,14 @@ var CrimeOffences = Response{
 					HRef:        "http://localhost:22400/code-lists/calendar-years",
 					IsHierarchy: false,
 				}, {
-					ID:          "geography",
+					ID:          "police-force-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/geography",
+					HRef:        "http://localhost:22400/code-lists/police-force-geography",
 					IsHierarchy: false,
 				}, {
-					ID:          "offence",
+					ID:          "crime-offence",
 					Name:        "offence",
-					HRef:        "http://localhost:22400/code-lists/offence",
+					HRef:        "http://localhost:22400/code-lists/crime-offence",
 					IsHierarchy: true,
 				},
 			},
@@ -566,19 +567,19 @@ var CrimeOffences = Response{
 	},
 }
 
-//Migration recipe for transforming a given input to a Migration estimates dataset
-var Migration = Response{
+//Migration401AGQ recipe for transforming a given input to a Migration estimates AGQ dataset
+var Migration401AGQ = Response{
 	ID:     "b0756977-36ab-4d2f-8038-257c18233d8d",
-	Alias:  "migration01",
+	Alias:  "migration401agq",
 	Format: "v4",
 	InputFiles: []file{
 		{"AGQcombinedYears"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "migration01",
+			DatasetID: "migration-401-quinary-age-groups",
 			Editions:  []string{"time-series"},
-			Title:     "Migration estimates",
+			Title:     "Migration estimates by Citizen Group, Quinary Age Groups",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -591,29 +592,186 @@ var Migration = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
-					ID:          "flow",
+					ID:          "migration-flow",
 					Name:        "flow",
-					HRef:        "http://localhost:22400/code-lists/flow",
+					HRef:        "http://localhost:22400/code-lists/migration-flow",
 					IsHierarchy: false,
 				}, {
-					ID:          "citizenshipgroup",
+					ID:          "migration-citizenshipgroup",
 					Name:        "citizenshipgroup",
-					HRef:        "http://localhost:22400/code-lists/citizenshipgroup",
+					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
 					IsHierarchy: false,
 				}, {
-					ID:          "sex",
+					ID:          "migration-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/sex",
+					HRef:        "http://localhost:22400/code-lists/migration-sex",
 					IsHierarchy: false,
 				}, {
-					ID:          "age",
+					ID:          "migration-age",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/age",
+					HRef:        "http://localhost:22400/code-lists/migration-age",
 					IsHierarchy: false,
 				}, {
-					ID:          "country",
+					ID:          "migration-country",
 					Name:        "country",
-					HRef:        "http://localhost:22400/code-lists/country",
+					HRef:        "http://localhost:22400/code-lists/migration-country",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+
+//Migration401AG1 recipe for transforming a given input to a Migration estimates alternative age group 1 dataset
+var Migration401AG1 = Response{
+	ID:     "82469D1C-7C5D-460E-B1C1-5E03B2193041",
+	Alias:  "migration401ag1",
+	Format: "v4",
+	InputFiles: []file{
+		{"AG1combinedYears"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "migration-401-alternative-age-groups-1",
+			Editions:  []string{"time-series"},
+			Title:     "Migration estimates by Citizen Group, Alternative Age Group 1",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-flow",
+					Name:        "flow",
+					HRef:        "http://localhost:22400/code-lists/migration-flow",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-citizenshipgroup",
+					Name:        "citizenshipgroup",
+					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/migration-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/migration-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-country",
+					Name:        "country",
+					HRef:        "http://localhost:22400/code-lists/migration-country",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//Migration401AG2 recipe for transforming a given input to a Migration estimates alternative age group 1 dataset
+var Migration401AG2 = Response{
+	ID:     "281145C5-AFE1-4B9D-811C-353C2FA2215A",
+	Alias:  "migration401ag2",
+	Format: "v4",
+	InputFiles: []file{
+		{"AG2combinedYears"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "migration-401-alternative-age-groups-2",
+			Editions:  []string{"time-series"},
+			Title:     "Migration estimates by Citizen Group, Alternative Age Groups 2",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-flow",
+					Name:        "flow",
+					HRef:        "http://localhost:22400/code-lists/migration-flow",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-citizenshipgroup",
+					Name:        "citizenshipgroup",
+					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/migration-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/migration-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-country",
+					Name:        "country",
+					HRef:        "http://localhost:22400/code-lists/migration-country",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+
+//Migration402 recipe for transforming a given input to a Migration estimates 402 (by reason for migration) dataset
+var Migration402 = Response{
+	ID:     "89657893-13BB-4E79-8DDA-A38245782B69",
+	Alias:  "migration402",
+	Format: "v4",
+	InputFiles: []file{
+		{"migration402combinedYears"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "migration-402",
+			Editions:  []string{"time-series"},
+			Title:     "Migration estimates by Reason for Migration",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-flow",
+					Name:        "flow",
+					HRef:        "http://localhost:22400/code-lists/migration-flow",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-reasonformigration",
+					Name:        "reasonformigration",
+					HRef:        "http://localhost:22400/code-lists/migration-reasonformigration",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-country",
+					Name:        "country",
+					HRef:        "http://localhost:22400/code-lists/migration-country",
 					IsHierarchy: false,
 				},
 			},
