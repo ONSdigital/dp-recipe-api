@@ -577,7 +577,7 @@ var Migration401AGQ = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "migration-401-quinary-age-groups",
+			DatasetID: "migration-401-5-year-age-groups",
 			Editions:  []string{"time-series"},
 			Title:     "Migration estimates by Citizen Group, Quinary Age Groups",
 			CodeLists: []CodeList{
