@@ -599,7 +599,7 @@ var Migration401AGQ = Response{
 				}, {
 					ID:          "migration-citizenship-group",
 					Name:        "citizenshipgroup",
-					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
+					HRef:        "http://localhost:22400/code-lists/migration-citizenship-group",
 					IsHierarchy: false,
 				}, {
 					ID:          "migration-sex",
@@ -654,7 +654,7 @@ var Migration401AG1 = Response{
 				}, {
 					ID:          "migration-citizenship-group",
 					Name:        "citizenshipgroup",
-					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
+					HRef:        "http://localhost:22400/code-lists/migration-citizenship-group",
 					IsHierarchy: false,
 				}, {
 					ID:          "migration-sex",
@@ -709,7 +709,7 @@ var Migration401AG2 = Response{
 				}, {
 					ID:          "migration-citizenship-group",
 					Name:        "citizenshipgroup",
-					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
+					HRef:        "http://localhost:22400/code-lists/migration-citizenship-group",
 					IsHierarchy: false,
 				}, {
 					ID:          "migration-sex",
@@ -764,7 +764,7 @@ var Migration402 = Response{
 				}, {
 					ID:          "migration-reason-for-migration",
 					Name:        "reasonformigration",
-					HRef:        "http://localhost:22400/code-lists/migration-reasonformigration",
+					HRef:        "http://localhost:22400/code-lists/migration-reason-for-migration",
 					IsHierarchy: false,
 				}, {
 					ID:          "migration-country",
