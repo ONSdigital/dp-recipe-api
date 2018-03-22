@@ -597,7 +597,7 @@ var Migration401AGQ = Response{
 					HRef:        "http://localhost:22400/code-lists/migration-flow",
 					IsHierarchy: false,
 				}, {
-					ID:          "migration-citizenshipgroup",
+					ID:          "migration-citizenship-group",
 					Name:        "citizenshipgroup",
 					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
 					IsHierarchy: false,
@@ -621,7 +621,6 @@ var Migration401AGQ = Response{
 		},
 	},
 }
-
 
 //Migration401AG1 recipe for transforming a given input to a Migration estimates alternative age group 1 dataset
 var Migration401AG1 = Response{
@@ -653,7 +652,7 @@ var Migration401AG1 = Response{
 					HRef:        "http://localhost:22400/code-lists/migration-flow",
 					IsHierarchy: false,
 				}, {
-					ID:          "migration-citizenshipgroup",
+					ID:          "migration-citizenship-group",
 					Name:        "citizenshipgroup",
 					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
 					IsHierarchy: false,
@@ -708,7 +707,7 @@ var Migration401AG2 = Response{
 					HRef:        "http://localhost:22400/code-lists/migration-flow",
 					IsHierarchy: false,
 				}, {
-					ID:          "migration-citizenshipgroup",
+					ID:          "migration-citizenship-group",
 					Name:        "citizenshipgroup",
 					HRef:        "http://localhost:22400/code-lists/migration-citizenshipgroup",
 					IsHierarchy: false,
@@ -732,7 +731,6 @@ var Migration401AG2 = Response{
 		},
 	},
 }
-
 
 //Migration402 recipe for transforming a given input to a Migration estimates 402 (by reason for migration) dataset
 var Migration402 = Response{
@@ -764,7 +762,7 @@ var Migration402 = Response{
 					HRef:        "http://localhost:22400/code-lists/migration-flow",
 					IsHierarchy: false,
 				}, {
-					ID:          "migration-reasonformigration",
+					ID:          "migration-reason-for-migration",
 					Name:        "reasonformigration",
 					HRef:        "http://localhost:22400/code-lists/migration-reasonformigration",
 					IsHierarchy: false,
