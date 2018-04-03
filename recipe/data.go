@@ -615,7 +615,7 @@ var Migration401AGQ = Response{
 					ID:          "migration-country",
 					Name:        "country",
 					HRef:        "http://localhost:22400/code-lists/migration-country",
-					IsHierarchy: false,
+					IsHierarchy: true,
 				},
 			},
 		},
