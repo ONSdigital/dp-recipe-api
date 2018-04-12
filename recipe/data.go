@@ -8,7 +8,7 @@ package recipe
 //FullList of recipes available via this API
 var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
-		CrimeAccommodation, NPP, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402},
+		CrimeAccommodation, NPP, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BiGFCFbyIndAndAsset},
 	Start: 0,
 }
 
@@ -776,3 +776,48 @@ var Migration402 = Response{
 		},
 	},
 }
+
+
+
+
+//BiGFCFbyIndAndAsset recipe for transforming a given SDMX input to a business investment 'Cross Classification of GFCF by Industry and Asset' dataset
+var BiGFCFbyIndAndAsset = Response{
+	ID:     "05F4247E-CC85-4AFE-A3E6-1E1B0B1CC5A5",
+	Alias:  "buisInvest2200",
+	Format: "v4",
+	InputFiles: []file{
+		{"bi2200_GFCFbyIndAndAsset"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "bi-gfcf-by-industry-asset",
+			Editions:  []string{"time-series"},
+			Title:     "Cross Classification of GFCF by Industry and Asset",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "business-investment-instrument-asset",
+					Name:        "instrument-asset",
+					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
+					IsHierarchy: true,
+				}, {
+					ID:          "business-investment-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/business-investment-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+
