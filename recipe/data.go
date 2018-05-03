@@ -8,7 +8,8 @@ package recipe
 //FullList of recipes available via this API
 var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
-		CrimeAccommodation, NPP, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BiGFCFbyIndAndAsset},
+		CrimeAccommodation, NPP, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
+		BuisInvest2200},
 	Start: 0,
 }
 
@@ -778,10 +779,49 @@ var Migration402 = Response{
 }
 
 
+// WellbeingYearEnding is wellbeing data with a time codelist of "Year Ending"
+var WellbeingYearEnding = Response{
+	ID:     "84E3A8F0-F48A-482F-8B55-6240EF717F2C",
+	Alias:  "WellbeingYearEnding",
+	Format: "v4",
+	InputFiles: []file{
+		{"wellbeingExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "wellbeing-year-ending",
+			Editions:  []string{"time-series"},
+			Title:     "Wellbeing by year ending",
+			CodeLists: []CodeList{
+				{
+					ID:          "year-ending",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/year-ending",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-measureofwellbeing",
+					Name:        "measureofwellbeing",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
+					IsHierarchy: false,
+				},
 
+			},
+		},
+	},
+}
 
-//BiGFCFbyIndAndAsset recipe for transforming a given SDMX input to a business investment 'Cross Classification of GFCF by Industry and Asset' dataset
-var BiGFCFbyIndAndAsset = Response{
+// BuisInvest2200 recipe for transforming a given SDMX input to a business investment 'Cross Classification of GFCF by Industry and Asset' dataset
+var BuisInvest2200 = Response{
 	ID:     "05F4247E-CC85-4AFE-A3E6-1E1B0B1CC5A5",
 	Alias:  "buisInvest2200",
 	Format: "v4",
