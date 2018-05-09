@@ -9,7 +9,7 @@ package recipe
 var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
 		CrimeAccommodation, NPP, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
-		BuisInvest2200, BuisInvestCapitalFormation},
+		BuisInvestGFCG, BuisInvestCapitalFormation},
 	Start: 0,
 }
 
