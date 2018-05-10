@@ -843,6 +843,11 @@ var BuisInvestGFCG = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
+					ID:          "business-investment-instrument-activity",
+					Name:        "activity",
+					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-activity",
+					IsHierarchy: false,
+				}, {
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
