@@ -896,7 +896,7 @@ var BuisInvestCapitalFormation = Response{
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
-					IsHierarchy: true,
+					IsHierarchy: false,
 				}, {
 					ID:          "business-investment-prices",
 					Name:        "prices",
