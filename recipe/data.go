@@ -851,7 +851,7 @@ var BuisInvestGFCG = Response{
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
-					IsHierarchy: true,
+					IsHierarchy: false,
 				}, {
 					ID:          "business-investment-prices",
 					Name:        "prices",
@@ -875,7 +875,7 @@ var BuisInvestCapitalFormation = Response{
 		{
 			DatasetID: "business-investment-capital-formation",
 			Editions:  []string{"time-series"},
-			Title:     "Buissness Investment Capital Formation",
+			Title:     "Business Investment Capital Formation",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -888,6 +888,11 @@ var BuisInvestCapitalFormation = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
+					ID:          "business-investment-instrument-activity",
+					Name:        "activity",
+					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-activity",
+					IsHierarchy: false,
+				}, {
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
@@ -896,11 +901,6 @@ var BuisInvestCapitalFormation = Response{
 					ID:          "business-investment-prices",
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/business-investment-prices",
-					IsHierarchy: false,
-				}, {
-					ID:          "business-investment-sto",
-					Name:        "sto",
-					HRef:        "http://localhost:22400/code-lists/business-investment-sto",
 					IsHierarchy: false,
 				},
 			},
