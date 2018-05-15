@@ -809,9 +809,9 @@ var WellbeingYearEnding = Response{
 					HRef:        "http://localhost:22400/code-lists/wellbeing-estimate",
 					IsHierarchy: false,
 				}, {
-					ID:          "wellbeing-anxietyhappinessworthwhilelifesatisfaction",
+					ID:          "wellbeing-measureofwellbeing",
 					Name:        "anxietyhappinessworthwhilelifesatisfaction",
-					HRef:        "http://localhost:22400/code-lists/wellbeing-anxietyhappinessworthwhilelifesatisfaction",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
 					IsHierarchy: false,
 				},
 
