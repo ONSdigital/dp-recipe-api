@@ -809,7 +809,7 @@ var WellbeingYearEnding = Response{
 					IsHierarchy: false,
 				}, {
 					ID:          "wellbeing-measureofwellbeing",
-					Name:        "anxietyhappinessworthwhilelifesatisfaction",
+					Name:        "all measures of wellbeing",
 					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
 					IsHierarchy: false,
 				},
@@ -818,7 +818,7 @@ var WellbeingYearEnding = Response{
 	},
 }
 
-// BuisInvest2200 recipe for transforming a given SDMX input to a business investment 'Cross Classification of GFCF by Industry and Asset' dataset
+// BuisInvestGFCG recipe for transforming a given SDMX input to a business investment 'Cross Classification of GFCF by Industry and Asset' dataset
 var BuisInvestGFCG = Response{
 	ID:     "05F4247E-CC85-4AFE-A3E6-1E1B0B1CC5A5",
 	Alias:  "buisInvestGFCG",
@@ -863,7 +863,7 @@ var BuisInvestGFCG = Response{
 	},
 }
 
-// BuisInvest recipe for transforming a given SDMX input to a business investment 'Capital Formation' dataset
+// BuisInvestCapitalFormation recipe for transforming a given SDMX input to a business investment 'Capital Formation' dataset
 var BuisInvestCapitalFormation = Response{
 	ID:     "2E52DCF1-2C31-4DCC-819A-184C7398F902",
 	Alias:  "buisInvestCapitalFormation",
