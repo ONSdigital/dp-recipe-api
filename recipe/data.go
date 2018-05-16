@@ -790,7 +790,7 @@ var WellbeingYearEnding = Response{
 		{
 			DatasetID: "wellbeing-year-ending",
 			Editions:  []string{"time-series"},
-			Title:     "Wellbeing by year ending",
+			Title:     "Well-being by year ending",
 			CodeLists: []CodeList{
 				{
 					ID:          "year-ending",
@@ -809,7 +809,7 @@ var WellbeingYearEnding = Response{
 					IsHierarchy: false,
 				}, {
 					ID:          "wellbeing-measureofwellbeing",
-					Name:        "all measures of wellbeing",
+					Name:        "allmeasuresofwellbeing",
 					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
 					IsHierarchy: false,
 				},
