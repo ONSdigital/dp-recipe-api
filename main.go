@@ -36,7 +36,13 @@ func main() {
 }
 
 func recipeListHandler(w http.ResponseWriter, req *http.Request) {
-	b, err := json.Marshal(&recipe.FullList)
+	list := &recipe.FullList
+	c := len(list.Items)
+	list.Count = c
+	list.TotalCount = c
+	list.ItemsPerPage = c
+
+	b, err := json.Marshal(list)
 	if err != nil {
 		log.ErrorR(req, err, nil)
 		w.WriteHeader(http.StatusInternalServerError)
