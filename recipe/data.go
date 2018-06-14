@@ -949,7 +949,7 @@ var NppMortalityAssumptions = Response{
 	},
 }
 
-// National Population Projections: Mortality Assumptions
+// National Population Projections: Migration
 var NppMigration = Response{
 	ID:     "0FB0634E-C722-4B84-A3D9-B00F6964742B",
 	Alias:  "National Population Projections - Migration",
@@ -1098,7 +1098,7 @@ var NppDeaths = Response{
 }
 
 
-// National Population Projections: Fertility
+// National Population Projections: Births
 var NppBirths = Response{
 	ID:     "3B1172A6-9EA4-4AD6-8BDD-221794A18A5A",
 	Alias:  "National Population Projections - Births",
