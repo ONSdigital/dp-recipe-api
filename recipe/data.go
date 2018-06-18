@@ -544,7 +544,7 @@ var CrimeOffences = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "crime-with-home-office-offences",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"time-series", "2017-2018"},
 			Title:     "Crime with home Office: Offences",
 			CodeLists: []CodeList{
 				{
