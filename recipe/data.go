@@ -8,8 +8,9 @@ package recipe
 //FullList of recipes available via this API
 var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
-		CrimeAccommodation, NPP, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
-		BuisInvestGFCG, BuisInvestCapitalFormation},
+		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
+		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
+		NppDeaths, NppBirths, NppCrossBorderRates},
 	Start: 0,
 }
 
@@ -483,56 +484,6 @@ var CrimeAccommodation = Response{
 	},
 }
 
-//NPP recipe for transforming a given input to a npp dataset
-var NPP = Response{
-	ID:     "d5626f70-8fff-4538-88f1-764870f9e1ee",
-	Alias:  "NPP",
-	Format: "v4",
-	InputFiles: []file{
-		{"NPP_Experimental"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "npp",
-			Editions:  []string{"2012-based", "2014-based", "2016-based", "2018-based", "2020-based", "2022-based"},
-			Title:     "National Population Projection",
-			CodeLists: []CodeList{
-				{
-					ID:          "calendar-years",
-					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
-					IsHierarchy: false,
-				}, {
-					ID:          "uk-only",
-					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/uk-only",
-					IsHierarchy: false,
-				}, {
-					ID:          "npp-sex",
-					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-sex",
-					IsHierarchy: false,
-				}, {
-					ID:          "npp-age",
-					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-age",
-					IsHierarchy: false,
-				}, {
-					ID:          "npp-projection-type",
-					Name:        "projectiontype",
-					HRef:        "http://localhost:22400/code-lists/npp-projection-type",
-					IsHierarchy: false,
-				}, {
-					ID:          "npp-population-measure",
-					Name:        "populationmeasure",
-					HRef:        "http://localhost:22400/code-lists/npp-population-measure",
-					IsHierarchy: false,
-				},
-			},
-		},
-	},
-}
-
 //CrimeOffences recipe for transforming a given input to a Crime offences dataset
 var CrimeOffences = Response{
 	ID:     "5d716747-0f45-4f55-a228-24e54a25bc57",
@@ -851,7 +802,7 @@ var BuisInvestGFCG = Response{
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
-					IsHierarchy: false,
+					IsHierarchy: true,
 				}, {
 					ID:          "business-investment-prices",
 					Name:        "prices",
@@ -907,3 +858,339 @@ var BuisInvestCapitalFormation = Response{
 		},
 	},
 }
+
+// National Population Projections: PopulationNumbers
+var NppPopulationNumbers = Response{
+	ID:     "9BCE6F29-5FD6-438A-A4DC-92B697D61A33",
+	Alias:  "National Population Projections - Population Numbers",
+	Format: "v4",
+	InputFiles: []file{
+		{"National Population Projections - Population Numbers"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "national-population-projections-population",
+			Editions:  []string{"time-series"},
+			Title:     "National Population Projections: Population Numbers",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-projectiontype",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-population-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-population-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// National Population Projections: Mortality Assumptions
+var NppMortalityAssumptions = Response{
+	ID:     "85D985D2-A54C-4289-B720-5A571ABD00C1",
+	Alias:  "National Population Projections - Mortality Assumptions",
+	Format: "v4",
+	InputFiles: []file{
+		{"National Population Projections - Mortality Assumptions"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "national-population-projections-mortality-assumptions",
+			Editions:  []string{"time-series"},
+			Title:     "National Population Projections: Mortality Assumptions",
+			CodeLists: []CodeList{
+				{
+					ID:          "financial-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-projectiontype",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-mortalityandcrossborderrates-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-mortalityandcrossborderrates-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// National Population Projections: Migration
+var NppMigration = Response{
+	ID:     "0FB0634E-C722-4B84-A3D9-B00F6964742B",
+	Alias:  "National Population Projections - Migration",
+	Format: "v4",
+	InputFiles: []file{
+		{"National Population Projections - Migration"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "national-population-projections-migration",
+			Editions:  []string{"time-series"},
+			Title:     "National Population Projections: Migration",
+			CodeLists: []CodeList{
+				{
+					ID:          "financial-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-projectiontype",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-migration-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-migration-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-migration-populationmeasure",
+					Name:        "populationmeasure",
+					HRef:        "http://localhost:22400/code-lists/npp-migration-populationmeasure",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+
+// National Population Projections: Fertility
+var NppFertility = Response{
+	ID:     "B92138FC-37F3-47AC-9C2B-E13C7D61A8AD",
+	Alias:  "National Population Projections - Fertility",
+	Format: "v4",
+	InputFiles: []file{
+		{"National Population Projections - Fertility"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "national-population-projections-fertility",
+			Editions:  []string{"time-series"},
+			Title:     "National Population Projections: Fertility",
+			CodeLists: []CodeList{
+				{
+					ID:          "financial-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-projectiontype",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-birthsandfertility-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-birthsandfertility-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-migration-populationmeasure",
+					Name:        "populationmeasure",
+					HRef:        "http://localhost:22400/code-lists/npp-migration-populationmeasure",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					IsHierarchy: false,
+				},
+
+			},
+		},
+	},
+}
+
+
+// National Population Projections: Deaths
+var NppDeaths = Response{
+	ID:     "999EB1B2-C779-4502-9F52-CCC99A1FED08",
+	Alias:  "National Population Projections - Deaths",
+	Format: "v4",
+	InputFiles: []file{
+		{"National Population Projections - Deaths"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "national-population-projections-deaths",
+			Editions:  []string{"time-series"},
+			Title:     "National Population Projections: Deaths",
+			CodeLists: []CodeList{
+				{
+					ID:          "financial-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-projectiontype",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-deaths-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-deaths-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+
+// National Population Projections: Births
+var NppBirths = Response{
+	ID:     "3B1172A6-9EA4-4AD6-8BDD-221794A18A5A",
+	Alias:  "National Population Projections - Births",
+	Format: "v4",
+	InputFiles: []file{
+		{"National Population Projections - Births"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "national-population-projections-births",
+			Editions:  []string{"time-series"},
+			Title:     "National Population Projections: Births",
+			CodeLists: []CodeList{
+				{
+					ID:          "financial-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-projectiontype",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-birthsandfertility-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-birthsandfertility-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+
+// National Population Projections: Cross Border Rates
+var NppCrossBorderRates = Response{
+	ID:     "182DF2D1-9E9D-475C-949C-365CAC6A9834",
+	Alias:  "National Population Projections - Cross Border Rates",
+	Format: "v4",
+	InputFiles: []file{
+		{"National Population Projections - Cross Border Rates"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "national-population-projections-cross-border-rates",
+			Editions:  []string{"time-series"},
+			Title:     "National Population Projections: Cross Border Rates",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-projectiontype",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-birthsandfertility-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-birthsandfertility-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-border",
+					Name:        "border",
+					HRef:        "http://localhost:22400/code-lists/npp-border",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
