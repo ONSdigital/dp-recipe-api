@@ -772,10 +772,10 @@ var WellbeingYearEnding = Response{
 // BuisInvestGFCG recipe for transforming a given SDMX input to a business investment 'Cross Classification of GFCF by Industry and Asset' dataset
 var BuisInvestGFCG = Response{
 	ID:     "05F4247E-CC85-4AFE-A3E6-1E1B0B1CC5A5",
-	Alias:  "buisInvestGFCG",
+	Alias:  "Business Investment GFCF, file 2200",
 	Format: "v4",
 	InputFiles: []file{
-		{"BuisInvestGFCF, file 2200"},
+		{"Business Investment GFCF, file 2200"},
 	},
 	OutputInstances: []instance{
 		{
@@ -796,13 +796,13 @@ var BuisInvestGFCG = Response{
 				}, {
 					ID:          "business-investment-instrument-activity",
 					Name:        "activity",
-					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-activity",
-					IsHierarchy: false,
+					HRef:        "http://localhost:22400/code-lists/business-investment-activity",
+					IsHierarchy: true,
 				}, {
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
-					IsHierarchy: true,
+					IsHierarchy: false,
 				}, {
 					ID:          "business-investment-prices",
 					Name:        "prices",
@@ -817,10 +817,10 @@ var BuisInvestGFCG = Response{
 // BuisInvestCapitalFormation recipe for transforming a given SDMX input to a business investment 'Capital Formation' dataset
 var BuisInvestCapitalFormation = Response{
 	ID:     "2E52DCF1-2C31-4DCC-819A-184C7398F902",
-	Alias:  "buisInvestCapitalFormation",
+	Alias:  "Business Investment Capital Formation, file 0302",
 	Format: "v4",
 	InputFiles: []file{
-		{"BuisInvestCapitalFormation, file 0302"},
+		{"Business Investment Capital Formation, file 0302"},
 	},
 	OutputInstances: []instance{
 		{
@@ -839,10 +839,10 @@ var BuisInvestCapitalFormation = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
-					ID:          "business-investment-instrument-activity",
+					ID:          "business-investment-activity",
 					Name:        "activity",
-					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-activity",
-					IsHierarchy: false,
+					HRef:        "http://localhost:22400/code-lists/business-investment-activity",
+					IsHierarchy: true,
 				}, {
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
