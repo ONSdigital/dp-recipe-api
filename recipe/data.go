@@ -10,7 +10,7 @@ var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
-		NppDeaths, NppBirths, NppCrossBorderRates},
+		NppDeaths, NppBirths, NppCrossBorderRates, Trade},
 	Start: 0,
 }
 
@@ -1157,6 +1157,59 @@ var NppCrossBorderRates = Response{
 			DatasetID: "national-population-projections-cross-border-rates",
 			Editions:  []string{"time-series"},
 			Title:     "National Population Projections: Cross Border Rates",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/financial-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-all-projectiontype",
+					Name:        "projectiontype",
+					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-birthsandfertility-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/npp-birthsandfertility-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "npp-border",
+					Name:        "border",
+					HRef:        "http://localhost:22400/code-lists/npp-border",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+
+
+
+// National Population Projections: Cross Border Rates
+var Trade = Response{
+	ID:     "9D2BE73A-F3E4-46FD-9495-8AA7E7C7DAE9",
+	Alias:  "Trade",
+	Format: "v4",
+	InputFiles: []file{
+		{"Trade"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "trade",
+			Editions:  []string{"time-series"},
+			Title:     "trade",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
