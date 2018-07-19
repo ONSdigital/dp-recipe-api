@@ -10,7 +10,7 @@ var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
-		NppDeaths, NppBirths, NppCrossBorderRates},
+		NppDeaths, NppBirths, NppCrossBorderRates, Trade},
 	Start: 0,
 }
 
@@ -772,10 +772,10 @@ var WellbeingYearEnding = Response{
 // BuisInvestGFCG recipe for transforming a given SDMX input to a business investment 'Cross Classification of GFCF by Industry and Asset' dataset
 var BuisInvestGFCG = Response{
 	ID:     "05F4247E-CC85-4AFE-A3E6-1E1B0B1CC5A5",
-	Alias:  "buisInvestGFCG",
+	Alias:  "Business Investment GFCF, file 2200",
 	Format: "v4",
 	InputFiles: []file{
-		{"BuisInvestGFCF, file 2200"},
+		{"Business Investment GFCF, file 2200"},
 	},
 	OutputInstances: []instance{
 		{
@@ -794,15 +794,15 @@ var BuisInvestGFCG = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
-					ID:          "business-investment-instrument-activity",
+					ID:          "business-investment-activity",
 					Name:        "activity",
-					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-activity",
-					IsHierarchy: false,
+					HRef:        "http://localhost:22400/code-lists/business-investment-activity",
+					IsHierarchy: true,
 				}, {
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
-					IsHierarchy: true,
+					IsHierarchy: false,
 				}, {
 					ID:          "business-investment-prices",
 					Name:        "prices",
@@ -817,10 +817,10 @@ var BuisInvestGFCG = Response{
 // BuisInvestCapitalFormation recipe for transforming a given SDMX input to a business investment 'Capital Formation' dataset
 var BuisInvestCapitalFormation = Response{
 	ID:     "2E52DCF1-2C31-4DCC-819A-184C7398F902",
-	Alias:  "buisInvestCapitalFormation",
+	Alias:  "Business Investment Capital Formation, file 0302",
 	Format: "v4",
 	InputFiles: []file{
-		{"BuisInvestCapitalFormation, file 0302"},
+		{"Business Investment Capital Formation, file 0302"},
 	},
 	OutputInstances: []instance{
 		{
@@ -839,10 +839,10 @@ var BuisInvestCapitalFormation = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
-					ID:          "business-investment-instrument-activity",
+					ID:          "business-investment-activity",
 					Name:        "activity",
-					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-activity",
-					IsHierarchy: false,
+					HRef:        "http://localhost:22400/code-lists/business-investment-activity",
+					IsHierarchy: true,
 				}, {
 					ID:          "business-investment-instrument-asset",
 					Name:        "instrument-asset",
@@ -1182,6 +1182,51 @@ var NppCrossBorderRates = Response{
 					ID:          "npp-border",
 					Name:        "border",
 					HRef:        "http://localhost:22400/code-lists/npp-border",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Trade recipe
+var Trade = Response{
+	ID:     "9D2BE73A-F3E4-46FD-9495-8AA7E7C7DAE9",
+	Alias:  "Trade",
+	Format: "v4",
+	InputFiles: []file{
+		{"Trade"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "trade",
+			Editions:  []string{"time-series"},
+			Title:     "trade",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "trade-commodity",
+					Name:        "commodity",
+					HRef:        "http://localhost:22400/code-lists/trade-commodity",
+					IsHierarchy: true,
+				}, {
+					ID:          "trade-country",
+					Name:        "country",
+					HRef:        "http://localhost:22400/code-lists/trade-country",
+					IsHierarchy: false,
+				}, {
+					ID:          "trade-direction",
+					Name:        "direction",
+					HRef:        "http://localhost:22400/code-lists/trade-direction",
 					IsHierarchy: false,
 				},
 			},
