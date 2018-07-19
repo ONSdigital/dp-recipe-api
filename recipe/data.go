@@ -64,9 +64,9 @@ var CPIH = Response{
 			Title:     "Consumer Prices Index including owner occupiers’ housing costs (CPIH)",
 			CodeLists: []CodeList{
 				{
-					ID:          "time",
+					ID:          "mmm-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
@@ -999,7 +999,6 @@ var NppMigration = Response{
 	},
 }
 
-
 // National Population Projections: Fertility
 var NppFertility = Response{
 	ID:     "B92138FC-37F3-47AC-9C2B-E13C7D61A8AD",
@@ -1045,12 +1044,10 @@ var NppFertility = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
 					IsHierarchy: false,
 				},
-
 			},
 		},
 	},
 }
-
 
 // National Population Projections: Deaths
 var NppDeaths = Response{
@@ -1097,7 +1094,6 @@ var NppDeaths = Response{
 	},
 }
 
-
 // National Population Projections: Births
 var NppBirths = Response{
 	ID:     "3B1172A6-9EA4-4AD6-8BDD-221794A18A5A",
@@ -1142,7 +1138,6 @@ var NppBirths = Response{
 		},
 	},
 }
-
 
 // National Population Projections: Cross Border Rates
 var NppCrossBorderRates = Response{
@@ -1194,9 +1189,6 @@ var NppCrossBorderRates = Response{
 	},
 }
 
-
-
-
 // Trade recipe
 var Trade = Response{
 	ID:     "9D2BE73A-F3E4-46FD-9495-8AA7E7C7DAE9",
@@ -1241,4 +1233,3 @@ var Trade = Response{
 		},
 	},
 }
-
