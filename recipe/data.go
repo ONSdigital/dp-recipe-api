@@ -1212,9 +1212,9 @@ var Trade = Response{
 			Title:     "trade",
 			CodeLists: []CodeList{
 				{
-					ID:          "calendar-years",
+					ID:          "mmm-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/financial-years",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
@@ -1222,24 +1222,19 @@ var Trade = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-sex",
-					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					ID:          "trade-commodity",
+					Name:        "commodity",
+					HRef:        "http://localhost:22400/code-lists/trade-commodity",
+					IsHierarchy: true,
+				}, {
+					ID:          "trade-country",
+					Name:        "country",
+					HRef:        "http://localhost:22400/code-lists/trade-country",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-projectiontype",
-					Name:        "projectiontype",
-					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
-					IsHierarchy: false,
-				}, {
-					ID:          "npp-birthsandfertility-age",
-					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-birthsandfertility-age",
-					IsHierarchy: false,
-				}, {
-					ID:          "npp-border",
-					Name:        "border",
-					HRef:        "http://localhost:22400/code-lists/npp-border",
+					ID:          "trade-direction",
+					Name:        "direction",
+					HRef:        "http://localhost:22400/code-lists/trade-direction",
 					IsHierarchy: false,
 				},
 			},
