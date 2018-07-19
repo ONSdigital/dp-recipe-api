@@ -784,9 +784,9 @@ var BuisInvestGFCG = Response{
 			Title:     "Business Investment, Cross Classification of GFCF by Industry and Asset",
 			CodeLists: []CodeList{
 				{
-					ID:          "calendar-years",
+					ID:          "yyyy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					HRef:        "http://localhost:22400/code-lists/yyyy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
@@ -829,9 +829,9 @@ var BuisInvestCapitalFormation = Response{
 			Title:     "Business Investment Capital Formation",
 			CodeLists: []CodeList{
 				{
-					ID:          "calendar-years",
+					ID:          "yyyy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					HRef:        "http://localhost:22400/code-lists/yyyy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
