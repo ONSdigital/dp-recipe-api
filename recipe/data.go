@@ -1197,7 +1197,7 @@ var NppCrossBorderRates = Response{
 
 
 
-// National Population Projections: Cross Border Rates
+// Trade recipe
 var Trade = Response{
 	ID:     "9D2BE73A-F3E4-46FD-9495-8AA7E7C7DAE9",
 	Alias:  "Trade",
