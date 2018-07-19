@@ -64,9 +64,9 @@ var CPIH = Response{
 			Title:     "Consumer Prices Index including owner occupiers’ housing costs (CPIH)",
 			CodeLists: []CodeList{
 				{
-					ID:          "mm-yyy",
+					ID:          "mmm-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/mm-yyy",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
