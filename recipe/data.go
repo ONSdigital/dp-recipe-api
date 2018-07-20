@@ -800,7 +800,7 @@ var BuisInvestGFCG = Response{
 					IsHierarchy: true,
 				}, {
 					ID:          "business-investment-instrument-asset",
-					Name:        "instrument-asset",
+					Name:        "instrumentasset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
 					IsHierarchy: false,
 				}, {
@@ -845,7 +845,7 @@ var BuisInvestCapitalFormation = Response{
 					IsHierarchy: true,
 				}, {
 					ID:          "business-investment-instrument-asset",
-					Name:        "instrument-asset",
+					Name:        "instrumentasset",
 					HRef:        "http://localhost:22400/code-lists/business-investment-instrument-asset",
 					IsHierarchy: false,
 				}, {
