@@ -1222,7 +1222,7 @@ var Trade = Response{
 					ID:          "trade-country",
 					Name:        "country",
 					HRef:        "http://localhost:22400/code-lists/trade-country",
-					IsHierarchy: false,
+					IsHierarchy: true,
 				}, {
 					ID:          "trade-direction",
 					Name:        "direction",
