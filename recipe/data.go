@@ -10,7 +10,7 @@ var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
-		NppDeaths, NppBirths, NppCrossBorderRates, Trade},
+		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority},
 	Start: 0,
 }
 
@@ -1227,6 +1227,46 @@ var Trade = Response{
 					ID:          "trade-direction",
 					Name:        "direction",
 					HRef:        "http://localhost:22400/code-lists/trade-direction",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// WellbeingLocalAuthority is wellbeing data with a time codelist of "Year Ending"
+var WellbeingLocalAuthority = Response{
+	ID:     "e8238bad-e248-4008-92cf-d29c087741b7",
+	Alias:  "WellbeingLocalAuthority",
+	Format: "v4",
+	InputFiles: []file{
+		{"wellbeingExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "wellbeing-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Well-being by local authority",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-hierarchy",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-hierarchy",
+					IsHierarchy: true,
+				}, {
+					ID:          "wellbeing-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-measureofwellbeing",
+					Name:        "allmeasuresofwellbeing",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
 					IsHierarchy: false,
 				},
 			},
