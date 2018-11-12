@@ -10,7 +10,7 @@ var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
-		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority},
+		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10},
 	Start: 0,
 }
 
@@ -1234,7 +1234,7 @@ var Trade = Response{
 	},
 }
 
-// WellbeingLocalAuthority is wellbeing data with a time codelist of "Year Ending"
+// WellbeingLocalAuthority is wellbeing data with a time codelist of "yyyy-yy"
 var WellbeingLocalAuthority = Response{
 	ID:     "e8238bad-e248-4008-92cf-d29c087741b7",
 	Alias:  "WellbeingLocalAuthority",
@@ -1254,9 +1254,9 @@ var WellbeingLocalAuthority = Response{
 					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
 					IsHierarchy: false,
 				}, {
-					ID:          "admin-hierarchy",
+					ID:          "admin-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/admin-hierarchy",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
 					ID:          "wellbeing-estimate",
@@ -1267,6 +1267,167 @@ var WellbeingLocalAuthority = Response{
 					ID:          "wellbeing-measureofwellbeing",
 					Name:        "allmeasuresofwellbeing",
 					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+	
+// Overseas travel and tourism recipe
+var OverseasTravelTourism = Response{
+	ID:     "35b7fe99-b7db-4237-9af0-f8c2c6c0935c",
+	Alias:  "Overseas Travel and Tourism",
+	Format: "v4",
+	InputFiles: []file{
+		{"Overseas v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "overseas-travel-and-tourism",
+			Editions:  []string{"time-series"},
+			Title:     "Overseas Travel and Tourism",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "calendar-month",
+					Name:        "month",
+					HRef:        "http://localhost:22400/code-lists/calendar-month",
+					IsHierarchy: false,
+				}, {
+					ID:          "ott_regions",
+					Name:        "regions",
+					HRef:        "http://localhost:22400/code-lists/ott_regions",
+					IsHierarchy: false,
+				}, {
+					ID:          "ott_ukos",
+					Name:        "ukos",
+					HRef:        "http://localhost:22400/code-lists/ott_ukos",
+					IsHierarchy: false,
+				},{
+					ID:          "ott_purpose",
+					Name:        "purpose",
+					HRef:        "http://localhost:22400/code-lists/ott_purpose",
+					IsHierarchy: false,
+				}, {
+					ID:          "ott_cost",
+					Name:        "cost",
+					HRef:        "http://localhost:22400/code-lists/ott_cost",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 7 and 8 combined
+var ASHE7and8 = Response{
+	ID:     "8dd6cc0f-54d5-42e2-b186-4c00b00dcb02",
+	Alias:  "ASHE Tables 7 and 8",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE78Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-7-and-8",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 7 and 8",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-workplace-or-residence",
+					Name:        "workplaceorresidence",
+					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 9 and 10 combined
+var ASHE9and10 = Response{
+	ID:     "e8b95232-1135-4bc3-a9f4-ae6551669dba",
+	Alias:  "ASHE Tables 9 and 10",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE910Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-9-and-10",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 9 and 10",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "parliamentary-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/parliamentary-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-workplace-or-residence",
+					Name:        "workplaceorresidence",
+					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
 					IsHierarchy: false,
 				},
 			},
