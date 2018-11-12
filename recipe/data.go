@@ -1237,7 +1237,7 @@ var Trade = Response{
 // WellbeingLocalAuthority is wellbeing data with a time codelist of "yyyy-yy"
 var WellbeingLocalAuthority = Response{
 	ID:     "e8238bad-e248-4008-92cf-d29c087741b7",
-	Alias:  "WellbeingLocalAuthority",
+	Alias:  "Wellbeing Local Authority",
 	Format: "v4",
 	InputFiles: []file{
 		{"wellbeingExcel"},
@@ -1300,24 +1300,24 @@ var OverseasTravelTourism = Response{
 					HRef:        "http://localhost:22400/code-lists/calendar-month",
 					IsHierarchy: false,
 				}, {
-					ID:          "ott_regions",
+					ID:          "ott-regions",
 					Name:        "regions",
-					HRef:        "http://localhost:22400/code-lists/ott_regions",
+					HRef:        "http://localhost:22400/code-lists/ott-regions",
 					IsHierarchy: false,
 				}, {
-					ID:          "ott_ukos",
-					Name:        "ukos",
-					HRef:        "http://localhost:22400/code-lists/ott_ukos",
+					ID:          "ott-residence",
+					Name:        "residence",
+					HRef:        "http://localhost:22400/code-lists/ott-residence",
 					IsHierarchy: false,
 				},{
-					ID:          "ott_purpose",
+					ID:          "ott-purpose",
 					Name:        "purpose",
-					HRef:        "http://localhost:22400/code-lists/ott_purpose",
+					HRef:        "http://localhost:22400/code-lists/ott-purpose",
 					IsHierarchy: false,
 				}, {
-					ID:          "ott_cost",
+					ID:          "ott-cost",
 					Name:        "cost",
-					HRef:        "http://localhost:22400/code-lists/ott_cost",
+					HRef:        "http://localhost:22400/code-lists/ott-cost",
 					IsHierarchy: false,
 				},
 			},
