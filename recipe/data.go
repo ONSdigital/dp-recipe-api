@@ -1300,9 +1300,9 @@ var OverseasTravelTourism = Response{
 					HRef:        "http://localhost:22400/code-lists/calendar-month",
 					IsHierarchy: false,
 				}, {
-					ID:          "ott_countries_in_groups",
+					ID:          "ott-countries-in-groups",
 					Name:        "regions",
-					HRef:        "http://localhost:22400/code-lists/ott_countries_in_groups",
+					HRef:        "http://localhost:22400/code-lists/ott-countries-in-groups",
 					IsHierarchy: true,
 				}, {
 					ID:          "ott-residence",
