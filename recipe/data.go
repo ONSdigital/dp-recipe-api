@@ -1303,7 +1303,7 @@ var OverseasTravelTourism = Response{
 					ID:          "ott-regions",
 					Name:        "regions",
 					HRef:        "http://localhost:22400/code-lists/ott-regions",
-					IsHierarchy: false,
+					IsHierarchy: true,
 				}, {
 					ID:          "ott-residence",
 					Name:        "residence",
