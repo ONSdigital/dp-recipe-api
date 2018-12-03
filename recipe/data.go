@@ -10,7 +10,8 @@ var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
-		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10},
+		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
+		Construction, UKBusinessIndustryGeography},
 	Start: 0,
 }
 
@@ -1290,14 +1291,9 @@ var OverseasTravelTourism = Response{
 			Title:     "Overseas Travel and Tourism",
 			CodeLists: []CodeList{
 				{
-					ID:          "calendar-years",
+					ID:          "mmm-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
-					IsHierarchy: false,
-				}, {
-					ID:          "calendar-month",
-					Name:        "month",
-					HRef:        "http://localhost:22400/code-lists/calendar-month",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "ott-countries-in-groups",
@@ -1428,6 +1424,91 @@ var ASHE9and10 = Response{
 					ID:          "ashe-workplace-or-residence",
 					Name:        "workplaceorresidence",
 					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Output in the construction industry
+var Construction = Response{
+	ID:     "5c1aab52-7538-4105-8305-c63a4ba37cab",
+	Alias:  "Output in the Construction Industry",
+	Format: "v4",
+	InputFiles: []file{
+		{"Construction"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "output-in-the-construction-industry",
+			Editions:  []string{"time-series"},
+			Title:     "Output in the Construction Industry",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				},{
+					ID:          "construction-series-type",
+					Name:        "seriestype",
+					HRef:        "http://localhost:22400/code-lists/construction-series-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "construction-classifications",
+					Name:        "typeofwork",
+					HRef:        "http://localhost:22400/code-lists/construction-classifications",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// UK business - broad industry group by geography
+var UKBusinessIndustryGeography = Response{
+	ID:     "a6e80e1e-2011-48ab-8c1d-35a7833b38db",
+	Alias:  "UK Business by Broad Industry Group",
+	Format: "v4",
+	InputFiles: []file{
+		{"UKbizIndustry"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "uk-business-by-industry-group",
+			Editions:  []string{"time-series"},
+			Title:     "UK Business by Broad Industry Group",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "uk-business-broad-industry-group",
+					Name:        "broadindustrygroup",
+					HRef:        "http://localhost:22400/code-lists/uk-business-broad-industry-group",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-business-unit",
+					Name:        "unit",
+					HRef:        "http://localhost:22400/code-lists/uk-business-unit",
 					IsHierarchy: false,
 				},
 			},
