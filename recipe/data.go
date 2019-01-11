@@ -11,7 +11,7 @@ var FullList = List{
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
-		Construction, UKBusinessIndustryGeography},
+		Construction, UKBusinessIndustryGeography, LabourMarketStatistics},
 	Start: 0,
 }
 
@@ -105,9 +105,9 @@ var MidYearPopEst = Response{
 					HRef:        "http://localhost:22400/code-lists/calendar-years",
 					IsHierarchy: false,
 				}, {
-					ID:          "mid-year-pop-geography",
+					ID:          "admin-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/mid-year-pop-geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
 					ID:          "mid-year-pop-sex",
@@ -1511,6 +1511,56 @@ var UKBusinessIndustryGeography = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-business-unit",
 					IsHierarchy: false,
 				},
+			},
+		},
+	},
+}
+
+// Labour Market  
+var LabourMarketStatistics = Response{
+	ID:     "daf08e97-0a21-4800-9a2f-d7c90c88519b",
+	Alias:  "Labour Market",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMS"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "labour-market",
+			Editions:  []string{"time-series"},
+			Title:     "Labour Market",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/lms-unit-of-measure",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-economic-status",
+					Name:        "economicstatus",
+					HRef:        "http://localhost:22400/code-lists/lms-economic-status",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-age-bracket",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, 
 			},
 		},
 	},
