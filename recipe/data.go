@@ -107,7 +107,7 @@ var MidYearPopEst = Response{
 				}, {
 					ID:          "admin-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/mid-year-pop-geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
 					ID:          "mid-year-pop-sex",
@@ -1548,7 +1548,7 @@ var LabourMarketStatistics = Response{
 				}, {
 					ID:          "lms-age-bracket",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/lms-age",
+					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
 					IsHierarchy: false,
 				}, {
 					ID:          "ashe-sex",
