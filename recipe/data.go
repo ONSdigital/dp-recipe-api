@@ -10,7 +10,8 @@ var FullList = List{
 	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
-		NppDeaths, NppBirths, NppCrossBorderRates, Trade},
+		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
+		Construction, UKBusinessIndustryGeography, LabourMarketStatistics},
 	Start: 0,
 }
 
@@ -104,9 +105,9 @@ var MidYearPopEst = Response{
 					HRef:        "http://localhost:22400/code-lists/calendar-years",
 					IsHierarchy: false,
 				}, {
-					ID:          "mid-year-pop-geography",
+					ID:          "admin-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/mid-year-pop-geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
 					ID:          "mid-year-pop-sex",
@@ -1229,6 +1230,337 @@ var Trade = Response{
 					HRef:        "http://localhost:22400/code-lists/trade-direction",
 					IsHierarchy: false,
 				},
+			},
+		},
+	},
+}
+
+// WellbeingLocalAuthority is wellbeing data with a time codelist of "yyyy-yy"
+var WellbeingLocalAuthority = Response{
+	ID:     "e8238bad-e248-4008-92cf-d29c087741b7",
+	Alias:  "Wellbeing Local Authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"wellbeingExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "wellbeing-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Well-being by local authority",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "wellbeing-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-measureofwellbeing",
+					Name:        "allmeasuresofwellbeing",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+	
+// Overseas travel and tourism recipe
+var OverseasTravelTourism = Response{
+	ID:     "35b7fe99-b7db-4237-9af0-f8c2c6c0935c",
+	Alias:  "Overseas Travel and Tourism",
+	Format: "v4",
+	InputFiles: []file{
+		{"Overseas v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "overseas-travel-and-tourism",
+			Editions:  []string{"time-series"},
+			Title:     "Overseas Travel and Tourism",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "ott-countries-in-groups",
+					Name:        "regions",
+					HRef:        "http://localhost:22400/code-lists/ott-countries-in-groups",
+					IsHierarchy: true,
+				}, {
+					ID:          "ott-residence",
+					Name:        "residence",
+					HRef:        "http://localhost:22400/code-lists/ott-residence",
+					IsHierarchy: false,
+				},{
+					ID:          "ott-purpose",
+					Name:        "purpose",
+					HRef:        "http://localhost:22400/code-lists/ott-purpose",
+					IsHierarchy: false,
+				}, {
+					ID:          "ott-cost",
+					Name:        "cost",
+					HRef:        "http://localhost:22400/code-lists/ott-cost",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 7 and 8 combined
+var ASHE7and8 = Response{
+	ID:     "8dd6cc0f-54d5-42e2-b186-4c00b00dcb02",
+	Alias:  "ASHE Tables 7 and 8",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE78Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-7-and-8",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 7 and 8",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-workplace-or-residence",
+					Name:        "workplaceorresidence",
+					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 9 and 10 combined
+var ASHE9and10 = Response{
+	ID:     "e8b95232-1135-4bc3-a9f4-ae6551669dba",
+	Alias:  "ASHE Tables 9 and 10",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE910Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-9-and-10",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 9 and 10",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "parliamentary-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/parliamentary-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-workplace-or-residence",
+					Name:        "workplaceorresidence",
+					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Output in the construction industry
+var Construction = Response{
+	ID:     "5c1aab52-7538-4105-8305-c63a4ba37cab",
+	Alias:  "Output in the Construction Industry",
+	Format: "v4",
+	InputFiles: []file{
+		{"Construction"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "output-in-the-construction-industry",
+			Editions:  []string{"time-series"},
+			Title:     "Output in the Construction Industry",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				},{
+					ID:          "construction-series-type",
+					Name:        "seriestype",
+					HRef:        "http://localhost:22400/code-lists/construction-series-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "construction-classifications",
+					Name:        "typeofwork",
+					HRef:        "http://localhost:22400/code-lists/construction-classifications",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// UK business - broad industry group by geography
+var UKBusinessIndustryGeography = Response{
+	ID:     "a6e80e1e-2011-48ab-8c1d-35a7833b38db",
+	Alias:  "UK Business by Broad Industry Group",
+	Format: "v4",
+	InputFiles: []file{
+		{"UKbizIndustry"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "uk-business-by-industry-group",
+			Editions:  []string{"time-series"},
+			Title:     "UK Business by Broad Industry Group",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "uk-business-broad-industry-group",
+					Name:        "broadindustrygroup",
+					HRef:        "http://localhost:22400/code-lists/uk-business-broad-industry-group",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-business-unit",
+					Name:        "unit",
+					HRef:        "http://localhost:22400/code-lists/uk-business-unit",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Labour Market  
+var LabourMarketStatistics = Response{
+	ID:     "daf08e97-0a21-4800-9a2f-d7c90c88519b",
+	Alias:  "Labour Market",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMS"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "labour-market",
+			Editions:  []string{"time-series"},
+			Title:     "Labour Market",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/lms-unit-of-measure",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-economic-status",
+					Name:        "economicstatus",
+					HRef:        "http://localhost:22400/code-lists/lms-economic-status",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-age-bracket",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, 
 			},
 		},
 	},
