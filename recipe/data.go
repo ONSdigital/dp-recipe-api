@@ -11,7 +11,7 @@ var FullList = List{
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
-		Construction, UKBusinessIndustryGeography, LabourMarketStatistics},
+		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides},
 	Start: 0,
 }
 
@@ -1560,6 +1560,36 @@ var LabourMarketStatistics = Response{
 					Name:        "seasonaladjustment",
 					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
 					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Suicides  
+var Suicides = Response{
+	ID:     "f78ee223-ac49-450d-b2ae-ee8efeb53b6a",
+	Alias:  "Suicides",
+	Format: "v4",
+	InputFiles: []file{
+		{"Suicides"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "suicides-in-the-uk",
+			Editions:  []string{"time-series"},
+			Title:     "Suicides in the UK",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
 				}, 
 			},
 		},
