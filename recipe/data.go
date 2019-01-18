@@ -11,7 +11,7 @@ var FullList = List{
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
-		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides},
+		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth},
 	Start: 0,
 }
 
@@ -1202,7 +1202,7 @@ var Trade = Response{
 		{
 			DatasetID: "trade",
 			Editions:  []string{"time-series"},
-			Title:     "trade",
+			Title:     "UK Trade in Goods by Country",
 			CodeLists: []CodeList{
 				{
 					ID:          "mmm-yy",
@@ -1591,6 +1591,86 @@ var Suicides = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, 
+			},
+		},
+	},
+}
+
+// Life Expectancy  
+var LifeExpectancy = Response{
+	ID:     "c1a25f33-506e-405e-a9a2-9ebd85b46e6d",
+	Alias:  "Life Expecancy",
+	Format: "v4",
+	InputFiles: []file{
+		{"LifeExpectancy"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "life-expectancy-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Life Expectancy in the UK",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "birth-cohort",
+					Name:        "birthcohort",
+					HRef:        "http://localhost:22400/code-lists/birth-cohort",
+					IsHierarchy: false,
+				},{
+					ID:          "life-expectancy-variable",
+					Name:        "lifeexpectancyvariable",
+					HRef:        "http://localhost:22400/code-lists/life-expectancy-variable",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Parents Country of Birth 
+var ParentsCountryOfBirth = Response{
+	ID:     "916475c2-98a8-4d86-9ff5-a6d1c1d4688d",
+	Alias:  "Parents Country of Birth",
+	Format: "v4",
+	InputFiles: []file{
+		{"ParentsBirth"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "parents-country-of-birth",
+			Editions:  []string{"time-series"},
+			Title:     "Parents' Country of Birth",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "parents-country-birth",
+					Name:        "parentscountryofbirth",
+					HRef:        "http://localhost:22400/code-lists/parents-country-birth",
+					IsHierarchy: false,
+				},{
+					ID:          "type-of-number",
+					Name:        "typeofnumber",
+					HRef:        "http://localhost:22400/code-lists/type-of-number",
+					IsHierarchy: false,
+				},
 			},
 		},
 	},
