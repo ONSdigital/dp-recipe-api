@@ -1536,9 +1536,9 @@ var LabourMarketStatistics = Response{
 					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
 					IsHierarchy: false,
 				}, {
-					ID:          "lms-unit-of-measure",
+					ID:          "unit-of-measure",
 					Name:        "unitofmeasure",
-					HRef:        "http://localhost:22400/code-lists/lms-unit-of-measure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
 					IsHierarchy: false,
 				}, {
 					ID:          "lms-economic-status",
@@ -1666,9 +1666,9 @@ var ParentsCountryOfBirth = Response{
 					HRef:        "http://localhost:22400/code-lists/parents-country-birth",
 					IsHierarchy: false,
 				},{
-					ID:          "type-of-number",
-					Name:        "typeofnumber",
-					HRef:        "http://localhost:22400/code-lists/type-of-number",
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
 					IsHierarchy: false,
 				},
 			},
