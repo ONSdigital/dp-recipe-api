@@ -1611,9 +1611,9 @@ var LifeExpectancy = Response{
 			Title:     "Life Expectancy in the UK",
 			CodeLists: []CodeList{
 				{
-					ID:          "yyyy-yy",
+					ID:          "two-year-intervals",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
+					HRef:        "http://localhost:22400/code-lists/two-year-intervals",
 					IsHierarchy: false,
 				}, {
 					ID:          "admin-geography",
@@ -1691,9 +1691,9 @@ var DrugRelatedDeaths = Response{
 			Title:     "Drug-related deaths by local authority, England and Wales",
 			CodeLists: []CodeList{
 				{
-					ID:          "yyyy-yy",
+					ID:          "two-year-intervals",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
+					HRef:        "http://localhost:22400/code-lists/two-year-intervals",
 					IsHierarchy: false,
 				}, {
 					ID:          "admin-geography",
