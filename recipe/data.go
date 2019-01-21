@@ -11,7 +11,7 @@ var FullList = List{
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
-		Construction, UKBusinessIndustryGeography, LabourMarketStatistics},
+		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, DrugRelatedDeaths},
 	Start: 0,
 }
 
@@ -1202,7 +1202,7 @@ var Trade = Response{
 		{
 			DatasetID: "trade",
 			Editions:  []string{"time-series"},
-			Title:     "trade",
+			Title:     "UK Trade in Goods by Country",
 			CodeLists: []CodeList{
 				{
 					ID:          "mmm-yy",
@@ -1536,9 +1536,9 @@ var LabourMarketStatistics = Response{
 					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
 					IsHierarchy: false,
 				}, {
-					ID:          "lms-unit-of-measure",
+					ID:          "unit-of-measure",
 					Name:        "unitofmeasure",
-					HRef:        "http://localhost:22400/code-lists/lms-unit-of-measure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
 					IsHierarchy: false,
 				}, {
 					ID:          "lms-economic-status",
@@ -1561,6 +1561,161 @@ var LabourMarketStatistics = Response{
 					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
 					IsHierarchy: false,
 				}, 
+			},
+		},
+	},
+}
+
+// Suicides  
+var Suicides = Response{
+	ID:     "f78ee223-ac49-450d-b2ae-ee8efeb53b6a",
+	Alias:  "Suicides",
+	Format: "v4",
+	InputFiles: []file{
+		{"Suicides"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "suicides-in-the-uk",
+			Editions:  []string{"time-series"},
+			Title:     "Suicides in the UK",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, 
+			},
+		},
+	},
+}
+
+// Life Expectancy  
+var LifeExpectancy = Response{
+	ID:     "c1a25f33-506e-405e-a9a2-9ebd85b46e6d",
+	Alias:  "Life Expecancy",
+	Format: "v4",
+	InputFiles: []file{
+		{"LifeExpectancy"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "life-expectancy-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Life Expectancy in the UK",
+			CodeLists: []CodeList{
+				{
+					ID:          "two-year-intervals",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/two-year-intervals",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "birth-cohort",
+					Name:        "birthcohort",
+					HRef:        "http://localhost:22400/code-lists/birth-cohort",
+					IsHierarchy: false,
+				},{
+					ID:          "life-expectancy-variable",
+					Name:        "lifeexpectancyvariable",
+					HRef:        "http://localhost:22400/code-lists/life-expectancy-variable",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Parents Country of Birth 
+var ParentsCountryOfBirth = Response{
+	ID:     "916475c2-98a8-4d86-9ff5-a6d1c1d4688d",
+	Alias:  "Parents Country of Birth",
+	Format: "v4",
+	InputFiles: []file{
+		{"ParentsBirth"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "parents-country-of-birth",
+			Editions:  []string{"time-series"},
+			Title:     "Parents' Country of Birth",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "parents-country-birth",
+					Name:        "parentscountryofbirth",
+					HRef:        "http://localhost:22400/code-lists/parents-country-birth",
+					IsHierarchy: false,
+				},{
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Drug-related deaths by local authority, England and Wales
+var DrugRelatedDeaths = Response{
+	ID:     "b5923749-b3ac-41a0-9720-cefe94d765dc",
+	Alias:  "Drug-related deaths by local authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"DrugRelatedDeaths"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "drug-related-deaths-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Drug-related deaths by local authority, England and Wales",
+			CodeLists: []CodeList{
+				{
+					ID:          "two-year-intervals",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/two-year-intervals",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "drug-deaths-mortality",
+					Name:        "mortality",
+					HRef:        "http://localhost:22400/code-lists/drug-deaths-mortality",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "drug-deaths-type-of-death",
+					Name:        "typeofdeath",
+					HRef:        "http://localhost:22400/code-lists/drug-deaths-type-of-death",
+					IsHierarchy: false,
+				},
 			},
 		},
 	},
