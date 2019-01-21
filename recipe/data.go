@@ -11,7 +11,7 @@ var FullList = List{
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
-		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth},
+		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, DrugRelatedDeaths},
 	Start: 0,
 }
 
@@ -1669,6 +1669,51 @@ var ParentsCountryOfBirth = Response{
 					ID:          "type-of-number",
 					Name:        "typeofnumber",
 					HRef:        "http://localhost:22400/code-lists/type-of-number",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Drug-related deaths by local authority, England and Wales
+var DrugRelatedDeaths = Response{
+	ID:     "b5923749-b3ac-41a0-9720-cefe94d765dc",
+	Alias:  "Drug-related deaths by local authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"DrugRelatedDeaths"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "drug-related-deaths-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Drug-related deaths by local authority, England and Wales",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "drug-deaths-mortality",
+					Name:        "mortality",
+					HRef:        "http://localhost:22400/code-lists/drug-deaths-mortality",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "drug-deaths-type-of-death",
+					Name:        "typeofdeath",
+					HRef:        "http://localhost:22400/code-lists/drug-deaths-type-of-death",
 					IsHierarchy: false,
 				},
 			},
