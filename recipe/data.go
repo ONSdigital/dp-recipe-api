@@ -11,7 +11,8 @@ var FullList = List{
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
-		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, DrugRelatedDeaths},
+		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
+		DrugRelatedDeaths, ChildMortality, Census1961},
 	Start: 0,
 }
 
@@ -1714,6 +1715,92 @@ var DrugRelatedDeaths = Response{
 					ID:          "drug-deaths-type-of-death",
 					Name:        "typeofdeath",
 					HRef:        "http://localhost:22400/code-lists/drug-deaths-type-of-death",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+
+// Child mortality by local authority in England and Wales
+var ChildMortality = Response{
+	ID:     "f507274d-2f17-4cbc-86e5-bf2c91dcc91d",
+	Alias:  "Child mortality by local authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"ChildMortalityLA"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "child-mortality-by-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Child mortality by local authority in England and Wales",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
+				}, {
+					ID:          "births-and-deaths",
+					Name:        "birthsanddeaths",
+					HRef:        "http://localhost:22400/code-lists/births-and-deaths",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// 1961 Census Data
+var Census1961 = Response{
+	ID:     "4fff878f-f642-4113-9bed-85ae19a19ee7",
+	Alias:  "1961 Census",
+	Format: "v4",
+	InputFiles: []file{
+		{"1961Census"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "1961-census",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census Data",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "1961geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-marital-status",
+					Name:        "maritalstatus",
+					HRef:        "http://localhost:22400/code-lists/census-1961-marital-status",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-age-groups",
+					Name:        "agegroup",
+					HRef:        "http://localhost:22400/code-lists/census-1961-age-groups",
 					IsHierarchy: false,
 				},
 			},
