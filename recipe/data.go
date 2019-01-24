@@ -12,7 +12,7 @@ var FullList = List{
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
-		DrugRelatedDeaths, ChildMortality, Census1961},
+		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices},
 	Start: 0,
 }
 
@@ -1801,6 +1801,51 @@ var Census1961 = Response{
 					ID:          "census-1961-age-groups",
 					Name:        "agegroup",
 					HRef:        "http://localhost:22400/code-lists/census-1961-age-groups",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// House Prices by Local Authority
+var HousePrices = Response{
+	ID:     "4a4273d2-85ed-4d8e-9da9-22b42b70d624",
+	Alias:  "House Prices",
+	Format: "v4",
+	InputFiles: []file{
+		{"HousePrices"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "house-prices-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "UK House Price Index",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "house-price-variable",
+					Name:        "housepricevariable",
+					HRef:        "http://localhost:22400/code-lists/house-price-variable",
+					IsHierarchy: false,
+				}, {
+					ID:          "property-type",
+					Name:        "propertytype",
+					HRef:        "http://localhost:22400/code-lists/property-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "house-price-age",
+					Name:        "housepriceage",
+					HRef:        "http://localhost:22400/code-lists/house-price-age",
 					IsHierarchy: false,
 				},
 			},
