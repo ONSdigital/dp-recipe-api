@@ -1537,6 +1537,11 @@ var LabourMarketStatistics = Response{
 					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
 					IsHierarchy: false,
 				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
 					ID:          "unit-of-measure",
 					Name:        "unitofmeasure",
 					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
