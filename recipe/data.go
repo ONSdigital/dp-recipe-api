@@ -1778,7 +1778,7 @@ var Census1961 = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "1961-census",
+			DatasetID: "census-1961",
 			Editions:  []string{"time-series"},
 			Title:     "1961 Census Data",
 			CodeLists: []CodeList{
