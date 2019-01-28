@@ -1738,7 +1738,7 @@ var ChildMortality = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "child-mortality-by-local-authority",
+			DatasetID: "child-mortality-local-authority",
 			Editions:  []string{"time-series"},
 			Title:     "Child mortality by local authority in England and Wales",
 			CodeLists: []CodeList{
