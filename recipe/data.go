@@ -751,9 +751,9 @@ var WellbeingYearEnding = Response{
 					HRef:        "http://localhost:22400/code-lists/year-ending",
 					IsHierarchy: false,
 				}, {
-					ID:          "wellbeing-geography",
+					ID:          "admin-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/wellbeing-geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: false,
 				}, {
 					ID:          "wellbeing-estimate",
