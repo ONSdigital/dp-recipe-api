@@ -12,7 +12,7 @@ var FullList = List{
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
-		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices},
+		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices},
 	Start: 0,
 }
 
@@ -1853,6 +1853,41 @@ var HousePrices = Response{
 					HRef:        "http://localhost:22400/code-lists/house-price-age",
 					IsHierarchy: false,
 				},
+			},
+		},
+	},
+}
+
+// Index of Private Housing Rental Prices
+var PrivateHousingRentalPrices = Response{
+	ID:     "d5943cff-a8b7-4002-ad1f-1957764aec7b",
+	Alias:  "Index of Private Housing Rental Prices",
+	Format: "v4",
+	InputFiles: []file{
+		{"PrivateHousingRentalPrices"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "index-private-housing-rental-prices",
+			Editions:  []string{"time-series"},
+			Title:     "Index of Private Housing Rental Prices",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "housing-rental-prices-variable",
+					Name:        "variable",
+					HRef:        "http://localhost:22400/code-lists/housing-rental-prices-variable",
+					IsHierarchy: false,
+				}, 
 			},
 		},
 	},
