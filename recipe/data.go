@@ -891,9 +891,9 @@ var NppPopulationNumbers = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-population-age",
+					ID:          "npp-age",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-population-age",
+					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
 					ID:          "npp-all-sex",
@@ -921,9 +921,9 @@ var NppMortalityAssumptions = Response{
 			Title:     "National Population Projections: Mortality Assumptions",
 			CodeLists: []CodeList{
 				{
-					ID:          "financial-years",
+					ID:          "yyyy-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/financial-years",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
@@ -936,9 +936,9 @@ var NppMortalityAssumptions = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-mortalityandcrossborderrates-age",
+					ID:          "npp-age",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-mortalityandcrossborderrates-age",
+					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
 					ID:          "npp-all-sex",
@@ -966,9 +966,9 @@ var NppMigration = Response{
 			Title:     "National Population Projections: Migration",
 			CodeLists: []CodeList{
 				{
-					ID:          "financial-years",
+					ID:          "yyyy-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/financial-years",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
@@ -981,9 +981,9 @@ var NppMigration = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-migration-age",
+					ID:          "npp-age",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-migration-age",
+					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
 					ID:          "npp-all-sex",
@@ -991,9 +991,9 @@ var NppMigration = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-migration-populationmeasure",
+					ID:          "npp-population-measure",
 					Name:        "populationmeasure",
-					HRef:        "http://localhost:22400/code-lists/npp-migration-populationmeasure",
+					HRef:        "http://localhost:22400/code-lists/npp-population-measure",
 					IsHierarchy: false,
 				},
 			},
@@ -1016,9 +1016,9 @@ var NppFertility = Response{
 			Title:     "National Population Projections: Fertility",
 			CodeLists: []CodeList{
 				{
-					ID:          "financial-years",
+					ID:          "yyyy-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/financial-years",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
@@ -1031,14 +1031,9 @@ var NppFertility = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-birthsandfertility-age",
+					ID:          "npp-age",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-birthsandfertility-age",
-					IsHierarchy: false,
-				}, {
-					ID:          "npp-migration-populationmeasure",
-					Name:        "populationmeasure",
-					HRef:        "http://localhost:22400/code-lists/npp-migration-populationmeasure",
+					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
 					ID:          "npp-all-sex",
@@ -1066,9 +1061,9 @@ var NppDeaths = Response{
 			Title:     "National Population Projections: Deaths",
 			CodeLists: []CodeList{
 				{
-					ID:          "financial-years",
+					ID:          "yyyy-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/financial-years",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
@@ -1081,9 +1076,9 @@ var NppDeaths = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-deaths-age",
+					ID:          "npp-age",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-deaths-age",
+					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
 					ID:          "npp-all-sex",
@@ -1111,9 +1106,9 @@ var NppBirths = Response{
 			Title:     "National Population Projections: Births",
 			CodeLists: []CodeList{
 				{
-					ID:          "financial-years",
+					ID:          "yyyy-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/financial-years",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
 					IsHierarchy: false,
 				}, {
 					ID:          "uk-only",
@@ -1126,9 +1121,9 @@ var NppBirths = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-birthsandfertility-age",
+					ID:          "npp-age",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-birthsandfertility-age",
+					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
 					ID:          "npp-all-sex",
@@ -1176,14 +1171,14 @@ var NppCrossBorderRates = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-all-projectiontype",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-birthsandfertility-age",
+					ID:          "npp-age",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/npp-birthsandfertility-age",
+					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-border",
-					Name:        "border",
-					HRef:        "http://localhost:22400/code-lists/npp-border",
+					ID:          "npp-population-measure",
+					Name:        "populationmeasure",
+					HRef:        "http://localhost:22400/code-lists/npp-population-measure",
 					IsHierarchy: false,
 				},
 			},
