@@ -12,7 +12,7 @@ var FullList = List{
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
-		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices},
+		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA},
 	Start: 0,
 }
 
@@ -1883,6 +1883,91 @@ var PrivateHousingRentalPrices = Response{
 					HRef:        "http://localhost:22400/code-lists/housing-rental-prices-variable",
 					IsHierarchy: false,
 				}, 
+			},
+		},
+	},
+}
+
+//MidYearPopEst recipe for transforming a given input to a mid year population estimate dataset using the parliamentary geography
+var MidYearPopEstPCON = Response{
+	ID:     "b83ffdaf-c5fa-451e-bbe0-6137c9f90b5a",
+	Alias:  "Mid-year Population Estimates by Parliamentary Constituencies",
+	Format: "v4",
+	InputFiles: []file{
+		{"Mid-year Population Estimates Parliamentary Constituencies v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "mid-year-pop-est-parliamentary-constituencies",
+			Editions:  []string{"time-series"},
+			Title:     "Population Estimates for UK, England and Wales, Scotland and Northern Ireland by Parliamentary Constituencies",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "parliamentary-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "mid-year-pop-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/mid-year-pop-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "mid-year-pop-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/mid-year-pop-age",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Internal migration - Moves by local authorities and regions in England and Wales by 5 year age group and sex
+var InternalMigrationLA = Response{
+	ID:     "b135f977-6f4d-4f38-821a-d74722e6737c",
+	Alias:  "Internal migration - Moves by local authorities",
+	Format: "v4",
+	InputFiles: []file{
+		{"InternalMigrationLA"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "internal-migration-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Internal migration - Moves by local authorities and regions in England and Wales by 5 year age group and sex",
+			CodeLists: []CodeList{
+				{
+					ID:          "year-ending",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/year-ending",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "five-year-age-brackets",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/five-year-age-brackets",
+					IsHierarchy: false,
+				}, {
+					ID:          "mid-year-pop-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/mid-year-pop-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "migration-direction",
+					Name:        "migrationdirection",
+					HRef:        "http://localhost:22400/code-lists/migration-direction",
+					IsHierarchy: false,
+				},
 			},
 		},
 	},
