@@ -1910,7 +1910,7 @@ var MidYearPopEstPCON = Response{
 				}, {
 					ID:          "parliamentary-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					HRef:        "http://localhost:22400/code-lists/parliamentary-geography",
 					IsHierarchy: true,
 				}, {
 					ID:          "mid-year-pop-sex",
