@@ -896,9 +896,9 @@ var NppPopulationNumbers = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-sex",
+					ID:          "npp-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					HRef:        "http://localhost:22400/code-lists/npp-sex",
 					IsHierarchy: false,
 				},
 			},
@@ -941,9 +941,9 @@ var NppMortalityAssumptions = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-sex",
+					ID:          "npp-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					HRef:        "http://localhost:22400/code-lists/npp-sex",
 					IsHierarchy: false,
 				},
 			},
@@ -986,9 +986,9 @@ var NppMigration = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-sex",
+					ID:          "npp-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					HRef:        "http://localhost:22400/code-lists/npp-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "npp-population-measure",
@@ -1036,9 +1036,9 @@ var NppFertility = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-sex",
+					ID:          "npp-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					HRef:        "http://localhost:22400/code-lists/npp-sex",
 					IsHierarchy: false,
 				},
 			},
@@ -1081,9 +1081,9 @@ var NppDeaths = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-sex",
+					ID:          "npp-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					HRef:        "http://localhost:22400/code-lists/npp-sex",
 					IsHierarchy: false,
 				},
 			},
@@ -1126,9 +1126,9 @@ var NppBirths = Response{
 					HRef:        "http://localhost:22400/code-lists/npp-age",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-sex",
+					ID:          "npp-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					HRef:        "http://localhost:22400/code-lists/npp-sex",
 					IsHierarchy: false,
 				},
 			},
@@ -1161,9 +1161,9 @@ var NppCrossBorderRates = Response{
 					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
-					ID:          "npp-all-sex",
+					ID:          "npp-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/npp-all-sex",
+					HRef:        "http://localhost:22400/code-lists/npp-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "npp-all-projectiontype",
