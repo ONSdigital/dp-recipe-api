@@ -1953,9 +1953,9 @@ var InternalMigrationLA = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "census-1961-age-groups",
+					ID:          "five-year-age-brackets",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/census-1961-age-groups",
+					HRef:        "http://localhost:22400/code-lists/five-year-age-brackets",
 					IsHierarchy: false,
 				}, {
 					ID:          "mid-year-pop-sex",
