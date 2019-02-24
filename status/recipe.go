@@ -36,12 +36,12 @@ type Output struct {
 
 func Check(datasetID string, codelists []recipe.CodeList) *Output {
 	o := &Output{
-		//DevStatus:  2,
+		DevStatus:  2,
 		BetaStatus: 2,
 	}
 	var wg sync.WaitGroup
-	wg.Add(1) // +1
-	//	go o.devstatus(&wg, "https://api.cmd-dev.onsdigital.co.uk/v1", datasetID, codelists)
+	wg.Add(2)
+	go o.devstatus(&wg, "https://api.cmd-dev.onsdigital.co.uk/v1", datasetID, codelists)
 	go o.betastatus(&wg, "https://api.beta.ons.gov.uk/v1", datasetID, codelists)
 	wg.Wait()
 	return o
@@ -57,10 +57,32 @@ func (o *Output) betastatus(w *sync.WaitGroup, url, datasetID string, codelists 
 	o.BetaStatus = status(url, datasetID, codelists)
 }
 
+type CodelistList struct {
+	Count        int        `json:"count"`
+	Start        int        `json:"start_index"`
+	ItemsPerPage int        `json:"items_per_page"`
+	Items        []Codelist `json:"items"`
+	TotalCount   int        `json:"total_count"`
+}
+
+type Codelist struct {
+	ID   string
+	Name string
+	//	NumberOfCodes int
+	IsHierarchy bool
+	InDev       bool
+	InBeta      bool
+}
+
+func (c Codelist) CheckCodelist(wg *sync.WaitGroup) {
+	defer wg.Done()
+	c.InDev = codelistExists("https://api.cmd-dev.onsdigital.co.uk/v1", c.ID)
+	c.InBeta = codelistExists("https://api.beta.ons.gov.uk/v1", c.ID)
+}
+
 func status(url, datasetID string, codelists []recipe.CodeList) int {
 	s := 2
 	if datasetExists(url, datasetID) {
-		log.Info("returning greenlight", nil)
 		return s
 	}
 
@@ -99,12 +121,6 @@ func datasetExists(url, id string) bool {
 	return true
 }
 
-func (c Codelist) CheckCodelist(wg *sync.WaitGroup) {
-	defer wg.Done()
-	//c.InDev = codelistExists(url, c.ID)
-	c.InBeta = codelistExists("https://api.beta.ons.gov.uk/v1", c.ID)
-}
-
 func codelistExists(url, id string) bool {
 	client := rchttp.NewClient()
 
@@ -132,21 +148,4 @@ func codelistExists(url, id string) bool {
 	}
 
 	return true
-}
-
-type CodelistList struct {
-	Count        int        `json:"count"`
-	Start        int        `json:"start_index"`
-	ItemsPerPage int        `json:"items_per_page"`
-	Items        []Codelist `json:"items"`
-	TotalCount   int        `json:"total_count"`
-}
-
-type Codelist struct {
-	ID   string
-	Name string
-	//	NumberOfCodes int
-	IsHierarchy bool
-	InDev       bool
-	InBeta      bool
 }

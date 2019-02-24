@@ -2,19 +2,28 @@
 
   <div class="accordion" id="accordionExample">
 {{range $item := .Items}}
-    <div class="card container">
-      <div class="card-header row" id="heading-{{$item.ID}}">
-          <button class="col-sm-4 btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{$item.ID}}" aria-expanded="false" aria-controls="collapse-{{$item.ID}}">
+    <div class="container card">
+      <div class="row card-header" id="heading-{{$item.ID}}">
+          <button class="col-sm-6 btn btn-link collapsed text-justify" type="button" data-toggle="collapse" data-target="#collapse-{{$item.ID}}" aria-expanded="false" aria-controls="collapse-{{$item.ID}}">
             {{$item.Alias}}
           </button>
 
           {{ $length := len $item.Outputs }}
           {{ if lt $length 2 }}
             {{range $item.Outputs}}
-              <p class="col-sm-8"> Beta: {{.BetaStatus}}</p>
+              <p class="col-sm-1 text-right">Dev:</p>
+              {{if eq .BetaStatus 2}} <p class="col-sm-2 text-left text-success">Published </p> {{end}}
+              {{if eq .BetaStatus 1}} <p class="col-sm-2 text-left text-warning">Ready for import </p> {{end}}
+              {{if eq .BetaStatus 0}} <p class="col-sm-2 text-left text-danger">Missing codelists </p> {{end}}
+
+
+              <p class="col-sm-1 text-right">Beta:</p>
+              {{if eq .BetaStatus 2}} <p class="col-sm-2 text-left text-success">Published </p> {{end}}
+              {{if eq .BetaStatus 1}} <p class="col-sm-2 text-left text-warning">Ready for import </p> {{end}}
+              {{if eq .BetaStatus 0}} <p class="col-sm-2 text-left text-danger">Missing codelists </p> {{end}}
             {{end}}
           {{else}}
-            <ul class="col-sm-8">
+            <ul class="col-sm-4">
             {{range $item.Outputs}}
               <li class="output">
                 {{.DatasetName}} - Beta: {{.BetaStatus}}
