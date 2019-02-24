@@ -1,0 +1,36 @@
+{{define "recipes"}}
+
+  <div class="accordion" id="accordionExample">
+{{range $item := .Items}}
+    <div class="card container">
+      <div class="card-header row" id="heading-{{$item.ID}}">
+          <button class="col-sm-4 btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{$item.ID}}" aria-expanded="false" aria-controls="collapse-{{$item.ID}}">
+            {{$item.Alias}}
+          </button>
+
+          {{ $length := len $item.Outputs }}
+          {{ if lt $length 2 }}
+            {{range $item.Outputs}}
+              <p class="col-sm-8"> Beta: {{.BetaStatus}}</p>
+            {{end}}
+          {{else}}
+            <ul class="col-sm-8">
+            {{range $item.Outputs}}
+              <li class="output">
+                {{.DatasetName}} - Beta: {{.BetaStatus}}
+              </li>
+            {{end}}
+            </ul>
+          {{end}}
+
+      </div>
+
+      <div id="collapse-{{$item.ID}}" class="collapse row" aria-labelledby="heading-{{$item.ID}}" data-parent="#accordionExample">
+        <div class="card-body">put codelist results here</div>
+      </div>
+    </div>
+{{end}}
+
+  </div>
+
+{{end}}

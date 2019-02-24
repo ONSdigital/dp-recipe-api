@@ -7,48 +7,13 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items: []Response{CPI, CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
+	Items: []Response{CPIH, MidYearPopEst, ASHE7Hours, ASHE7Earnings, ASHE8Hours, ASHE8Earnings, OPSSMembership, OPSSRates,
 		CrimeAccommodation, CrimeOffences, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, WellbeingYearEnding,
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
-		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
-		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
+		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10,
+		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth,
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA},
 	Start: 0,
-}
-
-//CPI recipe for transforming a given input to a CPI COICOP dataset
-var CPI = Response{
-	ID:     "b944be78-f56d-409b-9ebd-ab2b77ffe187",
-	Alias:  "CPI COICOP",
-	Format: "v4",
-	InputFiles: []file{
-		{"CPI COICOP v4"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "931a8a2a-0dc8-42b6-a884-7b6054ed3b68",
-			Editions:  []string{"time-series"},
-			Title:     "UK consumer price inflation",
-			CodeLists: []CodeList{
-				{
-					ID:          "64d384f1-ea3b-445c-8fb8-aa453f96e58a",
-					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/64d384f1-ea3b-445c-8fb8-aa453f96e58a",
-					IsHierarchy: false,
-				}, {
-					ID:          "65107A9F-7DA3-4B41-A410-6F6D9FBD68C3",
-					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/65107A9F-7DA3-4B41-A410-6F6D9FBD68C3",
-					IsHierarchy: false,
-				}, {
-					ID:          "e44de4c4-d39e-4e2f-942b-3ca10584d078",
-					Name:        "aggregate",
-					HRef:        "http://localhost:22400/code-lists/e44de4c4-d39e-4e2f-942b-3ca10584d078",
-					IsHierarchy: true,
-				},
-			},
-		},
-	},
 }
 
 //CPIH recipe for transforming a given input to a CPIH dataset
@@ -1271,7 +1236,6 @@ var WellbeingLocalAuthority = Response{
 	},
 }
 
-	
 // Overseas travel and tourism recipe
 var OverseasTravelTourism = Response{
 	ID:     "35b7fe99-b7db-4237-9af0-f8c2c6c0935c",
@@ -1301,7 +1265,7 @@ var OverseasTravelTourism = Response{
 					Name:        "residence",
 					HRef:        "http://localhost:22400/code-lists/ott-residence",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ott-purpose",
 					Name:        "purpose",
 					HRef:        "http://localhost:22400/code-lists/ott-purpose",
@@ -1351,7 +1315,7 @@ var ASHE7and8 = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-working-pattern",
 					Name:        "workingpattern",
 					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
@@ -1406,7 +1370,7 @@ var ASHE9and10 = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-working-pattern",
 					Name:        "workingpattern",
 					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
@@ -1456,7 +1420,7 @@ var Construction = Response{
 					Name:        "seasonaladjustment",
 					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "construction-series-type",
 					Name:        "seriestype",
 					HRef:        "http://localhost:22400/code-lists/construction-series-type",
@@ -1466,7 +1430,7 @@ var Construction = Response{
 					Name:        "typeofwork",
 					HRef:        "http://localhost:22400/code-lists/construction-classifications",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -1512,7 +1476,7 @@ var UKBusinessIndustryGeography = Response{
 	},
 }
 
-// Labour Market  
+// Labour Market
 var LabourMarketStatistics = Response{
 	ID:     "daf08e97-0a21-4800-9a2f-d7c90c88519b",
 	Alias:  "Labour Market",
@@ -1561,13 +1525,13 @@ var LabourMarketStatistics = Response{
 					Name:        "seasonaladjustment",
 					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
 }
 
-// Suicides  
+// Suicides
 var Suicides = Response{
 	ID:     "f78ee223-ac49-450d-b2ae-ee8efeb53b6a",
 	Alias:  "Suicides",
@@ -1591,13 +1555,13 @@ var Suicides = Response{
 					Name:        "geography",
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
-				}, 
+				},
 			},
 		},
 	},
 }
 
-// Life Expectancy  
+// Life Expectancy
 var LifeExpectancy = Response{
 	ID:     "c1a25f33-506e-405e-a9a2-9ebd85b46e6d",
 	Alias:  "Life Expecancy",
@@ -1626,7 +1590,7 @@ var LifeExpectancy = Response{
 					Name:        "birthcohort",
 					HRef:        "http://localhost:22400/code-lists/birth-cohort",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "life-expectancy-variable",
 					Name:        "lifeexpectancyvariable",
 					HRef:        "http://localhost:22400/code-lists/life-expectancy-variable",
@@ -1637,7 +1601,7 @@ var LifeExpectancy = Response{
 	},
 }
 
-// Parents Country of Birth 
+// Parents Country of Birth
 var ParentsCountryOfBirth = Response{
 	ID:     "916475c2-98a8-4d86-9ff5-a6d1c1d4688d",
 	Alias:  "Parents Country of Birth",
@@ -1666,7 +1630,7 @@ var ParentsCountryOfBirth = Response{
 					Name:        "parentscountryofbirth",
 					HRef:        "http://localhost:22400/code-lists/parents-country-birth",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "unit-of-measure",
 					Name:        "unitofmeasure",
 					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
@@ -1706,12 +1670,12 @@ var DrugRelatedDeaths = Response{
 					Name:        "mortality",
 					HRef:        "http://localhost:22400/code-lists/drug-deaths-mortality",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-sex",
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "drug-deaths-type-of-death",
 					Name:        "typeofdeath",
 					HRef:        "http://localhost:22400/code-lists/drug-deaths-type-of-death",
@@ -1721,7 +1685,6 @@ var DrugRelatedDeaths = Response{
 		},
 	},
 }
-
 
 // Child mortality by local authority in England and Wales
 var ChildMortality = Response{
@@ -1882,7 +1845,7 @@ var PrivateHousingRentalPrices = Response{
 					Name:        "variable",
 					HRef:        "http://localhost:22400/code-lists/housing-rental-prices-variable",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},

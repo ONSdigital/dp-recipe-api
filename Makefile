@@ -9,7 +9,7 @@ export GOARCH?=$(shell go env GOARCH)
 
 build:
 	@mkdir -p $(BUILD_ARCH)/$(BIN_DIR)
-	go build -o $(BUILD_ARCH)/$(BIN_DIR)/dp-recipe-api main.go
+	go build -o $(BUILD_ARCH)/$(BIN_DIR)/dp-recipe-api cmd/dp-recipe-api/main.go
 
 debug:
 	HUMAN_LOG=1 go run main.go

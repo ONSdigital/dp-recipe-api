@@ -1,0 +1,23 @@
+{{define "bootstrap"}}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Calhoun.io</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <!-- Our content will go here. -->
+      {{template "yield" .}}
+
+      {{template "recipes" .}}
+    </div>
+
+    <!-- jquery & Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
+{{end}}
