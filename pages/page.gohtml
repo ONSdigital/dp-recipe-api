@@ -35,7 +35,7 @@
       </div>
 
       <div id="collapse-{{$item.ID}}" class="collapse row" aria-labelledby="heading-{{$item.ID}}" data-parent="#accordionExample">
-        <div class="card-body">put codelist results here</div>
+        {{template "codelists" $item}}
       </div>
     </div>
 {{end}}

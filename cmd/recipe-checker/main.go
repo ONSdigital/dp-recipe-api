@@ -25,7 +25,11 @@ func main() {
 	bindAddr := ":2222"
 
 	var err error
-	bootstrap, err = template.ParseFiles(layoutFiles()...)
+
+	bootstrap, err = template.New("doesthismatter?").Funcs(template.FuncMap{
+		"getCodelists": getCodelists,
+	}).ParseFiles(layoutFiles()...)
+
 	if err != nil {
 		panic(err)
 	}
@@ -146,6 +150,20 @@ func codelistsListHandler(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	recipeID := vars["recipe"]
 
+	newList := getCodelists(recipeID)
+
+	b, err := json.Marshal(newList)
+	if err != nil {
+		log.ErrorR(req, err, nil)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(b)
+}
+
+func getCodelists(recipeID string) status.CodelistList {
 	origList := recipe.FullList
 	newList := &status.CodelistList{}
 	for _, i := range origList.Items {
@@ -161,16 +179,16 @@ func codelistsListHandler(w http.ResponseWriter, req *http.Request) {
 			for _, codelist := range o.CodeLists {
 				wg.Add(1)
 
-				go func() {
-					c := status.Codelist{
-						ID:          codelist.ID,
-						Name:        codelist.Name,
-						IsHierarchy: codelist.IsHierarchy,
-					}
+				c := &status.Codelist{
+					ID:          codelist.ID,
+					Name:        codelist.Name,
+					IsHierarchy: codelist.IsHierarchy,
+				}
 
+				go func(c *status.Codelist) {
 					c.CheckCodelist(&wg)
-					newList.Items = append(newList.Items, c)
-				}()
+					newList.Items = append(newList.Items, *c)
+				}(c)
 			}
 			wg.Wait()
 			instances.Done()
@@ -183,13 +201,5 @@ func codelistsListHandler(w http.ResponseWriter, req *http.Request) {
 	newList.TotalCount = c
 	newList.ItemsPerPage = c
 
-	b, err := json.Marshal(newList)
-	if err != nil {
-		log.ErrorR(req, err, nil)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
+	return *newList
 }

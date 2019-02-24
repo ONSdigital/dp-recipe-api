@@ -74,7 +74,7 @@ type Codelist struct {
 	InBeta      bool
 }
 
-func (c Codelist) CheckCodelist(wg *sync.WaitGroup) {
+func (c *Codelist) CheckCodelist(wg *sync.WaitGroup) {
 	defer wg.Done()
 	c.InDev = codelistExists("https://api.cmd-dev.onsdigital.co.uk/v1", c.ID)
 	c.InBeta = codelistExists("https://api.beta.ons.gov.uk/v1", c.ID)

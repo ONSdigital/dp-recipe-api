@@ -1,0 +1,30 @@
+{{define "codelists"}}
+<div class="card-body container">
+
+<!--  <div class="row">
+    <p class="col-sm-6 text-center">Codelist ID</p>
+    <p class="col-sm-3 text-center">Dev</p>
+    <p class="col-sm-3 text-center">Beta</p>
+  </div> -->
+
+  {{$list := getCodelists .ID}}
+  {{range $list.Items}}
+    <div class="row">
+      <p class="col-sm-6 text-center">{{.ID}}</p>
+
+      {{if .InDev}}
+        <p class="col-sm-3 text-center text-success">Y</p>
+      {{else}}
+        <p class="col-sm-3 text-center text-danger">N </p>
+      {{end}}
+
+      {{if .InBeta}}
+        <p class="col-sm-3 text-center text-success">Y</p>
+      {{else}}
+        <p class="col-sm-3 text-center text-danger">N </p>
+      {{end}}
+    </div>
+  {{end}}
+
+</div>
+{{end}}
