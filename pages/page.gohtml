@@ -1,44 +1,18 @@
-{{define "recipes"}}
+{{define "list"}}
 
   <div class="accordion" id="accordionExample">
-{{range $item := .Items}}
+
+  {{range $item := .Items}}
     <div class="container card">
-      <div class="row card-header" id="heading-{{$item.ID}}">
-          <button class="col-sm-6 btn btn-link collapsed text-justify" type="button" data-toggle="collapse" data-target="#collapse-{{$item.ID}}" aria-expanded="false" aria-controls="collapse-{{$item.ID}}">
-            {{$item.Alias}}
-          </button>
-
-          {{ $length := len $item.Outputs }}
-          {{ if lt $length 2 }}
-            {{range $item.Outputs}}
-              <p class="col-sm-1 text-right">Dev:</p>
-              {{if eq .BetaStatus 2}} <p class="col-sm-2 text-left text-success">Published </p> {{end}}
-              {{if eq .BetaStatus 1}} <p class="col-sm-2 text-left text-warning">Ready for import </p> {{end}}
-              {{if eq .BetaStatus 0}} <p class="col-sm-2 text-left text-danger">Missing codelists </p> {{end}}
-
-
-              <p class="col-sm-1 text-right">Beta:</p>
-              {{if eq .BetaStatus 2}} <p class="col-sm-2 text-left text-success">Published </p> {{end}}
-              {{if eq .BetaStatus 1}} <p class="col-sm-2 text-left text-warning">Ready for import </p> {{end}}
-              {{if eq .BetaStatus 0}} <p class="col-sm-2 text-left text-danger">Missing codelists </p> {{end}}
-            {{end}}
-          {{else}}
-            <ul class="col-sm-4">
-            {{range $item.Outputs}}
-              <li class="output">
-                {{.DatasetName}} - Beta: {{.BetaStatus}}
-              </li>
-            {{end}}
-            </ul>
-          {{end}}
-
+      <div class="row card-header accord" id="heading-{{$item.ID}}">
+        {{template "recipe" $item}}
       </div>
 
       <div id="collapse-{{$item.ID}}" class="collapse row" aria-labelledby="heading-{{$item.ID}}" data-parent="#accordionExample">
         {{template "codelists" $item}}
       </div>
     </div>
-{{end}}
+  {{end}}
 
   </div>
 

@@ -1,5 +1,16 @@
 {{define "bootstrap"}}
 <!DOCTYPE html>
+<style>
+.result {
+  font-size: 150%;
+}
+
+.accord {
+  border-radius: 5px;
+  background-color: #EAEAEA;
+}
+</style>
+
 <html lang="en">
   <head>
     <title>Recipe Checker</title>
@@ -9,10 +20,14 @@
   <body>
 
     <div class="container-fluid">
-      <!-- Our content will go here. -->
-      {{template "yield" .}}
+      <div class="container">
+        <div class="jumbotron">
+          <h1 class="text-center">Recipe Status Checker</h1>
+          <p class="lead">Codelists which have corresponding hierarchies are annotated with "(h)" by the ID</p>
+        </div>
+      </div>
 
-      {{template "recipes" .}}
+      {{template "list" .}}
     </div>
 
     <!-- jquery & Bootstrap JS -->
