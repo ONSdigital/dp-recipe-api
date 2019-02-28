@@ -1,0 +1,31 @@
+{{define "recipe"}}
+
+<button class="col-sm-6 btn btn-link collapsed text-justify result" type="button" data-toggle="collapse" data-target="#collapse-{{.ID}}" aria-expanded="false" aria-controls="collapse-{{.ID}}">
+  <p class="result">{{.Alias}}</p>
+</button>
+
+{{ $length := len .Outputs }}
+{{ if lt $length 2 }}
+  {{range .Outputs}}
+    <p class="col-sm-1 text-right result">Dev:</p>
+    {{if eq .DevStatus 2}} <p class="col-sm-2 text-left text-success result">Published</p> {{end}}
+    {{if eq .DevStatus 1}} <p class="col-sm-2 text-left text-warning result">Ready for import</p> {{end}}
+    {{if eq .DevStatus 0}} <p class="col-sm-2 text-left text-danger result">Missing codelists</p> {{end}}
+
+
+    <p class="col-sm-1 text-right result">Beta:</p>
+    {{if eq .BetaStatus 2}} <p class="col-sm-2 text-left text-success result">Published</p> {{end}}
+    {{if eq .BetaStatus 1}} <p class="col-sm-2 text-left text-warning result">Ready for import</p> {{end}}
+    {{if eq .BetaStatus 0}} <p class="col-sm-2 text-left text-danger result">Missing codelists</p> {{end}}
+  {{end}}
+{{else}}
+  <ul class="col-sm-4">
+  {{range .Outputs}}
+    <li class="output">
+      {{.DatasetName}} - Beta: {{.BetaStatus}}
+    </li>
+  {{end}}
+  </ul>
+{{end}}
+
+{{end}}

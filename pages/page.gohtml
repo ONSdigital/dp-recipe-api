@@ -1,0 +1,19 @@
+{{define "list"}}
+
+  <div class="accordion" id="accordionExample">
+
+  {{range $item := .Items}}
+    <div class="container card">
+      <div class="row card-header accord" id="heading-{{$item.ID}}">
+        {{template "recipe" $item}}
+      </div>
+
+      <div id="collapse-{{$item.ID}}" class="collapse row" aria-labelledby="heading-{{$item.ID}}" data-parent="#accordionExample">
+        {{template "codelists" $item}}
+      </div>
+    </div>
+  {{end}}
+
+  </div>
+
+{{end}}
