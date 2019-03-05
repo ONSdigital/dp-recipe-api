@@ -1911,7 +1911,7 @@ var MidYearPopEstPCON = Response{
 				}, {
 					ID:          "parliamentary-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					HRef:        "http://localhost:22400/code-lists/parliamentary-geography",
 					IsHierarchy: true,
 				}, {
 					ID:          "mid-year-pop-sex",
@@ -1954,9 +1954,9 @@ var InternalMigrationLA = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "census-1961-age-groups",
+					ID:          "five-year-age-brackets",
 					Name:        "age",
-					HRef:        "http://localhost:22400/code-lists/census-1961-age-groups",
+					HRef:        "http://localhost:22400/code-lists/five-year-age-brackets",
 					IsHierarchy: false,
 				}, {
 					ID:          "mid-year-pop-sex",
@@ -1996,7 +1996,7 @@ var MidYearPopEstCCG = Response{
 				}, {
 					ID:          "ccg-geography",
 					Name:        "geography",
-					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					HRef:        "http://localhost:22400/code-lists/ccg-geography",
 					IsHierarchy: true,
 				}, {
 					ID:          "mid-year-pop-sex",
