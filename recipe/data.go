@@ -338,7 +338,7 @@ var OPSSMembership = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "opss-membership",
-			Editions:  []string{"2016"},
+			Editions:  []string{"2016", "2017", "2018", "2019", "2020", "time-series"},
 			Title:     "Occupational Pension Schemes Survey, Membership",
 			CodeLists: []CodeList{
 				{
@@ -393,7 +393,7 @@ var OPSSRates = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "opss-rates",
-			Editions:  []string{"2016"},
+			Editions:  []string{"2016", "2017", "2018", "2019", "2020", "time-series"},
 			Title:     "Occupational Pension Schemes Survey, Rates",
 			CodeLists: []CodeList{
 				{
