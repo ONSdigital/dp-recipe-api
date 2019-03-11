@@ -12,7 +12,8 @@ var FullList = List{
 		BuisInvestGFCG, BuisInvestCapitalFormation, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility,
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
-		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA},
+		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
+		MidYearPopEstCCG},
 	Start: 0,
 }
 
@@ -337,7 +338,7 @@ var OPSSMembership = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "opss-membership",
-			Editions:  []string{"2016"},
+			Editions:  []string{"2016", "2017", "2018", "2019", "2020", "time-series"},
 			Title:     "Occupational Pension Schemes Survey, Membership",
 			CodeLists: []CodeList{
 				{
@@ -392,7 +393,7 @@ var OPSSRates = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "opss-rates",
-			Editions:  []string{"2016"},
+			Editions:  []string{"2016", "2017", "2018", "2019", "2020", "time-series"},
 			Title:     "Occupational Pension Schemes Survey, Rates",
 			CodeLists: []CodeList{
 				{
@@ -1966,6 +1967,46 @@ var InternalMigrationLA = Response{
 					ID:          "migration-direction",
 					Name:        "migrationdirection",
 					HRef:        "http://localhost:22400/code-lists/migration-direction",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//MidYearPopEst recipe for transforming a given input to a mid year population estimate dataset using the CCG geography
+var MidYearPopEstCCG = Response{
+	ID:     "345f39e9-ef90-415e-b73e-a68a826f41cc",
+	Alias:  "Mid-year Population Estimates by Clinical Commissioning Group",
+	Format: "v4",
+	InputFiles: []file{
+		{"Mid-year Population Estimates Clinical Commissioning Group v4"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "mid-year-pop-est-ccg",
+			Editions:  []string{"time-series"},
+			Title:     "Population Estimates for England by Clinical Commissioning Group",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "ccg-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/ccg-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "mid-year-pop-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/mid-year-pop-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "mid-year-pop-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/mid-year-pop-age",
 					IsHierarchy: false,
 				},
 			},
