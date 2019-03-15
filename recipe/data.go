@@ -13,7 +13,7 @@ var FullList = List{
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
-		MidYearPopEstCCG},
+		MidYearPopEstCCG, ASHE11and12},
 	Start: 0,
 }
 
@@ -2007,6 +2007,61 @@ var MidYearPopEstCCG = Response{
 					ID:          "mid-year-pop-age",
 					Name:        "age",
 					HRef:        "http://localhost:22400/code-lists/mid-year-pop-age",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 11 and 12 combined
+var ASHE11and12 = Response{
+	ID:     "5d3a275f-0ad3-4181-93a5-332f936354f9",
+	Alias:  "ASHE Tables 11 and 12",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE1112Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-11-and-12",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 11 and 12",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "travel-to-work-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/travel-to-work-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-workplace-or-residence",
+					Name:        "workplaceorresidence",
+					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
 					IsHierarchy: false,
 				},
 			},
