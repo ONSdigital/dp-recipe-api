@@ -13,7 +13,7 @@ var FullList = List{
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
-		MidYearPopEstCCG, ASHE11and12},
+		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex},
 	Start: 0,
 }
 
@@ -2048,7 +2048,7 @@ var ASHE11and12 = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-working-pattern",
 					Name:        "workingpattern",
 					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
@@ -2064,6 +2064,91 @@ var ASHE11and12 = Response{
 					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
 					IsHierarchy: false,
 				},
+			},
+		},
+	},
+}
+
+// Average weekly earnings
+var AWE = Response{
+	ID:     "72a8082f-589f-4adc-8915-4448dd3658c2",
+	Alias:  "Average Weekly Earnings",
+	Format: "v4",
+	InputFiles: []file{
+		{"AverageWeeklyEarnings"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "average-weekly-earnings",
+			Editions:  []string{"time-series"},
+			Title:     "Average Weekly Earnings",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "sic",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/awe-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "awe-earnings",
+					Name:        "earnings",
+					HRef:        "http://localhost:22400/code-lists/awe-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "awe-type-of-pay",
+					Name:        "typeofpay",
+					HRef:        "http://localhost:22400/code-lists/awe-type-of-pay",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Average weekly earnings Index
+var AWEIndex = Response{
+	ID:     "0cab7368-3aa8-48a6-b1fe-7e3aa05f0a6e",
+	Alias:  "Average Weekly Earnings Index",
+	Format: "v4",
+	InputFiles: []file{
+		{"AverageWeeklyEarningsIndex"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "average-weekly-earnings-index",
+			Editions:  []string{"time-series"},
+			Title:     "Average Weekly Earnings Index",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "sic",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/awe-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "awe-type-of-pay",
+					Name:        "typeofpay",
+					HRef:        "http://localhost:22400/code-lists/awe-type-of-pay",
+					IsHierarchy: false,
+				}, 
 			},
 		},
 	},
