@@ -13,7 +13,7 @@ var FullList = List{
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
-		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex},
+		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5},
 	Start: 0,
 }
 
@@ -2149,6 +2149,61 @@ var AWEIndex = Response{
 					HRef:        "http://localhost:22400/code-lists/awe-type-of-pay",
 					IsHierarchy: false,
 				}, 
+			},
+		},
+	},
+}
+
+// ASHE table 5
+var ASHE5 = Response{
+	ID:     "edf7d98c-fd59-4901-a813-87d6aed077d0",
+	Alias:  "ASHE Table 5",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE5Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-table-5",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Table 5",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "sic",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic",
+					IsHierarchy: true,
+				},
 			},
 		},
 	},
