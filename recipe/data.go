@@ -2245,7 +2245,7 @@ var CancerRegEng = Response{
 					IsHierarchy: false,
 				}, {
 					ID:          "five-year-age-brackets",
-					Name:        "age-brackets",
+					Name:        "agebrackets",
 					HRef:        "http://localhost:22400/code-lists/five-year-age-brackets",
 					IsHierarchy: false,
 				}, {
