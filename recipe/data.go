@@ -2244,9 +2244,9 @@ var CancerRegEng = Response{
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
 				}, {
-					ID:          "cancer-age-brackets",
+					ID:          "five-year-age-brackets",
 					Name:        "age-brackets",
-					HRef:        "http://localhost:22400/code-lists/cancer-age-brackets",
+					HRef:        "http://localhost:22400/code-lists/five-year-age-brackets",
 					IsHierarchy: false,
 				}, {
 					ID:          "cancer-registrations",
