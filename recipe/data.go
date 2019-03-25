@@ -13,7 +13,7 @@ var FullList = List{
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
-		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5},
+		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions},
 	Start: 0,
 }
 
@@ -2204,6 +2204,101 @@ var ASHE5 = Response{
 					HRef:        "http://localhost:22400/code-lists/sic",
 					IsHierarchy: true,
 				},
+			},
+		},
+	},
+}
+
+// Cancer Registrations for England
+var CancerRegEng = Response{
+	ID:     "db8d4b24-20e4-4c22-927c-74f4688f6b4c",
+	Alias:  "Cancer Registrations England",
+	Format: "v4",
+	InputFiles: []file{
+		{"CancerRegistrationsEnglandExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "cancer-registrations-england",
+			Editions:  []string{"time-series"},
+			Title:     "Cancer registration statistics, England",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "icd-10",
+					Name:        "icd10",
+					HRef:        "http://localhost:22400/code-lists/icd-10",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "cancer-age-brackets",
+					Name:        "age-brackets",
+					HRef:        "http://localhost:22400/code-lists/cancer-age-brackets",
+					IsHierarchy: false,
+				}, {
+					ID:          "cancer-registrations",
+					Name:        "cancerregistrations",
+					HRef:        "http://localhost:22400/code-lists/cancer-registrations",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Cancer Registrations for Regions, England
+var CancerRegRegions = Response{
+	ID:     "d07c600d-1511-4e76-aa78-c6ce461c9dc7",
+	Alias:  "Cancer Registrations by Regions, England",
+	Format: "v4",
+	InputFiles: []file{
+		{"CancerRegistrationsRegionsExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "cancer-registrations-regions",
+			Editions:  []string{"time-series"},
+			Title:     "Cancer registration statistics by Regions, England",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "icd-10",
+					Name:        "icd10",
+					HRef:        "http://localhost:22400/code-lists/icd-10",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "cancer-registrations",
+					Name:        "cancerregistrations",
+					HRef:        "http://localhost:22400/code-lists/cancer-registrations",
+					IsHierarchy: false,
+				}, 
 			},
 		},
 	},
