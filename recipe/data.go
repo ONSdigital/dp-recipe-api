@@ -2096,7 +2096,7 @@ var AWE = Response{
 				}, {
 					ID:          "sic",
 					Name:        "standardindustrialclassification",
-					HRef:        "http://localhost:22400/code-lists/awe-sic",
+					HRef:        "http://localhost:22400/code-lists/sic",
 					IsHierarchy: false,
 				}, {
 					ID:          "awe-earnings",
@@ -2141,7 +2141,7 @@ var AWEIndex = Response{
 				}, {
 					ID:          "sic",
 					Name:        "standardindustrialclassification",
-					HRef:        "http://localhost:22400/code-lists/awe-sic",
+					HRef:        "http://localhost:22400/code-lists/sic",
 					IsHierarchy: false,
 				}, {
 					ID:          "awe-type-of-pay",
