@@ -13,7 +13,7 @@ var FullList = List{
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
-		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions},
+		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation},
 	Start: 0,
 }
 
@@ -2299,6 +2299,56 @@ var CancerRegRegions = Response{
 					HRef:        "http://localhost:22400/code-lists/cancer-registrations",
 					IsHierarchy: false,
 				}, 
+			},
+		},
+	},
+}
+
+// Sexual orientation, UK
+var SexualOrientation = Response{
+	ID:     "7d79a78e-dd94-4c0a-aeb0-3d9f5d7ff88a",
+	Alias:  "Sexual orientation, UK",
+	Format: "v4",
+	InputFiles: []file{
+		{"SexualOrientationExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "sexual-orientation-uk",
+			Editions:  []string{"time-series"},
+			Title:     "Sexual orientation, UK",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-age-bracket",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
+					IsHierarchy: false,
+				}, {
+					ID:          "sexual-identity",
+					Name:        "sexualidentity",
+					HRef:        "http://localhost:22400/code-lists/sexual-identity",
+					IsHierarchy: false,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
+				},
 			},
 		},
 	},
