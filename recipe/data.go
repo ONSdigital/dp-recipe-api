@@ -13,7 +13,7 @@ var FullList = List{
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
-		MidYearPopEstCCG},
+		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation},
 	Start: 0,
 }
 
@@ -2007,6 +2007,346 @@ var MidYearPopEstCCG = Response{
 					ID:          "mid-year-pop-age",
 					Name:        "age",
 					HRef:        "http://localhost:22400/code-lists/mid-year-pop-age",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 11 and 12 combined
+var ASHE11and12 = Response{
+	ID:     "5d3a275f-0ad3-4181-93a5-332f936354f9",
+	Alias:  "ASHE Tables 11 and 12",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE1112Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-11-and-12",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 11 and 12",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "travel-to-work-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/travel-to-work-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-workplace-or-residence",
+					Name:        "workplaceorresidence",
+					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Average weekly earnings
+var AWE = Response{
+	ID:     "72a8082f-589f-4adc-8915-4448dd3658c2",
+	Alias:  "Average Weekly Earnings",
+	Format: "v4",
+	InputFiles: []file{
+		{"AverageWeeklyEarnings"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "average-weekly-earnings",
+			Editions:  []string{"time-series"},
+			Title:     "Average Weekly Earnings",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "sic",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "awe-earnings",
+					Name:        "earnings",
+					HRef:        "http://localhost:22400/code-lists/awe-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "awe-type-of-pay",
+					Name:        "typeofpay",
+					HRef:        "http://localhost:22400/code-lists/awe-type-of-pay",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Average weekly earnings Index
+var AWEIndex = Response{
+	ID:     "0cab7368-3aa8-48a6-b1fe-7e3aa05f0a6e",
+	Alias:  "Average Weekly Earnings Index",
+	Format: "v4",
+	InputFiles: []file{
+		{"AverageWeeklyEarningsIndex"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "average-weekly-earnings-index",
+			Editions:  []string{"time-series"},
+			Title:     "Average Weekly Earnings Index",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "sic",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "awe-type-of-pay",
+					Name:        "typeofpay",
+					HRef:        "http://localhost:22400/code-lists/awe-type-of-pay",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// ASHE table 5
+var ASHE5 = Response{
+	ID:     "edf7d98c-fd59-4901-a813-87d6aed077d0",
+	Alias:  "ASHE Table 5",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE5Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-table-5",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Table 5",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "sic",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic",
+					IsHierarchy: true,
+				},
+			},
+		},
+	},
+}
+
+// Cancer Registrations for England
+var CancerRegEng = Response{
+	ID:     "db8d4b24-20e4-4c22-927c-74f4688f6b4c",
+	Alias:  "Cancer Registrations England",
+	Format: "v4",
+	InputFiles: []file{
+		{"CancerRegistrationsEnglandExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "cancer-registrations-england",
+			Editions:  []string{"time-series"},
+			Title:     "Cancer registration statistics, England",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "icd-10",
+					Name:        "icd10",
+					HRef:        "http://localhost:22400/code-lists/icd-10",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "five-year-age-brackets",
+					Name:        "agebrackets",
+					HRef:        "http://localhost:22400/code-lists/five-year-age-brackets",
+					IsHierarchy: false,
+				}, {
+					ID:          "cancer-registrations",
+					Name:        "cancerregistrations",
+					HRef:        "http://localhost:22400/code-lists/cancer-registrations",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Cancer Registrations for Regions, England
+var CancerRegRegions = Response{
+	ID:     "d07c600d-1511-4e76-aa78-c6ce461c9dc7",
+	Alias:  "Cancer Registrations by Regions, England",
+	Format: "v4",
+	InputFiles: []file{
+		{"CancerRegistrationsRegionsExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "cancer-registrations-regions",
+			Editions:  []string{"time-series"},
+			Title:     "Cancer registration statistics by Regions, England",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "icd-10",
+					Name:        "icd10",
+					HRef:        "http://localhost:22400/code-lists/icd-10",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "cancer-registrations",
+					Name:        "cancerregistrations",
+					HRef:        "http://localhost:22400/code-lists/cancer-registrations",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Sexual orientation, UK
+var SexualOrientation = Response{
+	ID:     "7d79a78e-dd94-4c0a-aeb0-3d9f5d7ff88a",
+	Alias:  "Sexual orientation, UK",
+	Format: "v4",
+	InputFiles: []file{
+		{"SexualOrientationExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "sexual-orientation-uk",
+			Editions:  []string{"time-series"},
+			Title:     "Sexual orientation, UK",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-age-bracket",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
+					IsHierarchy: false,
+				}, {
+					ID:          "sexual-identity",
+					Name:        "sexualidentity",
+					HRef:        "http://localhost:22400/code-lists/sexual-identity",
+					IsHierarchy: false,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
 					IsHierarchy: false,
 				},
 			},
