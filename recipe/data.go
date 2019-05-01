@@ -14,7 +14,8 @@ var FullList = List{
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
-		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry},
+		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
+		KnifeCrime},
 	Start: 0,
 }
 
@@ -2648,6 +2649,41 @@ var LMSJobsByIndustry = Response{
 					ID:          "lms-sic",
 					Name:        "standardindustrialclassification",
 					HRef:        "http://localhost:22400/code-lists/lms-sic",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Knife crime
+var KnifeCrime = Response{
+	ID:     "2f967891-b0c9-403e-9747-766aed0dfc2a",
+	Alias:  "Knife Crime",
+	Format: "v4",
+	InputFiles: []file{
+		{"KnifeCrimeExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "knife-crime",
+			Editions:  []string{"time-series"},
+			Title:     "Knife Crime",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "police-force-area-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/police-force-area-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "crime-offence-code",
+					Name:        "crime",
+					HRef:        "http://localhost:22400/code-lists/crime-offence-code",
 					IsHierarchy: false,
 				}, 
 			},
