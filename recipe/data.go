@@ -15,7 +15,7 @@ var FullList = List{
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
-		KnifeCrime},
+		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, FasterIndicatorsVAT},
 	Start: 0,
 }
 
@@ -2686,6 +2686,276 @@ var KnifeCrime = Response{
 					HRef:        "http://localhost:22400/code-lists/crime-offence-code",
 					IsHierarchy: false,
 				}, 
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, VAT quarterly diffusion indices
+var QuarterlyDiffusion = Response{
+	ID:     "542b170b-e654-40a7-b357-88031b7a73ec",
+	Alias:  "Faster indicators of UK economic activity, VAT quarterly diffusion indices",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATQuarterlyDiffusionIndicesExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-quarterly-diffusion-indices",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity, VAT quarterly diffusion indices",
+			CodeLists: []CodeList{
+				{
+					ID:          "faster-indicators-time",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-time",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-metric",
+					Name:        "metric",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-metric",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index-seasonaladjustment-timeperiod",
+					Name:        "indexseasonaladjustmenttimeperiod",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-index-seasonaladjustment-timeperiod",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, VAT monthly diffusion indices
+var MonthlyDiffusion = Response{
+	ID:     "0ebf96fc-6bbb-4940-8c70-00400b144c87",
+	Alias:  "Faster indicators of UK economic activity, VAT monthly diffusion indices",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATMonthlyDiffusionIndicesExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-monthly-diffusion-indices",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity, VAT monthly diffusion indices",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-metric",
+					Name:        "metric",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-metric",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index-seasonaladjustment-timeperiod",
+					Name:        "indexseasonaladjustmenttimeperiod",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-index-seasonaladjustment-timeperiod",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic-estimate",
+					Name:        "sicestimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic-estimate",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, VAT reporting behaviour indices
+var ReportingBehaviour = Response{
+	ID:     "aa0bd113-110d-47e4-9418-b71ff54ed93f",
+	Alias:  "Faster indicators of UK economic activity, VAT reporting behaviour indices",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATReportingBehaviourIndicesExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-reporting-behaviour-indices",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity, VAT reporting behaviour indices",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index",
+					Name:        "index",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-index",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-metric",
+					Name:        "metric",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-metric",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, VAT reporting behaviour indices with record type
+var ReportingBehaviour2 = Response{
+	ID:     "96a54186-b907-4d94-bc39-22bdfd5ca1f9",
+	Alias:  "Faster indicators of UK economic activity, VAT reporting behaviour indices with record type",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATReportingBehaviourIndices2Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-reporting-behaviour-indices-2",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity, VAT reporting behaviour indices with record type",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index",
+					Name:        "index",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-index",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-metric",
+					Name:        "metric",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-metric",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic-recordtype",
+					Name:        "sicrecordtype",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic-recordtype",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, all data provided by the data science team
+var FasterIndicatorsVAT = Response{
+	ID:     "ded50411-a2fd-4159-b607-0265ef6c06e8",
+	Alias:  "Faster indicators of UK economic activity",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATcsv"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-vat",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity",
+			CodeLists: []CodeList{
+				{
+					ID:          "faster-indicators-time",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-time",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-metric",
+					Name:        "metric",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-metric",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-time-period",
+					Name:        "timeperiod",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-time-period",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index",
+					Name:        "index",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-indec",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-record-type",
+					Name:        "recordtype",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-record-type",
+					IsHierarchy: false,
+				},
 			},
 		},
 	},
