@@ -1555,9 +1555,9 @@ var LabourMarketStatistics = Response{
 					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
 					IsHierarchy: false,
 				}, {
-					ID:          "sex-codelist",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/sex-codelist",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "seasonal-adjustment",
