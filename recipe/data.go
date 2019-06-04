@@ -13,7 +13,9 @@ var FullList = List{
 		NppDeaths, NppBirths, NppCrossBorderRates, Trade, WellbeingLocalAuthority, OverseasTravelTourism, ASHE7and8, ASHE9and10, 
 		Construction, UKBusinessIndustryGeography, LabourMarketStatistics, Suicides, LifeExpectancy, ParentsCountryOfBirth, 
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
-		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation},
+		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
+		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
+		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2},
 	Start: 0,
 }
 
@@ -1553,9 +1555,9 @@ var LabourMarketStatistics = Response{
 					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
 					IsHierarchy: false,
 				}, {
-					ID:          "ashe-sex",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "seasonal-adjustment",
@@ -2353,3 +2355,569 @@ var SexualOrientation = Response{
 		},
 	},
 }
+
+// Regional Labour Market, economic status by age
+var LMSEconomicByAge = Response{
+	ID:     "1441209b-ca85-4537-87c4-78f2a33eda0d",
+	Alias:  "Regional Labour Market, Economic Status by Age",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMSEconomicByAgeExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-lms-economic-status-age",
+			Editions:  []string{"time-series"},
+			Title:     "Regional Labour Market, Economic Status by Age",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-age-bracket",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
+					IsHierarchy: false,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-economic-status",
+					Name:        "economicstatus",
+					HRef:        "http://localhost:22400/code-lists/lms-economic-status",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional Labour Market, Full-time, part-time and temporary workers
+var LMSWorkType = Response{
+	ID:     "6e62de16-6d28-44e0-aca0-674ec9b27430",
+	Alias:  "Regional Labour Market, Full-time, part-time and temporary workers",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMSWorkTypeExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-lms-by-work-type",
+			Editions:  []string{"time-series"},
+			Title:     "Regional Labour Market, Full-time, part-time and temporary workers",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-work-type",
+					Name:        "worktype",
+					HRef:        "http://localhost:22400/code-lists/lms-work-type",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional Labour Market, Actual weekly hours of work
+var LMSActualHoursWork = Response{
+	ID:     "8489d0e5-5edd-4bb1-8aec-3101cbeff2c4",
+	Alias:  "Regional Labour Market, Actual weekly hours of work",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMSActualHoursWorkExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-lms-actual-hours-work",
+			Editions:  []string{"time-series"},
+			Title:     "Regional Labour Market, Actual weekly hours of work",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-average-actual-hours-of-work",
+					Name:        "averageactualhoursofwork",
+					HRef:        "http://localhost:22400/code-lists/lms-average-actual-hours-of-work",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional Labour Market, Claimant Count	
+var LMSClaimantCount = Response{
+	ID:     "064ff64f-70bb-4c12-9bc1-150294f31921",
+	Alias:  "Regional Labour Market, Claimant Count",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMSClaimantCountExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-lms-claimant-count",
+			Editions:  []string{"time-series"},
+			Title:     "Regional Labour Market, Claimant Count",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Regional Labour Market, Jobseeker's Allowance by age and duration - computerised claims only
+var LMSJobseekersByAgeDuration = Response{
+	ID:     "239bb6e2-220d-4544-8f1f-0183a1a9ba42",
+	Alias:  "Regional Labour Market, Jobseeker's Allowance by age and duration - computerised claims only",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMSJobseekersByAgeDurationExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-lms-jobseekers-allowance-age-duration",
+			Editions:  []string{"time-series"},
+			Title:     "Regional Labour Market, Jobseeker's Allowance by age and duration - computerised claims only",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-age-bracket",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/lms-age-bracket",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-jobseekers-duration",
+					Name:        "duration",
+					HRef:        "http://localhost:22400/code-lists/lms-jobseekers-duration",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Regional Labour Market, Economic inactivity: reasons
+var LMSEconomicInactivity = Response{
+	ID:     "eddc6106-4de5-46c7-b4d9-8bdcd3f33a50",
+	Alias:  "Regional Labour Market, Economic inactivity: reasons",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMSEconomicInactivityExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-lms-economic-inactivity-reason",
+			Editions:  []string{"time-series"},
+			Title:     "Regional Labour Market, Economic inactivity: reasons",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-economic-inactivity-reason",
+					Name:        "economicinactivityreason",
+					HRef:        "http://localhost:22400/code-lists/lms-economic-inactivity-reason",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Regional Labour Market, Workforce jobs by industry
+var LMSJobsByIndustry = Response{
+	ID:     "2fb88df2-d438-42d4-baaf-9206c777cc1b",
+	Alias:  "Regional Labour Market, Workforce jobs by industry",
+	Format: "v4",
+	InputFiles: []file{
+		{"LMSJobsByIndustryExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-lms-workforce-jobs-industry",
+			Editions:  []string{"time-series"},
+			Title:     "Regional Labour Market, Workforce jobs by industry",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "lms-sic",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/lms-sic",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Knife crime
+var KnifeCrime = Response{
+	ID:     "2f967891-b0c9-403e-9747-766aed0dfc2a",
+	Alias:  "Knife Crime",
+	Format: "v4",
+	InputFiles: []file{
+		{"KnifeCrimeExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "knife-crime",
+			Editions:  []string{"time-series"},
+			Title:     "Knife Crime",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-mmm-yyyy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					IsHierarchy: false,
+				}, {
+					ID:          "police-force-area-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/police-force-area-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "crime-offence-code",
+					Name:        "crime",
+					HRef:        "http://localhost:22400/code-lists/crime-offence-code",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, VAT quarterly diffusion indices
+var QuarterlyDiffusion = Response{
+	ID:     "542b170b-e654-40a7-b357-88031b7a73ec",
+	Alias:  "Faster indicators of UK economic activity, VAT quarterly diffusion indices",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATQuarterlyDiffusionIndicesExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-quarterly-diffusion-indices",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity, VAT quarterly diffusion indices",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index",
+					Name:        "index",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-index",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-metric",
+					Name:        "metric",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-metric",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "time-period",
+					Name:        "timeperiod",
+					HRef:        "http://localhost:22400/code-lists/time-period",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, VAT monthly diffusion indices
+var MonthlyDiffusion = Response{
+	ID:     "0ebf96fc-6bbb-4940-8c70-00400b144c87",
+	Alias:  "Faster indicators of UK economic activity, VAT monthly diffusion indices",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATMonthlyDiffusionIndicesExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-monthly-diffusion-indices",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity, VAT monthly diffusion indices",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index",
+					Name:        "index",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-index",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-metric",
+					Name:        "metric",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-metric",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "time-period",
+					Name:        "timeperiod",
+					HRef:        "http://localhost:22400/code-lists/time-period",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, VAT reporting behaviour indices
+var ReportingBehaviour = Response{
+	ID:     "aa0bd113-110d-47e4-9418-b71ff54ed93f",
+	Alias:  "Faster indicators of UK economic activity, VAT reporting behaviour indices",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATReportingBehaviourIndicesExcel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-reporting-behaviour-indices",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity, VAT reporting behaviour indices",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index",
+					Name:        "index",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-index",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-metric",
+					Name:        "metric",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-metric",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Faster indicators of UK economic activity, VAT reporting behaviour indices with record type
+var ReportingBehaviour2 = Response{
+	ID:     "96a54186-b907-4d94-bc39-22bdfd5ca1f9",
+	Alias:  "Faster indicators of UK economic activity, VAT reporting behaviour indices with record type",
+	Format: "v4",
+	InputFiles: []file{
+		{"VATReportingBehaviourIndices2Excel"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "faster-indicators-reporting-behaviour-indices-2",
+			Editions:  []string{"time-series"},
+			Title:     "Faster indicators of UK economic activity, VAT reporting behaviour indices with record type",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-index",
+					Name:        "index",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-index",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-record-type",
+					Name:        "recordtype",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-record-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "faster-indicators-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/faster-indicators-sic",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
