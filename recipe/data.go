@@ -16,7 +16,7 @@ var FullList = List{
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
 		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds,
-		AgeingSexRatios, AgeingNetFlows},
+		AgeingSexRatios, AgeingNetFlows, WellbeingChildrens},
 	Start: 0,
 }
 
@@ -3067,6 +3067,51 @@ var AgeingNetFlows = Response{
 					HRef:        "http://localhost:22400/code-lists/age-groups",
 					IsHierarchy: false,
 				}, 
+			},
+		},
+	},
+}
+
+// Children's Well-being Measures
+var WellbeingChildrens = Response{
+	ID:     "1a56119b-584b-4455-aa2c-81635d1aec56",
+	Alias:  "Children's Well-being Measures",
+	Format: "v4",
+	InputFiles: []file{
+		{"WellbeingChildrens"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "childrens-wellbeing",
+			Editions:  []string{"time-series"},
+			Title:     "Children's Well-being Measures",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "children-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/children-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-measureofwellbeing",
+					Name:        "allmeasuresofwellbeing",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
+					IsHierarchy: false,
+				},
 			},
 		},
 	},
