@@ -15,7 +15,8 @@ var FullList = List{
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
-		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2},
+		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds,
+		AgeingSexRatios, AgeingNetFlows, WellbeingChildrens},
 	Start: 0,
 }
 
@@ -2921,3 +2922,197 @@ var ReportingBehaviour2 = Response{
 	},
 }
 
+// Local authority ageing statistics - principal population projections
+var AgeingPopProj = Response{
+	ID:     "1c5b0a7b-024c-49fe-8446-a66eb9736ed3",
+	Alias:  "Local authority ageing statistics - principal population projections",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingPopulationProjections"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-population-projections",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, principal population projections",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - % of single households headed by someone over 65 and over 85
+var AgeingSingleHouseholds = Response{
+	ID:     "226d6940-ed0c-4556-91f1-9ca61d56c8a0",
+	Alias:  "Local authority ageing statistics - % of single households headed by someone over 65 and over 85",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingSingleHouseholds"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-single-households",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, percentage of single households headed by someone over 65 and over 85",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - sex ratios for people over 65 and over 85
+var AgeingSexRatios = Response{
+	ID:     "df8c8df5-484a-4d29-b246-a7720caf2474",
+	Alias:  "Local authority ageing statistics - sex ratios for people over 65 and over 85",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingSexRatios"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-sex-ratios",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, sex ratios for people over 65 and over 85",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - net flows for over 65s and over 85s
+var AgeingNetFlows = Response{
+	ID:     "c5875623-0874-429d-bbc6-63d2d84e6159",
+	Alias:  "Local authority ageing statistics - net flows for over 65s and over 85s",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingNetFlows"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-net-flows",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, net flows for over 65s and over 85s",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Children's Well-being Measures
+var WellbeingChildrens = Response{
+	ID:     "1a56119b-584b-4455-aa2c-81635d1aec56",
+	Alias:  "Children's Well-being Measures",
+	Format: "v4",
+	InputFiles: []file{
+		{"WellbeingChildrens"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "childrens-wellbeing",
+			Editions:  []string{"time-series"},
+			Title:     "Children's Well-being Measures",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "children-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/children-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-measureofwellbeing",
+					Name:        "allmeasuresofwellbeing",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
