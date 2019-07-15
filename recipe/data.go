@@ -3120,7 +3120,7 @@ var WellbeingChildrens = Response{
 //recipe for the SH07 table for the 1961 Census
 var Census1961SH07 = Response{
 	ID:     "c1960f40-b988-4875-8b85-05878afa8e9c",
-	Alias:  "1961 Census: Old Persons Alone",
+	Alias:  "1961 Census: old persons alone",
 	Format: "v4",
 	InputFiles: []file{
 		{"Census1961SH07"},
@@ -3129,7 +3129,7 @@ var Census1961SH07 = Response{
 		{
 			DatasetID: "census-1961-old-persons-alone",
 			Editions:  []string{"time-series"},
-			Title:     "1961 Census: Old Persons Alone",
+			Title:     "1961 Census: old persons alone",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -3155,7 +3155,7 @@ var Census1961SH07 = Response{
 //recipe for the SH10 table for the 1961 Census
 var Census1961SH10 = Response{
 	ID:     "00811186-299d-40db-a2b3-0714eb48b880",
-	Alias:  "1961 Census: Population outside Private Households",
+	Alias:  "1961 Census: population outside private households",
 	Format: "v4",
 	InputFiles: []file{
 		{"Census1961SH10"},
@@ -3164,7 +3164,7 @@ var Census1961SH10 = Response{
 		{
 			DatasetID: "census-1961-outside-private-households",
 			Editions:  []string{"time-series"},
-			Title:     "1961 Census: Population outside Private Households",
+			Title:     "1961 Census: population outside private households",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -3190,7 +3190,7 @@ var Census1961SH10 = Response{
 //recipe for the SH14 table for the 1961 Census
 var Census1961SH14 = Response{
 	ID:     "a8614752-df5d-4f4a-9bdc-8de9beaa3d2d",
-	Alias:  "1961 Census: Population under 21 Years of Age",
+	Alias:  "1961 Census: population under 21 years of age",
 	Format: "v4",
 	InputFiles: []file{
 		{"Census1961SH14"},
@@ -3199,7 +3199,7 @@ var Census1961SH14 = Response{
 		{
 			DatasetID: "census-1961-under-21",
 			Editions:  []string{"time-series"},
-			Title:     "1961 Census: Population under 21 Years of Age",
+			Title:     "1961 Census: population under 21 years of age",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
