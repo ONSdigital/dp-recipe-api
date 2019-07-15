@@ -16,7 +16,7 @@ var FullList = List{
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
 		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds,
-		AgeingSexRatios, AgeingNetFlows, WellbeingChildrens},
+		AgeingSexRatios, AgeingNetFlows, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14},
 	Start: 0,
 }
 
@@ -3110,6 +3110,111 @@ var WellbeingChildrens = Response{
 					ID:          "wellbeing-measureofwellbeing",
 					Name:        "allmeasuresofwellbeing",
 					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the SH07 table for the 1961 Census
+var Census1961SH07 = Response{
+	ID:     "c1960f40-b988-4875-8b85-05878afa8e9c",
+	Alias:  "1961 Census: Old Persons Alone",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH07"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-old-persons-alone",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: Old Persons Alone",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "1961geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the SH10 table for the 1961 Census
+var Census1961SH10 = Response{
+	ID:     "00811186-299d-40db-a2b3-0714eb48b880",
+	Alias:  "1961 Census: Population outside Private Households",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH10"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-outside-private-households",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: Population outside Private Households",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "1961geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the SH14 table for the 1961 Census
+var Census1961SH14 = Response{
+	ID:     "a8614752-df5d-4f4a-9bdc-8de9beaa3d2d",
+	Alias:  "1961 Census: Population under 21 Years of Age",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH14"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-under-21",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: Population under 21 Years of Age",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "1961geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
 				},
 			},
