@@ -16,7 +16,8 @@ var FullList = List{
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
 		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds,
-		AgeingSexRatios, AgeingNetFlows, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14, RegionalGDPYear, RegionalGDPQuarter},
+		AgeingSexRatios, AgeingNetFlows, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14, RegionalGDPYear, 
+		RegionalGDPQuarter, TaxBenefitStats},
 	Start: 0,
 }
 
@@ -3284,7 +3285,7 @@ var RegionalGDPQuarter = Response{
 				{
 					ID:          "yyyy-qq",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
 					IsHierarchy: false,
 				}, {
 					ID:          "nuts-geography",
@@ -3305,6 +3306,51 @@ var RegionalGDPQuarter = Response{
 					ID:          "gdp-measure",
 					Name:        "measure",
 					HRef:        "http://localhost:22400/code-lists/gdp-measure",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Tax Benefits Statistics
+var TaxBenefitStats = Response{
+	ID:     "6cadb0b9-927d-4fa3-b07f-2654ad7e71b9",
+	Alias:  "Tax Benefits Statistics",
+	Format: "v4",
+	InputFiles: []file{
+		{"TaxBenefitsStats"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "tax-benefits-statistics",
+			Editions:  []string{"time-series"},
+			Title:     "Tax Benefits Statistics",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "income-quintile",
+					Name:        "quintile",
+					HRef:        "http://localhost:22400/code-lists/income-quintile",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "income-type",
+					Name:        "income",
+					HRef:        "http://localhost:22400/code-lists/income-type",
 					IsHierarchy: false,
 				},
 			},
