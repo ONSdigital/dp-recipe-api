@@ -16,8 +16,8 @@ var FullList = List{
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
 		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds,
-		AgeingSexRatios, AgeingNetFlows, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14, RegionalGDPYear, 
-		RegionalGDPQuarter, TaxBenefitStats},
+		AgeingSexRatios, AgeingNetFlows, AgeingProspectiveMeasures, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14, 
+		RegionalGDPYear, RegionalGDPQuarter, TaxBenefitStats},
 	Start: 0,
 }
 
@@ -3066,6 +3066,46 @@ var AgeingNetFlows = Response{
 					ID:          "age-groups",
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - Subnational Prospective Ageing Measures
+var AgeingProspectiveMeasures = Response{
+	ID:     "ebda7264-b7c0-4a6f-98e3-63ebb328008c",
+	Alias:  "Local authority ageing statistics - Subnational Prospective Ageing Measures",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingProspectiveMeasures"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-prospective-measures",
+			Editions:  []string{"time-series"},
+			Title:     "Subnational Prospective Ageing Measures",
+			CodeLists: []CodeList{
+				{
+					ID:          "two-year-intervals",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/two-year-intervals",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "remaining-life-expectancy",
+					Name:        "remaininglifeexpectancy",
+					HRef:        "http://localhost:22400/code-lists/remaining-life-expectancy",
 					IsHierarchy: false,
 				}, 
 			},
