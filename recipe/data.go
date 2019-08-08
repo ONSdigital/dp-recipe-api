@@ -16,7 +16,8 @@ var FullList = List{
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
 		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds,
-		AgeingSexRatios, AgeingNetFlows, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14},
+		AgeingSexRatios, AgeingNetFlows, AgeingProspectiveMeasures, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14, 
+		RegionalGDPYear, RegionalGDPQuarter, TaxBenefitStats},
 	Start: 0,
 }
 
@@ -3072,6 +3073,46 @@ var AgeingNetFlows = Response{
 	},
 }
 
+// Local authority ageing statistics - Subnational Prospective Ageing Measures
+var AgeingProspectiveMeasures = Response{
+	ID:     "ebda7264-b7c0-4a6f-98e3-63ebb328008c",
+	Alias:  "Local authority ageing statistics - Subnational Prospective Ageing Measures",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingProspectiveMeasures"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-prospective-measures",
+			Editions:  []string{"time-series"},
+			Title:     "Subnational Prospective Ageing Measures",
+			CodeLists: []CodeList{
+				{
+					ID:          "two-year-intervals",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/two-year-intervals",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "remaining-life-expectancy",
+					Name:        "remaininglifeexpectancy",
+					HRef:        "http://localhost:22400/code-lists/remaining-life-expectancy",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
 // Children's Well-being Measures
 var WellbeingChildrens = Response{
 	ID:     "1a56119b-584b-4455-aa2c-81635d1aec56",
@@ -3215,6 +3256,141 @@ var Census1961SH14 = Response{
 					ID:          "ashe-sex",
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional GDP by year
+var RegionalGDPYear = Response{
+	ID:     "eec65efd-da07-4089-8e3e-a356751fa72d",
+	Alias:  "Regional GDP by Year",
+	Format: "v4",
+	InputFiles: []file{
+		{"RegionalGDPYear"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-gdp-by-year",
+			Editions:  []string{"time-series"},
+			Title:     "Regional GDP by Year",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "gdp-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/gdp-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "gdp-measure",
+					Name:        "measure",
+					HRef:        "http://localhost:22400/code-lists/gdp-measure",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional GDP by quarter
+var RegionalGDPQuarter = Response{
+	ID:     "b89ba5a1-96ec-4311-af3f-d732943eeb2f",
+	Alias:  "Regional GDP by Quarter",
+	Format: "v4",
+	InputFiles: []file{
+		{"RegionalGDPQuarter"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-gdp-by-quarter",
+			Editions:  []string{"time-series"},
+			Title:     "Regional GDP by Quarter",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "gdp-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/gdp-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "gdp-measure",
+					Name:        "measure",
+					HRef:        "http://localhost:22400/code-lists/gdp-measure",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Tax Benefits Statistics
+var TaxBenefitStats = Response{
+	ID:     "6cadb0b9-927d-4fa3-b07f-2654ad7e71b9",
+	Alias:  "Tax Benefits Statistics",
+	Format: "v4",
+	InputFiles: []file{
+		{"TaxBenefitsStats"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "tax-benefits-statistics",
+			Editions:  []string{"time-series"},
+			Title:     "Tax Benefits Statistics",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "income-quintile",
+					Name:        "quintile",
+					HRef:        "http://localhost:22400/code-lists/income-quintile",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "income-type",
+					Name:        "income",
+					HRef:        "http://localhost:22400/code-lists/income-type",
 					IsHierarchy: false,
 				},
 			},
