@@ -17,7 +17,7 @@ var FullList = List{
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
 		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds,
 		AgeingSexRatios, AgeingNetFlows, AgeingProspectiveMeasures, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14, 
-		RegionalGDPYear, RegionalGDPQuarter, TaxBenefitStats},
+		RegionalGDPYear, RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome},
 	Start: 0,
 }
 
@@ -3391,6 +3391,51 @@ var TaxBenefitStats = Response{
 					ID:          "income-type",
 					Name:        "income",
 					HRef:        "http://localhost:22400/code-lists/income-type",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Generational Income
+var GenerationalIncome = Response{
+	ID:     "d4e813a9-dc67-4a66-b0ae-c7e531f3b64b",
+	Alias:  "Generational Income",
+	Format: "v4",
+	InputFiles: []file{
+		{"GenerationalIncome"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "generational-income",
+			Editions:  []string{"time-series"},
+			Title:     "Generational income",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "mid-year-pop-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/mid-year-pop-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "tax-benefit-type",
+					Name:        "typeoftaxorbenefit",
+					HRef:        "http://localhost:22400/code-lists/tax-benefit-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "decades",
+					Name:        "decade",
+					HRef:        "http://localhost:22400/code-lists/decades",
 					IsHierarchy: false,
 				},
 			},
