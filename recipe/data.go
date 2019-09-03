@@ -15,7 +15,9 @@ var FullList = List{
 		DrugRelatedDeaths, ChildMortality, Census1961, HousePrices, PrivateHousingRentalPrices, MidYearPopEstPCON, InternalMigrationLA,
 		MidYearPopEstCCG, ASHE11and12, AWE, AWEIndex, ASHE5, CancerRegEng, CancerRegRegions, SexualOrientation, LMSEconomicByAge,
 		LMSWorkType, LMSActualHoursWork, LMSClaimantCount, LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, 
-		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2},
+		KnifeCrime, QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds,
+		AgeingSexRatios, AgeingNetFlows, AgeingProspectiveMeasures, WellbeingChildrens, Census1961SH07, Census1961SH10, Census1961SH14, 
+		RegionalGDPYear, RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, ASHE27and28},
 	Start: 0,
 }
 
@@ -2921,3 +2923,577 @@ var ReportingBehaviour2 = Response{
 	},
 }
 
+// Local authority ageing statistics - principal population projections
+var AgeingPopProj = Response{
+	ID:     "1c5b0a7b-024c-49fe-8446-a66eb9736ed3",
+	Alias:  "Local authority ageing statistics - principal population projections",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingPopulationProjections"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-population-projections",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, principal population projections",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - % of single households headed by someone over 65 and over 85
+var AgeingSingleHouseholds = Response{
+	ID:     "226d6940-ed0c-4556-91f1-9ca61d56c8a0",
+	Alias:  "Local authority ageing statistics - % of single households headed by someone over 65 and over 85",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingSingleHouseholds"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-single-households",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, percentage of single households headed by someone over 65 and over 85",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - sex ratios for people over 65 and over 85
+var AgeingSexRatios = Response{
+	ID:     "df8c8df5-484a-4d29-b246-a7720caf2474",
+	Alias:  "Local authority ageing statistics - sex ratios for people over 65 and over 85",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingSexRatios"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-sex-ratios",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, sex ratios for people over 65 and over 85",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - net flows for over 65s and over 85s
+var AgeingNetFlows = Response{
+	ID:     "c5875623-0874-429d-bbc6-63d2d84e6159",
+	Alias:  "Local authority ageing statistics - net flows for over 65s and over 85s",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingNetFlows"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-net-flows",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, net flows for over 65s and over 85s",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - Subnational Prospective Ageing Measures
+var AgeingProspectiveMeasures = Response{
+	ID:     "ebda7264-b7c0-4a6f-98e3-63ebb328008c",
+	Alias:  "Local authority ageing statistics - Subnational Prospective Ageing Measures",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingProspectiveMeasures"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-prospective-measures",
+			Editions:  []string{"time-series"},
+			Title:     "Subnational Prospective Ageing Measures",
+			CodeLists: []CodeList{
+				{
+					ID:          "two-year-intervals",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/two-year-intervals",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "remaining-life-expectancy",
+					Name:        "remaininglifeexpectancy",
+					HRef:        "http://localhost:22400/code-lists/remaining-life-expectancy",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Children's Well-being Measures
+var WellbeingChildrens = Response{
+	ID:     "1a56119b-584b-4455-aa2c-81635d1aec56",
+	Alias:  "Children's Well-being Measures",
+	Format: "v4",
+	InputFiles: []file{
+		{"WellbeingChildrens"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "childrens-wellbeing",
+			Editions:  []string{"time-series"},
+			Title:     "Children's Well-being Measures",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "countries",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/countries",
+					IsHierarchy: false,
+				}, {
+					ID:          "children-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/children-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-measureofwellbeing",
+					Name:        "allmeasuresofwellbeing",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the SH07 table for the 1961 Census
+var Census1961SH07 = Response{
+	ID:     "c1960f40-b988-4875-8b85-05878afa8e9c",
+	Alias:  "1961 Census: Old Persons Alone",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH07"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-old-persons-alone",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: Old Persons Alone",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "1961geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the SH10 table for the 1961 Census
+var Census1961SH10 = Response{
+	ID:     "00811186-299d-40db-a2b3-0714eb48b880",
+	Alias:  "1961 Census: Population outside Private Households",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH10"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-outside-private-households",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: Population outside Private Households",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "1961geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the SH14 table for the 1961 Census
+var Census1961SH14 = Response{
+	ID:     "a8614752-df5d-4f4a-9bdc-8de9beaa3d2d",
+	Alias:  "1961 Census: Population under 21 Years of Age",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH14"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-under-21",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: Population under 21 Years of Age",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "1961geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional GDP by year
+var RegionalGDPYear = Response{
+	ID:     "eec65efd-da07-4089-8e3e-a356751fa72d",
+	Alias:  "Regional GDP by Year",
+	Format: "v4",
+	InputFiles: []file{
+		{"RegionalGDPYear"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-gdp-by-year",
+			Editions:  []string{"time-series"},
+			Title:     "Regional GDP by Year",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "gdp-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/gdp-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "gdp-measure",
+					Name:        "measure",
+					HRef:        "http://localhost:22400/code-lists/gdp-measure",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional GDP by quarter
+var RegionalGDPQuarter = Response{
+	ID:     "b89ba5a1-96ec-4311-af3f-d732943eeb2f",
+	Alias:  "Regional GDP by Quarter",
+	Format: "v4",
+	InputFiles: []file{
+		{"RegionalGDPQuarter"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "regional-gdp-by-quarter",
+			Editions:  []string{"time-series"},
+			Title:     "Regional GDP by Quarter",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "gdp-sic",
+					Name:        "sic",
+					HRef:        "http://localhost:22400/code-lists/gdp-sic",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "gdp-measure",
+					Name:        "measure",
+					HRef:        "http://localhost:22400/code-lists/gdp-measure",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Tax Benefits Statistics
+var TaxBenefitStats = Response{
+	ID:     "6cadb0b9-927d-4fa3-b07f-2654ad7e71b9",
+	Alias:  "Tax Benefits Statistics",
+	Format: "v4",
+	InputFiles: []file{
+		{"TaxBenefitsStats"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "tax-benefits-statistics",
+			Editions:  []string{"time-series"},
+			Title:     "Tax Benefits Statistics",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "income-quintile",
+					Name:        "quintile",
+					HRef:        "http://localhost:22400/code-lists/income-quintile",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "income-type",
+					Name:        "income",
+					HRef:        "http://localhost:22400/code-lists/income-type",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Generational Income
+var GenerationalIncome = Response{
+	ID:     "d4e813a9-dc67-4a66-b0ae-c7e531f3b64b",
+	Alias:  "Generational Income",
+	Format: "v4",
+	InputFiles: []file{
+		{"GenerationalIncome"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "generational-income",
+			Editions:  []string{"time-series"},
+			Title:     "Generational income",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "mid-year-pop-age",
+					Name:        "age",
+					HRef:        "http://localhost:22400/code-lists/mid-year-pop-age",
+					IsHierarchy: false,
+				}, {
+					ID:          "tax-benefit-type",
+					Name:        "typeoftaxorbenefit",
+					HRef:        "http://localhost:22400/code-lists/tax-benefit-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "decades",
+					Name:        "decade",
+					HRef:        "http://localhost:22400/code-lists/decades",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 27 and 28 combined
+var ASHE27and28 = Response{
+	ID:     "10213937-4076-4fd9-ba1a-506b2206a71f",
+	Alias:  "ASHE Tables 27 and 28",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE27-28"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-27-and-28",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 27 and 28",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "local-enterprise-partnership-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/local-enterprise-partnership-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-workplace-or-residence",
+					Name:        "workplaceorresidence",
+					HRef:        "http://localhost:22400/code-lists/ashe-workplace-or-residence",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
