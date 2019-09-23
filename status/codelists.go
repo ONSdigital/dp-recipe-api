@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"sync"
 
-	"github.com/ONSdigital/go-ns/clients/codelist"
-	"github.com/ONSdigital/go-ns/rchttp"
+	"github.com/ONSdigital/dp-api-clients-go/codelist"
+	"github.com/ONSdigital/dp-rchttp"
 )
 
 type CodelistList struct {

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -10,6 +11,7 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/ONSdigital/dp-api-clients-go/headers"
 	"github.com/ONSdigital/go-ns/log"
 	"github.com/ONSdigital/go-ns/server"
 
@@ -53,7 +55,12 @@ func main() {
 
 	router := mux.NewRouter()
 	router.Path("/").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		data := getRecipeList()
+		ctx := req.Context()
+		userAuthToken, _ := headers.GetUserAuthToken(req)
+		serviceAuthToken, _ := headers.GetServiceAuthToken(req)
+		collectionID, _ := headers.GetCollectionID(req)
+
+		data := getRecipeList(ctx, userAuthToken, serviceAuthToken, collectionID)
 		bootstrap.ExecuteTemplate(w, "bootstrap", data)
 	})
 
@@ -79,7 +86,12 @@ func layoutFiles() []string {
 
 //list each recipe and a status per env
 func recipesStatusListHandler(w http.ResponseWriter, req *http.Request) {
-	newList := getRecipeList()
+	ctx := req.Context()
+	userAuthToken, _ := headers.GetUserAuthToken(req)
+	serviceAuthToken, _ := headers.GetServiceAuthToken(req)
+	collectionID, _ := headers.GetCollectionID(req)
+
+	newList := getRecipeList(ctx, userAuthToken, serviceAuthToken, collectionID)
 
 	b, err := json.Marshal(newList)
 	if err != nil {
@@ -92,7 +104,7 @@ func recipesStatusListHandler(w http.ResponseWriter, req *http.Request) {
 	w.Write(b)
 }
 
-func getRecipeList() *status.RecipeList {
+func getRecipeList(ctx context.Context, userAuthToken, serviceAuthToken, collectionID string) *status.RecipeList {
 	origList := recipe.FullList
 	newList := &status.RecipeList{}
 	for _, i := range origList.Items {
@@ -102,7 +114,17 @@ func getRecipeList() *status.RecipeList {
 		}
 
 		for _, o := range i.OutputInstances {
-			add := status.CheckRecipe(devURL, betaURL, o.DatasetID, o.CodeLists)
+			checkReq := status.CheckRequest{
+				UserAuthToken:    userAuthToken,
+				ServiceAuthToken: serviceAuthToken,
+				DevURL:           devURL,
+				BetaURL:          betaURL,
+				CollectionID:     collectionID,
+				DatasetID:        o.DatasetID,
+				CodeLists:        o.CodeLists,
+			}
+
+			add := status.CheckRecipe(ctx, checkReq)
 			add.DatasetName = o.Title
 			r.Outputs = append(r.Outputs, *add)
 		}
@@ -119,8 +141,12 @@ func getRecipeList() *status.RecipeList {
 
 //return a specific recipe and its statuses
 func recipesStatusHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
 	vars := mux.Vars(req)
 	recipeID := vars["recipe"]
+	userAuthToken, _ := headers.GetUserAuthToken(req)
+	serviceAuthToken, _ := headers.GetServiceAuthToken(req)
+	collectionID, _ := headers.GetCollectionID(req)
 
 	var r *status.Recipe
 	origList := recipe.FullList
@@ -135,7 +161,17 @@ func recipesStatusHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		for _, o := range i.OutputInstances {
-			add := status.CheckRecipe(devURL, betaURL, o.DatasetID, o.CodeLists)
+			checkReq := status.CheckRequest{
+				UserAuthToken:    userAuthToken,
+				ServiceAuthToken: serviceAuthToken,
+				DevURL:           devURL,
+				BetaURL:          betaURL,
+				CollectionID:     collectionID,
+				DatasetID:        o.DatasetID,
+				CodeLists:        o.CodeLists,
+			}
+
+			add := status.CheckRecipe(ctx, checkReq)
 			add.DatasetName = o.Title
 			r.Outputs = append(r.Outputs, *add)
 		}
