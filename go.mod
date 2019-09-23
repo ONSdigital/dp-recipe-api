@@ -7,7 +7,7 @@ require (
 	github.com/ONSdigital/dp-mocking v0.0.0-20190905163309-fee2702ad1b9 // indirect
 	github.com/ONSdigital/dp-rchttp v0.0.0-20190919143000-bb5699e6fd59
 	github.com/ONSdigital/go-ns v0.0.0-20190919160922-30bf55ba5a05
-	github.com/ONSdigital/log.go v0.0.0-20190214095951-93cc21caa3b3 // indirect
+	github.com/ONSdigital/log.go v0.0.0-20190214095951-93cc21caa3b3
 	github.com/facebookgo/freeport v0.0.0-20150612182905-d4adf43b75b9 // indirect
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/gorilla/mux v1.7.3
