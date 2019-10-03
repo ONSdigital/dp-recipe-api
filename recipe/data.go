@@ -16,7 +16,7 @@ var FullList = List{
 		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
 		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, ParentsCountryOfBirth, LifeExpectancy, ChildMortality, 
-		Suicides, DrugRelatedDeaths, SexualOrientation, Census1961, Census1961SH07, Census1961SH10, Census1961SH14},
+		Suicides, DrugRelatedDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH07, Census1961SH10, Census1961SH14},
 	Start: 0,
 }
 
@@ -3383,6 +3383,46 @@ var Census1961 = Response{
 					ID:          "census-1961-age-groups",
 					Name:        "agegroup",
 					HRef:        "http://localhost:22400/code-lists/census-1961-age-groups",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the SH01 table for the 1961 Census
+var Census1961SH01 = Response{
+	ID:     "0cbcf92b-4b72-4ecf-bac0-4d9227a8ce12",
+	Alias:  "1961 Census: SH01",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH01"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-sh01",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: SH01",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-tenure",
+					Name:        "tenure",
+					HRef:        "http://localhost:22400/code-lists/census-1961-tenure",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-tenure-variable",
+					Name:        "tenurevariable",
+					HRef:        "http://localhost:22400/code-lists/ccensus-1961-tenure-variable",
 					IsHierarchy: false,
 				},
 			},
