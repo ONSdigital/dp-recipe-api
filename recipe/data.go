@@ -16,7 +16,8 @@ var FullList = List{
 		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
 		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, ParentsCountryOfBirth, LifeExpectancy, ChildMortality, 
-		Suicides, DrugRelatedDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH07, Census1961SH10, Census1961SH14},
+		Suicides, DrugRelatedDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, 
+		Census1961SH07, Census1961SH08, Census1961SH10, Census1961SH12, Census1961SH14, Census1961SH15},
 	Start: 0,
 }
 
