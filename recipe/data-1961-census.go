@@ -110,9 +110,9 @@ var Census1961SH02 = Response{
 					HRef:        "http://localhost:22400/code-lists/1961-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "census-1961-building-type",
-					Name:        "buildingtype",
-					HRef:        "http://localhost:22400/code-lists/census-1961-building-type",
+					ID:          "census-1961-dwellings",
+					Name:        "dwellings",
+					HRef:        "http://localhost:22400/code-lists/census-1961-dwellings",
 					IsHierarchy: false,
 				}, {
 					ID:          "census-1961-building-type-variable",
@@ -245,17 +245,57 @@ var Census1961SH05 = Response{
 	},
 }
 
+//recipe for the SH06 table for the 1961 Census
+var Census1961SH06 = Response{
+	ID:     "86ff18f0-8aa0-4073-b8ad-c0f15b9ed75a",
+	Alias:  "1961 Census: SH06",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH06"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-sh06",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: SH06",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-amenities",
+					Name:        "amenities",
+					HRef:        "http://localhost:22400/code-lists/census-1961-amenities",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-household-type",
+					Name:        "householdtype",
+					HRef:        "http://localhost:22400/code-lists/census-1961-household-type",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
 //recipe for the SH07 table for the 1961 Census
 var Census1961SH07 = Response{
 	ID:     "c1960f40-b988-4875-8b85-05878afa8e9c",
-	Alias:  "1961 Census: Old Persons Alone",
+	Alias:  "1961 Census: SH07",
 	Format: "v4",
 	InputFiles: []file{
 		{"Census1961SH07"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "census-1961-old-persons-alone",
+			DatasetID: "census-1961-sh07",
 			Editions:  []string{"time-series"},
 			Title:     "1961 Census: Old Persons Alone",
 			CodeLists: []CodeList{
@@ -320,17 +360,57 @@ var Census1961SH08 = Response{
 	},
 }
 
+//recipe for the SH09 table for the 1961 Census
+var Census1961SH09 = Response{
+	ID:     "0c691253-9c47-4e99-ab80-353337a6ab0a",
+	Alias:  "1961 Census: SH09",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH09"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-sh09",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: SH09",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-hotel-variable",
+					Name:        "hotelvariable",
+					HRef:        "http://localhost:22400/code-lists/census-1961-hotel-variable",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-number-of-rooms",
+					Name:        "numberofrooms",
+					HRef:        "http://localhost:22400/code-lists/census-1961-number-of-rooms",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
 //recipe for the SH10 table for the 1961 Census
 var Census1961SH10 = Response{
 	ID:     "00811186-299d-40db-a2b3-0714eb48b880",
-	Alias:  "1961 Census: Population outside Private Households",
+	Alias:  "1961 Census: SH10",
 	Format: "v4",
 	InputFiles: []file{
 		{"Census1961SH10"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "census-1961-outside-private-households",
+			DatasetID: "census-1961-sh10",
 			Editions:  []string{"time-series"},
 			Title:     "1961 Census: Population outside Private Households",
 			CodeLists: []CodeList{
@@ -353,6 +433,46 @@ var Census1961SH10 = Response{
 					ID:          "ashe-sex",
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the SH11 table for the 1961 Census
+var Census1961SH11 = Response{
+	ID:     "f655b71f-ee31-4c6d-b57e-0a06d8793788",
+	Alias:  "1961 Census: SH11",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH11"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-sh11",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: SH11",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-household-type",
+					Name:        "householdtype",
+					HRef:        "http://localhost:22400/code-lists/census-1961-household-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-persons-per-room",
+					Name:        "personsperroom",
+					HRef:        "http://localhost:22400/code-lists/census-1961-persons-per-room",
 					IsHierarchy: false,
 				},
 			},
@@ -400,10 +520,55 @@ var Census1961SH12 = Response{
 	},
 }
 
+//recipe for the SH13 table for the 1961 Census
+var Census1961SH13 = Response{
+	ID:     "c4ffac95-f103-44b0-b3a3-1a1a18c1a5f2",
+	Alias:  "1961 Census: SH13",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SH13"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-sh13",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: SH13",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-marital-status",
+					Name:        "maritalstatus",
+					HRef:        "http://localhost:22400/code-lists/census-1961-marital-status",
+					IsHierarchy: false,
+				}, {
+					ID:          "five-year-age-brackets",
+					Name:        "agebrackets",
+					HRef:        "http://localhost:22400/code-lists/five-year-age-brackets",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
 //recipe for the SH14 table for the 1961 Census
 var Census1961SH14 = Response{
 	ID:     "a8614752-df5d-4f4a-9bdc-8de9beaa3d2d",
-	Alias:  "1961 Census: Population under 21 Years of Age",
+	Alias:  "1961 Census: SH14",
 	Format: "v4",
 	InputFiles: []file{
 		{"Census1961SH14"},
@@ -470,6 +635,471 @@ var Census1961SH15 = Response{
 					HRef:        "http://localhost:22400/code-lists/census-1961-households-sharing-dwelling",
 					IsHierarchy: false,
 				}, 
+			},
+		},
+	},
+}
+
+//recipe for the ST01 table for the 1961 Census
+var Census1961ST01 = Response{
+	ID:     "8b120c65-9ad7-4a85-82bd-d6dc8862a4eb",
+	Alias:  "1961 Census: ST01",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST01"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st01",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST01",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-sex-activity",
+					Name:        "sexactivity",
+					HRef:        "http://localhost:22400/code-lists/census-1961-sex-activity",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+//recipe for the ST02 table for the 1961 Census
+var Census1961ST02 = Response{
+	ID:     "5129ad6e-3bea-4c0d-8092-b8dd617b7c19",
+	Alias:  "1961 Census: ST02",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST02"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st02",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST02",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-work-location",
+					Name:        "worklocation",
+					HRef:        "http://localhost:22400/code-lists/census-1961-work-location",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+//recipe for the ST03 table for the 1961 Census
+var Census1961ST03 = Response{
+	ID:     "1f628966-019d-42fd-b1a8-bbb22e82714a",
+	Alias:  "1961 Census: ST03",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST03"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st03",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST03",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-sex-activity",
+					Name:        "sexactivity",
+					HRef:        "http://localhost:22400/code-lists/census-1961-sex-activity",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-economic-activity-age-group",
+					Name:        "economicactivityagegroup",
+					HRef:        "http://localhost:22400/code-lists/census-1961-economic-activity-age-group",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+//recipe for the ST04 table for the 1961 Census
+var Census1961ST04 = Response{
+	ID:     "30e03190-0f80-4586-b7b8-e56443d92717",
+	Alias:  "1961 Census: ST04",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST04"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st04",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST04",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+//recipe for the ST05 table for the 1961 Census
+var Census1961ST05 = Response{
+	ID:     "c4949ddd-63fb-4b29-8f7c-ba9209df59a2",
+	Alias:  "1961 Census: ST05",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST05"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st05",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST05",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-industry",
+					Name:        "industry",
+					HRef:        "http://localhost:22400/code-lists/census-1961-industry",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+//recipe for the ST06 table for the 1961 Census
+var Census1961ST06 = Response{
+	ID:     "36a977da-c536-4bbc-a52c-aef8f9482a26",
+	Alias:  "1961 Census: ST06",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST06"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st06",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST06",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-terminal-education-age",
+					Name:        "terminaleducationage",
+					HRef:        "http://localhost:22400/code-lists/census-1961-terminal-education-age",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+//recipe for the ST07 table for the 1961 Census
+var Census1961ST07 = Response{
+	ID:     "1f61208f-3121-453b-aa89-8a5d9f97581d",
+	Alias:  "1961 Census: ST07",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST07"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st07",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST07",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-sex-activity",
+					Name:        "sexactivity",
+					HRef:        "http://localhost:22400/code-lists/census-1961-sex-activity",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-occupation-classification",
+					Name:        "occupationclassification",
+					HRef:        "http://localhost:22400/code-lists/census-1961-occupation-classification",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+//recipe for the ST08 table for the 1961 Census
+var Census1961ST08 = Response{
+	ID:     "6c744f10-a92e-43f1-97ad-463ff0d6a0ae",
+	Alias:  "1961 Census: ST08",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST08"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st08",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST08",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-movers",
+					Name:        "movers",
+					HRef:        "http://localhost:22400/code-lists/census-1961-movers",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-movers-age-sex",
+					Name:        "moversagesex",
+					HRef:        "http://localhost:22400/code-lists/census-1961-movers-age-sex",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+//recipe for the ST09 table for the 1961 Census
+var Census1961ST09 = Response{
+	ID:     "a57378d4-8034-4c52-b68f-224e17b136a0",
+	Alias:  "1961 Census: ST09",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961ST09"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-st09",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: ST09",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-family-count",
+					Name:        "familycount",
+					HRef:        "http://localhost:22400/code-lists/census-1961-family-count",
+					IsHierarchy: false,
+				},  
+			},
+		},
+	},
+}
+
+//recipe for the SC11 table for the 1961 Census
+var Census1961SC11 = Response{
+	ID:     "49f7ab00-35d9-4f79-b55c-d2c99936a68f",
+	Alias:  "1961 Census: SC11",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SC11"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-sc11",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: SC11",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-dwellings",
+					Name:        "dwellings",
+					HRef:        "http://localhost:22400/code-lists/census-1961-dwellings",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-number-of-rooms",
+					Name:        "numberofrooms",
+					HRef:        "http://localhost:22400/code-lists/census-1961-number-of-rooms",
+					IsHierarchy: false,
+				},  
+			},
+		},
+	},
+}
+
+//recipe for the SC13 table for the 1961 Census
+var Census1961SC13 = Response{
+	ID:     "4cb260b8-8892-4710-af30-549c28cab6e8",
+	Alias:  "1961 Census: SC13",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SC13"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-sc13",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: SC13",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-dwellings",
+					Name:        "dwellings",
+					HRef:        "http://localhost:22400/code-lists/census-1961-dwellings",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-number-of-rooms",
+					Name:        "numberofrooms",
+					HRef:        "http://localhost:22400/code-lists/census-1961-number-of-rooms",
+					IsHierarchy: false,
+				},  
+			},
+		},
+	},
+}
+
+//recipe for the SC22 table for the 1961 Census
+var Census1961SC22 = Response{
+	ID:     "5b300852-c119-492b-bb4b-098a83ddb1b3",
+	Alias:  "1961 Census: SC22",
+	Format: "v4",
+	InputFiles: []file{
+		{"Census1961SC22"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "census-1961-sc22",
+			Editions:  []string{"time-series"},
+			Title:     "1961 Census: SC22",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "1961-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/1961-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "census-1961-dwellings",
+					Name:        "dwellings",
+					HRef:        "http://localhost:22400/code-lists/census-1961-dwellings",
+					IsHierarchy: false,
+				}, {
+					ID:          "census-1961-amenities",
+					Name:        "amenities",
+					HRef:        "http://localhost:22400/code-lists/census-1961-amenities",
+					IsHierarchy: false,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
+				},  
 			},
 		},
 	},
