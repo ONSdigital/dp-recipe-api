@@ -2608,9 +2608,14 @@ var KnifeCrime = Response{
 			Title:     "Knife Crime",
 			CodeLists: []CodeList{
 				{
-					ID:          "mmm-mmm-yyyy",
+					ID:          "yyyy-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "quarters",
+					Name:        "quarter",
+					HRef:        "http://localhost:22400/code-lists/quarters",
 					IsHierarchy: false,
 				}, {
 					ID:          "police-force-area-geography",
