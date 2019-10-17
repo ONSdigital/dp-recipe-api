@@ -524,7 +524,7 @@ var ASHE7and8 = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "ashe-tables-7-and-8",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "time-series"},
 			Title:     "ASHE Tables 7 and 8",
 			CodeLists: []CodeList{
 				{
