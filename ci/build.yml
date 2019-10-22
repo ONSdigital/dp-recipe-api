@@ -10,7 +10,6 @@ image_resource:
 
 inputs:
   - name: dp-recipe-api
-    path: dp-recipe-api
 
 outputs:
   - name: build

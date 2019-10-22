@@ -10,7 +10,6 @@ image_resource:
 
 inputs:
   - name: dp-recipe-api
-    path: dp-recipe-api
 
 run:
   path: dp-recipe-api/ci/scripts/unit.sh
