@@ -10,7 +10,7 @@ image_resource:
 
 inputs:
   - name: dp-recipe-api
-    path: go/src/github.com/ONSdigital/dp-recipe-api
+    path: dp-recipe-api
 
 run:
-  path: go/src/github.com/ONSdigital/dp-recipe-api/ci/scripts/unit.sh
+  path: dp-recipe-api/ci/scripts/unit.sh
