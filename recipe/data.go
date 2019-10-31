@@ -16,7 +16,10 @@ var FullList = List{
 		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
 		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, ParentsCountryOfBirth, LifeExpectancy, ChildMortality, 
-		Suicides, DrugRelatedDeaths, SexualOrientation, Census1961, Census1961SH07, Census1961SH10, Census1961SH14},
+		Suicides, DrugRelatedDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, 
+		Census1961SH06, Census1961SH07, Census1961SH08, Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, 
+		Census1961SH15, Census1961ST01, Census1961ST02, Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08,
+		Census1961ST09,Census1961SC11, Census1961SC13, Census1961SC22},
 	Start: 0,
 }
 
@@ -521,7 +524,7 @@ var ASHE7and8 = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "ashe-tables-7-and-8",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "time-series"},
 			Title:     "ASHE Tables 7 and 8",
 			CodeLists: []CodeList{
 				{
@@ -2605,9 +2608,14 @@ var KnifeCrime = Response{
 			Title:     "Knife Crime",
 			CodeLists: []CodeList{
 				{
-					ID:          "mmm-mmm-yyyy",
+					ID:          "yyyy-yy",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+					HRef:        "http://localhost:22400/code-lists/yyyy-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "quarters",
+					Name:        "quarter",
+					HRef:        "http://localhost:22400/code-lists/quarters",
 					IsHierarchy: false,
 				}, {
 					ID:          "police-force-area-geography",
@@ -3231,7 +3239,7 @@ var Suicides = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "suicides-in-the-uk",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "time-series"},
 			Title:     "Suicides in the UK",
 			CodeLists: []CodeList{
 				{
@@ -3338,156 +3346,6 @@ var SexualOrientation = Response{
 					ID:          "unit-of-measure",
 					Name:        "unitofmeasure",
 					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
-					IsHierarchy: false,
-				},
-			},
-		},
-	},
-}
-
-// 1961 Census Data
-var Census1961 = Response{
-	ID:     "4fff878f-f642-4113-9bed-85ae19a19ee7",
-	Alias:  "1961 Census",
-	Format: "v4",
-	InputFiles: []file{
-		{"1961Census"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "census-1961",
-			Editions:  []string{"time-series"},
-			Title:     "1961 Census Data",
-			CodeLists: []CodeList{
-				{
-					ID:          "calendar-years",
-					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
-					IsHierarchy: false,
-				}, {
-					ID:          "1961-geography",
-					Name:        "1961geography",
-					HRef:        "http://localhost:22400/code-lists/1961-geography",
-					IsHierarchy: true,
-				}, {
-					ID:          "ashe-sex",
-					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
-					IsHierarchy: false,
-				}, {
-					ID:          "census-1961-marital-status",
-					Name:        "maritalstatus",
-					HRef:        "http://localhost:22400/code-lists/census-1961-marital-status",
-					IsHierarchy: false,
-				}, {
-					ID:          "census-1961-age-groups",
-					Name:        "agegroup",
-					HRef:        "http://localhost:22400/code-lists/census-1961-age-groups",
-					IsHierarchy: false,
-				},
-			},
-		},
-	},
-}
-
-//recipe for the SH07 table for the 1961 Census
-var Census1961SH07 = Response{
-	ID:     "c1960f40-b988-4875-8b85-05878afa8e9c",
-	Alias:  "1961 Census: Old Persons Alone",
-	Format: "v4",
-	InputFiles: []file{
-		{"Census1961SH07"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "census-1961-old-persons-alone",
-			Editions:  []string{"time-series"},
-			Title:     "1961 Census: Old Persons Alone",
-			CodeLists: []CodeList{
-				{
-					ID:          "calendar-years",
-					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
-					IsHierarchy: false,
-				}, {
-					ID:          "1961-geography",
-					Name:        "1961geography",
-					HRef:        "http://localhost:22400/code-lists/1961-geography",
-					IsHierarchy: true,
-				}, {
-					ID:          "ashe-sex",
-					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
-					IsHierarchy: false,
-				},
-			},
-		},
-	},
-}
-
-//recipe for the SH10 table for the 1961 Census
-var Census1961SH10 = Response{
-	ID:     "00811186-299d-40db-a2b3-0714eb48b880",
-	Alias:  "1961 Census: Population outside Private Households",
-	Format: "v4",
-	InputFiles: []file{
-		{"Census1961SH10"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "census-1961-outside-private-households",
-			Editions:  []string{"time-series"},
-			Title:     "1961 Census: Population outside Private Households",
-			CodeLists: []CodeList{
-				{
-					ID:          "calendar-years",
-					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
-					IsHierarchy: false,
-				}, {
-					ID:          "1961-geography",
-					Name:        "1961geography",
-					HRef:        "http://localhost:22400/code-lists/1961-geography",
-					IsHierarchy: true,
-				}, {
-					ID:          "ashe-sex",
-					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
-					IsHierarchy: false,
-				},
-			},
-		},
-	},
-}
-
-//recipe for the SH14 table for the 1961 Census
-var Census1961SH14 = Response{
-	ID:     "a8614752-df5d-4f4a-9bdc-8de9beaa3d2d",
-	Alias:  "1961 Census: Population under 21 Years of Age",
-	Format: "v4",
-	InputFiles: []file{
-		{"Census1961SH14"},
-	},
-	OutputInstances: []instance{
-		{
-			DatasetID: "census-1961-under-21",
-			Editions:  []string{"time-series"},
-			Title:     "1961 Census: Population under 21 Years of Age",
-			CodeLists: []CodeList{
-				{
-					ID:          "calendar-years",
-					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/calendar-years",
-					IsHierarchy: false,
-				}, {
-					ID:          "1961-geography",
-					Name:        "1961geography",
-					HRef:        "http://localhost:22400/code-lists/1961-geography",
-					IsHierarchy: true,
-				}, {
-					ID:          "ashe-sex",
-					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
 				},
 			},
