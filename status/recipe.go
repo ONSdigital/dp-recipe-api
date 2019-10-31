@@ -4,8 +4,8 @@ import (
 	"context"
 	"sync"
 
+	"github.com/ONSdigital/dp-api-clients-go/dataset"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
-	"github.com/ONSdigital/go-ns/clients/dataset"
 )
 
 type RecipeList struct {
@@ -28,44 +28,54 @@ type Output struct {
 	BetaStatus  int    `json:"beta_status"`
 }
 
-func CheckRecipe(devURL, betaURL, datasetID string, codelists []recipe.CodeList) *Output {
+type CheckRequest struct {
+	UserAuthToken    string
+	ServiceAuthToken string
+	BetaURL          string
+	DevURL           string
+	CollectionID     string
+	DatasetID        string
+	CodeLists        []recipe.CodeList
+}
+
+func CheckRecipe(ctx context.Context, req CheckRequest) *Output {
 	o := &Output{
 		DevStatus:  2,
 		BetaStatus: 2,
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)
-	go o.devstatus(&wg, devURL, datasetID, codelists)
-	go o.betastatus(&wg, betaURL, datasetID, codelists)
+	go o.devstatus(ctx, &wg, req)
+	go o.betastatus(ctx, &wg, req)
 	wg.Wait()
 
 	return o
 }
 
-func (o *Output) devstatus(w *sync.WaitGroup, url, datasetID string, codelists []recipe.CodeList) {
+func (o *Output) devstatus(ctx context.Context, w *sync.WaitGroup, req CheckRequest) {
 	defer w.Done()
-	o.DevStatus = status(url, datasetID, codelists)
+	o.DevStatus = status(ctx, req, req.DevURL)
 }
 
-func (o *Output) betastatus(w *sync.WaitGroup, url, datasetID string, codelists []recipe.CodeList) {
+func (o *Output) betastatus(ctx context.Context, w *sync.WaitGroup, req CheckRequest) {
 	defer w.Done()
-	o.BetaStatus = status(url, datasetID, codelists)
+	o.BetaStatus = status(ctx, req, req.BetaURL)
 }
 
-func status(url, datasetID string, codelists []recipe.CodeList) int {
+func status(ctx context.Context, req CheckRequest, url string) int {
 	s := 2
-	if datasetExists(url, datasetID) {
+	if datasetExists(ctx, req, url) {
 		return s
 	}
 
 	s--
 
-	goal := len(codelists)
+	goal := len(req.CodeLists)
 	imported := 0
 	var mu sync.Mutex
 	var wg sync.WaitGroup
 
-	for _, c := range codelists {
+	for _, c := range req.CodeLists {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
@@ -85,9 +95,9 @@ func status(url, datasetID string, codelists []recipe.CodeList) int {
 	return s
 }
 
-func datasetExists(url, id string) bool {
-	cli := dataset.NewAPIClient(url, "", "")
-	ds, err := cli.Get(context.Background(), id)
+func datasetExists(ctx context.Context, req CheckRequest, url string) bool {
+	cli := dataset.NewAPIClient(url)
+	ds, err := cli.Get(ctx, req.UserAuthToken, req.ServiceAuthToken, req.CollectionID, req.DatasetID)
 	if err != nil || &ds == nil {
 		return false
 	}

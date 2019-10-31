@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -10,8 +11,9 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/ONSdigital/go-ns/log"
+	"github.com/ONSdigital/dp-api-clients-go/headers"
 	"github.com/ONSdigital/go-ns/server"
+	"github.com/ONSdigital/log.go/log"
 
 	"os"
 
@@ -34,7 +36,7 @@ func main() {
 	flag.Parse()
 
 	if len(*devURLFlag) == 0 || len(*betaURLFlag) == 0 {
-		log.Info("URLs must be provided for app to start", log.Data{"dev": devURLFlag, "beta": betaURLFlag})
+		log.Event(context.Background(), "URLs must be provided for app to start", log.Data{"dev": devURLFlag, "beta": betaURLFlag})
 		os.Exit(1)
 	}
 
@@ -53,7 +55,12 @@ func main() {
 
 	router := mux.NewRouter()
 	router.Path("/").HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		data := getRecipeList()
+		ctx := req.Context()
+		userAuthToken, _ := headers.GetUserAuthToken(req)
+		serviceAuthToken, _ := headers.GetServiceAuthToken(req)
+		collectionID, _ := headers.GetCollectionID(req)
+
+		data := getRecipeList(ctx, userAuthToken, serviceAuthToken, collectionID)
 		bootstrap.ExecuteTemplate(w, "bootstrap", data)
 	})
 
@@ -61,10 +68,10 @@ func main() {
 	router.Path("/recipes/{recipe}").HandlerFunc(recipesStatusHandler)
 	router.Path("/recipes/{recipe}/codelists").HandlerFunc(codelistsListHandler)
 
-	log.Debug("starting http server", log.Data{"bind_addr": *bindAddrFlag})
+	log.Event(context.Background(), "starting http server", log.Data{"bind_addr": *bindAddrFlag})
 	srv := server.New(*bindAddrFlag, router)
 	if err := srv.ListenAndServe(); err != nil {
-		log.Error(err, nil)
+		log.Event(context.Background(), "error starting http server", log.Error(err))
 		os.Exit(1)
 	}
 }
@@ -79,11 +86,16 @@ func layoutFiles() []string {
 
 //list each recipe and a status per env
 func recipesStatusListHandler(w http.ResponseWriter, req *http.Request) {
-	newList := getRecipeList()
+	ctx := req.Context()
+	userAuthToken, _ := headers.GetUserAuthToken(req)
+	serviceAuthToken, _ := headers.GetServiceAuthToken(req)
+	collectionID, _ := headers.GetCollectionID(req)
+
+	newList := getRecipeList(ctx, userAuthToken, serviceAuthToken, collectionID)
 
 	b, err := json.Marshal(newList)
 	if err != nil {
-		log.ErrorR(req, err, nil)
+		log.Event(ctx, "error returned from json marshall", log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -92,7 +104,7 @@ func recipesStatusListHandler(w http.ResponseWriter, req *http.Request) {
 	w.Write(b)
 }
 
-func getRecipeList() *status.RecipeList {
+func getRecipeList(ctx context.Context, userAuthToken, serviceAuthToken, collectionID string) *status.RecipeList {
 	origList := recipe.FullList
 	newList := &status.RecipeList{}
 	for _, i := range origList.Items {
@@ -102,7 +114,17 @@ func getRecipeList() *status.RecipeList {
 		}
 
 		for _, o := range i.OutputInstances {
-			add := status.CheckRecipe(devURL, betaURL, o.DatasetID, o.CodeLists)
+			checkReq := status.CheckRequest{
+				UserAuthToken:    userAuthToken,
+				ServiceAuthToken: serviceAuthToken,
+				DevURL:           devURL,
+				BetaURL:          betaURL,
+				CollectionID:     collectionID,
+				DatasetID:        o.DatasetID,
+				CodeLists:        o.CodeLists,
+			}
+
+			add := status.CheckRecipe(ctx, checkReq)
 			add.DatasetName = o.Title
 			r.Outputs = append(r.Outputs, *add)
 		}
@@ -119,8 +141,13 @@ func getRecipeList() *status.RecipeList {
 
 //return a specific recipe and its statuses
 func recipesStatusHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
 	vars := mux.Vars(req)
 	recipeID := vars["recipe"]
+	logD := log.Data{"recipe_id": recipeID}
+	userAuthToken, _ := headers.GetUserAuthToken(req)
+	serviceAuthToken, _ := headers.GetServiceAuthToken(req)
+	collectionID, _ := headers.GetCollectionID(req)
 
 	var r *status.Recipe
 	origList := recipe.FullList
@@ -135,21 +162,31 @@ func recipesStatusHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		for _, o := range i.OutputInstances {
-			add := status.CheckRecipe(devURL, betaURL, o.DatasetID, o.CodeLists)
+			checkReq := status.CheckRequest{
+				UserAuthToken:    userAuthToken,
+				ServiceAuthToken: serviceAuthToken,
+				DevURL:           devURL,
+				BetaURL:          betaURL,
+				CollectionID:     collectionID,
+				DatasetID:        o.DatasetID,
+				CodeLists:        o.CodeLists,
+			}
+
+			add := status.CheckRecipe(ctx, checkReq)
 			add.DatasetName = o.Title
 			r.Outputs = append(r.Outputs, *add)
 		}
 	}
 
 	if r == nil {
-		log.ErrorR(req, errors.New("recipe not found"), nil)
+		log.Event(ctx, "recipe not found", log.Error(errors.New("recipe not found")), logD)
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
 	b, err := json.Marshal(r)
 	if err != nil {
-		log.ErrorR(req, err, nil)
+		log.Event(ctx, "error returned from json marshal", log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -160,14 +197,16 @@ func recipesStatusHandler(w http.ResponseWriter, req *http.Request) {
 
 // list codelists for a specific recipe and their status per env
 func codelistsListHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
 	vars := mux.Vars(req)
 	recipeID := vars["recipe"]
+	logD := log.Data{"recipe_id": recipeID}
 
 	newList := getCodelists(recipeID)
 
 	b, err := json.Marshal(newList)
 	if err != nil {
-		log.ErrorR(req, err, nil)
+		log.Event(ctx, "error returned from json marshal", log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

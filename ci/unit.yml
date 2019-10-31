@@ -6,11 +6,10 @@ image_resource:
   type: docker-image
   source:
     repository: golang
-    tag: 1.9.1
+    tag: 1.12.0
 
 inputs:
   - name: dp-recipe-api
-    path: go/src/github.com/ONSdigital/dp-recipe-api
 
 run:
-  path: go/src/github.com/ONSdigital/dp-recipe-api/ci/scripts/unit.sh
+  path: dp-recipe-api/ci/scripts/unit.sh
