@@ -2,6 +2,6 @@
 
 export GOPATH=$(pwd)/go
 
-pushd $GOPATH/src/github.com/ONSdigital/dp-recipe-api
+pushd dp-recipe-api
   make test
 popd
