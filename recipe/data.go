@@ -7,9 +7,9 @@ package recipe
 
 //FullList of recipes available via this API
 var FullList = List{
-	Items: []Response{CPI, CPIH, Trade, MidYearPopEst, MidYearPopEstPCON, MidYearPopEstCCG, ASHE5, ASHE7Hours, ASHE7Earnings, 
-		ASHE8Hours, ASHE8Earnings, ASHE7and8, ASHE9and10, ASHE11and12, ASHE27and28, WellbeingYearEnding, WellbeingLocalAuthority, WellbeingQuarterly, 
-		WellbeingChildrens, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility, NppDeaths, NppBirths, NppCrossBorderRates, 
+	Items: []Response{CPI, CPIH, Trade, MidYearPopEst, MidYearPopEstPCON, MidYearPopEstCCG, ASHE3, ASHE5, ASHE7Hours, ASHE7Earnings, 
+		ASHE8Hours, ASHE8Earnings, ASHE7and8, ASHE9and10, ASHE11and12, ASHE20, ASHE25, ASHE26, ASHE27and28, WellbeingYearEnding, WellbeingLocalAuthority, 
+		WellbeingQuarterly, WellbeingChildrens, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility, NppDeaths, NppBirths, NppCrossBorderRates, 
 		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds, AgeingSexRatios, 
 		AgeingNetFlows, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
 		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, AWE, AWEIndex, CancerRegEng, CancerRegRegions, RegionalGDPYear, 
@@ -252,6 +252,61 @@ var MidYearPopEstCCG = Response{
 					Name:        "age",
 					HRef:        "http://localhost:22400/code-lists/mid-year-pop-age",
 					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 3
+var ASHE3 = Response{
+	ID:     "55c24ef5-82fe-4752-9455-a119bac39293",
+	Alias:  "ASHE Tables 3",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE3"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-3",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 3",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "soc",
+					Name:        "standardoccupationalclassification",
+					HRef:        "http://localhost:22400/code-lists/soc",
+					IsHierarchy: true,
 				},
 			},
 		},
@@ -678,6 +733,171 @@ var ASHE11and12 = Response{
 	},
 }
 
+// ASHE tables 20
+var ASHE20 = Response{
+	ID:     "70cab339-c01a-477a-8e4c-96a261e3595e",
+	Alias:  "ASHE Tables 20",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE20"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-20",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 20",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "soc",
+					Name:        "standardoccupationalclassification",
+					HRef:        "http://localhost:22400/code-lists/soc",
+					IsHierarchy: true,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 25
+var ASHE25 = Response{
+	ID:     "3669408a-6705-445c-a1a4-a4c5c75a0346",
+	Alias:  "ASHE Tables 25",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE25"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-25",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 25",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				},{
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, {
+					ID:          "sector",
+					Name:        "sectortype",
+					HRef:        "http://localhost:22400/code-lists/sector",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// ASHE tables 26
+var ASHE26 = Response{
+	ID:     "e7fc556a-a71b-44a6-9843-c38e6d4b4e62",
+	Alias:  "ASHE Tables 26",
+	Format: "v4",
+	InputFiles: []file{
+		{"ASHE26"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ashe-tables-26",
+			Editions:  []string{"time-series"},
+			Title:     "ASHE Tables 26",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-statistics",
+					Name:        "statistics",
+					HRef:        "http://localhost:22400/code-lists/ashe-statistics",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-working-pattern",
+					Name:        "workingpattern",
+					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-hours-and-earnings",
+					Name:        "hoursandearnings",
+					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
 // ASHE tables 27 and 28 combined
 var ASHE27and28 = Response{
 	ID:     "10213937-4076-4fd9-ba1a-506b2206a71f",
@@ -712,7 +932,7 @@ var ASHE27and28 = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-working-pattern",
 					Name:        "workingpattern",
 					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
