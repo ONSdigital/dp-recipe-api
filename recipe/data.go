@@ -8,7 +8,7 @@ package recipe
 //FullList of recipes available via this API
 var FullList = List{
 	Items: []Response{CPI, CPIH, Trade, MidYearPopEst, MidYearPopEstPCON, MidYearPopEstCCG, ASHE5, ASHE7Hours, ASHE7Earnings, 
-		ASHE8Hours, ASHE8Earnings, ASHE7and8, ASHE9and10, ASHE11and12, ASHE27and28, WellbeingYearEnding, WellbeingLocalAuthority, 
+		ASHE8Hours, ASHE8Earnings, ASHE7and8, ASHE9and10, ASHE11and12, ASHE27and28, WellbeingYearEnding, WellbeingLocalAuthority, WellbeingQuarterly, 
 		WellbeingChildrens, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility, NppDeaths, NppBirths, NppCrossBorderRates, 
 		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds, AgeingSexRatios, 
 		AgeingNetFlows, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
@@ -797,6 +797,46 @@ var WellbeingLocalAuthority = Response{
 					Name:        "geography",
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
+				}, {
+					ID:          "wellbeing-estimate",
+					Name:        "estimate",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-estimate",
+					IsHierarchy: false,
+				}, {
+					ID:          "wellbeing-measureofwellbeing",
+					Name:        "allmeasuresofwellbeing",
+					HRef:        "http://localhost:22400/code-lists/wellbeing-measureofwellbeing",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Wellbeing quarterly is wellbeing data with a time codelist of "yyyy-qq"
+var WellbeingQuarterly = Response{
+	ID:     "cc738a86-e14f-4181-93c4-9aab2dac467a",
+	Alias:  "Wellbeing Quarterly",
+	Format: "v4",
+	InputFiles: []file{
+		{"wellbeingquarterly"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "wellbeing-quarterly",
+			Editions:  []string{"time-series"},
+			Title:     "Well-being by quarters",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
 				}, {
 					ID:          "wellbeing-estimate",
 					Name:        "estimate",
