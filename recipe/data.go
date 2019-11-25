@@ -15,11 +15,11 @@ var FullList = List{
 		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, AWE, AWEIndex, CancerRegEng, CancerRegRegions, RegionalGDPYear, 
 		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
-		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, ParentsCountryOfBirth, LifeExpectancy, ChildMortality, 
-		Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, 
-		Census1961SH06, Census1961SH07, Census1961SH08, Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, 
-		Census1961SH15, Census1961ST01, Census1961ST02, Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08,
-		Census1961ST09,Census1961SC11, Census1961SC13, Census1961SC22},
+		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, FamiliesAndHouseholds, ParentsCountryOfBirth, LifeExpectancy, 
+		ChildMortality, Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, 
+		Census1961SH05, Census1961SH06, Census1961SH07, Census1961SH08, Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, 
+		Census1961SH14, Census1961SH15, Census1961ST01, Census1961ST02, Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, 
+		Census1961ST08, Census1961ST09,Census1961SC11, Census1961SC13, Census1961SC22},
 	Start: 0,
 }
 
@@ -3368,6 +3368,46 @@ var Construction = Response{
 	},
 }
 
+// Families and Households
+var FamiliesAndHouseholds = Response{
+	ID:     "bb9dacb0-2b73-4b3c-8198-4b1350dd13c7",
+	Alias:  "Families and households",
+	Format: "v4",
+	InputFiles: []file{
+		{"FamiliesAndHouseholds"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "families-and-households",
+			Editions:  []string{"time-series"},
+			Title:     "Families and households",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "family-household-type",
+					Name:        "familyhousehold",
+					HRef:        "http://localhost:22400/code-lists/family-household-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "children-in-family",
+					Name:        "childreninfamiy",
+					HRef:        "http://localhost:22400/code-lists/children-in-family",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
 // Parents Country of Birth 
 var ParentsCountryOfBirth = Response{
 	ID:     "916475c2-98a8-4d86-9ff5-a6d1c1d4688d",
@@ -3563,19 +3603,19 @@ var DrugRelatedDeaths = Response{
 	},
 }
 
-// Monthly deaths by local authority
+// Deaths registered monthly in England and Wales
 var MonthlyDeaths = Response{
 	ID:     "7e4b9781-2732-4847-a290-e547198acfe2",
-	Alias:  "Monthly deaths by local authority",
+	Alias:  "Deaths registered monthly in England and Wales",
 	Format: "v4",
 	InputFiles: []file{
 		{"MonthlyDeaths"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "monthly-deaths-local-authority",
+			DatasetID: "deaths-registered-monthly-england-wales",
 			Editions:  []string{"time-series"},
-			Title:     "Monthly deaths by local authority",
+			Title:     "Deaths registered monthly in England and Wales",
 			CodeLists: []CodeList{
 				{
 					ID:          "mmm-yy",
