@@ -16,7 +16,7 @@ var FullList = List{
 		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
 		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, ParentsCountryOfBirth, LifeExpectancy, ChildMortality, 
-		Suicides, DrugRelatedDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, 
+		Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, 
 		Census1961SH06, Census1961SH07, Census1961SH08, Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, 
 		Census1961SH15, Census1961ST01, Census1961ST02, Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08,
 		Census1961ST09,Census1961SC11, Census1961SC13, Census1961SC22},
@@ -3558,6 +3558,36 @@ var DrugRelatedDeaths = Response{
 					HRef:        "http://localhost:22400/code-lists/drug-deaths-type-of-death",
 					IsHierarchy: false,
 				},
+			},
+		},
+	},
+}
+
+// Monthly deaths by local authority
+var MonthlyDeaths = Response{
+	ID:     "7e4b9781-2732-4847-a290-e547198acfe2",
+	Alias:  "Monthly deaths by local authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"MonthlyDeaths"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "monthly-deaths-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "Monthly deaths by local authority",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, 
 			},
 		},
 	},
