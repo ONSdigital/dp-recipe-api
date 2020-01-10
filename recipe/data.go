@@ -1813,6 +1813,11 @@ var AgeingNetFlows = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
 					ID:          "age-groups",
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
