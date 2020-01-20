@@ -149,7 +149,7 @@ var MidYearPopEst = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "mid-year-pop-est",
-			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "time-series"},
+			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "mid-2018-april-2019-geography"},
 			Title:     "Population Estimates for UK, England and Wales, Scotland and Northern Ireland",
 			CodeLists: []CodeList{
 				{
@@ -1738,9 +1738,9 @@ var AgeingSingleHouseholds = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "ashe-sex",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "age-groups",
@@ -1813,9 +1813,9 @@ var AgeingNetFlows = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "ashe-sex",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "age-groups",
@@ -1853,9 +1853,9 @@ var AgeingEconomicActivity = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "ashe-sex",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "economic-activity",
