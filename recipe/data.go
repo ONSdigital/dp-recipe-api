@@ -1738,9 +1738,9 @@ var AgeingSingleHouseholds = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "ashe-sex",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "age-groups",
@@ -1813,9 +1813,9 @@ var AgeingNetFlows = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "ashe-sex",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "age-groups",
@@ -1853,9 +1853,9 @@ var AgeingEconomicActivity = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "ashe-sex",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "economic-activity",
