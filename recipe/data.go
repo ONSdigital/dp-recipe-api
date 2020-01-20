@@ -149,7 +149,7 @@ var MidYearPopEst = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "mid-year-pop-est",
-			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "time-series"},
+			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "mid-2018-april-2019-geography"},
 			Title:     "Population Estimates for UK, England and Wales, Scotland and Northern Ireland",
 			CodeLists: []CodeList{
 				{
