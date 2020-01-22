@@ -11,15 +11,15 @@ var FullList = List{
 		ASHE8Hours, ASHE8Earnings, ASHE7and8, ASHE9and10, ASHE11and12, ASHE20, ASHE25, ASHE26, ASHE27and28, WellbeingYearEnding, WellbeingLocalAuthority, 
 		WellbeingQuarterly, WellbeingChildrens, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility, NppDeaths, NppBirths, NppCrossBorderRates, 
 		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds, AgeingSexRatios, 
-		AgeingNetFlows, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
+		AgeingNetFlows, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
 		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, AWE, AWEIndex, CancerRegEng, CancerRegRegions, RegionalGDPYear, 
 		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
-		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, ParentsCountryOfBirth, LifeExpectancy, ChildMortality, 
-		Suicides, DrugRelatedDeaths, SexualOrientation, Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, 
-		Census1961SH06, Census1961SH07, Census1961SH08, Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, 
-		Census1961SH15, Census1961ST01, Census1961ST02, Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08,
-		Census1961ST09,Census1961SC11, Census1961SC13, Census1961SC22},
+		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, FamiliesAndHouseholds, ParentsCountryOfBirth, LifeExpectancy, 
+		ChildMortality, Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation, 
+		Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, Census1961SH06, Census1961SH07, Census1961SH08, 
+		Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, Census1961SH15, Census1961ST01, Census1961ST02, 
+		Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08, Census1961ST09,Census1961SC11, Census1961SC13, Census1961SC22},
 	Start: 0,
 }
 
@@ -149,7 +149,7 @@ var MidYearPopEst = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "mid-year-pop-est",
-			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "time-series"},
+			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "mid-2018-april-2019-geography"},
 			Title:     "Population Estimates for UK, England and Wales, Scotland and Northern Ireland",
 			CodeLists: []CodeList{
 				{
@@ -1738,9 +1738,9 @@ var AgeingSingleHouseholds = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
-					ID:          "ashe-sex",
+					ID:          "adult-sex",
 					Name:        "sex",
-					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
 					IsHierarchy: false,
 				}, {
 					ID:          "age-groups",
@@ -1813,9 +1813,54 @@ var AgeingNetFlows = Response{
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
 				}, {
+					ID:          "adult-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
+					IsHierarchy: false,
+				}, {
 					ID:          "age-groups",
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Local authority ageing statistics - older people economic activity
+var AgeingEconomicActivity = Response{
+	ID:     "854946e8-cc7f-4b41-910b-d8625594a0119",
+	Alias:  "Local authority ageing statistics - older people economic activity",
+	Format: "v4",
+	InputFiles: []file{
+		{"AgeingEconomicActivity"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "ageing-economic-activity",
+			Editions:  []string{"time-series"},
+			Title:     "Local authority ageing statistics, older people economic activity",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "adult-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/adult-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "economic-activity",
+					Name:        "economicactivity",
+					HRef:        "http://localhost:22400/code-lists/economic-activity",
 					IsHierarchy: false,
 				}, 
 			},
@@ -3368,6 +3413,46 @@ var Construction = Response{
 	},
 }
 
+// Families and Households
+var FamiliesAndHouseholds = Response{
+	ID:     "bb9dacb0-2b73-4b3c-8198-4b1350dd13c7",
+	Alias:  "Families and households",
+	Format: "v4",
+	InputFiles: []file{
+		{"FamiliesAndHouseholds"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "families-and-households",
+			Editions:  []string{"time-series"},
+			Title:     "Families and households",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "family-household-type",
+					Name:        "familyhousehold",
+					HRef:        "http://localhost:22400/code-lists/family-household-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "children-in-family",
+					Name:        "childreninfamiy",
+					HRef:        "http://localhost:22400/code-lists/children-in-family",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
 // Parents Country of Birth 
 var ParentsCountryOfBirth = Response{
 	ID:     "916475c2-98a8-4d86-9ff5-a6d1c1d4688d",
@@ -3558,6 +3643,36 @@ var DrugRelatedDeaths = Response{
 					HRef:        "http://localhost:22400/code-lists/drug-deaths-type-of-death",
 					IsHierarchy: false,
 				},
+			},
+		},
+	},
+}
+
+// Deaths registered monthly in England and Wales
+var MonthlyDeaths = Response{
+	ID:     "7e4b9781-2732-4847-a290-e547198acfe2",
+	Alias:  "Deaths registered monthly in England and Wales",
+	Format: "v4",
+	InputFiles: []file{
+		{"MonthlyDeaths"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "deaths-registered-monthly-england-wales",
+			Editions:  []string{"time-series"},
+			Title:     "Deaths registered monthly in England and Wales",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, 
 			},
 		},
 	},
