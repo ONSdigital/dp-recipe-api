@@ -1788,10 +1788,10 @@ var AgeingSexRatios = Response{
 	},
 }
 
-// Local authority ageing statistics - net internal migration for over 65s and over 85s
+// Local authority ageing statistics - net internal migration for people aged 65 and over and 85 and over
 var AgeingNetInternalMigration = Response{
 	ID:     "c5875623-0874-429d-bbc6-63d2d84e6159",
-	Alias:  "Local authority ageing statistics - net internal migration for over 65s and over 85s",
+	Alias:  "Local authority ageing statistics - net internal migration for people aged 65 and over and 85 and over",
 	Format: "v4",
 	InputFiles: []file{
 		{"AgeingNetInternalMigration"},
@@ -1800,7 +1800,7 @@ var AgeingNetInternalMigration = Response{
 		{
 			DatasetID: "older-people-net-internal-migration",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, net internal migration for over 65s and over 85s",
+			Title:     "Local authority ageing statistics, net internal migration people aged 65 and over and 85 and over",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
