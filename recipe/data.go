@@ -13,7 +13,8 @@ var FullList = List{
 		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopulationEstimates, AgeingSingleHouseholds, AgeingSexRatios, 
 		AgeingNetInternalMigration, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
 		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, AWE, AWEIndex, CancerRegEng, CancerRegRegions, RegionalGDPYear, 
-		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
+		RegionalGDPQuarter, GVAIndustryLA, GVAIndustryNuts, GVAHeadIncomeIndustry, GVAHeadIncome, GDPNuts, GDPLA, GDPLocalEnterprisePartnership, GDPCityRegions,
+		TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
 		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, FamiliesAndHouseholds, ParentsCountryOfBirth, LifeExpectancy, 
 		ChildMortality, Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation, 
@@ -2528,6 +2529,301 @@ var RegionalGDPQuarter = Response{
 					HRef:        "http://localhost:22400/code-lists/gdp-measure",
 					IsHierarchy: false,
 				},
+			},
+		},
+	},
+}
+
+// GVA by industry by local authority
+var GVAIndustryLA = Response{
+	ID:     "b69041ca-efcd-4b87-ad7e-267a0beb53d6",
+	Alias:  "GVA by industry by local authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"GVAIndustryLA"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gva-by-industry-by-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "GVA by industry by local authority",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "sic-test",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic-test",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// GVA by industry by nuts geography
+var GVAIndustryNuts = Response{
+	ID:     "fc2a9ac8-a7b8-45bb-b88b-55777d7f6af0",
+	Alias:  "GVA by industry by nuts geography",
+	Format: "v4",
+	InputFiles: []file{
+		{"GVAIndustryNuts"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gva-by-industry-by-nuts",
+			Editions:  []string{"time-series"},
+			Title:     "GVA by industry by nuts geography",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "sic-test",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic-test",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// GVA per head and income components by industry
+var GVAHeadIncomeIndustry = Response{
+	ID:     "a2388313-1363-4317-b885-ba753f6ecb81",
+	Alias:  "GVA per head and income components by industry",
+	Format: "v4",
+	InputFiles: []file{
+		{"GVAHeadIncomeIndustry"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gva-head-income-components-by-industry",
+			Editions:  []string{"time-series"},
+			Title:     "GVA per head and income components by industry",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "sic-test",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic-test",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// GVA per head and income components
+var GVAHeadIncome = Response{
+	ID:     "ca7b5ced-74a2-4cc4-996a-196d6bb40b4c",
+	Alias:  "GVA per head and income components",
+	Format: "v4",
+	InputFiles: []file{
+		{"GVAHeadIncome"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gva-head-income-components",
+			Editions:  []string{"time-series"},
+			Title:     "GVA per head and income components",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// GDP by nuts geography
+var GDPNuts = Response{
+	ID:     "732ec126-8589-4da9-bbd0-3135f2b24156",
+	Alias:  "GDP by nuts geography",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDPNuts"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-by-nuts",
+			Editions:  []string{"time-series"},
+			Title:     "GDP by nuts geography",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// GDP by local authority
+var GDPLA = Response{
+	ID:     "8aeef5b9-92b1-4a3f-bf97-bf77a0205411",
+	Alias:  "GDP by local authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDPLA"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-by-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "GDP by local authority",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// GDP by local enterprise partnership
+var GDPLocalEnterprisePartnership = Response{
+	ID:     "204dd609-ace9-4ede-9d17-90df041e6615",
+	Alias:  "GDP by local enterprise partnership",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDPLocalEnterprisePartnership"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-by-local-enterprise-partnership",
+			Editions:  []string{"time-series"},
+			Title:     "GDP by local enterprise partnership",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "local-enterprise-partnership-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/local-enterprise-partnership-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// GDP by city regions
+var GDPCityRegions = Response{
+	ID:     "b75f4749-6d02-4d06-aaf6-48f87dc577c7",
+	Alias:  "GDP by city regions",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDPCityRegions"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-by-city-regions",
+			Editions:  []string{"time-series"},
+			Title:     "GDP by city regions",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "city-regions",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/city-regions",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, 
 			},
 		},
 	},
