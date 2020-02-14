@@ -10,8 +10,8 @@ var FullList = List{
 	Items: []Response{CPI, CPIH, Trade, MidYearPopEst, MidYearPopEstPCON, MidYearPopEstCCG, ASHE3, ASHE5, ASHE7Hours, ASHE7Earnings, 
 		ASHE8Hours, ASHE8Earnings, ASHE7and8, ASHE9and10, ASHE11and12, ASHE20, ASHE25, ASHE26, ASHE27and28, WellbeingYearEnding, WellbeingLocalAuthority, 
 		WellbeingQuarterly, WellbeingChildrens, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility, NppDeaths, NppBirths, NppCrossBorderRates, 
-		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds, AgeingSexRatios, 
-		AgeingNetFlows, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
+		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopulationEstimates, AgeingSingleHouseholds, AgeingSexRatios, 
+		AgeingNetInternalMigration, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
 		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, AWE, AWEIndex, CancerRegEng, CancerRegRegions, RegionalGDPYear, 
 		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
@@ -1673,19 +1673,19 @@ var ReportingBehaviour2 = Response{
 	},
 }
 
-// Local authority ageing statistics - principal population projections
-var AgeingPopProj = Response{
+// Local authority ageing statistics - principal population estimates
+var AgeingPopulationEstimates = Response{
 	ID:     "1c5b0a7b-024c-49fe-8446-a66eb9736ed3",
-	Alias:  "Local authority ageing statistics - principal population projections",
+	Alias:  "Local authority ageing statistics - principal population estimates",
 	Format: "v4",
 	InputFiles: []file{
-		{"AgeingPopulationProjections"},
+		{"AgeingPopulationEstimates"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-population-projections",
+			DatasetID: "ageing-population-estimates",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, principal population projections",
+			Title:     "Local authority ageing statistics, principal population estimates",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -1713,19 +1713,19 @@ var AgeingPopProj = Response{
 	},
 }
 
-// Local authority ageing statistics - % of single households headed by someone over 65 and over 85
+// Local authority ageing statistics, percentage of single households headed by someone aged 65 and over and 85 and over
 var AgeingSingleHouseholds = Response{
 	ID:     "226d6940-ed0c-4556-91f1-9ca61d56c8a0",
-	Alias:  "Local authority ageing statistics - % of single households headed by someone over 65 and over 85",
+	Alias:  "Local authority ageing statistics, percentage of single households headed by someone aged 65 and over and 85 and over",
 	Format: "v4",
 	InputFiles: []file{
 		{"AgeingSingleHouseholds"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-single-households",
+			DatasetID: "older-people-in-single-households",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, percentage of single households headed by someone over 65 and over 85",
+			Title:     "Local authority ageing statistics, percentage of single households headed by someone aged 65 and over and 85 and over",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -1753,19 +1753,19 @@ var AgeingSingleHouseholds = Response{
 	},
 }
 
-// Local authority ageing statistics - sex ratios for people over 65 and over 85
+// Local authority ageing statistics, sex ratios for people aged 65 and over and 85 and over
 var AgeingSexRatios = Response{
 	ID:     "df8c8df5-484a-4d29-b246-a7720caf2474",
-	Alias:  "Local authority ageing statistics - sex ratios for people over 65 and over 85",
+	Alias:  "Local authority ageing statistics, sex ratios for people aged 65 and over and 85 and over",
 	Format: "v4",
 	InputFiles: []file{
 		{"AgeingSexRatios"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-sex-ratios",
+			DatasetID: "older-people-sex-ratios",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, sex ratios for people over 65 and over 85",
+			Title:     "Local authority ageing statistics, sex ratios for people aged 65 and over and 85 and over",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -1788,19 +1788,19 @@ var AgeingSexRatios = Response{
 	},
 }
 
-// Local authority ageing statistics - net flows for over 65s and over 85s
-var AgeingNetFlows = Response{
+// Local authority ageing statistics - net internal migration for people aged 65 and over and 85 and over
+var AgeingNetInternalMigration = Response{
 	ID:     "c5875623-0874-429d-bbc6-63d2d84e6159",
-	Alias:  "Local authority ageing statistics - net flows for over 65s and over 85s",
+	Alias:  "Local authority ageing statistics - net internal migration for people aged 65 and over and 85 and over",
 	Format: "v4",
 	InputFiles: []file{
-		{"AgeingNetFlows"},
+		{"AgeingNetInternalMigration"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-net-flows",
+			DatasetID: "older-people-net-internal-migration",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, net flows for over 65s and over 85s",
+			Title:     "Local authority ageing statistics, net internal migration people aged 65 and over and 85 and over",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -1838,7 +1838,7 @@ var AgeingEconomicActivity = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-economic-activity",
+			DatasetID: "older-people-economic-activity",
 			Editions:  []string{"time-series"},
 			Title:     "Local authority ageing statistics, older people economic activity",
 			CodeLists: []CodeList{
