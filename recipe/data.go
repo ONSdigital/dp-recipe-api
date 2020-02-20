@@ -12,7 +12,8 @@ var FullList = List{
 		WellbeingQuarterly, WellbeingChildrens, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility, NppDeaths, NppBirths, NppCrossBorderRates, 
 		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopulationEstimates, AgeingSingleHouseholds, AgeingSexRatios, 
 		AgeingNetInternalMigration, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
-		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, AWE, AWEIndex, CancerRegEng, CancerRegRegions, RegionalGDPYear, 
+		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, PublicSectorEmployment, PublicSectorEmploymentYear, PublicSectorEmploymentQuarter, 
+		AWE, AWEIndex, CancerRegEng, CancerRegRegions, RegionalGDPYear, 
 		RegionalGDPQuarter, GVAIndustryLA, GVAIndustryNuts, GVAHeadIncomeIndustry, GVAHeadIncome, GDPNuts, GDPLA, GDPLocalEnterprisePartnership, GDPCityRegions,
 		TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
@@ -2257,6 +2258,111 @@ var LMSJobsByIndustry = Response{
 					ID:          "lms-sic",
 					Name:        "standardindustrialclassification",
 					HRef:        "http://localhost:22400/code-lists/lms-sic",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Public sector employment
+var PublicSectorEmployment = Response{
+	ID:     "390136b5-21b5-49dc-8af5-4cf466f2c4d5",
+	Alias:  "Public sector employment",
+	Format: "v4",
+	InputFiles: []file{
+		{"PublicSectorEmployment"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "public-sector-employment",
+			Editions:  []string{"time-series"},
+			Title:     "Public sector employment",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "sector",
+					Name:        "sectortype",
+					HRef:        "http://localhost:22400/code-lists/sector",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Public sector employment by year
+var PublicSectorEmploymentYear = Response{
+	ID:     "3665ce55-8b00-4849-8765-aa966bc2a364",
+	Alias:  "Public sector employment by year",
+	Format: "v4",
+	InputFiles: []file{
+		{"PublicSectorEmploymentYear"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "public-sector-employment-by-year",
+			Editions:  []string{"time-series"},
+			Title:     "Public sector employment by year",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "sector",
+					Name:        "sectortype",
+					HRef:        "http://localhost:22400/code-lists/sector",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// Public sector employment by quarter
+var PublicSectorEmploymentQuarter = Response{
+	ID:     "3f06663d-7afd-47f0-a915-89e3b9f48427",
+	Alias:  "Public sector employment by quarter",
+	Format: "v4",
+	InputFiles: []file{
+		{"PublicSectorEmploymentQuarter"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "public-sector-employment-by-quarter",
+			Editions:  []string{"time-series"},
+			Title:     "Public sector employment by quarter",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "sector",
+					Name:        "sectortype",
+					HRef:        "http://localhost:22400/code-lists/sector",
 					IsHierarchy: false,
 				}, 
 			},
