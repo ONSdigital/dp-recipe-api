@@ -2600,6 +2600,47 @@ var HealthAccounts = Response{
 	},
 }
 
+// Regional and Subregional Productivity
+var ProductivityNuts = Response{
+	ID:     "0157afd0-b68a-4156-bf8d-652baad84799",
+	Alias:  "Regional and Subregional Productivity",
+	Format: "v4",
+	InputFiles: []file{
+		{"ProductivityNuts"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "productivity-by-nuts",
+			Editions:  []string{"time-series"},
+			Title:     "Regional and Subregional Productivity",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "smoothing",
+					Name:        "smoothingfunction",
+					HRef:        "http://localhost:22400/code-lists/smoothing",
+					IsHierarchy: false,
+				}, {
+					ID:          "productivity",
+					Name:        "productivitytype",
+					HRef:        "http://localhost:22400/code-lists/productivity",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+
 // Regional GDP by year
 var RegionalGDPYear = Response{
 	ID:     "eec65efd-da07-4089-8e3e-a356751fa72d",
