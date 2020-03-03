@@ -30,7 +30,7 @@ func Get() (*Configuration, error) {
 	cfg = &Configuration{
 		BindAddr: ":22300",
 		MongoConfig: MongoConfig{
-			BindAddr:   "http://localhost:27017",
+			BindAddr:   "localhost:27017",
 			Collection: "recipes",
 			Database:   "recipe-db",
 		},

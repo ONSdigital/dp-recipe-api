@@ -5,31 +5,56 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"syscall"
 
 	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 
 	"os"
+	"os/signal"
 
 	"github.com/ONSdigital/dp-recipe-api/config"
+	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	log.Namespace = "recipe-api"
-	configuration, configErr := config.Get()
+
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
+
+	cfg, configErr := config.Get()
 	if configErr != nil {
 		log.Event(context.Background(), "error loading app config", log.Error(configErr))
 		os.Exit(1)
 	}
 
-	router := mux.NewRouter()
-	router.Path("/recipes").HandlerFunc(recipeListHandler)
-	router.Path("/recipes/{id}").HandlerFunc(recipeHandler)
+	log.Event(context.Background(), "config on startup", log.Data{"config": cfg})
 
-	log.Event(context.Background(), "starting http server", log.Data{"bind_addr": configuration.BindAddr})
-	srv := server.New(configuration.BindAddr, router)
+	mongodb := &mongo.Mongo{
+		Collection: cfg.MongoConfig.Collection,
+		Database:   cfg.MongoConfig.Database,
+		URI:        cfg.MongoConfig.BindAddr,
+	}
+
+	session, err := mongodb.Init()
+	if err != nil {
+		log.Event(context.Background(), "failed to initialise mongo", log.Data{"err": err})
+	} else {
+		mongodb.Session = session
+		log.Event(context.Background(), "listening...", log.Data{
+			"bind_address": cfg.BindAddr,
+		})
+	}
+
+	router := mux.NewRouter()
+	router.Methods("GET").Path("/recipes").HandlerFunc(recipeListHandler)
+	router.Methods("GET").Path("/recipes/{id}").HandlerFunc(recipeHandler)
+
+	log.Event(context.Background(), "starting http server", log.Data{"bind_addr": cfg.BindAddr})
+	srv := server.New(cfg.BindAddr, router)
 	if err := srv.ListenAndServe(); err != nil {
 		log.Event(context.Background(), "error starting http server for API", log.Error(err))
 		os.Exit(1)
