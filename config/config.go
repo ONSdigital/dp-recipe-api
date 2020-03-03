@@ -1,26 +1,47 @@
 package config
 
-import "github.com/ian-kent/gofigure"
+import (
+	"encoding/json"
 
-type appConfiguration struct {
-	BindAddr string `env:"BIND_ADDR" flag:"bind-addr" flagDesc:"The port to bind to"`
+	"github.com/kelseyhightower/envconfig"
+)
+
+// Configuration structure which hold information for configuring the import API
+type Configuration struct {
+	BindAddr    string `envconfig:"BIND_ADDR"`
+	MongoConfig MongoConfig
 }
 
-var configuration *appConfiguration
+// MongoConfig contains the config required to connect to MongoDB.
+type MongoConfig struct {
+	BindAddr   string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
+	Collection string `envconfig:"MONGODB_COLLECTION"`
+	Database   string `envconfig:"MONGODB_DATABASE"`
+}
 
-// Get - configures the application and returns the configuration
-func Get() (*appConfiguration, error) {
-	if configuration != nil {
-		return configuration, nil
+var cfg *Configuration
+
+// Get - configures the application and returns the cfg
+func Get() (*Configuration, error) {
+	if cfg != nil {
+		return cfg, nil
 	}
 
-	configuration = &appConfiguration{
+	cfg = &Configuration{
 		BindAddr: ":22300",
+		MongoConfig: MongoConfig{
+			BindAddr:   "http://localhost:27017",
+			Collection: "recipes",
+			Database:   "recipe-db",
+		},
 	}
 
-	if err := gofigure.Gofigure(configuration); err != nil {
-		return configuration, err
-	}
+	return cfg, envconfig.Process("", cfg)
+}
 
-	return configuration, nil
+// String is implemented to prevent sensitive fields being logged.
+// The config is returned as JSON with sensitive fields omitted.
+func (config Configuration) String() string {
+	json, _ := json.Marshal(config)
+	return string(json)
 }

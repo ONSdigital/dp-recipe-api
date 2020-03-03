@@ -15,6 +15,7 @@ require (
 	github.com/ian-kent/envconf v0.0.0-20141026121121-c19809918c02 // indirect
 	github.com/ian-kent/gofigure v0.0.0-20170502192241-c9dc3a1359af
 	github.com/justinas/alice v0.0.0-20171023064455-03f45bd4b7da // indirect
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b // indirect
 	github.com/pkg/errors v0.8.1 // indirect
