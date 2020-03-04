@@ -3127,7 +3127,7 @@ var HousePrices = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "house-prices-local-authority",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"time-series-historic", "time-series"},
 			Title:     "UK House Price Index",
 			CodeLists: []CodeList{
 				{
