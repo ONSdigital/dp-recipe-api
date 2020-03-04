@@ -18,9 +18,9 @@ func TestSpec(t *testing.T) {
 
 			Convey("The values should be set to the expected defaults", func() {
 				So(cfg.BindAddr, ShouldEqual, ":22300")
-				So(cfg.MongoConfig.BindAddr, ShouldEqual, "http://localhost:27017")
+				So(cfg.MongoConfig.BindAddr, ShouldEqual, "localhost:27017")
 				So(cfg.MongoConfig.Collection, ShouldEqual, "recipes")
-				So(cfg.MongoConfig.Database, ShouldEqual, "recipe-db")
+				So(cfg.MongoConfig.Database, ShouldEqual, "recipes")
 			})
 		})
 	})

@@ -13,7 +13,7 @@ type Mongo struct {
 	URI        string
 }
 
-// Init creates a new mgo.Session with a strong consistency and a write mode of "majortiy".
+// Init creates a new mgo.Session with a strong consistency and a write mode of "majority".
 func (m *Mongo) Init() (session *mgo.Session, err error) {
 	if session != nil {
 		return nil, errors.New("session already exists")

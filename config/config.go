@@ -1,8 +1,6 @@
 package config
 
 import (
-	"encoding/json"
-
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -32,16 +30,9 @@ func Get() (*Configuration, error) {
 		MongoConfig: MongoConfig{
 			BindAddr:   "localhost:27017",
 			Collection: "recipes",
-			Database:   "recipe-db",
+			Database:   "recipes",
 		},
 	}
 
 	return cfg, envconfig.Process("", cfg)
-}
-
-// String is implemented to prevent sensitive fields being logged.
-// The config is returned as JSON with sensitive fields omitted.
-func (config Configuration) String() string {
-	json, _ := json.Marshal(config)
-	return string(json)
 }

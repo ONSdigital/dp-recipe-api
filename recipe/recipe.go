@@ -11,7 +11,7 @@ type List struct {
 
 //Response - struct for individual recipe
 type Response struct {
-	ID              string     `bson:"_id,omitempty" json:"id,omitempty"`
+	ID              string     `bson:"_id" json:"id"`
 	Alias           string     `bson:"alias,omitempty" json:"alias,omitempty"`
 	Format          string     `bson:"format,omitempty" json:"format,omitempty"`
 	InputFiles      []file     `bson:"files,omitempty" json:"files,omitempty"`
