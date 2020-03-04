@@ -3131,11 +3131,16 @@ var HousePrices = Response{
 			Title:     "UK House Price Index",
 			CodeLists: []CodeList{
 				{
-					ID:          "mmm-yy",
+					ID:          "calendar-years",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
 					IsHierarchy: false,
 				}, {
+					ID:          "month",
+					Name:        "months",
+					HRef:        "http://localhost:22400/code-lists/month",
+					IsHierarchy: false,
+				},{
 					ID:          "admin-geography",
 					Name:        "geography",
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
