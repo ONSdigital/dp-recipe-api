@@ -3136,9 +3136,9 @@ var HousePrices = Response{
 					HRef:        "http://localhost:22400/code-lists/calendar-years",
 					IsHierarchy: false,
 				}, {
-					ID:          "month",
-					Name:        "months",
-					HRef:        "http://localhost:22400/code-lists/month",
+					ID:          "mmm",
+					Name:        "month",
+					HRef:        "http://localhost:22400/code-lists/mmm",
 					IsHierarchy: false,
 				},{
 					ID:          "admin-geography",
