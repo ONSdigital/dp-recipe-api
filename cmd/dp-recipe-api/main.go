@@ -34,17 +34,22 @@ func main() {
 
 	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
 
-	mongodb := &mongo.Mongo{
-		Collection: cfg.MongoConfig.Collection,
-		Database:   cfg.MongoConfig.Database,
-		URI:        cfg.MongoConfig.BindAddr,
-	}
+	//Feature Flag for Mongo Connection
+	ENABLE_MONGO_DATA := cfg.MongoConfig.EnableMongoData
 
-	var err error
-	mongodb.Session, err = mongodb.Init()
-	if err != nil {
-		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
-		os.Exit(1)
+	if ENABLE_MONGO_DATA {
+		mongodb := &mongo.Mongo{
+			Collection: cfg.MongoConfig.Collection,
+			Database:   cfg.MongoConfig.Database,
+			URI:        cfg.MongoConfig.BindAddr,
+		}
+
+		var err error
+		mongodb.Session, err = mongodb.Init()
+		if err != nil {
+			log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
+			os.Exit(1)
+		}
 	}
 
 	router := mux.NewRouter()
