@@ -2,11 +2,11 @@ package recipe
 
 //List - struct for list of recipes
 type List struct {
-	Count        int        `bson:"count,omitempty" json:"count,omitempty"`
-	Start        int        `bson:"start_index,omitempty" json:"start_index,omitempty"`
-	ItemsPerPage int        `bson:"items_per_page,omitempty" json:"items_per_page,omitempty"`
-	Items        []Response `bson:"items,omitempty" json:"items,omitempty"`
-	TotalCount   int        `bson:"total_count,omitempty" json:"total_count,omitempty"`
+	Count      int        `bson:"count,omitempty" json:"count,omitempty"`
+	Offset     int        `bson:"offset_index,omitempty" json:"offset_index,omitempty"`
+	Limit      int        `bson:"limit,omitempty" json:"limit,omitempty"`
+	Items      []Response `bson:"items,omitempty" json:"items,omitempty"`
+	TotalCount int        `bson:"total_count,omitempty" json:"total_count,omitempty"`
 }
 
 //Response - struct for individual recipe

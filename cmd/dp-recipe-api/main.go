@@ -64,7 +64,7 @@ func recipeListHandler(w http.ResponseWriter, req *http.Request) {
 	c := len(list.Items)
 	list.Count = c
 	list.TotalCount = c
-	list.ItemsPerPage = c
+	list.Limit = c
 
 	b, err := json.Marshal(list)
 	if err != nil {
