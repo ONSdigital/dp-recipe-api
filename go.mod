@@ -20,6 +20,7 @@ require (
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
+	github.com/pkg/errors v0.8.1
 	github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337
 	go.mongodb.org/mongo-driver v1.3.0
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
