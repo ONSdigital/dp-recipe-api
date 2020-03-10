@@ -1,66 +1,53 @@
 package api
 
 import (
-	"encoding/json"
+	"context"
 	"net/http"
+	"os"
 
-	"github.com/ONSdigital/dp-recipe-api/recipe"
+	"github.com/ONSdigital/dp-recipe-api/config"
+	"github.com/ONSdigital/dp-recipe-api/store"
+	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
-	"github.com/pkg/errors"
 )
 
-//RecipeListHandler - get all recipes
-// USAGE: curl -X GET http://localhost:22300/recipes
-func RecipeListHandler(w http.ResponseWriter, req *http.Request) {
-	list := &recipe.FullList
-	c := len(list.Items)
-	list.Count = c
-	list.TotalCount = c
-	list.Limit = c
-
-	b, err := json.Marshal(list)
-	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
+//RecipeAPI contains store and features for managing the recipe
+type RecipeAPI struct {
+	dataStore         store.DataStore
+	Router            *mux.Router
+	EnableMongoData   bool
+	EnableMongoImport bool
 }
 
-//RecipeHandler - get recipe by ID
-// USAGE: curl -X GET http://localhost:22300/recipes/{id}
-func RecipeHandler(w http.ResponseWriter, req *http.Request) {
-	vars := mux.Vars(req)
-	recipeID := vars["id"]
-	logD := log.Data{"recipe_id": recipeID}
+//CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
+func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore) {
+	router := mux.NewRouter()
+	api := NewRecipeAPI(ctx, cfg, router, dataStore)
 
-	var r recipe.Response
-	found := false
+	log.Event(ctx, "starting http server", log.INFO, log.Data{"bind_addr": cfg.BindAddr})
+	srv := server.New(cfg.BindAddr, api.Router)
+	if err := srv.ListenAndServe(); err != nil {
+		log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
+		os.Exit(1)
+	}
+}
 
-	for _, item := range recipe.FullList.Items {
-		if item.ID == recipeID {
-			r = item
-			found = true
-			break
-		}
+//NewRecipeAPI create a new Recipe API instance and register the API routes based on the application configuration.
+func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore) *RecipeAPI {
+	api := &RecipeAPI{
+		dataStore:         dataStore,
+		Router:            router,
+		EnableMongoData:   cfg.MongoConfig.EnableMongoData,
+		EnableMongoImport: cfg.MongoConfig.EnableMongoImport,
 	}
 
-	if !found {
-		log.Event(req.Context(), "recipe not found", log.ERROR, log.Error(errors.New("recipe not found")), logD)
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
+	api.get("/recipes", api.RecipeListHandler)
+	api.get("/recipes/{id}", api.RecipeHandler)
+	return api
+}
 
-	b, err := json.Marshal(r)
-	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.ERROR, log.Error(err), logD)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
+// get register a GET http.HandlerFunc.
+func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
+	api.Router.HandleFunc(path, handler).Methods("GET")
 }

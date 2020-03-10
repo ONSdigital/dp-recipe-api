@@ -4,7 +4,6 @@ import (
 	"context"
 	"syscall"
 
-	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 
 	"os"
@@ -13,8 +12,16 @@ import (
 	"github.com/ONSdigital/dp-recipe-api/api"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
-	"github.com/gorilla/mux"
+	"github.com/ONSdigital/dp-recipe-api/store"
 )
+
+//check that RecipeAPIStore satifies the the store.Storer interface
+var _ store.Storer = (*RecipeAPIStore)(nil)
+
+//RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
+type RecipeAPIStore struct {
+	*mongo.Mongo
+}
 
 func main() {
 	log.Namespace = "recipe-api"
@@ -47,16 +54,14 @@ func main() {
 			log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
 			os.Exit(1)
 		}
+
+		//Create RecipeAPI instance with Mongo in datastore
+		store := store.DataStore{Backend: RecipeAPIStore{mongodb}}
+		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store)
+
+	} else {
+		//Create RecipeAPI instance with no datastore
+		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store.DataStore{Backend: nil})
 	}
 
-	router := mux.NewRouter()
-	router.Methods("GET").Path("/recipes").HandlerFunc(api.RecipeListHandler)
-	router.Methods("GET").Path("/recipes/{id}").HandlerFunc(api.RecipeHandler)
-
-	log.Event(ctx, "starting http server", log.INFO, log.Data{"bind_addr": cfg.BindAddr})
-	srv := server.New(cfg.BindAddr, router)
-	if err := srv.ListenAndServe(); err != nil {
-		log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
-		os.Exit(1)
-	}
 }
