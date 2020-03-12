@@ -13,7 +13,7 @@ var FullList = List{
 		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopulationEstimates, AgeingSingleHouseholds, AgeingSexRatios, 
 		AgeingNetInternalMigration, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
 		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, PublicSectorEmployment, PublicSectorEmploymentYear, PublicSectorEmploymentQuarter, 
-		AWE, AWEIndex, CancerRegEng, CancerRegRegions, HealthAccounts, RegionalGDPYear, 
+		AWE, AWEIndex, CancerRegEng, CancerRegRegions, HealthAccounts, ProductivityNuts, RegionalGDPYear, 
 		RegionalGDPQuarter, GVAIndustryLA, GVAIndustryNuts, GVAHeadIncomeIndustry, GVAHeadIncome, GDPNuts, GDPLA, GDPLocalEnterprisePartnership, GDPCityRegions,
 		TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
