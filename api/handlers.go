@@ -15,7 +15,13 @@ import (
 func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request) {
 	var list recipe.List
 	if api.EnableMongoData {
-		list.Items, _ = api.dataStore.Backend.GetRecipes()
+		var err error
+		list.Items, err = api.dataStore.Backend.GetRecipes()
+		if err != nil {
+			log.Event(req.Context(), "error getting recipes from mongo", log.ERROR, log.Error(err))
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	} else {
 		list = recipe.FullList
 	}

@@ -43,7 +43,6 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 	}
 
 	api.get("/recipes", api.RecipeListHandler)
-	api.get("/recipes/{id}", api.RecipeHandler)
 	return api
 }
 
