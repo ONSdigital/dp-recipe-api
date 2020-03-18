@@ -6,11 +6,13 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/ONSdigital/go-ns/common"
 	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 
 	"os"
 
+	"github.com/ONSdigital/dp-api-audit-spike/auditing"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/gorilla/mux"
@@ -24,9 +26,11 @@ func main() {
 		os.Exit(1)
 	}
 
+	auditor := &auditing.Stub{}
+
 	router := mux.NewRouter()
-	router.Path("/recipes").HandlerFunc(recipeListHandler)
-	router.Path("/recipes/{id}").HandlerFunc(recipeHandler)
+	router.Path("/recipes").Handler(recipeListHandlerWithAudit(auditor))
+	router.Path("/recipes/{id}").Handler(recipeHandlerWithAudit(auditor))
 
 	log.Event(context.Background(), "starting http server", log.Data{"bind_addr": configuration.BindAddr})
 	srv := server.New(configuration.BindAddr, router)
@@ -36,7 +40,11 @@ func main() {
 	}
 }
 
-func recipeListHandler(w http.ResponseWriter, req *http.Request) {
+func recipeListHandlerWithAudit(auditor auditing.Service) http.Handler {
+	return auditing.Wrap(recipeListHandler, "list recipes", auditor, nil, 200)
+}
+
+func recipeListHandler(w http.ResponseWriter, r *http.Request) {
 	list := &recipe.FullList
 	c := len(list.Items)
 	list.Count = c
@@ -45,13 +53,21 @@ func recipeListHandler(w http.ResponseWriter, req *http.Request) {
 
 	b, err := json.Marshal(list)
 	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.Error(err))
+		log.Event(r.Context(), "error returned from json marshall", log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(b)
+}
+
+func recipeHandlerWithAudit(auditor auditing.Service) http.Handler {
+	getAuditParams := func(r *http.Request) common.Params {
+		return common.Params{"recipe_id": mux.Vars(r)["id"]}
+	}
+
+	return auditing.Wrap(recipeHandler, "get recipe", auditor, getAuditParams, 200)
 }
 
 func recipeHandler(w http.ResponseWriter, req *http.Request) {
