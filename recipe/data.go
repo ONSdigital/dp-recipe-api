@@ -10,10 +10,12 @@ var FullList = List{
 	Items: []Response{CPI, CPIH, Trade, MidYearPopEst, MidYearPopEstPCON, MidYearPopEstCCG, ASHE3, ASHE5, ASHE7Hours, ASHE7Earnings,
 		ASHE8Hours, ASHE8Earnings, ASHE7and8, ASHE9and10, ASHE11and12, ASHE20, ASHE25, ASHE26, ASHE27and28, WellbeingYearEnding, WellbeingLocalAuthority,
 		WellbeingQuarterly, WellbeingChildrens, NppPopulationNumbers, NppMortalityAssumptions, NppMigration, NppFertility, NppDeaths, NppBirths, NppCrossBorderRates,
-		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopProj, AgeingSingleHouseholds, AgeingSexRatios,
-		AgeingNetFlows, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount,
-		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, AWE, AWEIndex, CancerRegEng, CancerRegRegions, RegionalGDPYear,
-		RegionalGDPQuarter, TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation,
+		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopulationEstimates, AgeingSingleHouseholds, AgeingSexRatios,
+		AgeingNetInternalMigration, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount,
+		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, PublicSectorEmployment, PublicSectorEmploymentYear, PublicSectorEmploymentQuarter,
+		AWE, AWEIndex, CancerRegEng, CancerRegRegions, HealthAccounts, ProductivityNuts, RegionalGDPYear,
+		RegionalGDPQuarter, GVAIndustryLA, GVAIndustryNuts, GVAHeadIncomeIndustry, GVAHeadIncome, GDPNuts, GDPLA, GDPLocalEnterprisePartnership, GDPCityRegions,
+		TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation,
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG,
 		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, FamiliesAndHouseholds, ParentsCountryOfBirth, LifeExpectancy,
 		ChildMortality, Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation,
@@ -178,7 +180,7 @@ var MidYearPopEst = Response{
 	},
 }
 
-//MidYearPopEstPCON recipe for transforming a given input to a mid year population estimate dataset using the parliamentary geography
+//MidYearPopEst recipe for transforming a given input to a mid year population estimate dataset using the parliamentary geography
 var MidYearPopEstPCON = Response{
 	ID:     "b83ffdaf-c5fa-451e-bbe0-6137c9f90b5a",
 	Alias:  "Mid-year Population Estimates by Parliamentary Constituencies",
@@ -218,7 +220,7 @@ var MidYearPopEstPCON = Response{
 	},
 }
 
-//MidYearPopEstCCG recipe for transforming a given input to a mid year population estimate dataset using the CCG geography
+//MidYearPopEst recipe for transforming a given input to a mid year population estimate dataset using the CCG geography
 var MidYearPopEstCCG = Response{
 	ID:     "345f39e9-ef90-415e-b73e-a68a826f41cc",
 	Alias:  "Mid-year Population Estimates by Clinical Commissioning Group",
@@ -258,7 +260,7 @@ var MidYearPopEstCCG = Response{
 	},
 }
 
-//ASHE3 - ASHE tables 3
+// ASHE tables 3
 var ASHE3 = Response{
 	ID:     "55c24ef5-82fe-4752-9455-a119bac39293",
 	Alias:  "ASHE Tables 3",
@@ -313,7 +315,7 @@ var ASHE3 = Response{
 	},
 }
 
-//ASHE5 - ASHE table 5
+// ASHE table 5
 var ASHE5 = Response{
 	ID:     "edf7d98c-fd59-4901-a813-87d6aed077d0",
 	Alias:  "ASHE Table 5",
@@ -568,7 +570,7 @@ var ASHE8Earnings = Response{
 	},
 }
 
-//ASHE7and8 - ASHE tables 7 and 8 combined
+// ASHE tables 7 and 8 combined
 var ASHE7and8 = Response{
 	ID:     "8dd6cc0f-54d5-42e2-b186-4c00b00dcb02",
 	Alias:  "ASHE Tables 7 and 8",
@@ -623,7 +625,7 @@ var ASHE7and8 = Response{
 	},
 }
 
-//ASHE9and10 - ASHE tables 9 and 10 combined
+// ASHE tables 9 and 10 combined
 var ASHE9and10 = Response{
 	ID:     "e8b95232-1135-4bc3-a9f4-ae6551669dba",
 	Alias:  "ASHE Tables 9 and 10",
@@ -678,7 +680,7 @@ var ASHE9and10 = Response{
 	},
 }
 
-//ASHE11and12 - ASHE tables 11 and 12 combined
+// ASHE tables 11 and 12 combined
 var ASHE11and12 = Response{
 	ID:     "5d3a275f-0ad3-4181-93a5-332f936354f9",
 	Alias:  "ASHE Tables 11 and 12",
@@ -733,7 +735,7 @@ var ASHE11and12 = Response{
 	},
 }
 
-//ASHE20 - ASHE tables 20
+// ASHE tables 20
 var ASHE20 = Response{
 	ID:     "70cab339-c01a-477a-8e4c-96a261e3595e",
 	Alias:  "ASHE Tables 20",
@@ -793,7 +795,7 @@ var ASHE20 = Response{
 	},
 }
 
-//ASHE25 - ASHE tables 25
+// ASHE tables 25
 var ASHE25 = Response{
 	ID:     "3669408a-6705-445c-a1a4-a4c5c75a0346",
 	Alias:  "ASHE Tables 25",
@@ -848,7 +850,7 @@ var ASHE25 = Response{
 	},
 }
 
-//ASHE26 - ASHE tables 26
+// ASHE tables 26
 var ASHE26 = Response{
 	ID:     "e7fc556a-a71b-44a6-9843-c38e6d4b4e62",
 	Alias:  "ASHE Tables 26",
@@ -898,7 +900,7 @@ var ASHE26 = Response{
 	},
 }
 
-//ASHE27and28 - ASHE tables 27 and 28 combined
+// ASHE tables 27 and 28 combined
 var ASHE27and28 = Response{
 	ID:     "10213937-4076-4fd9-ba1a-506b2206a71f",
 	Alias:  "ASHE Tables 27 and 28",
@@ -1033,7 +1035,7 @@ var WellbeingLocalAuthority = Response{
 	},
 }
 
-//WellbeingQuarterly - Wellbeing quarterly is wellbeing data with a time codelist of "yyyy-qq"
+// Wellbeing quarterly is wellbeing data with a time codelist of "yyyy-qq"
 var WellbeingQuarterly = Response{
 	ID:     "cc738a86-e14f-4181-93c4-9aab2dac467a",
 	Alias:  "Wellbeing Quarterly",
@@ -1073,7 +1075,7 @@ var WellbeingQuarterly = Response{
 	},
 }
 
-//WellbeingChildrens - Children's Well-being Measures
+// Children's Well-being Measures
 var WellbeingChildrens = Response{
 	ID:     "1a56119b-584b-4455-aa2c-81635d1aec56",
 	Alias:  "Children's Well-being Measures",
@@ -1118,7 +1120,7 @@ var WellbeingChildrens = Response{
 	},
 }
 
-//NppPopulationNumbers - National Population Projections: PopulationNumbers
+// National Population Projections: PopulationNumbers
 var NppPopulationNumbers = Response{
 	ID:     "9BCE6F29-5FD6-438A-A4DC-92B697D61A33",
 	Alias:  "National Population Projections - Population Numbers",
@@ -1163,7 +1165,7 @@ var NppPopulationNumbers = Response{
 	},
 }
 
-//NppMortalityAssumptions - National Population Projections: Mortality Assumptions
+// National Population Projections: Mortality Assumptions
 var NppMortalityAssumptions = Response{
 	ID:     "85D985D2-A54C-4289-B720-5A571ABD00C1",
 	Alias:  "National Population Projections - Mortality Assumptions",
@@ -1208,7 +1210,7 @@ var NppMortalityAssumptions = Response{
 	},
 }
 
-//NppMigration - National Population Projections: Migration
+// National Population Projections: Migration
 var NppMigration = Response{
 	ID:     "0FB0634E-C722-4B84-A3D9-B00F6964742B",
 	Alias:  "National Population Projections - Migration",
@@ -1258,7 +1260,7 @@ var NppMigration = Response{
 	},
 }
 
-//NppFertility - National Population Projections: Fertility
+// National Population Projections: Fertility
 var NppFertility = Response{
 	ID:     "B92138FC-37F3-47AC-9C2B-E13C7D61A8AD",
 	Alias:  "National Population Projections - Fertility",
@@ -1303,7 +1305,7 @@ var NppFertility = Response{
 	},
 }
 
-//NppDeaths - National Population Projections: Deaths
+// National Population Projections: Deaths
 var NppDeaths = Response{
 	ID:     "999EB1B2-C779-4502-9F52-CCC99A1FED08",
 	Alias:  "National Population Projections - Deaths",
@@ -1348,7 +1350,7 @@ var NppDeaths = Response{
 	},
 }
 
-//NppBirths - National Population Projections: Births
+// National Population Projections: Births
 var NppBirths = Response{
 	ID:     "3B1172A6-9EA4-4AD6-8BDD-221794A18A5A",
 	Alias:  "National Population Projections - Births",
@@ -1393,7 +1395,7 @@ var NppBirths = Response{
 	},
 }
 
-//NppCrossBorderRates - National Population Projections: Cross Border Rates
+// National Population Projections: Cross Border Rates
 var NppCrossBorderRates = Response{
 	ID:     "182DF2D1-9E9D-475C-949C-365CAC6A9834",
 	Alias:  "National Population Projections - Cross Border Rates",
@@ -1443,7 +1445,7 @@ var NppCrossBorderRates = Response{
 	},
 }
 
-//QuarterlyDiffusion - Faster indicators of UK economic activity, VAT quarterly diffusion indices
+// Faster indicators of UK economic activity, VAT quarterly diffusion indices
 var QuarterlyDiffusion = Response{
 	ID:     "542b170b-e654-40a7-b357-88031b7a73ec",
 	Alias:  "Faster indicators of UK economic activity, VAT quarterly diffusion indices",
@@ -1503,7 +1505,7 @@ var QuarterlyDiffusion = Response{
 	},
 }
 
-//MonthlyDiffusion - Faster indicators of UK economic activity, VAT monthly diffusion indices
+// Faster indicators of UK economic activity, VAT monthly diffusion indices
 var MonthlyDiffusion = Response{
 	ID:     "0ebf96fc-6bbb-4940-8c70-00400b144c87",
 	Alias:  "Faster indicators of UK economic activity, VAT monthly diffusion indices",
@@ -1563,7 +1565,7 @@ var MonthlyDiffusion = Response{
 	},
 }
 
-//ReportingBehaviour - Faster indicators of UK economic activity, VAT reporting behaviour indices
+// Faster indicators of UK economic activity, VAT reporting behaviour indices
 var ReportingBehaviour = Response{
 	ID:     "aa0bd113-110d-47e4-9418-b71ff54ed93f",
 	Alias:  "Faster indicators of UK economic activity, VAT reporting behaviour indices",
@@ -1618,7 +1620,7 @@ var ReportingBehaviour = Response{
 	},
 }
 
-//ReportingBehaviour2 - Faster indicators of UK economic activity, VAT reporting behaviour indices with record type
+// Faster indicators of UK economic activity, VAT reporting behaviour indices with record type
 var ReportingBehaviour2 = Response{
 	ID:     "96a54186-b907-4d94-bc39-22bdfd5ca1f9",
 	Alias:  "Faster indicators of UK economic activity, VAT reporting behaviour indices with record type",
@@ -1673,19 +1675,19 @@ var ReportingBehaviour2 = Response{
 	},
 }
 
-//AgeingPopProj - Local authority ageing statistics - principal population projections
-var AgeingPopProj = Response{
+// Local authority ageing statistics - principal population estimates
+var AgeingPopulationEstimates = Response{
 	ID:     "1c5b0a7b-024c-49fe-8446-a66eb9736ed3",
-	Alias:  "Local authority ageing statistics - principal population projections",
+	Alias:  "Local authority ageing statistics - principal population estimates",
 	Format: "v4",
 	InputFiles: []file{
-		{"AgeingPopulationProjections"},
+		{"AgeingPopulationEstimates"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-population-projections",
+			DatasetID: "ageing-population-estimates",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, principal population projections",
+			Title:     "Local authority ageing statistics, principal population estimates",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -1713,19 +1715,19 @@ var AgeingPopProj = Response{
 	},
 }
 
-//AgeingSingleHouseholds - Local authority ageing statistics - % of single households headed by someone over 65 and over 85
+// Local authority ageing statistics, percentage of single households headed by someone aged 65 and over and 85 and over
 var AgeingSingleHouseholds = Response{
 	ID:     "226d6940-ed0c-4556-91f1-9ca61d56c8a0",
-	Alias:  "Local authority ageing statistics - % of single households headed by someone over 65 and over 85",
+	Alias:  "Local authority ageing statistics, percentage of single households headed by someone aged 65 and over and 85 and over",
 	Format: "v4",
 	InputFiles: []file{
 		{"AgeingSingleHouseholds"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-single-households",
+			DatasetID: "older-people-in-single-households",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, percentage of single households headed by someone over 65 and over 85",
+			Title:     "Local authority ageing statistics, percentage of single households headed by someone aged 65 and over and 85 and over",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -1753,19 +1755,19 @@ var AgeingSingleHouseholds = Response{
 	},
 }
 
-//AgeingSexRatios - Local authority ageing statistics - sex ratios for people over 65 and over 85
+// Local authority ageing statistics, sex ratios for people aged 65 and over and 85 and over
 var AgeingSexRatios = Response{
 	ID:     "df8c8df5-484a-4d29-b246-a7720caf2474",
-	Alias:  "Local authority ageing statistics - sex ratios for people over 65 and over 85",
+	Alias:  "Local authority ageing statistics, sex ratios for people aged 65 and over and 85 and over",
 	Format: "v4",
 	InputFiles: []file{
 		{"AgeingSexRatios"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-sex-ratios",
+			DatasetID: "older-people-sex-ratios",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, sex ratios for people over 65 and over 85",
+			Title:     "Local authority ageing statistics, sex ratios for people aged 65 and over and 85 and over",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -1788,19 +1790,19 @@ var AgeingSexRatios = Response{
 	},
 }
 
-//AgeingNetFlows - Local authority ageing statistics - net flows for over 65s and over 85s
-var AgeingNetFlows = Response{
+// Local authority ageing statistics - net internal migration for people aged 65 and over and 85 and over
+var AgeingNetInternalMigration = Response{
 	ID:     "c5875623-0874-429d-bbc6-63d2d84e6159",
-	Alias:  "Local authority ageing statistics - net flows for over 65s and over 85s",
+	Alias:  "Local authority ageing statistics - net internal migration for people aged 65 and over and 85 and over",
 	Format: "v4",
 	InputFiles: []file{
-		{"AgeingNetFlows"},
+		{"AgeingNetInternalMigration"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-net-flows",
+			DatasetID: "older-people-net-internal-migration",
 			Editions:  []string{"time-series"},
-			Title:     "Local authority ageing statistics, net flows for over 65s and over 85s",
+			Title:     "Local authority ageing statistics, net internal migration people aged 65 and over and 85 and over",
 			CodeLists: []CodeList{
 				{
 					ID:          "calendar-years",
@@ -1828,7 +1830,7 @@ var AgeingNetFlows = Response{
 	},
 }
 
-//AgeingEconomicActivity - Local authority ageing statistics - older people economic activity
+// Local authority ageing statistics - older people economic activity
 var AgeingEconomicActivity = Response{
 	ID:     "854946e8-cc7f-4b41-910b-d8625594a0119",
 	Alias:  "Local authority ageing statistics - older people economic activity",
@@ -1838,7 +1840,7 @@ var AgeingEconomicActivity = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "ageing-economic-activity",
+			DatasetID: "older-people-economic-activity",
 			Editions:  []string{"time-series"},
 			Title:     "Local authority ageing statistics, older people economic activity",
 			CodeLists: []CodeList{
@@ -1868,7 +1870,7 @@ var AgeingEconomicActivity = Response{
 	},
 }
 
-//AgeingProspectiveMeasures - Local authority ageing statistics - Subnational Prospective Ageing Measures
+// Local authority ageing statistics - Subnational Prospective Ageing Measures
 var AgeingProspectiveMeasures = Response{
 	ID:     "ebda7264-b7c0-4a6f-98e3-63ebb328008c",
 	Alias:  "Local authority ageing statistics - Subnational Prospective Ageing Measures",
@@ -1908,7 +1910,7 @@ var AgeingProspectiveMeasures = Response{
 	},
 }
 
-//LabourMarketStatistics - Labour Market
+// Labour Market
 var LabourMarketStatistics = Response{
 	ID:     "daf08e97-0a21-4800-9a2f-d7c90c88519b",
 	Alias:  "Labour Market",
@@ -1963,7 +1965,7 @@ var LabourMarketStatistics = Response{
 	},
 }
 
-//LMSEconomicByAge - Regional Labour Market, economic status by age
+// Regional Labour Market, economic status by age
 var LMSEconomicByAge = Response{
 	ID:     "1441209b-ca85-4537-87c4-78f2a33eda0d",
 	Alias:  "Regional Labour Market, Economic Status by Age",
@@ -2013,7 +2015,7 @@ var LMSEconomicByAge = Response{
 	},
 }
 
-//LMSWorkType - Regional Labour Market, Full-time, part-time and temporary workers
+// Regional Labour Market, Full-time, part-time and temporary workers
 var LMSWorkType = Response{
 	ID:     "6e62de16-6d28-44e0-aca0-674ec9b27430",
 	Alias:  "Regional Labour Market, Full-time, part-time and temporary workers",
@@ -2053,7 +2055,7 @@ var LMSWorkType = Response{
 	},
 }
 
-//LMSActualHoursWork - Regional Labour Market, Actual weekly hours of work
+// Regional Labour Market, Actual weekly hours of work
 var LMSActualHoursWork = Response{
 	ID:     "8489d0e5-5edd-4bb1-8aec-3101cbeff2c4",
 	Alias:  "Regional Labour Market, Actual weekly hours of work",
@@ -2093,7 +2095,7 @@ var LMSActualHoursWork = Response{
 	},
 }
 
-//LMSClaimantCount - Regional Labour Market, Claimant Count
+// Regional Labour Market, Claimant Count
 var LMSClaimantCount = Response{
 	ID:     "064ff64f-70bb-4c12-9bc1-150294f31921",
 	Alias:  "Regional Labour Market, Claimant Count",
@@ -2138,7 +2140,7 @@ var LMSClaimantCount = Response{
 	},
 }
 
-//LMSJobseekersByAgeDuration - Regional Labour Market, Jobseeker's Allowance by age and duration - computerised claims only
+// Regional Labour Market, Jobseeker's Allowance by age and duration - computerised claims only
 var LMSJobseekersByAgeDuration = Response{
 	ID:     "239bb6e2-220d-4544-8f1f-0183a1a9ba42",
 	Alias:  "Regional Labour Market, Jobseeker's Allowance by age and duration - computerised claims only",
@@ -2183,7 +2185,7 @@ var LMSJobseekersByAgeDuration = Response{
 	},
 }
 
-//LMSEconomicInactivity - Regional Labour Market, Economic inactivity: reasons
+// Regional Labour Market, Economic inactivity: reasons
 var LMSEconomicInactivity = Response{
 	ID:     "eddc6106-4de5-46c7-b4d9-8bdcd3f33a50",
 	Alias:  "Regional Labour Market, Economic inactivity: reasons",
@@ -2228,7 +2230,7 @@ var LMSEconomicInactivity = Response{
 	},
 }
 
-//LMSJobsByIndustry - Regional Labour Market, Workforce jobs by industry
+// Regional Labour Market, Workforce jobs by industry
 var LMSJobsByIndustry = Response{
 	ID:     "2fb88df2-d438-42d4-baaf-9206c777cc1b",
 	Alias:  "Regional Labour Market, Workforce jobs by industry",
@@ -2263,7 +2265,112 @@ var LMSJobsByIndustry = Response{
 	},
 }
 
-//AWE - Average weekly earnings
+// Public sector employment
+var PublicSectorEmployment = Response{
+	ID:     "390136b5-21b5-49dc-8af5-4cf466f2c4d5",
+	Alias:  "Public sector employment",
+	Format: "v4",
+	InputFiles: []file{
+		{"PublicSectorEmployment"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "public-sector-employment",
+			Editions:  []string{"time-series"},
+			Title:     "Public sector employment",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "sector",
+					Name:        "sectortype",
+					HRef:        "http://localhost:22400/code-lists/sector",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Public sector employment by year
+var PublicSectorEmploymentYear = Response{
+	ID:     "3665ce55-8b00-4849-8765-aa966bc2a364",
+	Alias:  "Public sector employment by year",
+	Format: "v4",
+	InputFiles: []file{
+		{"PublicSectorEmploymentYear"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "public-sector-employment-by-year",
+			Editions:  []string{"time-series"},
+			Title:     "Public sector employment by year",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "sector",
+					Name:        "sectortype",
+					HRef:        "http://localhost:22400/code-lists/sector",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Public sector employment by quarter
+var PublicSectorEmploymentQuarter = Response{
+	ID:     "3f06663d-7afd-47f0-a915-89e3b9f48427",
+	Alias:  "Public sector employment by quarter",
+	Format: "v4",
+	InputFiles: []file{
+		{"PublicSectorEmploymentQuarter"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "public-sector-employment-by-quarter",
+			Editions:  []string{"time-series"},
+			Title:     "Public sector employment by quarter",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "sector",
+					Name:        "sectortype",
+					HRef:        "http://localhost:22400/code-lists/sector",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Average weekly earnings
 var AWE = Response{
 	ID:     "72a8082f-589f-4adc-8915-4448dd3658c2",
 	Alias:  "Average Weekly Earnings",
@@ -2308,7 +2415,7 @@ var AWE = Response{
 	},
 }
 
-//AWEIndex - Average weekly earnings Index
+// Average weekly earnings Index
 var AWEIndex = Response{
 	ID:     "0cab7368-3aa8-48a6-b1fe-7e3aa05f0a6e",
 	Alias:  "Average Weekly Earnings Index",
@@ -2348,7 +2455,7 @@ var AWEIndex = Response{
 	},
 }
 
-//CancerRegEng - Cancer Registrations for England
+// Cancer Registrations for England
 var CancerRegEng = Response{
 	ID:     "db8d4b24-20e4-4c22-927c-74f4688f6b4c",
 	Alias:  "Cancer Registrations England",
@@ -2398,7 +2505,7 @@ var CancerRegEng = Response{
 	},
 }
 
-//CancerRegRegions - Cancer Registrations for Regions, England
+// Cancer Registrations for Regions, England
 var CancerRegRegions = Response{
 	ID:     "d07c600d-1511-4e76-aa78-c6ce461c9dc7",
 	Alias:  "Cancer Registrations by Regions, England",
@@ -2443,7 +2550,97 @@ var CancerRegRegions = Response{
 	},
 }
 
-//RegionalGDPYear - Regional GDP by year
+// Expenditure on healthcare: UK Health Accounts
+var HealthAccounts = Response{
+	ID:     "fc33d7f5-1f0e-46ed-99bf-a1cb7e19fbbf",
+	Alias:  "Expenditure on healthcare: UK Health Accounts",
+	Format: "v4",
+	InputFiles: []file{
+		{"UKHealthAccounts"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "health-accounts",
+			Editions:  []string{"time-series"},
+			Title:     "Expenditure on healthcare: UK Health Accounts",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "healthcare-financing-scheme",
+					Name:        "financingscheme",
+					HRef:        "http://localhost:22400/code-lists/healthcare-financing-scheme",
+					IsHierarchy: false,
+				}, {
+					ID:          "healthcare-provider",
+					Name:        "healthcareprovider",
+					HRef:        "http://localhost:22400/code-lists/healthcare-provider",
+					IsHierarchy: false,
+				}, {
+					ID:          "healthcare-function",
+					Name:        "healthcarefunction",
+					HRef:        "http://localhost:22400/code-lists/healthcare-function",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional and Subregional Productivity
+var ProductivityNuts = Response{
+	ID:     "0157afd0-b68a-4156-bf8d-652baad84799",
+	Alias:  "Regional and Subregional Productivity",
+	Format: "v4",
+	InputFiles: []file{
+		{"ProductivityNuts"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "productivity-by-nuts",
+			Editions:  []string{"time-series"},
+			Title:     "Regional and Subregional Productivity",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "smoothing",
+					Name:        "smoothingfunction",
+					HRef:        "http://localhost:22400/code-lists/smoothing",
+					IsHierarchy: false,
+				}, {
+					ID:          "productivity",
+					Name:        "productivitytype",
+					HRef:        "http://localhost:22400/code-lists/productivity",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Regional GDP by year
 var RegionalGDPYear = Response{
 	ID:     "eec65efd-da07-4089-8e3e-a356751fa72d",
 	Alias:  "Regional GDP by Year",
@@ -2488,7 +2685,7 @@ var RegionalGDPYear = Response{
 	},
 }
 
-//RegionalGDPQuarter - Regional GDP by quarter
+// Regional GDP by quarter
 var RegionalGDPQuarter = Response{
 	ID:     "b89ba5a1-96ec-4311-af3f-d732943eeb2f",
 	Alias:  "Regional GDP by Quarter",
@@ -2533,7 +2730,302 @@ var RegionalGDPQuarter = Response{
 	},
 }
 
-//TaxBenefitStats - Tax Benefits Statistics
+// GVA by industry by local authority
+var GVAIndustryLA = Response{
+	ID:     "b69041ca-efcd-4b87-ad7e-267a0beb53d6",
+	Alias:  "GVA by industry by local authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"GVAIndustryLA"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gva-by-industry-by-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "GVA by industry by local authority",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "sic-test",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic-test",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// GVA by industry by nuts geography
+var GVAIndustryNuts = Response{
+	ID:     "fc2a9ac8-a7b8-45bb-b88b-55777d7f6af0",
+	Alias:  "GVA by industry by nuts geography",
+	Format: "v4",
+	InputFiles: []file{
+		{"GVAIndustryNuts"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gva-by-industry-by-nuts",
+			Editions:  []string{"time-series"},
+			Title:     "GVA by industry by nuts geography",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "sic-test",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic-test",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// GVA per head and income components by industry
+var GVAHeadIncomeIndustry = Response{
+	ID:     "a2388313-1363-4317-b885-ba753f6ecb81",
+	Alias:  "GVA per head and income components by industry",
+	Format: "v4",
+	InputFiles: []file{
+		{"GVAHeadIncomeIndustry"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gva-head-income-components-by-industry",
+			Editions:  []string{"time-series"},
+			Title:     "GVA per head and income components by industry",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "sic-test",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic-test",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// GVA per head and income components
+var GVAHeadIncome = Response{
+	ID:     "ca7b5ced-74a2-4cc4-996a-196d6bb40b4c",
+	Alias:  "GVA per head and income components",
+	Format: "v4",
+	InputFiles: []file{
+		{"GVAHeadIncome"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gva-head-income-components",
+			Editions:  []string{"time-series"},
+			Title:     "GVA per head and income components",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// GDP by nuts geography
+var GDPNuts = Response{
+	ID:     "732ec126-8589-4da9-bbd0-3135f2b24156",
+	Alias:  "GDP by nuts geography",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDPNuts"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-by-nuts",
+			Editions:  []string{"time-series"},
+			Title:     "GDP by nuts geography",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "nuts-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/nuts-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// GDP by local authority
+var GDPLA = Response{
+	ID:     "8aeef5b9-92b1-4a3f-bf97-bf77a0205411",
+	Alias:  "GDP by local authority",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDPLA"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-by-local-authority",
+			Editions:  []string{"time-series"},
+			Title:     "GDP by local authority",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: true,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// GDP by local enterprise partnership
+var GDPLocalEnterprisePartnership = Response{
+	ID:     "204dd609-ace9-4ede-9d17-90df041e6615",
+	Alias:  "GDP by local enterprise partnership",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDPLocalEnterprisePartnership"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-by-local-enterprise-partnership",
+			Editions:  []string{"time-series"},
+			Title:     "GDP by local enterprise partnership",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "local-enterprise-partnership-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/local-enterprise-partnership-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// GDP by city regions
+var GDPCityRegions = Response{
+	ID:     "b75f4749-6d02-4d06-aaf6-48f87dc577c7",
+	Alias:  "GDP by city regions",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDPCityRegions"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-by-city-regions",
+			Editions:  []string{"time-series"},
+			Title:     "GDP by city regions",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "city-regions",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/city-regions",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Tax Benefits Statistics
 var TaxBenefitStats = Response{
 	ID:     "6cadb0b9-927d-4fa3-b07f-2654ad7e71b9",
 	Alias:  "Tax Benefits Statistics",
@@ -2578,7 +3070,7 @@ var TaxBenefitStats = Response{
 	},
 }
 
-//GenerationalIncome - Generational Income
+// Generational Income
 var GenerationalIncome = Response{
 	ID:     "d4e813a9-dc67-4a66-b0ae-c7e531f3b64b",
 	Alias:  "Generational Income",
@@ -2623,7 +3115,7 @@ var GenerationalIncome = Response{
 	},
 }
 
-//HousePrices - House Prices by Local Authority
+// House Prices by Local Authority
 var HousePrices = Response{
 	ID:     "4a4273d2-85ed-4d8e-9da9-22b42b70d624",
 	Alias:  "House Prices",
@@ -2634,13 +3126,18 @@ var HousePrices = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "house-prices-local-authority",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"time-series-historic", "time-series"},
 			Title:     "UK House Price Index",
 			CodeLists: []CodeList{
 				{
-					ID:          "mmm-yy",
+					ID:          "calendar-years",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "mmm",
+					Name:        "month",
+					HRef:        "http://localhost:22400/code-lists/mmm",
 					IsHierarchy: false,
 				}, {
 					ID:          "admin-geography",
@@ -2668,7 +3165,7 @@ var HousePrices = Response{
 	},
 }
 
-//PrivateHousingRentalPrices - Index of Private Housing Rental Prices
+// Index of Private Housing Rental Prices
 var PrivateHousingRentalPrices = Response{
 	ID:     "d5943cff-a8b7-4002-ad1f-1957764aec7b",
 	Alias:  "Index of Private Housing Rental Prices",
@@ -2898,7 +3395,7 @@ var CrimeOffences = Response{
 	},
 }
 
-//KnifeCrime - Knife crime
+// Knife crime
 var KnifeCrime = Response{
 	ID:     "2f967891-b0c9-403e-9747-766aed0dfc2a",
 	Alias:  "Knife Crime",
@@ -2938,7 +3435,7 @@ var KnifeCrime = Response{
 	},
 }
 
-//InternalMigrationLA - Internal migration - Moves by local authorities and regions in England and Wales by 5 year age group and sex
+// Internal migration - Moves by local authorities and regions in England and Wales by 5 year age group and sex
 var InternalMigrationLA = Response{
 	ID:     "b135f977-6f4d-4f38-821a-d74722e6737c",
 	Alias:  "Internal migration - Moves by local authorities",
@@ -3283,7 +3780,7 @@ var BuisInvestCapitalFormation = Response{
 	},
 }
 
-//UKBusinessIndustryGeography - UK business - broad industry group by geography
+// UK business - broad industry group by geography
 var UKBusinessIndustryGeography = Response{
 	ID:     "a6e80e1e-2011-48ab-8c1d-35a7833b38db",
 	Alias:  "UK Business by Broad Industry Group",
@@ -3323,7 +3820,7 @@ var UKBusinessIndustryGeography = Response{
 	},
 }
 
-//OverseasTravelTourism - Overseas travel and tourism recipe
+// Overseas travel and tourism recipe
 var OverseasTravelTourism = Response{
 	ID:     "35b7fe99-b7db-4237-9af0-f8c2c6c0935c",
 	Alias:  "Overseas Travel and Tourism",
@@ -3368,7 +3865,7 @@ var OverseasTravelTourism = Response{
 	},
 }
 
-//Construction - Output in the construction industry
+// Output in the construction industry
 var Construction = Response{
 	ID:     "5c1aab52-7538-4105-8305-c63a4ba37cab",
 	Alias:  "Output in the Construction Industry",
@@ -3413,7 +3910,7 @@ var Construction = Response{
 	},
 }
 
-//FamiliesAndHouseholds - Families and Households
+// Families and Households
 var FamiliesAndHouseholds = Response{
 	ID:     "bb9dacb0-2b73-4b3c-8198-4b1350dd13c7",
 	Alias:  "Families and households",
@@ -3453,7 +3950,7 @@ var FamiliesAndHouseholds = Response{
 	},
 }
 
-//ParentsCountryOfBirth - Parents Country of Birth
+// Parents Country of Birth
 var ParentsCountryOfBirth = Response{
 	ID:     "916475c2-98a8-4d86-9ff5-a6d1c1d4688d",
 	Alias:  "Parents Country of Birth",
@@ -3493,7 +3990,7 @@ var ParentsCountryOfBirth = Response{
 	},
 }
 
-//LifeExpectancy - Life Expectancy
+// Life Expectancy
 var LifeExpectancy = Response{
 	ID:     "c1a25f33-506e-405e-a9a2-9ebd85b46e6d",
 	Alias:  "Life Expecancy",
@@ -3533,7 +4030,7 @@ var LifeExpectancy = Response{
 	},
 }
 
-//ChildMortality - Child mortality by local authority in England and Wales
+// Child mortality by local authority in England and Wales
 var ChildMortality = Response{
 	ID:     "f507274d-2f17-4cbc-86e5-bf2c91dcc91d",
 	Alias:  "Child mortality by local authority",
@@ -3573,7 +4070,7 @@ var ChildMortality = Response{
 	},
 }
 
-//Suicides - Suicides
+// Suicides
 var Suicides = Response{
 	ID:     "f78ee223-ac49-450d-b2ae-ee8efeb53b6a",
 	Alias:  "Suicides",
@@ -3603,7 +4100,7 @@ var Suicides = Response{
 	},
 }
 
-//DrugRelatedDeaths - Drug-related deaths by local authority, England and Wales
+// Drug-related deaths by local authority, England and Wales
 var DrugRelatedDeaths = Response{
 	ID:     "b5923749-b3ac-41a0-9720-cefe94d765dc",
 	Alias:  "Drug-related deaths by local authority",
@@ -3648,7 +4145,7 @@ var DrugRelatedDeaths = Response{
 	},
 }
 
-//MonthlyDeaths - Deaths registered monthly in England and Wales
+// Deaths registered monthly in England and Wales
 var MonthlyDeaths = Response{
 	ID:     "7e4b9781-2732-4847-a290-e547198acfe2",
 	Alias:  "Deaths registered monthly in England and Wales",
@@ -3678,7 +4175,7 @@ var MonthlyDeaths = Response{
 	},
 }
 
-//SexualOrientation - Sexual orientation, UK
+// Sexual orientation, UK
 var SexualOrientation = Response{
 	ID:     "7d79a78e-dd94-4c0a-aeb0-3d9f5d7ff88a",
 	Alias:  "Sexual orientation, UK",
