@@ -14,4 +14,5 @@ type DataStore struct {
 // Storer represents basic data access via Get, Remove and Upsert methods (to be implemented in the future).
 type Storer interface {
 	GetRecipes() ([]recipe.Response, error)
+	GetRecipe(id string) (*recipe.Response, error)
 }

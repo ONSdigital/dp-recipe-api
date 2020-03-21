@@ -7,7 +7,6 @@ import (
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
-	"github.com/pkg/errors"
 )
 
 //RecipeListHandler - get all recipes
@@ -50,20 +49,33 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	logD := log.Data{"recipe_id": recipeID}
 
 	var r recipe.Response
-	found := false
+	if api.EnableMongoData {
 
-	for _, item := range recipe.FullList.Items {
-		if item.ID == recipeID {
-			r = item
-			found = true
-			break
+		recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+		if err != nil {
+			log.Event(req.Context(), "recipe not found", log.ERROR, logD)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
 		}
-	}
+		r = *recipe
 
-	if !found {
-		log.Event(req.Context(), "recipe not found", log.ERROR, log.Error(errors.New("recipe not found")), logD)
-		w.WriteHeader(http.StatusNotFound)
-		return
+	} else {
+
+		found := false
+
+		for _, item := range recipe.FullList.Items {
+			if item.ID == recipeID {
+				r = item
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			log.Event(req.Context(), "recipe not found", log.ERROR, logD)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	}
 
 	b, err := json.Marshal(r)

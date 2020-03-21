@@ -52,7 +52,7 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 	})
 }
 
-func TestGetDatasetsReturnsError(t *testing.T) {
+func TestGetRecipesReturnsError(t *testing.T) {
 	t.Parallel()
 	Convey("When the api cannot connect to datastore return an internal server error", t, func() {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
@@ -68,5 +68,44 @@ func TestGetDatasetsReturnsError(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
 		So(len(mockedDataStore.GetRecipesCalls()), ShouldEqual, 1)
+	})
+}
+
+func TestGetRecipeReturnsOK(t *testing.T) {
+	t.Parallel()
+	Convey("A successful request to get specific recipe by id returns 200 OK response", t, func() {
+		r := httptest.NewRequest("GET", "http://localhost:22300/recipes/123", nil)
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123"}, nil
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusOK)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
+
+	})
+}
+
+func TestGetRecipeReturnsError(t *testing.T) {
+	t.Parallel()
+	Convey("When the api cannot connect to datastore return an internal server error", t, func() {
+		r := httptest.NewRequest("GET", "http://localhost:22300/recipes/123", nil)
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return nil, errs.ErrInternalServer
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusInternalServerError)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }

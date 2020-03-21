@@ -33,7 +33,7 @@ func Get() (*Configuration, error) {
 			BindAddr:          "localhost:27017",
 			Collection:        "recipes",
 			Database:          "recipe-db",
-			EnableMongoData:   true,
+			EnableMongoData:   false,
 			EnableMongoImport: true,
 		},
 	}

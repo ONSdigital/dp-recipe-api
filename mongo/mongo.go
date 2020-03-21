@@ -6,6 +6,8 @@ import (
 
 	"github.com/globalsign/mgo"
 
+	"go.mongodb.org/mongo-driver/bson"
+
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
@@ -55,4 +57,20 @@ func (m *Mongo) GetRecipes() ([]recipe.Response, error) {
 		return nil, err
 	}
 	return results, nil
+}
+
+// GetRecipe retrieves a recipe document
+func (m *Mongo) GetRecipe(id string) (*recipe.Response, error) {
+	s := m.Session.Copy()
+	defer s.Close()
+	var recipe recipe.Response
+	err := s.DB(m.Database).C(m.Collection).Find(bson.M{"_id": id}).One(&recipe)
+	if err != nil {
+		if err == mgo.ErrNotFound {
+			return nil, errs.ErrRecipeNotFound
+		}
+		return nil, err
+	}
+
+	return &recipe, nil
 }
