@@ -12,6 +12,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var httpServer *server.Server
+
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
 	dataStore         store.DataStore
@@ -50,4 +52,13 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 // get register a GET http.HandlerFunc.
 func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
 	api.Router.HandleFunc(path, handler).Methods("GET")
+}
+
+// Close represents the graceful shutting down of the http server
+func Close(ctx context.Context) error {
+	if err := httpServer.Shutdown(ctx); err != nil {
+		return err
+	}
+	log.Event(ctx, "graceful shutdown of http server complete", log.INFO)
+	return nil
 }

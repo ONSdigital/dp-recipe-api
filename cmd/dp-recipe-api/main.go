@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"syscall"
 
 	"github.com/ONSdigital/log.go/log"
@@ -13,6 +14,7 @@ import (
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/store"
+	mongolib "github.com/ONSdigital/go-ns/mongo"
 )
 
 //check that RecipeAPIStore satifies the the store.Storer interface
@@ -41,20 +43,20 @@ func main() {
 	//Feature Flag for Mongo Connection
 	ENABLE_MONGO_DATA := cfg.MongoConfig.EnableMongoData
 
+	mongodb := &mongo.Mongo{
+		Collection: cfg.MongoConfig.Collection,
+		Database:   cfg.MongoConfig.Database,
+		URI:        cfg.MongoConfig.BindAddr,
+	}
+
+	var err error
+	mongodb.Session, err = mongodb.Init()
+	if err != nil {
+		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
+		os.Exit(1)
+	}
+
 	if ENABLE_MONGO_DATA {
-		mongodb := &mongo.Mongo{
-			Collection: cfg.MongoConfig.Collection,
-			Database:   cfg.MongoConfig.Database,
-			URI:        cfg.MongoConfig.BindAddr,
-		}
-
-		var err error
-		mongodb.Session, err = mongodb.Init()
-		if err != nil {
-			log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
-			os.Exit(1)
-		}
-
 		//Create RecipeAPI instance with Mongo in datastore
 		store := store.DataStore{Backend: RecipeAPIStore{mongodb}}
 		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store)
@@ -64,4 +66,35 @@ func main() {
 		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store.DataStore{Backend: nil})
 	}
 
+	apiErrors := make(chan error, 1)
+
+	// Gracefully shutdown the application closing any open resources.
+	gracefulShutdown := func() {
+		log.Event(ctx, (fmt.Sprintf("shutdown with timeout: %s", cfg.GracefulShutdownTimeout)), log.INFO)
+		ctx, cancel := context.WithTimeout(context.Background(), cfg.GracefulShutdownTimeout)
+
+		// stop any incoming requests before closing any outbound connections
+		api.Close(ctx)
+
+		if ENABLE_MONGO_DATA {
+			if err = mongolib.Close(ctx, mongodb.Session); err != nil {
+				log.Event(ctx, "failed to close mongo session", log.ERROR, log.Error(err))
+			}
+		}
+
+		log.Event(ctx, "shutdown complete", log.INFO)
+
+		cancel()
+		os.Exit(1)
+	}
+
+	for {
+		select {
+		case err := <-apiErrors:
+			log.Event(ctx, "api error received", log.ERROR, log.Error(err))
+		case <-signals:
+			log.Event(ctx, "os signal received", log.INFO)
+			gracefulShutdown()
+		}
+	}
 }
