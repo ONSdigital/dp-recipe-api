@@ -15,14 +15,14 @@ var FullList = List{
 		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, PublicSectorEmployment, PublicSectorEmploymentYear, PublicSectorEmploymentQuarter, 
 		AWE, AWEIndex, CancerRegEng, CancerRegRegions, HealthAccounts, ProductivityNuts, RegionalGDPYear, 
 		RegionalGDPQuarter, GVAIndustryLA, GVAIndustryNuts, GVAHeadIncomeIndustry, GVAHeadIncome, GDPNuts, GDPLA, GDPLocalEnterprisePartnership, GDPCityRegions,
-		TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation, 
-		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG, 
-		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, FamiliesAndHouseholds, ParentsCountryOfBirth, LifeExpectancy, 
-		ChildMortality, Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation, 
-		Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, Census1961SH06, Census1961SH07, Census1961SH08, 
-		Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, Census1961SH15, Census1961ST01, Census1961ST02, 
-		Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08, Census1961ST09,Census1961SC11, Census1961SC13, Census1961SC22},
-	Start: 0,
+		TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation,
+		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG,
+		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, FamiliesAndHouseholds, ParentsCountryOfBirth, LifeExpectancy,
+		ChildMortality, Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation,
+		Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, Census1961SH06, Census1961SH07, Census1961SH08,
+		Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, Census1961SH15, Census1961ST01, Census1961ST02,
+		Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08, Census1961ST09, Census1961SC11, Census1961SC13, Census1961SC22},
+	Offset: 0,
 }
 
 //CPI recipe for transforming a given input to a CPI COICOP dataset
@@ -604,7 +604,7 @@ var ASHE7and8 = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-working-pattern",
 					Name:        "workingpattern",
 					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
@@ -659,7 +659,7 @@ var ASHE9and10 = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-working-pattern",
 					Name:        "workingpattern",
 					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
@@ -829,7 +829,7 @@ var ASHE25 = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-working-pattern",
 					Name:        "workingpattern",
 					HRef:        "http://localhost:22400/code-lists/ashe-working-pattern",
@@ -894,7 +894,7 @@ var ASHE26 = Response{
 					Name:        "hoursandearnings",
 					HRef:        "http://localhost:22400/code-lists/ashe-hours-and-earnings",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -1559,7 +1559,7 @@ var MonthlyDiffusion = Response{
 					Name:        "timeperiod",
 					HRef:        "http://localhost:22400/code-lists/time-period",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -1709,7 +1709,7 @@ var AgeingPopulationEstimates = Response{
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -1749,7 +1749,7 @@ var AgeingSingleHouseholds = Response{
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -1784,7 +1784,7 @@ var AgeingSexRatios = Response{
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -1824,7 +1824,7 @@ var AgeingNetInternalMigration = Response{
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -1864,7 +1864,7 @@ var AgeingEconomicActivity = Response{
 					Name:        "economicactivity",
 					HRef:        "http://localhost:22400/code-lists/economic-activity",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -1904,13 +1904,13 @@ var AgeingProspectiveMeasures = Response{
 					Name:        "remaininglifeexpectancy",
 					HRef:        "http://localhost:22400/code-lists/remaining-life-expectancy",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
 }
 
-// Labour Market  
+// Labour Market
 var LabourMarketStatistics = Response{
 	ID:     "daf08e97-0a21-4800-9a2f-d7c90c88519b",
 	Alias:  "Labour Market",
@@ -1959,7 +1959,7 @@ var LabourMarketStatistics = Response{
 					Name:        "seasonaladjustment",
 					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2095,7 +2095,7 @@ var LMSActualHoursWork = Response{
 	},
 }
 
-// Regional Labour Market, Claimant Count	
+// Regional Labour Market, Claimant Count
 var LMSClaimantCount = Response{
 	ID:     "064ff64f-70bb-4c12-9bc1-150294f31921",
 	Alias:  "Regional Labour Market, Claimant Count",
@@ -2134,7 +2134,7 @@ var LMSClaimantCount = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2179,7 +2179,7 @@ var LMSJobseekersByAgeDuration = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2224,7 +2224,7 @@ var LMSEconomicInactivity = Response{
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2259,7 +2259,7 @@ var LMSJobsByIndustry = Response{
 					Name:        "standardindustrialclassification",
 					HRef:        "http://localhost:22400/code-lists/lms-sic",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2294,7 +2294,7 @@ var PublicSectorEmployment = Response{
 					Name:        "sectortype",
 					HRef:        "http://localhost:22400/code-lists/sector",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2329,7 +2329,7 @@ var PublicSectorEmploymentYear = Response{
 					Name:        "sectortype",
 					HRef:        "http://localhost:22400/code-lists/sector",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2364,7 +2364,7 @@ var PublicSectorEmploymentQuarter = Response{
 					Name:        "sectortype",
 					HRef:        "http://localhost:22400/code-lists/sector",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2409,7 +2409,7 @@ var AWE = Response{
 					Name:        "typeofpay",
 					HRef:        "http://localhost:22400/code-lists/awe-type-of-pay",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2449,7 +2449,7 @@ var AWEIndex = Response{
 					Name:        "typeofpay",
 					HRef:        "http://localhost:22400/code-lists/awe-type-of-pay",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2499,7 +2499,7 @@ var CancerRegEng = Response{
 					Name:        "cancerregistrations",
 					HRef:        "http://localhost:22400/code-lists/cancer-registrations",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2544,7 +2544,7 @@ var CancerRegRegions = Response{
 					Name:        "cancerregistrations",
 					HRef:        "http://localhost:22400/code-lists/cancer-registrations",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2639,7 +2639,6 @@ var ProductivityNuts = Response{
 		},
 	},
 }
-
 
 // Regional GDP by year
 var RegionalGDPYear = Response{
@@ -2765,7 +2764,7 @@ var GVAIndustryLA = Response{
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/type-of-prices",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2805,7 +2804,7 @@ var GVAIndustryNuts = Response{
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/type-of-prices",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2845,7 +2844,7 @@ var GVAHeadIncomeIndustry = Response{
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/type-of-prices",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2880,7 +2879,7 @@ var GVAHeadIncome = Response{
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/type-of-prices",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2915,7 +2914,7 @@ var GDPNuts = Response{
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/type-of-prices",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2950,7 +2949,7 @@ var GDPLA = Response{
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/type-of-prices",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -2985,7 +2984,7 @@ var GDPLocalEnterprisePartnership = Response{
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/type-of-prices",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -3020,7 +3019,7 @@ var GDPCityRegions = Response{
 					Name:        "prices",
 					HRef:        "http://localhost:22400/code-lists/type-of-prices",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -3195,7 +3194,7 @@ var PrivateHousingRentalPrices = Response{
 					Name:        "variable",
 					HRef:        "http://localhost:22400/code-lists/housing-rental-prices-variable",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -3430,7 +3429,7 @@ var KnifeCrime = Response{
 					Name:        "crime",
 					HRef:        "http://localhost:22400/code-lists/crime-offence-code",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -3820,7 +3819,7 @@ var UKBusinessIndustryGeography = Response{
 		},
 	},
 }
-	
+
 // Overseas travel and tourism recipe
 var OverseasTravelTourism = Response{
 	ID:     "35b7fe99-b7db-4237-9af0-f8c2c6c0935c",
@@ -3850,7 +3849,7 @@ var OverseasTravelTourism = Response{
 					Name:        "residence",
 					HRef:        "http://localhost:22400/code-lists/ott-residence",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ott-purpose",
 					Name:        "purpose",
 					HRef:        "http://localhost:22400/code-lists/ott-purpose",
@@ -3895,7 +3894,7 @@ var Construction = Response{
 					Name:        "seasonaladjustment",
 					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "construction-series-type",
 					Name:        "seriestype",
 					HRef:        "http://localhost:22400/code-lists/construction-series-type",
@@ -3905,7 +3904,7 @@ var Construction = Response{
 					Name:        "typeofwork",
 					HRef:        "http://localhost:22400/code-lists/construction-classifications",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
@@ -3945,13 +3944,13 @@ var FamiliesAndHouseholds = Response{
 					Name:        "childreninfamiy",
 					HRef:        "http://localhost:22400/code-lists/children-in-family",
 					IsHierarchy: false,
-				}, 
+				},
 			},
 		},
 	},
 }
 
-// Parents Country of Birth 
+// Parents Country of Birth
 var ParentsCountryOfBirth = Response{
 	ID:     "916475c2-98a8-4d86-9ff5-a6d1c1d4688d",
 	Alias:  "Parents Country of Birth",
@@ -3980,7 +3979,7 @@ var ParentsCountryOfBirth = Response{
 					Name:        "parentscountryofbirth",
 					HRef:        "http://localhost:22400/code-lists/parents-country-birth",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "unit-of-measure",
 					Name:        "unitofmeasure",
 					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
@@ -3991,7 +3990,7 @@ var ParentsCountryOfBirth = Response{
 	},
 }
 
-// Life Expectancy  
+// Life Expectancy
 var LifeExpectancy = Response{
 	ID:     "c1a25f33-506e-405e-a9a2-9ebd85b46e6d",
 	Alias:  "Life Expecancy",
@@ -4020,7 +4019,7 @@ var LifeExpectancy = Response{
 					Name:        "birthcohort",
 					HRef:        "http://localhost:22400/code-lists/birth-cohort",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "life-expectancy-variable",
 					Name:        "lifeexpectancyvariable",
 					HRef:        "http://localhost:22400/code-lists/life-expectancy-variable",
@@ -4071,7 +4070,7 @@ var ChildMortality = Response{
 	},
 }
 
-// Suicides  
+// Suicides
 var Suicides = Response{
 	ID:     "f78ee223-ac49-450d-b2ae-ee8efeb53b6a",
 	Alias:  "Suicides",
@@ -4095,7 +4094,7 @@ var Suicides = Response{
 					Name:        "geography",
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
-				}, 
+				},
 			},
 		},
 	},
@@ -4130,12 +4129,12 @@ var DrugRelatedDeaths = Response{
 					Name:        "mortality",
 					HRef:        "http://localhost:22400/code-lists/drug-deaths-mortality",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "ashe-sex",
 					Name:        "sex",
 					HRef:        "http://localhost:22400/code-lists/ashe-sex",
 					IsHierarchy: false,
-				},{
+				}, {
 					ID:          "drug-deaths-type-of-death",
 					Name:        "typeofdeath",
 					HRef:        "http://localhost:22400/code-lists/drug-deaths-type-of-death",
@@ -4170,7 +4169,7 @@ var MonthlyDeaths = Response{
 					Name:        "geography",
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
 					IsHierarchy: true,
-				}, 
+				},
 			},
 		},
 	},

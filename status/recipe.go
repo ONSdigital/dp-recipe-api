@@ -9,11 +9,11 @@ import (
 )
 
 type RecipeList struct {
-	Count        int      `json:"count"`
-	Start        int      `json:"start_index"`
-	ItemsPerPage int      `json:"items_per_page"`
-	Items        []Recipe `json:"items"`
-	TotalCount   int      `json:"total_count"`
+	Count      int      `json:"count"`
+	Offset     int      `json:"offset_index"`
+	Limit      int      `json:"limit"`
+	Items      []Recipe `json:"items"`
+	TotalCount int      `json:"total_count"`
 }
 
 type Recipe struct {

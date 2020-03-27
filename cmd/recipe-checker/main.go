@@ -135,7 +135,7 @@ func getRecipeList(ctx context.Context, userAuthToken, serviceAuthToken, collect
 	c := len(newList.Items)
 	newList.Count = c
 	newList.TotalCount = c
-	newList.ItemsPerPage = c
+	newList.Limit = c
 	return newList
 }
 
@@ -251,7 +251,7 @@ func getCodelists(recipeID string) status.CodelistList {
 	c := len(newList.Items)
 	newList.Count = c
 	newList.TotalCount = c
-	newList.ItemsPerPage = c
+	newList.Limit = c
 
 	return *newList
 }

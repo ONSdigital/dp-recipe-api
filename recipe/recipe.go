@@ -1,35 +1,38 @@
 package recipe
 
+//List - struct for list of recipes
 type List struct {
-	Count        int        `json:"count"`
-	Start        int        `json:"start_index"`
-	ItemsPerPage int        `json:"items_per_page"`
-	Items        []Response `json:"items"`
-	TotalCount   int        `json:"total_count"`
+	Count      int        `bson:"count,omitempty" json:"count,omitempty"`
+	Offset     int        `bson:"offset_index,omitempty" json:"offset_index,omitempty"`
+	Limit      int        `bson:"limit,omitempty" json:"limit,omitempty"`
+	Items      []Response `bson:"items,omitempty" json:"items,omitempty"`
+	TotalCount int        `bson:"total_count,omitempty" json:"total_count,omitempty"`
 }
 
+//Response - struct for individual recipe
 type Response struct {
-	ID              string     `json:"id"`
-	Alias           string     `json:"alias"`
-	Format          string     `json:"format"`
-	InputFiles      []file     `json:"files"`
-	OutputInstances []instance `json:"output_instances"`
+	ID              string     `bson:"_id" json:"id"`
+	Alias           string     `bson:"alias,omitempty" json:"alias,omitempty"`
+	Format          string     `bson:"format,omitempty" json:"format,omitempty"`
+	InputFiles      []file     `bson:"files,omitempty" json:"files,omitempty"`
+	OutputInstances []instance `bson:"output_instances,omitempty" json:"output_instances,omitempty"`
 }
 
+//CodeList - Code lists for instance
 type CodeList struct {
-	ID          string `json:"id"`
-	HRef        string `json:"href"`
-	Name        string `json:"name"`
-	IsHierarchy bool   `json:"is_hierarchy"`
+	ID          string `bson:"id,omitempty" json:"id,omitempty"`
+	HRef        string `bson:"href,omitempty" json:"href,omitempty"`
+	Name        string `bson:"name,omitempty" json:"name,omitempty"`
+	IsHierarchy bool   `bson:"is_hierarchy,omitempty" json:"is_hierarchy,omitempty"`
 }
 
 type instance struct {
-	DatasetID string     `json:"dataset_id"`
-	Editions  []string   `json:"editions"`
-	Title     string     `json:"title"`
-	CodeLists []CodeList `json:"code_lists"`
+	DatasetID string     `bson:"dataset_id,omitempty" json:"dataset_id,omitempty"`
+	Editions  []string   `bson:"editions,omitempty" json:"editions,omitempty"`
+	Title     string     `bson:"title,omitempty" json:"title,omitempty"`
+	CodeLists []CodeList `bson:"code_lists,omitempty" json:"code_lists,omitempty"`
 }
 
 type file struct {
-	Description string `json:"description"`
+	Description string `bson:"description,omitempty" json:"description,omitempty"`
 }

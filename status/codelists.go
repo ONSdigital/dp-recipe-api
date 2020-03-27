@@ -8,15 +8,15 @@ import (
 	"sync"
 
 	"github.com/ONSdigital/dp-api-clients-go/codelist"
-	"github.com/ONSdigital/dp-rchttp"
+	rchttp "github.com/ONSdigital/dp-rchttp"
 )
 
 type CodelistList struct {
-	Count        int        `json:"count"`
-	Start        int        `json:"start_index"`
-	ItemsPerPage int        `json:"items_per_page"`
-	Items        []Codelist `json:"items"`
-	TotalCount   int        `json:"total_count"`
+	Count      int        `json:"count"`
+	Offset     int        `json:"offset_index"`
+	Limit      int        `json:"limit"`
+	Items      []Codelist `json:"items"`
+	TotalCount int        `json:"total_count"`
 }
 
 type Codelist struct {
