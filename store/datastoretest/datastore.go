@@ -9,6 +9,7 @@ import (
 var (
 	lockStorerMockGetRecipe  sync.RWMutex
 	lockStorerMockGetRecipes sync.RWMutex
+	lockStorerMockAddRecipe  sync.RWMutex
 )
 
 //StorerMock contains initialises methods in Storer interface for mock
@@ -19,6 +20,9 @@ type StorerMock struct {
 	// GetRecipesFunc mocks the GetRecipes method.
 	GetRecipesFunc func() ([]recipe.Response, error)
 
+	// AddRecipeFunc mocks the AddRecipe method.
+	AddRecipeFunc func(item recipe.Response) error
+
 	// calls tracks calls to the methods.
 	calls struct {
 		// GetRecipe holds details about calls to the GetRecipe method.
@@ -28,6 +32,11 @@ type StorerMock struct {
 		}
 		// GetRecipes holds details about calls to the GetRecipes method.
 		GetRecipes []struct {
+		}
+		//AddRecipe holds details about calls to the AddRecipe method
+		AddRecipe []struct {
+			// item represents each recipe
+			item recipe.Response
 		}
 	}
 }
@@ -66,7 +75,7 @@ func (mock *StorerMock) GetRecipeCalls() []struct {
 //GetRecipes calls GetRecipesFunc.
 func (mock *StorerMock) GetRecipes() ([]recipe.Response, error) {
 	if mock.GetRecipesFunc == nil {
-		panic("StorerMock.GetDatasetsFunc: method is nil but Storer.GetDatasets was just called")
+		panic("StorerMock.GetRecipesFunc: method is nil but Storer.GetDatasets was just called")
 	}
 	callInfo := struct {
 	}{}
@@ -86,5 +95,36 @@ func (mock *StorerMock) GetRecipesCalls() []struct {
 	lockStorerMockGetRecipes.RLock()
 	calls = mock.calls.GetRecipes
 	lockStorerMockGetRecipes.RUnlock()
+	return calls
+}
+
+//AddRecipe calls AddRecipeFunc.
+func (mock *StorerMock) AddRecipe(item recipe.Response) error {
+	if mock.AddRecipeFunc == nil {
+		panic("StorerMock.AddRecipeFunc: method is nil but Storer.AddRecipe was just called")
+	}
+	callInfo := struct {
+		item recipe.Response
+	}{
+		item: item,
+	}
+	lockStorerMockAddRecipe.Lock()
+	mock.calls.AddRecipe = append(mock.calls.AddRecipe, callInfo)
+	lockStorerMockAddRecipe.Unlock()
+	return mock.AddRecipeFunc(item)
+}
+
+// AddRecipeCalls gets all the calls that were made to AddRecipe.
+// Check the length with:
+//     len(mockedStorer.AddRecipeCalls())
+func (mock *StorerMock) AddRecipeCalls() []struct {
+	item recipe.Response
+} {
+	var calls []struct {
+		item recipe.Response
+	}
+	lockStorerMockAddRecipe.RLock()
+	calls = mock.calls.AddRecipe
+	lockStorerMockAddRecipe.RUnlock()
 	return calls
 }

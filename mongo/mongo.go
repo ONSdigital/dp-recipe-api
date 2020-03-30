@@ -74,3 +74,11 @@ func (m *Mongo) GetRecipe(id string) (*recipe.Response, error) {
 
 	return &recipe, nil
 }
+
+//AddRecipe adds a recipe document
+func (m *Mongo) AddRecipe(item recipe.Response) error {
+	s := m.Session.Copy()
+	defer s.Close()
+	_, err := s.DB(m.Database).C(m.Collection).UpsertId(item.ID, item)
+	return err
+}

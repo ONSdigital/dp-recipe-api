@@ -88,3 +88,16 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(b)
 }
+
+//AddAllRecipeHandler - Adds all the recipes from data.go to the mongo database
+//USAGE: curl -X POST http://localhost:22300/allrecipes
+func (api *RecipeAPI) AddAllRecipeHandler(w http.ResponseWriter, req *http.Request) {
+	for _, item := range recipe.FullList.Items {
+		err := api.dataStore.Backend.AddRecipe(item)
+		if err != nil {
+			log.Event(req.Context(), "error in adding all recipes to mongo from data.go", log.ERROR, log.Error(err))
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+	}
+}
