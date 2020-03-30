@@ -2634,15 +2634,20 @@ var HousePrices = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "house-prices-local-authority",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"time-series-historic", "time-series"},
 			Title:     "UK House Price Index",
 			CodeLists: []CodeList{
 				{
-					ID:          "mmm-yy",
+					ID:          "calendar-years",
 					Name:        "time",
-					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
 					IsHierarchy: false,
 				}, {
+					ID:          "mmm",
+					Name:        "month",
+					HRef:        "http://localhost:22400/code-lists/mmm",
+					IsHierarchy: false,
+				},{
 					ID:          "admin-geography",
 					Name:        "geography",
 					HRef:        "http://localhost:22400/code-lists/admin-geography",
