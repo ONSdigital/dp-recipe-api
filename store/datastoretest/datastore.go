@@ -26,7 +26,7 @@ type StorerMock struct {
 //GetRecipes calls GetRecipesFunc.
 func (mock *StorerMock) GetRecipes() ([]recipe.Response, error) {
 	if mock.GetRecipesFunc == nil {
-		panic("StorerMock.GetDatasetsFunc: method is nil but Storer.GetDatasets was just called")
+		panic("StorerMock.GetRecipesFunc: method is nil but Storer.GetRecipes was just called")
 	}
 	callInfo := struct {
 	}{}
