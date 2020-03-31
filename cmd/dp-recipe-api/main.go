@@ -35,9 +35,9 @@ func main() {
 	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
 
 	//Feature Flag for Mongo Connection
-	ENABLE_MONGO_DATA := cfg.MongoConfig.EnableMongoData
+	enableMongoData := cfg.MongoConfig.EnableMongoData
 
-	if ENABLE_MONGO_DATA {
+	if enableMongoData {
 		mongodb := &mongo.Mongo{
 			Collection: cfg.MongoConfig.Collection,
 			Database:   cfg.MongoConfig.Database,
@@ -53,6 +53,7 @@ func main() {
 	}
 
 	router := mux.NewRouter()
+	router.Methods("GET").Path("/health").HandlerFunc(healthcheck)
 	router.Methods("GET").Path("/recipes").HandlerFunc(recipeListHandler)
 	router.Methods("GET").Path("/recipes/{id}").HandlerFunc(recipeHandler)
 
@@ -62,6 +63,11 @@ func main() {
 		log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
 		os.Exit(1)
 	}
+}
+
+func healthcheck(w http.ResponseWriter, req *http.Request) {
+	// Set status to 200 OK
+	w.WriteHeader(200)
 }
 
 func recipeListHandler(w http.ResponseWriter, req *http.Request) {
