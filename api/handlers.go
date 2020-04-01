@@ -89,6 +89,12 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	w.Write(b)
 }
 
+//HealthCheck - health check endpoint
+func (api *RecipeAPI) HealthCheck(w http.ResponseWriter, req *http.Request) {
+	// Set status to 200 OK
+	w.WriteHeader(200)
+}
+
 //AddAllRecipeHandler - Adds all the recipes from data.go to the mongo database
 //USAGE: curl -X POST http://localhost:22300/allrecipes
 func (api *RecipeAPI) AddAllRecipeHandler(w http.ResponseWriter, req *http.Request) {
