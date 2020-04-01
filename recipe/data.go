@@ -2645,6 +2645,41 @@ var ProductivityNuts = Response{
 	},
 }
 
+// 4 digit gdp data
+var GDP4decimal = Response{
+	ID:     "6a1899df-6b2f-41df-b0a9-a0b48c1c1ff5",
+	Alias:  "GDP to four decimal places",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDP"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-4-dp",
+			Editions:  []string{"time-series"},
+			Title:     "GDP to four decimal places",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "sic-test",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic-test",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
 // Regional GDP by year
 var RegionalGDPYear = Response{
 	ID:     "eec65efd-da07-4089-8e3e-a356751fa72d",
