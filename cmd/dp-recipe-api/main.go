@@ -41,7 +41,7 @@ func main() {
 	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
 
 	//Feature Flag for Mongo Connection
-	ENABLE_MONGO_DATA := cfg.MongoConfig.EnableMongoData
+	enableMongoData := cfg.MongoConfig.EnableMongoData
 
 	mongodb := &mongo.Mongo{
 		Collection: cfg.MongoConfig.Collection,
@@ -56,7 +56,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if ENABLE_MONGO_DATA {
+	if enableMongoData {
 		//Create RecipeAPI instance with Mongo in datastore
 		store := store.DataStore{Backend: RecipeAPIStore{mongodb}}
 		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store)
@@ -76,7 +76,7 @@ func main() {
 		// stop any incoming requests before closing any outbound connections
 		api.Close(ctx)
 
-		if ENABLE_MONGO_DATA {
+		if enableMongoData {
 			if err = mongolib.Close(ctx, mongodb.Session); err != nil {
 				log.Event(ctx, "failed to close mongo session", log.ERROR, log.Error(err))
 			}
