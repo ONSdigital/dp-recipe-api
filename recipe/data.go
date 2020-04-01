@@ -1709,6 +1709,11 @@ var AgeingPopulationEstimates = Response{
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
 					IsHierarchy: false,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
 				},
 			},
 		},
