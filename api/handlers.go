@@ -76,3 +76,9 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(b)
 }
+
+//HealthCheck - health check endpoint
+func (api *RecipeAPI) HealthCheck(w http.ResponseWriter, req *http.Request) {
+	// Set status to 200 OK
+	w.WriteHeader(200)
+}
