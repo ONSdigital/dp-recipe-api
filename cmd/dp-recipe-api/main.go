@@ -39,9 +39,9 @@ func main() {
 	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
 
 	//Feature Flag for Mongo Connection
-	ENABLE_MONGO_DATA := cfg.MongoConfig.EnableMongoData
+	enableMongoData := cfg.MongoConfig.EnableMongoData
 
-	if ENABLE_MONGO_DATA {
+	if enableMongoData {
 		mongodb := &mongo.Mongo{
 			Collection: cfg.MongoConfig.Collection,
 			Database:   cfg.MongoConfig.Database,
