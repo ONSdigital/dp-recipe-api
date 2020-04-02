@@ -3905,24 +3905,79 @@ var OverseasTravelTourism = Response{
 	},
 }
 
-// Output in the construction industry
-var Construction = Response{
+// Output in the construction industry - monthly
+var ConstructionMonthly = Response{
 	ID:     "5c1aab52-7538-4105-8305-c63a4ba37cab",
-	Alias:  "Output in the Construction Industry",
+	Alias:  "Output in the Construction Industry - Monthly",
 	Format: "v4",
 	InputFiles: []file{
-		{"Construction"},
+		{"ConstructionMonthly"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "output-in-the-construction-industry",
+			DatasetID: "output-in-the-construction-industry-monthly",
 			Editions:  []string{"time-series"},
-			Title:     "Output in the Construction Industry",
+			Title:     "Output in the Construction Industry - Monthly",
 			CodeLists: []CodeList{
 				{
 					ID:          "mmm-yy",
 					Name:        "time",
 					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "construction-series-type",
+					Name:        "seriestype",
+					HRef:        "http://localhost:22400/code-lists/construction-series-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "construction-classifications",
+					Name:        "typeofwork",
+					HRef:        "http://localhost:22400/code-lists/construction-classifications",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Output in the construction industry - by years and quarters
+var ConstructionYearsQuarters = Response{
+	ID:     "de60043e-76ba-4dc8-b110-dbb4ba6cfa5e",
+	Alias:  "Output in the Construction Industry - by Years and Quarters",
+	Format: "v4",
+	InputFiles: []file{
+		{"ConstructionYearsQuarters"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "output-in-the-construction-industry-years-and-quarters",
+			Editions:  []string{"time-series"},
+			Title:     "Output in the Construction Industry - by Years and Quarters",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
 					ID:          "type-of-prices",
