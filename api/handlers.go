@@ -2,6 +2,8 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/ONSdigital/dp-recipe-api/recipe"
@@ -106,4 +108,41 @@ func (api *RecipeAPI) AddAllRecipeHandler(w http.ResponseWriter, req *http.Reque
 			return
 		}
 	}
+}
+
+//AddRecipeHandler - adds recipes
+// USAGE: curl -X POST http://localhost:22300/recipes -d '{"alias":"Hello"}'
+// USAGE: curl -X POST http://localhost:22300/recipes -d "@data.json"
+func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request) {
+
+	// Read body
+	b, err := ioutil.ReadAll(req.Body)
+	defer req.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	// Unmarshal to the shape of Response struct
+	var recipe recipe.Response
+	err = json.Unmarshal(b, &recipe)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	// Add Recipe to Mongo
+	err = api.dataStore.Backend.AddRecipe(recipe)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Marshal to output the newly added recipe
+	output, err := json.Marshal(recipe)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(output)
 }
