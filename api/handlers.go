@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
@@ -127,7 +128,7 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	var recipe recipe.Response
 	err = json.Unmarshal(b, &recipe)
 	if err != nil {
-		http.Error(w, err.Error(), 500)
+		http.Error(w, errs.ErrAddUpdateRecipeBadRequest.Error(), 500)
 		return
 	}
 
