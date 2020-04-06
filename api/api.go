@@ -5,6 +5,9 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/justinas/alice"
+
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/store"
 	"github.com/ONSdigital/go-ns/server"
@@ -23,12 +26,14 @@ type RecipeAPI struct {
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
-func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore) {
+func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck) {
 	router := mux.NewRouter()
 	api := NewRecipeAPI(ctx, cfg, router, dataStore)
+	healthcheckHandler := newMiddleware(hc.Handler)
+	middleware := alice.New(healthcheckHandler)
 
 	log.Event(ctx, "starting http server", log.INFO, log.Data{"bind_addr": cfg.BindAddr})
-	srv := server.New(cfg.BindAddr, api.Router)
+	srv := server.New(cfg.BindAddr, middleware.Then(api.Router))
 	if err := srv.ListenAndServe(); err != nil {
 		log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
 		os.Exit(1)
@@ -44,7 +49,6 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 		EnableMongoImport: cfg.MongoConfig.EnableMongoImport,
 	}
 
-	api.get("/health", api.HealthCheck)
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
 	if api.EnableMongoImport {
@@ -65,4 +69,17 @@ func Close(ctx context.Context) error {
 	}
 	log.Event(ctx, "graceful shutdown of http server complete", log.INFO)
 	return nil
+}
+
+//newMiddleware creates a new http.Handler to intercept /health requests.
+func newMiddleware(healthcheckHandler func(http.ResponseWriter, *http.Request)) func(http.Handler) http.Handler {
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+			if req.Method == "GET" && req.URL.Path == "/health" {
+				healthcheckHandler(w, req)
+				return
+			}
+			h.ServeHTTP(w, req)
+		})
+	}
 }
