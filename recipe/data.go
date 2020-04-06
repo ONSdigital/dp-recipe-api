@@ -4251,7 +4251,7 @@ var MonthlyDeaths = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "deaths-registered-monthly-england-wales",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"time-series", "current-geography-hierarchy", "previous-geography-hierarchy"},
 			Title:     "Deaths registered monthly in England and Wales",
 			CodeLists: []CodeList{
 				{
