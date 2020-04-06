@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 	"net/http"
-	"os"
 
 	"github.com/justinas/alice"
 
@@ -26,18 +25,25 @@ type RecipeAPI struct {
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
-func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck) {
+func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck, errorChan chan error) {
 	router := mux.NewRouter()
 	api := NewRecipeAPI(ctx, cfg, router, dataStore)
+
 	healthcheckHandler := newMiddleware(hc.Handler)
 	middleware := alice.New(healthcheckHandler)
 
-	log.Event(ctx, "starting http server", log.INFO, log.Data{"bind_addr": cfg.BindAddr})
-	srv := server.New(cfg.BindAddr, middleware.Then(api.Router))
-	if err := srv.ListenAndServe(); err != nil {
-		log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
-		os.Exit(1)
-	}
+	httpServer = server.New(cfg.BindAddr, middleware.Then(api.Router))
+
+	// Disable this here to allow main to manage graceful shutdown of the entire app.
+	httpServer.HandleOSSignals = false
+
+	go func() {
+		log.Event(ctx, "starting http server", log.INFO, log.Data{"bind_addr": cfg.BindAddr})
+		if err := httpServer.ListenAndServe(); err != nil {
+			log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
+			errorChan <- err
+		}
+	}()
 }
 
 //NewRecipeAPI create a new Recipe API instance and register the API routes based on the application configuration.
@@ -64,6 +70,9 @@ func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
 
 // Close represents the graceful shutting down of the http server
 func Close(ctx context.Context) error {
+	if httpServer == nil {
+		log.Event(ctx, "got empty server", log.Data{"server": httpServer})
+	}
 	if err := httpServer.Shutdown(ctx); err != nil {
 		return err
 	}
