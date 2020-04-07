@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var httpServer *server.Server
+var srv *server.Server
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
@@ -28,7 +28,7 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 	api := NewRecipeAPI(ctx, cfg, router, dataStore)
 
 	log.Event(ctx, "starting http server", log.INFO, log.Data{"bind_addr": cfg.BindAddr})
-	srv := server.New(cfg.BindAddr, api.Router)
+	srv = server.New(cfg.BindAddr, api.Router)
 	if err := srv.ListenAndServe(); err != nil {
 		log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
 		os.Exit(1)
@@ -57,7 +57,7 @@ func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
 
 // Close represents the graceful shutting down of the http server
 func Close(ctx context.Context) error {
-	if err := httpServer.Shutdown(ctx); err != nil {
+	if err := srv.Shutdown(ctx); err != nil {
 		return err
 	}
 	log.Event(ctx, "graceful shutdown of http server complete", log.INFO)
