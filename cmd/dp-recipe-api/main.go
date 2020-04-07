@@ -137,6 +137,7 @@ func main() {
 		if enableMongoData {
 			if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
 				log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
+				hasShutdownError = true
 			}
 		}
 

@@ -70,9 +70,6 @@ func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
 
 // Close represents the graceful shutting down of the http server
 func Close(ctx context.Context) error {
-	if httpServer == nil {
-		log.Event(ctx, "got empty server", log.Data{"server": httpServer})
-	}
 	if err := httpServer.Shutdown(ctx); err != nil {
 		return err
 	}
