@@ -42,13 +42,13 @@ func main() {
 
 	//Feature Flag for Mongo Connection
 	enableMongoData := cfg.MongoConfig.EnableMongoData
-
+  
 	mongodb := &mongo.Mongo{
 		Collection: cfg.MongoConfig.Collection,
 		Database:   cfg.MongoConfig.Database,
 		URI:        cfg.MongoConfig.BindAddr,
 	}
-
+  
 	var err error
 	mongodb.Session, err = mongodb.Init()
 	if err != nil {
