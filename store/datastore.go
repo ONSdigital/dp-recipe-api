@@ -16,4 +16,5 @@ type Storer interface {
 	GetRecipes() ([]recipe.Response, error)
 	GetRecipe(id string) (*recipe.Response, error)
 	AddRecipe(item recipe.Response) error
+	UpdateRecipe(id string, recipeUpdate recipe.Response) (err error)
 }

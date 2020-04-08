@@ -7,9 +7,10 @@ import (
 )
 
 var (
-	lockStorerMockGetRecipe  sync.RWMutex
-	lockStorerMockGetRecipes sync.RWMutex
-	lockStorerMockAddRecipe  sync.RWMutex
+	lockStorerMockGetRecipe    sync.RWMutex
+	lockStorerMockGetRecipes   sync.RWMutex
+	lockStorerMockAddRecipe    sync.RWMutex
+	lockStorerMockUpdateRecipe sync.RWMutex
 )
 
 //StorerMock contains initialises methods in Storer interface for mock
@@ -22,6 +23,9 @@ type StorerMock struct {
 
 	// AddRecipeFunc mocks the AddRecipe method.
 	AddRecipeFunc func(item recipe.Response) error
+
+	// UpdateRecipeFunc mocks the UpdateRecipe method.
+	UpdateRecipeFunc func(ID string, recipeUpdate recipe.Response) error
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -37,6 +41,13 @@ type StorerMock struct {
 		AddRecipe []struct {
 			// item represents each recipe
 			item recipe.Response
+		}
+		//UpdateRecipe holds details about calls to the UpdateRecipe method
+		UpdateRecipe []struct {
+			// ID is the ID argument value.
+			ID string
+			// recipeUpdate represents each recipe to be updated
+			recipeUpdate recipe.Response
 		}
 	}
 }
@@ -126,5 +137,40 @@ func (mock *StorerMock) AddRecipeCalls() []struct {
 	lockStorerMockAddRecipe.RLock()
 	calls = mock.calls.AddRecipe
 	lockStorerMockAddRecipe.RUnlock()
+	return calls
+}
+
+// UpdateRecipe calls UpdateRecipeFunc.
+func (mock *StorerMock) UpdateRecipe(ID string, recipeUpdate recipe.Response) error {
+	if mock.UpdateRecipeFunc == nil {
+		panic("StorerMock.UpdateRecipeFunc: method is nil but Storer.UpdateRecipe was just called")
+	}
+	callInfo := struct {
+		ID           string
+		recipeUpdate recipe.Response
+	}{
+		ID:           ID,
+		recipeUpdate: recipeUpdate,
+	}
+	lockStorerMockUpdateRecipe.Lock()
+	mock.calls.UpdateRecipe = append(mock.calls.UpdateRecipe, callInfo)
+	lockStorerMockUpdateRecipe.Unlock()
+	return mock.UpdateRecipeFunc(ID, recipeUpdate)
+}
+
+// UpdateRecipeCalls gets all the calls that were made to UpdateRecipe.
+// Check the length with:
+//     len(mockedStorer.UpdateRecipeCalls())
+func (mock *StorerMock) UpdateRecipeCalls() []struct {
+	ID           string
+	recipeUpdate recipe.Response
+} {
+	var calls []struct {
+		ID           string
+		recipeUpdate recipe.Response
+	}
+	lockStorerMockUpdateRecipe.RLock()
+	calls = mock.calls.UpdateRecipe
+	lockStorerMockUpdateRecipe.RUnlock()
 	return calls
 }

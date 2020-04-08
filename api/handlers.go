@@ -147,3 +147,46 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	w.Header().Set("content-type", "application/json")
 	w.Write(output)
 }
+
+//UpdateRecipeHandler - update specific recipe by ID
+// USAGE: curl -X PUT http://localhost:22300/recipes/id -d '{"alias":"Hello"}'
+// USAGE: curl -X PUT http://localhost:22300/recipes/id -d "@data.json"
+func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Request) {
+
+	//Get Update Recipe ID
+	vars := mux.Vars(req)
+	recipeID := vars["id"]
+
+	// Read body
+	b, err := ioutil.ReadAll(req.Body)
+	defer req.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	// Unmarshal to the shape of Response struct
+	var recipeUpdate recipe.Response
+	err = json.Unmarshal(b, &recipeUpdate)
+	if err != nil {
+		http.Error(w, errs.ErrAddUpdateRecipeBadRequest.Error(), 500)
+		return
+	}
+
+	// Update Recipe to Mongo
+	recipeUpdate.ID = recipeID
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, recipeUpdate)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Marshal to output the newly updated recipe
+	updatedRecipe, _ := api.dataStore.Backend.GetRecipe(recipeID)
+	output, err := json.Marshal(updatedRecipe)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(output)
+}

@@ -61,6 +61,7 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 	if api.EnableMongoImport {
 		api.Router.HandleFunc("/allrecipes", api.AddAllRecipeHandler).Methods("POST")
 		api.Router.HandleFunc("/recipes", api.AddRecipeHandler).Methods("POST")
+		api.Router.HandleFunc("/recipes/{id}", api.UpdateRecipeHandler).Methods("PUT")
 	}
 	return api
 }

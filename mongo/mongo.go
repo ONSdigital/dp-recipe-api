@@ -82,3 +82,18 @@ func (m *Mongo) AddRecipe(item recipe.Response) error {
 	_, err := s.DB(m.Database).C(m.Collection).UpsertId(item.ID, item)
 	return err
 }
+
+//UpdateRecipe updates an existing recipe document
+func (m *Mongo) UpdateRecipe(id string, recipeUpdate recipe.Response) (err error) {
+	s := m.Session.Copy()
+	defer s.Close()
+
+	update := bson.M{"$set": recipeUpdate}
+	err = s.DB(m.Database).C("recipes").UpdateId(id, update)
+	if err != nil {
+		if err == mgo.ErrNotFound {
+			return errs.ErrRecipeNotFound
+		}
+	}
+	return err
+}
