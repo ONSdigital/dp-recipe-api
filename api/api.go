@@ -14,7 +14,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var httpServer *server.Server
+var srv *server.Server
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
@@ -32,14 +32,14 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 	healthcheckHandler := newMiddleware(hc.Handler)
 	middleware := alice.New(healthcheckHandler)
 
-	httpServer = server.New(cfg.BindAddr, middleware.Then(api.Router))
+	srv = server.New(cfg.BindAddr, middleware.Then(api.Router))
 
 	// Disable this here to allow main to manage graceful shutdown of the entire app.
-	httpServer.HandleOSSignals = false
+	srv.HandleOSSignals = false
 
 	go func() {
 		log.Event(ctx, "starting http server", log.INFO, log.Data{"bind_addr": cfg.BindAddr})
-		if err := httpServer.ListenAndServe(); err != nil {
+		if err := srv.ListenAndServe(); err != nil {
 			log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
 			errorChan <- err
 		}
@@ -55,6 +55,7 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 		EnableMongoImport: cfg.MongoConfig.EnableMongoImport,
 	}
 
+	api.get("/health", api.HealthCheck)
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
 	if api.EnableMongoImport {
@@ -70,7 +71,7 @@ func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
 
 // Close represents the graceful shutting down of the http server
 func Close(ctx context.Context) error {
-	if err := httpServer.Shutdown(ctx); err != nil {
+	if err := srv.Shutdown(ctx); err != nil {
 		return err
 	}
 	log.Event(ctx, "graceful shutdown of http server complete", log.INFO)
