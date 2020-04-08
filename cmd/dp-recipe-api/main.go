@@ -67,7 +67,7 @@ func main() {
 
 	//Feature Flag for Mongo Connection
 	enableMongoData := cfg.MongoConfig.EnableMongoData
-
+  
 	mongodb := &mongo.Mongo{
 		Collection: cfg.MongoConfig.Collection,
 		Database:   cfg.MongoConfig.Database,
@@ -91,7 +91,7 @@ func main() {
 		Client:      *mongoClient,
 		Healthcheck: mongoClient.Healthcheck,
 	}
-
+  
 	datastore := &store.DataStore{Backend: nil}
 	if enableMongoData {
 		//Create RecipeAPI instance with Mongo in datastore
