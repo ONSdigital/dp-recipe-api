@@ -52,7 +52,7 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 	})
 }
 
-func TestGetDatasetsReturnsError(t *testing.T) {
+func TestGetRecipesReturnsError(t *testing.T) {
 	t.Parallel()
 	Convey("When the api cannot connect to datastore return an internal server error", t, func() {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
