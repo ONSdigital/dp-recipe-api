@@ -91,7 +91,7 @@ func main() {
 		Client:      *mongoClient,
 		Healthcheck: mongoClient.Healthcheck,
 	}
-
+  
 	datastore := &store.DataStore{Backend: nil}
 	if enableMongoData {
 		//Create RecipeAPI instance with Mongo in datastore
