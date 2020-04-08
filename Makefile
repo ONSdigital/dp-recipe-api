@@ -7,18 +7,23 @@ BIN_DIR?=.
 export GOOS?=$(shell go env GOOS)
 export GOARCH?=$(shell go env GOARCH)
 
+BUILD_TIME=$(shell date +%s)
+GIT_COMMIT=$(shell git rev-parse HEAD)
+VERSION ?= $(shell git tag --points-at HEAD | grep ^v | head -n 1)
+LDFLAGS=-ldflags "-X main.BuildTime=$(BUILD_TIME) -X main.GitCommit=$(GIT_COMMIT) -X main.Version=$(VERSION)"
+
 build:
 	@mkdir -p $(BUILD_ARCH)/$(BIN_DIR)
-	go build -o $(BUILD_ARCH)/$(BIN_DIR)/dp-recipe-api cmd/dp-recipe-api/main.go
+	go build $(LDFLAGS) -o $(BUILD_ARCH)/$(BIN_DIR)/dp-recipe-api cmd/dp-recipe-api/main.go
 
 checker:
-	go run cmd/recipe-checker/main.go --dev="$(CMD_DEV_API_HOST)" --beta="$(CMD_API_HOST)"
+	go run $(LDFLAGS) cmd/recipe-checker/main.go --dev="$(CMD_DEV_API_HOST)" --beta="$(CMD_API_HOST)"
 
 debug:
-	HUMAN_LOG=1 go run cmd/dp-recipe-api/main.go
+	HUMAN_LOG=1 go run -race $(LDFLAGS) cmd/dp-recipe-api/main.go
 
 test:
 	#go test -cover $(shell go list ./... | grep -v /vendor/)
-	go test -cover ./...
+	go test -race -cover ./...
 
 .PHONEY: test build debug

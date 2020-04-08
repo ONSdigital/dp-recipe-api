@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"syscall"
 
@@ -10,11 +11,13 @@ import (
 	"os"
 	"os/signal"
 
+	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
+	mongolib "github.com/ONSdigital/dp-mongodb"
+	mongoHealth "github.com/ONSdigital/dp-mongodb/health"
 	"github.com/ONSdigital/dp-recipe-api/api"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/store"
-	mongolib "github.com/ONSdigital/go-ns/mongo"
 )
 
 //check that RecipeAPIStore satifies the the store.Storer interface
@@ -24,6 +27,16 @@ var _ store.Storer = (*RecipeAPIStore)(nil)
 type RecipeAPIStore struct {
 	*mongo.Mongo
 }
+
+//health check variables - app version informaton retrieved on runtime
+var (
+	// BuildTime represents the time in which the service was built
+	BuildTime string
+	// GitCommit represents the commit (SHA-1) hash of the service that is running
+	GitCommit string
+	// Version represents the version of the service that is running
+	Version string
+)
 
 func main() {
 	log.Namespace = "recipe-api"
@@ -40,6 +53,18 @@ func main() {
 
 	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg})
 
+	versionInfo, healthErr := health.NewVersionInfo(
+		BuildTime,
+		GitCommit,
+		Version,
+	)
+	if healthErr != nil {
+		log.Event(ctx, "failed to create service version information", log.ERROR, log.Error(healthErr))
+		os.Exit(1)
+	}
+
+	hc := health.New(versionInfo, cfg.HealthCheckCriticalTimeout, cfg.HealthCheckInterval)
+
 	//Feature Flag for Mongo Connection
 	enableMongoData := cfg.MongoConfig.EnableMongoData
 
@@ -49,52 +74,90 @@ func main() {
 		URI:        cfg.MongoConfig.BindAddr,
 	}
 
-	var err error
-	mongodb.Session, err = mongodb.Init()
+	session, err := mongodb.Init()
 	if err != nil {
 		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
 		os.Exit(1)
+	} else {
+		mongodb.Session = session
+		log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{
+			"bind_address": cfg.BindAddr,
+		})
 	}
 
+	mongoClient := mongoHealth.NewClient(session)
+
+	mongoHealth := mongoHealth.CheckMongoClient{
+		Client:      *mongoClient,
+		Healthcheck: mongoClient.Healthcheck,
+	}
+
+	datastore := &store.DataStore{Backend: nil}
 	if enableMongoData {
 		//Create RecipeAPI instance with Mongo in datastore
-		store := store.DataStore{Backend: RecipeAPIStore{mongodb}}
-		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store)
-
-	} else {
-		//Create RecipeAPI instance with no datastore
-		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store.DataStore{Backend: nil})
+		datastore.Backend = RecipeAPIStore{mongodb}
 	}
 
+	if err = hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
+		log.Event(ctx, "failed to add mongoDB checker", log.ERROR, log.Error(err))
+		os.Exit(1)
+	}
+	hc.Start(ctx)
+
 	apiErrors := make(chan error, 1)
+	api.CreateAndInitialiseRecipeAPI(ctx, *cfg, *datastore, &hc, apiErrors)
+
+	// block until a fatal error occurs
+	select {
+	case err := <-apiErrors:
+		log.Event(ctx, "api error received", log.ERROR, log.Error(err))
+	case <-signals:
+		log.Event(ctx, "os signal received", log.INFO)
+	}
+
+	log.Event(ctx, fmt.Sprintf("shutdown with timeout: %s", cfg.GracefulShutdownTimeout), log.INFO)
+	shutdownContext, cancel := context.WithTimeout(context.Background(), cfg.GracefulShutdownTimeout)
+
+	// track shutdown gracefully closes app
+	var gracefulShutdown bool
 
 	// Gracefully shutdown the application closing any open resources.
-	gracefulShutdown := func() {
-		log.Event(ctx, (fmt.Sprintf("shutdown with timeout: %s", cfg.GracefulShutdownTimeout)), log.INFO)
-		ctx, cancel := context.WithTimeout(context.Background(), cfg.GracefulShutdownTimeout)
+	go func() {
+		defer cancel()
+		var hasShutdownError bool
+
+		hc.Stop()
 
 		// stop any incoming requests before closing any outbound connections
-		api.Close(ctx)
+		if err = api.Close(shutdownContext); err != nil {
+			log.Event(shutdownContext, "failed to close http server", log.ERROR, log.Error(err))
+			hasShutdownError = true
+		}
 
 		if enableMongoData {
-			if err = mongolib.Close(ctx, mongodb.Session); err != nil {
-				log.Event(ctx, "failed to close mongo session", log.ERROR, log.Error(err))
+			if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
+				log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
+				hasShutdownError = true
 			}
 		}
 
-		log.Event(ctx, "shutdown complete", log.INFO)
+		log.Event(shutdownContext, "shutdown complete", log.INFO)
 
-		cancel()
+		if !hasShutdownError {
+			gracefulShutdown = true
+		}
+	}()
+
+	// wait for shutdown success (via cancel) or failure (timeout)
+	<-shutdownContext.Done()
+
+	if !gracefulShutdown {
+		err = errors.New("failed to shutdown gracefully")
+		log.Event(shutdownContext, "failed to shutdown gracefully ", log.ERROR, log.Error(err))
 		os.Exit(1)
 	}
 
-	for {
-		select {
-		case err := <-apiErrors:
-			log.Event(ctx, "api error received", log.ERROR, log.Error(err))
-		case <-signals:
-			log.Event(ctx, "os signal received", log.INFO)
-			gracefulShutdown()
-		}
-	}
+	log.Event(shutdownContext, "graceful shutdown was successful", log.INFO)
+
+	os.Exit(0)
 }
