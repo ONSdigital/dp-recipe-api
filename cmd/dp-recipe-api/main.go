@@ -2,22 +2,26 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"errors"
-	"net/http"
 	"syscall"
 
-	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 
 	"os"
 	"os/signal"
 
+	"github.com/ONSdigital/dp-recipe-api/api"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
-	"github.com/ONSdigital/dp-recipe-api/recipe"
-	"github.com/gorilla/mux"
+	"github.com/ONSdigital/dp-recipe-api/store"
 )
+
+//check that RecipeAPIStore satifies the the store.Storer interface
+var _ store.Storer = (*RecipeAPIStore)(nil)
+
+//RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
+type RecipeAPIStore struct {
+	*mongo.Mongo
+}
 
 func main() {
 	log.Namespace = "recipe-api"
@@ -50,73 +54,14 @@ func main() {
 			log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
 			os.Exit(1)
 		}
+
+		//Create RecipeAPI instance with Mongo in datastore
+		store := store.DataStore{Backend: RecipeAPIStore{mongodb}}
+		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store)
+
+	} else {
+		//Create RecipeAPI instance with no datastore
+		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store.DataStore{Backend: nil})
 	}
 
-	router := mux.NewRouter()
-	router.Methods("GET").Path("/health").HandlerFunc(healthcheck)
-	router.Methods("GET").Path("/recipes").HandlerFunc(recipeListHandler)
-	router.Methods("GET").Path("/recipes/{id}").HandlerFunc(recipeHandler)
-
-	log.Event(ctx, "starting http server", log.INFO, log.Data{"bind_addr": cfg.BindAddr})
-	srv := server.New(cfg.BindAddr, router)
-	if err := srv.ListenAndServe(); err != nil {
-		log.Event(ctx, "error starting http server for API", log.FATAL, log.Error(err))
-		os.Exit(1)
-	}
-}
-
-func healthcheck(w http.ResponseWriter, req *http.Request) {
-	// Set status to 200 OK
-	w.WriteHeader(200)
-}
-
-func recipeListHandler(w http.ResponseWriter, req *http.Request) {
-	list := &recipe.FullList
-	c := len(list.Items)
-	list.Count = c
-	list.TotalCount = c
-	list.Limit = c
-
-	b, err := json.Marshal(list)
-	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
-}
-
-func recipeHandler(w http.ResponseWriter, req *http.Request) {
-	vars := mux.Vars(req)
-	recipeID := vars["id"]
-	logD := log.Data{"recipe_id": recipeID}
-
-	var r recipe.Response
-	found := false
-
-	for _, item := range recipe.FullList.Items {
-		if item.ID == recipeID {
-			r = item
-			found = true
-			break
-		}
-	}
-
-	if !found {
-		log.Event(req.Context(), "recipe not found", log.ERROR, log.Error(errors.New("recipe not found")), logD)
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	b, err := json.Marshal(r)
-	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.ERROR, log.Error(err), logD)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
 }
