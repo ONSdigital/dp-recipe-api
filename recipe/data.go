@@ -18,7 +18,7 @@ var FullList = List{
 		TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation,
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG,
 		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, ConstructionMonthly, ConstructionYearsQuarters, FamiliesAndHouseholds, 
-		ParentsCountryOfBirth, LifeExpectancy, ChildMortality, Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation,
+		ParentsCountryOfBirth, LifeExpectancy, ChildMortality, Suicides, DrugRelatedDeaths, WeeklyDeathsAgeSex, MonthlyDeaths, SexualOrientation,
 		Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, Census1961SH06, Census1961SH07, Census1961SH08,
 		Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, Census1961SH15, Census1961ST01, Census1961ST02,
 		Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08, Census1961ST09, Census1961SC11, Census1961SC13, Census1961SC22},
@@ -4233,6 +4233,96 @@ var DrugRelatedDeaths = Response{
 					ID:          "drug-deaths-type-of-death",
 					Name:        "typeofdeath",
 					HRef:        "http://localhost:22400/code-lists/drug-deaths-type-of-death",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Deaths registered weekly in England and Wales by region
+var WeeklyDeathsRegion = Response{
+	ID:     "33fccb64-56ac-4e64-88c0-144be4750f21",
+	Alias:  "Deaths registered weekly in England and Wales by region",
+	Format: "v4",
+	InputFiles: []file{
+		{"WeeklyDeathsRegion"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "deaths-registered-weekly-england-wales-region",
+			Editions:  []string{"time-series", "covid-19"},
+			Title:     "Deaths registered weekly in England and Wales by region",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "week-number",
+					Name:        "week",
+					HRef:        "http://localhost:22400/code-lists/week-number",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-death",
+					Name:        "typeofdeath",
+					HRef:        "http://localhost:22400/code-lists/type-of-death",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Deaths registered weekly in England and Wales by age and sex
+var WeeklyDeathsAgeSex = Response{
+	ID:     "ccdf1371-d2c9-4768-ac78-d6cae4691d9b",
+	Alias:  "Deaths registered weekly in England and Wales by age and sex",
+	Format: "v4",
+	InputFiles: []file{
+		{"WeeklyDeathsAgeSex"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "deaths-registered-weekly-england-wales-age-sex",
+			Editions:  []string{"time-series", "covid-19"},
+			Title:     "Deaths registered weekly in England and Wales by age and sex",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "week-number",
+					Name:        "week",
+					HRef:        "http://localhost:22400/code-lists/week-number",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-death",
+					Name:        "typeofdeath",
+					HRef:        "http://localhost:22400/code-lists/type-of-death",
 					IsHierarchy: false,
 				},
 			},
