@@ -10,7 +10,6 @@ import (
 )
 
 //RecipeListHandler - get all recipes
-// USAGE: curl -X GET http://localhost:22300/recipes
 func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request) {
 	var list recipe.List
 	if api.EnableMongoData {
@@ -32,7 +31,7 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 
 	b, err := json.Marshal(list)
 	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.ERROR, log.Error(err))
+		log.Event(req.Context(), "error returned from json marshal", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -42,7 +41,6 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 }
 
 //RecipeHandler - get recipe by ID
-// USAGE: curl -X GET http://localhost:22300/recipes/{id}
 func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	recipeID := vars["id"]
@@ -53,8 +51,8 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 
 		recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
 		if err != nil {
-			log.Event(req.Context(), "recipe not found", log.ERROR, logD)
-			w.WriteHeader(http.StatusInternalServerError)
+			log.Event(req.Context(), "recipe not found", log.ERROR, log.Error(err), logD)
+			w.WriteHeader(http.StatusNotFound)
 			return
 		}
 		r = *recipe
@@ -73,7 +71,7 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 
 		if !found {
 			log.Event(req.Context(), "recipe not found", log.ERROR, logD)
-			w.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusNotFound)
 			return
 		}
 	}
