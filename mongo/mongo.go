@@ -71,6 +71,6 @@ func (m *Mongo) GetRecipe(id string) (*recipe.Response, error) {
 		}
 		return nil, err
 	}
-
+  
 	return &recipe, nil
 }

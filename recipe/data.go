@@ -13,12 +13,12 @@ var FullList = List{
 		QuarterlyDiffusion, MonthlyDiffusion, ReportingBehaviour, ReportingBehaviour2, AgeingPopulationEstimates, AgeingSingleHouseholds, AgeingSexRatios, 
 		AgeingNetInternalMigration, AgeingEconomicActivity, AgeingProspectiveMeasures, LabourMarketStatistics, LMSEconomicByAge, LMSWorkType, LMSActualHoursWork, LMSClaimantCount, 
 		LMSJobseekersByAgeDuration, LMSEconomicInactivity, LMSJobsByIndustry, PublicSectorEmployment, PublicSectorEmploymentYear, PublicSectorEmploymentQuarter, 
-		AWE, AWEIndex, CancerRegEng, CancerRegRegions, HealthAccounts, ProductivityNuts, RegionalGDPYear, 
+		AWE, AWEIndex, CancerRegEng, CancerRegRegions, HealthAccounts, ProductivityNuts, GDP4decimal, RegionalGDPYear, 
 		RegionalGDPQuarter, GVAIndustryLA, GVAIndustryNuts, GVAHeadIncomeIndustry, GVAHeadIncome, GDPNuts, GDPLA, GDPLocalEnterprisePartnership, GDPCityRegions,
 		TaxBenefitStats, GenerationalIncome, HousePrices, PrivateHousingRentalPrices, OPSSMembership, OPSSRates, CrimeAccommodation,
 		CrimeOffences, KnifeCrime, InternalMigrationLA, Migration401AGQ, Migration401AG1, Migration401AG2, Migration402, BuisInvestGFCG,
-		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, Construction, FamiliesAndHouseholds, ParentsCountryOfBirth, LifeExpectancy,
-		ChildMortality, Suicides, DrugRelatedDeaths, MonthlyDeaths, SexualOrientation,
+		BuisInvestCapitalFormation, UKBusinessIndustryGeography, OverseasTravelTourism, ConstructionMonthly, ConstructionYearsQuarters, FamiliesAndHouseholds, 
+		ParentsCountryOfBirth, LifeExpectancy, ChildMortality, Suicides, DrugRelatedDeaths, WeeklyDeathsRegion, WeeklyDeathsAgeSex, MonthlyDeaths, SexualOrientation,
 		Census1961, Census1961SH01, Census1961SH02, Census1961SH03, Census1961SH04, Census1961SH05, Census1961SH06, Census1961SH07, Census1961SH08,
 		Census1961SH09, Census1961SH10, Census1961SH11, Census1961SH12, Census1961SH13, Census1961SH14, Census1961SH15, Census1961ST01, Census1961ST02,
 		Census1961ST03, Census1961ST04, Census1961ST05, Census1961ST06, Census1961ST07, Census1961ST08, Census1961ST09, Census1961SC11, Census1961SC13, Census1961SC22},
@@ -1709,6 +1709,11 @@ var AgeingPopulationEstimates = Response{
 					Name:        "agegroups",
 					HRef:        "http://localhost:22400/code-lists/age-groups",
 					IsHierarchy: false,
+				}, {
+					ID:          "unit-of-measure",
+					Name:        "unitofmeasure",
+					HRef:        "http://localhost:22400/code-lists/unit-of-measure",
+					IsHierarchy: false,
 				},
 			},
 		},
@@ -2633,6 +2638,41 @@ var ProductivityNuts = Response{
 					ID:          "productivity",
 					Name:        "productivitytype",
 					HRef:        "http://localhost:22400/code-lists/productivity",
+					IsHierarchy: false,
+				}, 
+			},
+		},
+	},
+}
+
+// 4 digit gdp data
+var GDP4decimal = Response{
+	ID:     "6a1899df-6b2f-41df-b0a9-a0b48c1c1ff5",
+	Alias:  "GDP to four decimal places",
+	Format: "v4",
+	InputFiles: []file{
+		{"GDP"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "gdp-4-dp",
+			Editions:  []string{"time-series"},
+			Title:     "GDP to four decimal places",
+			CodeLists: []CodeList{
+				{
+					ID:          "mmm-yy",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "sic-test",
+					Name:        "standardindustrialclassification",
+					HRef:        "http://localhost:22400/code-lists/sic-test",
 					IsHierarchy: false,
 				}, 
 			},
@@ -3865,24 +3905,79 @@ var OverseasTravelTourism = Response{
 	},
 }
 
-// Output in the construction industry
-var Construction = Response{
+// Output in the construction industry - monthly
+var ConstructionMonthly = Response{
 	ID:     "5c1aab52-7538-4105-8305-c63a4ba37cab",
-	Alias:  "Output in the Construction Industry",
+	Alias:  "Output in the Construction Industry - Monthly",
 	Format: "v4",
 	InputFiles: []file{
-		{"Construction"},
+		{"ConstructionMonthly"},
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "output-in-the-construction-industry",
+			DatasetID: "output-in-the-construction-industry-monthly",
 			Editions:  []string{"time-series"},
-			Title:     "Output in the Construction Industry",
+			Title:     "Output in the Construction Industry - Monthly",
 			CodeLists: []CodeList{
 				{
 					ID:          "mmm-yy",
 					Name:        "time",
 					HRef:        "http://localhost:22400/code-lists/mmm-yy",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-prices",
+					Name:        "prices",
+					HRef:        "http://localhost:22400/code-lists/type-of-prices",
+					IsHierarchy: false,
+				}, {
+					ID:          "seasonal-adjustment",
+					Name:        "seasonaladjustment",
+					HRef:        "http://localhost:22400/code-lists/seasonal-adjustment",
+					IsHierarchy: false,
+				}, {
+					ID:          "construction-series-type",
+					Name:        "seriestype",
+					HRef:        "http://localhost:22400/code-lists/construction-series-type",
+					IsHierarchy: false,
+				}, {
+					ID:          "construction-classifications",
+					Name:        "typeofwork",
+					HRef:        "http://localhost:22400/code-lists/construction-classifications",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Output in the construction industry - by years and quarters
+var ConstructionYearsQuarters = Response{
+	ID:     "de60043e-76ba-4dc8-b110-dbb4ba6cfa5e",
+	Alias:  "Output in the Construction Industry - by Years and Quarters",
+	Format: "v4",
+	InputFiles: []file{
+		{"ConstructionYearsQuarters"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "output-in-the-construction-industry-years-and-quarters",
+			Editions:  []string{"time-series"},
+			Title:     "Output in the Construction Industry - by Years and Quarters",
+			CodeLists: []CodeList{
+				{
+					ID:          "yyyy-qq",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/yyyy-qq",
+					IsHierarchy: false,
+				}, {
+					ID:          "uk-only",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/uk-only",
 					IsHierarchy: false,
 				}, {
 					ID:          "type-of-prices",
@@ -4145,6 +4240,96 @@ var DrugRelatedDeaths = Response{
 	},
 }
 
+// Deaths registered weekly in England and Wales by region
+var WeeklyDeathsRegion = Response{
+	ID:     "33fccb64-56ac-4e64-88c0-144be4750f21",
+	Alias:  "Deaths registered weekly in England and Wales by region",
+	Format: "v4",
+	InputFiles: []file{
+		{"WeeklyDeathsRegion"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "weekly-deaths-region",
+			Editions:  []string{"time-series", "covid-19"},
+			Title:     "Deaths registered weekly in England and Wales by region",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "week-number",
+					Name:        "week",
+					HRef:        "http://localhost:22400/code-lists/week-number",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-death",
+					Name:        "typeofdeath",
+					HRef:        "http://localhost:22400/code-lists/type-of-death",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
+// Deaths registered weekly in England and Wales by age and sex
+var WeeklyDeathsAgeSex = Response{
+	ID:     "ccdf1371-d2c9-4768-ac78-d6cae4691d9b",
+	Alias:  "Deaths registered weekly in England and Wales by age and sex",
+	Format: "v4",
+	InputFiles: []file{
+		{"WeeklyDeathsAgeSex"},
+	},
+	OutputInstances: []instance{
+		{
+			DatasetID: "weekly-deaths-age-sex",
+			Editions:  []string{"time-series", "covid-19"},
+			Title:     "Deaths registered weekly in England and Wales by age and sex",
+			CodeLists: []CodeList{
+				{
+					ID:          "calendar-years",
+					Name:        "time",
+					HRef:        "http://localhost:22400/code-lists/calendar-years",
+					IsHierarchy: false,
+				}, {
+					ID:          "admin-geography",
+					Name:        "geography",
+					HRef:        "http://localhost:22400/code-lists/admin-geography",
+					IsHierarchy: false,
+				}, {
+					ID:          "week-number",
+					Name:        "week",
+					HRef:        "http://localhost:22400/code-lists/week-number",
+					IsHierarchy: false,
+				}, {
+					ID:          "ashe-sex",
+					Name:        "sex",
+					HRef:        "http://localhost:22400/code-lists/ashe-sex",
+					IsHierarchy: false,
+				}, {
+					ID:          "age-groups",
+					Name:        "agegroups",
+					HRef:        "http://localhost:22400/code-lists/age-groups",
+					IsHierarchy: false,
+				}, {
+					ID:          "type-of-death",
+					Name:        "typeofdeath",
+					HRef:        "http://localhost:22400/code-lists/type-of-death",
+					IsHierarchy: false,
+				},
+			},
+		},
+	},
+}
+
 // Deaths registered monthly in England and Wales
 var MonthlyDeaths = Response{
 	ID:     "7e4b9781-2732-4847-a290-e547198acfe2",
@@ -4156,7 +4341,7 @@ var MonthlyDeaths = Response{
 	OutputInstances: []instance{
 		{
 			DatasetID: "deaths-registered-monthly-england-wales",
-			Editions:  []string{"time-series"},
+			Editions:  []string{"time-series", "current-geography-hierarchy", "previous-geography-hierarchy"},
 			Title:     "Deaths registered monthly in England and Wales",
 			CodeLists: []CodeList{
 				{
