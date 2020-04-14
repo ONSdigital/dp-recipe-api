@@ -17,12 +17,7 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 	if api.EnableMongoData {
 		var err error
 		list.Items, err = api.dataStore.Backend.GetRecipes(ctx)
-		if err == errs.ErrRecipesNotFound {
-			log.Event(ctx, "recipes not found in mongo", log.ERROR, log.Error(err))
-			w.WriteHeader(http.StatusOK)
-			return
-		}
-		if err != nil {
+		if err != nil && err != errs.ErrRecipesNotFound {
 			log.Event(ctx, "error getting recipes from mongo", log.ERROR, log.Error(err))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
