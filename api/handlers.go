@@ -11,12 +11,13 @@ import (
 
 //RecipeListHandler - get all recipes
 func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
 	var list recipe.List
 	if api.EnableMongoData {
 		var err error
-		list.Items, err = api.dataStore.Backend.GetRecipes()
+		list.Items, err = api.dataStore.Backend.GetRecipes(ctx)
 		if err != nil {
-			log.Event(req.Context(), "error getting recipes from mongo", log.ERROR, log.Error(err))
+			log.Event(ctx, "error getting recipes from mongo", log.ERROR, log.Error(err))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -31,7 +32,7 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 
 	b, err := json.Marshal(list)
 	if err != nil {
-		log.Event(req.Context(), "error returned from json marshal", log.ERROR, log.Error(err))
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -42,6 +43,7 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 
 //RecipeHandler - get recipe by ID
 func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
 	vars := mux.Vars(req)
 	recipeID := vars["id"]
 	logD := log.Data{"recipe_id": recipeID}
@@ -51,7 +53,7 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 
 		recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
 		if err != nil {
-			log.Event(req.Context(), "recipe not found", log.ERROR, log.Error(err), logD)
+			log.Event(ctx, "recipe not found", log.ERROR, log.Error(err), logD)
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
@@ -70,7 +72,7 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		if !found {
-			log.Event(req.Context(), "recipe not found", log.ERROR, logD)
+			log.Event(ctx, "recipe not found", log.ERROR, logD)
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
@@ -78,7 +80,7 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 
 	b, err := json.Marshal(r)
 	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error returned from json marshall", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

@@ -38,7 +38,7 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipesFunc: func() ([]recipe.Response, error) {
+			GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
 				return []recipe.Response{}, nil
 			},
 		}
@@ -58,7 +58,7 @@ func TestGetRecipesReturnsError(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipesFunc: func() ([]recipe.Response, error) {
+			GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
 				return nil, errs.ErrInternalServer
 			},
 		}
@@ -105,7 +105,7 @@ func TestGetRecipeReturnsError(t *testing.T) {
 		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
-		So(w.Code, ShouldEqual, http.StatusInternalServerError)
+		So(w.Code, ShouldEqual, http.StatusNotFound)
 		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }

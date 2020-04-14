@@ -37,7 +37,7 @@ func (m *Mongo) Init() (session *mgo.Session, err error) {
 }
 
 // GetRecipes retrieves all recipe documents from Mongo
-func (m *Mongo) GetRecipes() ([]recipe.Response, error) {
+func (m *Mongo) GetRecipes(ctx context.Context) ([]recipe.Response, error) {
 	s := m.Session.Copy()
 	defer s.Close()
 
@@ -45,14 +45,14 @@ func (m *Mongo) GetRecipes() ([]recipe.Response, error) {
 	defer func() {
 		err := iter.Close()
 		if err != nil {
-			log.Event(context.Background(), "error closing iterator", log.ERROR, log.Error(err))
+			log.Event(ctx, "error closing iterator", log.ERROR, log.Error(err))
 		}
 	}()
 
 	results := []recipe.Response{}
 	if err := iter.All(&results); err != nil {
 		if err == mgo.ErrNotFound {
-			return nil, errs.ErrRecipeNotFound
+			return []recipe.Response{}, errs.ErrRecipesNotFound
 		}
 		return nil, err
 	}

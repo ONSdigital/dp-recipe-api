@@ -10,6 +10,7 @@ var (
 	ErrAddUpdateRecipeBadRequest         = errors.New("failed to parse json body")
 	ErrAuditActionAttemptedFailure       = errors.New("internal server error")
 	ErrRecipeNotFound                    = errors.New("recipe not found")
+	ErrRecipesNotFound                   = errors.New("recipes not found")
 	ErrIndexOutOfRange                   = errors.New("index out of range")
 	ErrInternalServer                    = errors.New("internal error")
 	ErrInsertedObservationsInvalidSyntax = errors.New("inserted observation request parameter not an integer")

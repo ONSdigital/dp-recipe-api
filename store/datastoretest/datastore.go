@@ -1,6 +1,7 @@
 package storetest
 
 import (
+	"context"
 	"sync"
 
 	"github.com/ONSdigital/dp-recipe-api/recipe"
@@ -17,7 +18,7 @@ type StorerMock struct {
 	GetRecipeFunc func(ID string) (*recipe.Response, error)
 
 	// GetRecipesFunc mocks the GetRecipes method.
-	GetRecipesFunc func() ([]recipe.Response, error)
+	GetRecipesFunc func(ctx context.Context) ([]recipe.Response, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -28,6 +29,8 @@ type StorerMock struct {
 		}
 		// GetRecipes holds details about calls to the GetRecipes method.
 		GetRecipes []struct {
+			// ctx is context
+			ctx context.Context
 		}
 	}
 }
@@ -64,24 +67,29 @@ func (mock *StorerMock) GetRecipeCalls() []struct {
 }
 
 //GetRecipes calls GetRecipesFunc.
-func (mock *StorerMock) GetRecipes() ([]recipe.Response, error) {
+func (mock *StorerMock) GetRecipes(ctx context.Context) ([]recipe.Response, error) {
 	if mock.GetRecipesFunc == nil {
 		panic("StorerMock.GetRecipesFunc: method is nil but Storer.GetRecipes was just called")
 	}
 	callInfo := struct {
-	}{}
+		ctx context.Context
+	}{
+		ctx: ctx,
+	}
 	lockStorerMockGetRecipes.Lock()
 	mock.calls.GetRecipes = append(mock.calls.GetRecipes, callInfo)
 	lockStorerMockGetRecipes.Unlock()
-	return mock.GetRecipesFunc()
+	return mock.GetRecipesFunc(ctx)
 }
 
 //GetRecipesCalls gets all the calls that were made to GetRecipes.
 // Check the length with:
 //     len(mockedStorer.GetRecipesCalls())
 func (mock *StorerMock) GetRecipesCalls() []struct {
+	ctx context.Context
 } {
 	var calls []struct {
+		ctx context.Context
 	}
 	lockStorerMockGetRecipes.RLock()
 	calls = mock.calls.GetRecipes
