@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
@@ -16,6 +17,11 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 	if api.EnableMongoData {
 		var err error
 		list.Items, err = api.dataStore.Backend.GetRecipes(ctx)
+		if err == errs.ErrRecipesNotFound {
+			log.Event(ctx, "recipes not found in mongo", log.ERROR, log.Error(err))
+			w.WriteHeader(http.StatusOK)
+			return
+		}
 		if err != nil {
 			log.Event(ctx, "error getting recipes from mongo", log.ERROR, log.Error(err))
 			w.WriteHeader(http.StatusInternalServerError)
@@ -52,9 +58,14 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	if api.EnableMongoData {
 
 		recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
-		if err != nil {
-			log.Event(ctx, "recipe not found", log.ERROR, log.Error(err), logD)
+		if err == errs.ErrRecipeNotFound {
+			log.Event(ctx, "recipe not found in mongo", log.ERROR, log.Error(err))
 			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		if err != nil {
+			log.Event(ctx, "error getting recipe from mongo", log.ERROR, log.Error(err), logD)
+			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		r = *recipe
