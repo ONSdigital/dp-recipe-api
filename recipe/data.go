@@ -4250,7 +4250,7 @@ var WeeklyDeathsRegion = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "deaths-registered-weekly-england-wales-region",
+			DatasetID: "weekly-deaths-region",
 			Editions:  []string{"time-series", "covid-19"},
 			Title:     "Deaths registered weekly in England and Wales by region",
 			CodeLists: []CodeList{
@@ -4290,7 +4290,7 @@ var WeeklyDeathsAgeSex = Response{
 	},
 	OutputInstances: []instance{
 		{
-			DatasetID: "deaths-registered-weekly-england-wales-age-sex",
+			DatasetID: "weekly-deaths-age-sex",
 			Editions:  []string{"time-series", "covid-19"},
 			Title:     "Deaths registered weekly in England and Wales by age and sex",
 			CodeLists: []CodeList{
