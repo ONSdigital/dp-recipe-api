@@ -32,8 +32,8 @@ func Get() (*Configuration, error) {
 		MongoConfig: MongoConfig{
 			BindAddr:          "localhost:27017",
 			Collection:        "recipes",
-			Database:          "recipe-db",
-			EnableMongoData:   true,
+			Database:          "recipes",
+			EnableMongoData:   false,
 			EnableMongoImport: false,
 		},
 	}
