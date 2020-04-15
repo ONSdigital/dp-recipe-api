@@ -6,7 +6,7 @@ import (
 
 	"github.com/globalsign/mgo"
 
-	"go.mongodb.org/mongo-driver/bson"
+	"github.com/globalsign/mgo/bson"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
