@@ -42,21 +42,22 @@ func main() {
 
 	//Feature Flag for Mongo Connection
 	enableMongoData := cfg.MongoConfig.EnableMongoData
-  
+
 	mongodb := &mongo.Mongo{
 		Collection: cfg.MongoConfig.Collection,
 		Database:   cfg.MongoConfig.Database,
 		URI:        cfg.MongoConfig.BindAddr,
 	}
-  
-	var err error
-	mongodb.Session, err = mongodb.Init()
-	if err != nil {
-		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
-		os.Exit(1)
-	}
 
 	if enableMongoData {
+		session, err := mongodb.Init()
+		if err != nil {
+			log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
+			os.Exit(1)
+		} else {
+			mongodb.Session = session
+		}
+
 		//Create RecipeAPI instance with Mongo in datastore
 		store := store.DataStore{Backend: RecipeAPIStore{mongodb}}
 		api.CreateAndInitialiseRecipeAPI(ctx, *cfg, store)
@@ -77,7 +78,8 @@ func main() {
 		api.Close(ctx)
 
 		if enableMongoData {
-			if err = mongolib.Close(ctx, mongodb.Session); err != nil {
+
+			if err := mongolib.Close(ctx, mongodb.Session); err != nil {
 				log.Event(ctx, "failed to close mongo session", log.ERROR, log.Error(err))
 			}
 		}
