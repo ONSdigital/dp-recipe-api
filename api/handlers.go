@@ -4,20 +4,21 @@ import (
 	"encoding/json"
 	"net/http"
 
+	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
 )
 
 //RecipeListHandler - get all recipes
-// USAGE: curl -X GET http://localhost:22300/recipes
 func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
 	var list recipe.List
 	if api.EnableMongoData {
 		var err error
-		list.Items, err = api.dataStore.Backend.GetRecipes()
-		if err != nil {
-			log.Event(req.Context(), "error getting recipes from mongo", log.ERROR, log.Error(err))
+		list.Items, err = api.dataStore.Backend.GetRecipes(ctx)
+		if err != nil && err != errs.ErrRecipesNotFound {
+			log.Event(ctx, "error getting recipes from mongo", log.ERROR, log.Error(err))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -32,7 +33,7 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 
 	b, err := json.Marshal(list)
 	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.ERROR, log.Error(err))
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -42,8 +43,8 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 }
 
 //RecipeHandler - get recipe by ID
-// USAGE: curl -X GET http://localhost:22300/recipes/{id}
 func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
 	vars := mux.Vars(req)
 	recipeID := vars["id"]
 	logD := log.Data{"recipe_id": recipeID}
@@ -52,8 +53,13 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	if api.EnableMongoData {
 
 		recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+		if err == errs.ErrRecipeNotFound {
+			log.Event(ctx, "recipe not found in mongo", log.ERROR, log.Error(err))
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
 		if err != nil {
-			log.Event(req.Context(), "recipe not found", log.ERROR, logD)
+			log.Event(ctx, "error getting recipe from mongo", log.ERROR, log.Error(err), logD)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -72,15 +78,15 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		if !found {
-			log.Event(req.Context(), "recipe not found", log.ERROR, logD)
-			w.WriteHeader(http.StatusInternalServerError)
+			log.Event(ctx, "recipe not found", log.ERROR, logD)
+			w.WriteHeader(http.StatusNotFound)
 			return
 		}
 	}
 
 	b, err := json.Marshal(r)
 	if err != nil {
-		log.Event(req.Context(), "error returned from json marshall", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error returned from json marshall", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

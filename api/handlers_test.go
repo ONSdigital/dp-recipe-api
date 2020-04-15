@@ -38,7 +38,7 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipesFunc: func() ([]recipe.Response, error) {
+			GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
 				return []recipe.Response{}, nil
 			},
 		}
@@ -50,6 +50,22 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 		So(len(mockedDataStore.GetRecipesCalls()), ShouldEqual, 1)
 
 	})
+
+	Convey("When the api cannot find any recipes return 200 OK response", t, func() {
+		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
+				return nil, errs.ErrRecipesNotFound
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusOK)
+		So(len(mockedDataStore.GetRecipesCalls()), ShouldEqual, 1)
+	})
 }
 
 func TestGetRecipesReturnsError(t *testing.T) {
@@ -58,7 +74,7 @@ func TestGetRecipesReturnsError(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipesFunc: func() ([]recipe.Response, error) {
+			GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
 				return nil, errs.ErrInternalServer
 			},
 		}
@@ -106,6 +122,22 @@ func TestGetRecipeReturnsError(t *testing.T) {
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
+	})
+
+	Convey("When the api cannot find the recipe return status not found, 404", t, func() {
+		r := httptest.NewRequest("GET", "http://localhost:22300/recipes/123", nil)
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return nil, errs.ErrRecipeNotFound
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusNotFound)
 		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }

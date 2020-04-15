@@ -14,7 +14,7 @@ import (
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/store"
-	mongolib "github.com/ONSdigital/go-ns/mongo"
+	mongolib "github.com/ONSdigital/dp-mongodb"
 )
 
 //check that RecipeAPIStore satifies the the store.Storer interface
