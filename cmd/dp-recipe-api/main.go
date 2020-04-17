@@ -85,7 +85,7 @@ func main() {
 			os.Exit(1)
 		} else {
 			log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{
-				"bind_address": cfg.BindAddr,
+				"mongo_bind_address": mongodb.URI,
 			})
 		}
 
