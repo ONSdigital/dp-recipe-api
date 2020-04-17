@@ -17,4 +17,5 @@ type DataStore struct {
 type Storer interface {
 	GetRecipes(ctx context.Context) ([]recipe.Response, error)
 	GetRecipe(id string) (*recipe.Response, error)
+	AddRecipe(item recipe.Response) error
 }
