@@ -1,13 +1,18 @@
 package config
 
 import (
+	"time"
+
 	"github.com/kelseyhightower/envconfig"
 )
 
 // Configuration structure which hold information for configuring the import API
 type Configuration struct {
-	BindAddr    string `envconfig:"BIND_ADDR"`
-	MongoConfig MongoConfig
+	BindAddr                   string        `envconfig:"BIND_ADDR"`
+	GracefulShutdownTimeout    time.Duration `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT"`
+	HealthCheckInterval        time.Duration `envconfig:"HEALTHCHECK_INTERVAL"`
+	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
+	MongoConfig                MongoConfig
 }
 
 // MongoConfig contains the config required to connect to MongoDB.
@@ -28,7 +33,10 @@ func Get() (*Configuration, error) {
 	}
 
 	cfg = &Configuration{
-		BindAddr: ":22300",
+		BindAddr:                   ":22300",
+		GracefulShutdownTimeout:    5 * time.Second,
+		HealthCheckInterval:        10 * time.Second,
+		HealthCheckCriticalTimeout: time.Minute,
 		MongoConfig: MongoConfig{
 			BindAddr:          "localhost:27017",
 			Collection:        "recipes",
