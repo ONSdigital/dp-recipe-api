@@ -28,6 +28,7 @@ func GetAPIWithMocks(mockedDataStore store.Storer) *RecipeAPI {
 	cfg, err := config.Get()
 	So(err, ShouldBeNil)
 	cfg.MongoConfig.EnableMongoData = true
+	cfg.MongoConfig.EnableMongoImport = true
 
 	return NewRecipeAPI(ctx, *cfg, mux.NewRouter(), store.DataStore{Backend: mockedDataStore})
 }
