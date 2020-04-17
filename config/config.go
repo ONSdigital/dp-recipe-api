@@ -42,7 +42,7 @@ func Get() (*Configuration, error) {
 			Collection:        "recipes",
 			Database:          "recipes",
 			EnableMongoData:   false,
-			EnableMongoImport: true,
+			EnableMongoImport: false,
 		},
 	}
 
