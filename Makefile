@@ -23,7 +23,6 @@ debug:
 	HUMAN_LOG=1 go run -race $(LDFLAGS) cmd/dp-recipe-api/main.go
 
 test:
-	#go test -cover $(shell go list ./... | grep -v /vendor/)
 	go test -race -cover ./...
 
 .PHONEY: test build debug

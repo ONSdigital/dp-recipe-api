@@ -35,8 +35,8 @@ func Get() (*Configuration, error) {
 	cfg = &Configuration{
 		BindAddr:                   ":22300",
 		GracefulShutdownTimeout:    5 * time.Second,
-		HealthCheckInterval:        10 * time.Second,
-		HealthCheckCriticalTimeout: time.Minute,
+		HealthCheckInterval:        30 * time.Second,
+		HealthCheckCriticalTimeout: 90 * time.Second,
 		MongoConfig: MongoConfig{
 			BindAddr:          "localhost:27017",
 			Collection:        "recipes",
