@@ -33,10 +33,11 @@ var bindAddrFlag = flag.String("bind", ":2222", "the desired port for the applic
 
 func main() {
 	log.Namespace = "recipe-checker"
+	ctx := context.Background()
 	flag.Parse()
 
 	if len(*devURLFlag) == 0 || len(*betaURLFlag) == 0 {
-		log.Event(context.Background(), "URLs must be provided for app to start", log.Data{"dev": devURLFlag, "beta": betaURLFlag})
+		log.Event(ctx, "URLs must be provided for app to start", log.FATAL, log.Error(errors.New("missing url flag")), log.Data{"dev": devURLFlag, "beta": betaURLFlag})
 		os.Exit(1)
 	}
 
@@ -71,7 +72,7 @@ func main() {
 	log.Event(context.Background(), "starting http server", log.Data{"bind_addr": *bindAddrFlag})
 	srv := server.New(*bindAddrFlag, router)
 	if err := srv.ListenAndServe(); err != nil {
-		log.Event(context.Background(), "error starting http server", log.Error(err))
+		log.Event(ctx, "error starting http server", log.FATAL, log.Error(err))
 		os.Exit(1)
 	}
 }
@@ -95,7 +96,7 @@ func recipesStatusListHandler(w http.ResponseWriter, req *http.Request) {
 
 	b, err := json.Marshal(newList)
 	if err != nil {
-		log.Event(ctx, "error returned from json marshall", log.Error(err))
+		log.Event(ctx, "error returned from json marshall", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -135,7 +136,7 @@ func getRecipeList(ctx context.Context, userAuthToken, serviceAuthToken, collect
 	c := len(newList.Items)
 	newList.Count = c
 	newList.TotalCount = c
-	newList.ItemsPerPage = c
+	newList.Limit = c
 	return newList
 }
 
@@ -179,14 +180,14 @@ func recipesStatusHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	if r == nil {
-		log.Event(ctx, "recipe not found", log.Error(errors.New("recipe not found")), logD)
+		log.Event(ctx, "unable to find recipe", log.ERROR, log.Error(errors.New("recipe not found")), logD)
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
 	b, err := json.Marshal(r)
 	if err != nil {
-		log.Event(ctx, "error returned from json marshal", log.Error(err), logD)
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -206,7 +207,7 @@ func codelistsListHandler(w http.ResponseWriter, req *http.Request) {
 
 	b, err := json.Marshal(newList)
 	if err != nil {
-		log.Event(ctx, "error returned from json marshal", log.Error(err), logD)
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -251,7 +252,7 @@ func getCodelists(recipeID string) status.CodelistList {
 	c := len(newList.Items)
 	newList.Count = c
 	newList.TotalCount = c
-	newList.ItemsPerPage = c
+	newList.Limit = c
 
 	return *newList
 }

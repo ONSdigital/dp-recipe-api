@@ -65,11 +65,11 @@ definitions:
         type: number
         readOnly: true
         description: "The total number of recipes"
-      start:
+      offset:
         type: number
         readOnly: true
-        description: "The start index for the results"
-      items_per_page:
+        description: "The first row of resources to retrieve, starting at 0. Use this parameter as a pagination mechanism along with the limit parameter"
+      limit:
         type: number
         readOnly: true
         description: "The number of items per page"
