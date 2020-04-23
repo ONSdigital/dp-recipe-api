@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
@@ -86,7 +87,7 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 
 	b, err := json.Marshal(r)
 	if err != nil {
-		log.Event(ctx, "error returned from json marshall", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -112,4 +113,55 @@ func (api *RecipeAPI) AddAllRecipeHandler(w http.ResponseWriter, req *http.Reque
 			return
 		}
 	}
+}
+
+//AddRecipeHandler - Add a Recipe
+func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
+	vars := mux.Vars(req)
+	recipeID := vars["id"]
+	logD := log.Data{"recipe_id": recipeID}
+
+	// Read body
+	b, err := ioutil.ReadAll(req.Body)
+	defer req.Body.Close()
+	if err != nil {
+		log.Event(ctx, "error in reading request body", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Unmarshal to the shape of Response struct
+	var recipe recipe.Response
+	err = json.Unmarshal(b, &recipe)
+	if err != nil {
+		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Verification if ID given matches the ID in body
+	if recipe.ID != recipeID {
+		log.Event(ctx, "recipe id does not match in given recipe", log.ERROR, logD)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// Add Recipe to Mongo
+	err = api.dataStore.Backend.AddRecipe(recipe)
+	if err != nil {
+		log.Event(ctx, "error adding recipe to mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Marshal to output the newly added recipe
+	output, err := json.Marshal(recipe)
+	if err != nil {
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(output)
 }

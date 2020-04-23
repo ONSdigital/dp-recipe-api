@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bytes"
 	"context"
 	"net/http"
 	"net/http/httptest"
@@ -17,7 +18,8 @@ import (
 )
 
 var (
-	mu sync.Mutex
+	mu             sync.Mutex
+	testRecipeData = `{"id" : "123", "alias" : "test"}`
 )
 
 // GetAPIWithMocks also used in other tests, so exported
@@ -29,6 +31,7 @@ func GetAPIWithMocks(mockedDataStore store.Storer) *RecipeAPI {
 	So(err, ShouldBeNil)
 	cfg.MongoConfig.EnableMongoData = true
 	cfg.MongoConfig.EnableMongoImport = true
+	cfg.MongoConfig.EnableAuthImport = true
 
 	return NewRecipeAPI(ctx, *cfg, mux.NewRouter(), store.DataStore{Backend: mockedDataStore})
 }
@@ -179,5 +182,62 @@ func TestAddAllRecipesReturnsError(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
 		So(len(mockedDataStore.AddRecipeCalls()), ShouldEqual, 1)
+	})
+}
+
+func TestAddRecipeReturnsOK(t *testing.T) {
+	t.Parallel()
+	Convey("A successful request to add recipe to mongo returns 200 OK response", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123", bytes.NewBufferString(testRecipeData))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			AddRecipeFunc: func(item recipe.Response) error {
+				return nil
+			},
+		}
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusOK)
+		So(len(mockedDataStore.AddRecipeCalls()), ShouldEqual, 1)
+
+	})
+}
+
+func TestAddRecipeReturnsBadRequestError(t *testing.T) {
+	t.Parallel()
+	Convey("When the api cannot add recipe to mongo due to incorrect id entry return an bad request error", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{"id" : "1234"}`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			AddRecipeFunc: func(item recipe.Response) error {
+				return errs.ErrAddUpdateRecipeBadRequest
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusBadRequest)
+		So(len(mockedDataStore.AddRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestAddRecipeReturnsError(t *testing.T) {
+	t.Parallel()
+	Convey("When the api cannot add recipe to mongo return an internal server error", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			AddRecipeFunc: func(item recipe.Response) error {
+				return errs.ErrAddUpdateRecipeBadRequest
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusInternalServerError)
+		So(len(mockedDataStore.AddRecipeCalls()), ShouldEqual, 0)
 	})
 }

@@ -21,6 +21,7 @@ type RecipeAPI struct {
 	Router            *mux.Router
 	EnableMongoData   bool
 	EnableMongoImport bool
+	EnableAuthImport  bool
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
@@ -52,6 +53,7 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 		Router:            router,
 		EnableMongoData:   cfg.MongoConfig.EnableMongoData,
 		EnableMongoImport: cfg.MongoConfig.EnableMongoImport,
+		EnableAuthImport:  cfg.MongoConfig.EnableAuthImport,
 	}
 
 	api.get("/health", api.HealthCheck)
@@ -59,6 +61,9 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 	api.get("/recipes/{id}", api.RecipeHandler)
 	if api.EnableMongoImport {
 		api.Router.HandleFunc("/allrecipes", api.AddAllRecipeHandler).Methods("POST")
+	}
+	if api.EnableAuthImport {
+		api.Router.HandleFunc("/recipes/{id}", api.AddRecipeHandler).Methods("POST")
 	}
 	return api
 }

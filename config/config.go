@@ -22,6 +22,7 @@ type MongoConfig struct {
 	Database          string `envconfig:"MONGODB_DATABASE"`
 	EnableMongoData   bool   `envconfig:"ENABLE_MONGO_DATA"`
 	EnableMongoImport bool   `envconfig:"ENABLE_MONGO_IMPORT"`
+	EnableAuthImport  bool   `envconfig:"ENABLE_AUTH_IMPORT"`
 }
 
 var cfg *Configuration
@@ -43,6 +44,7 @@ func Get() (*Configuration, error) {
 			Database:          "recipes",
 			EnableMongoData:   false,
 			EnableMongoImport: false,
+			EnableAuthImport:  true,
 		},
 	}
 

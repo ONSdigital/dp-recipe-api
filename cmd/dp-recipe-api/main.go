@@ -68,6 +68,7 @@ func main() {
 	//Feature Flag for Mongo Connection
 	enableMongoData := cfg.MongoConfig.EnableMongoData
 	enableMongoImport := cfg.MongoConfig.EnableMongoImport
+	enableAuthImport := cfg.MongoConfig.EnableAuthImport
 
 	datastore := &store.DataStore{Backend: nil}
 
@@ -78,7 +79,7 @@ func main() {
 	}
 
 	var err error
-	if enableMongoData || enableMongoImport {
+	if enableMongoData || enableMongoImport || enableAuthImport {
 
 		mongodb.Session, err = mongodb.Init()
 		if err != nil {
@@ -144,7 +145,7 @@ func main() {
 			hasShutdownError = true
 		}
 
-		if enableMongoData {
+		if enableMongoData || enableMongoImport || enableAuthImport {
 			if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
 				log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
 				hasShutdownError = true
