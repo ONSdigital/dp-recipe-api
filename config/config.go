@@ -44,7 +44,7 @@ func Get() (*Configuration, error) {
 			Database:          "recipes",
 			EnableMongoData:   false,
 			EnableMongoImport: false,
-			EnableAuthImport:  true,
+			EnableAuthImport:  false,
 		},
 	}
 
