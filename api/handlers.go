@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -120,9 +119,6 @@ func (api *RecipeAPI) AddAllRecipeHandler(w http.ResponseWriter, req *http.Reque
 //AddRecipeHandler - Add a Recipe
 func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
-	vars := mux.Vars(req)
-	recipeID := vars["id"]
-	logD := log.Data{"recipe_id": recipeID}
 
 	// Read body
 	b, err := ioutil.ReadAll(req.Body)
@@ -150,12 +146,11 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 
 	//Randomly generated version 4 UUID for recipe ID
 	recipe.ID = uuid.UUID.String(uuid.New())
-	fmt.Println(recipe.ID)
 
 	// Add Recipe to Mongo
 	err = api.dataStore.Backend.AddRecipe(recipe)
 	if err != nil {
-		log.Event(ctx, "error adding recipe to mongo", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error adding recipe to mongo", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -163,7 +158,7 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	// Marshal to output the newly added recipe
 	output, err := json.Marshal(recipe)
 	if err != nil {
-		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

@@ -18,8 +18,7 @@ import (
 )
 
 var (
-	mu             sync.Mutex
-	testRecipeData = `{"id" : "123", "alias" : "test"}`
+	mu sync.Mutex
 )
 
 // GetAPIWithMocks also used in other tests, so exported
@@ -188,7 +187,7 @@ func TestAddAllRecipesReturnsError(t *testing.T) {
 func TestAddRecipeReturnsOK(t *testing.T) {
 	t.Parallel()
 	Convey("A successful request to add recipe to mongo returns 200 OK response", t, func() {
-		r := httptest.NewRequest("POST", "http://localhost:22300/recipes", bytes.NewBufferString(testRecipeData))
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes", bytes.NewBufferString(`{"alias" : "test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			AddRecipeFunc: func(item recipe.Response) error {
