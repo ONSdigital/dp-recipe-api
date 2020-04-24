@@ -12,6 +12,7 @@ require (
 	github.com/ONSdigital/log.go v1.0.0
 	github.com/facebookgo/freeport v0.0.0-20150612182905-d4adf43b75b9 // indirect
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
+	github.com/google/uuid v1.1.1
 	github.com/gorilla/mux v1.7.3
 	github.com/justinas/alice v0.0.0-20171023064455-03f45bd4b7da
 	github.com/kelseyhightower/envconfig v1.4.0

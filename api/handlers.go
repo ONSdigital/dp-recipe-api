@@ -2,12 +2,14 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -139,6 +141,16 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	if recipe.ID != "" {
+		log.Event(ctx, "bad request returned as id given in request body", log.ERROR)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	//Randomly generated version 4 UUID for recipe ID
+	recipe.ID = uuid.UUID.String(uuid.New())
+	fmt.Println(recipe.ID)
 
 	// Add Recipe to Mongo
 	err = api.dataStore.Backend.AddRecipe(recipe)
