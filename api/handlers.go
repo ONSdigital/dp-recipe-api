@@ -140,13 +140,6 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	// Verification if ID given matches the ID in body
-	if recipe.ID != recipeID {
-		log.Event(ctx, "recipe id does not match in given recipe", log.ERROR, logD)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
 	// Add Recipe to Mongo
 	err = api.dataStore.Backend.AddRecipe(recipe)
 	if err != nil {
