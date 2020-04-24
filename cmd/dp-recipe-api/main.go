@@ -79,7 +79,8 @@ func main() {
 	}
 
 	var err error
-	if enableMongoData || enableMongoImport || enableAuthImport {
+	mongoIsEnabled := enableMongoData || enableMongoImport || enableAuthImport
+	if mongoIsEnabled {
 
 		mongodb.Session, err = mongodb.Init()
 		if err != nil {
@@ -145,7 +146,7 @@ func main() {
 			hasShutdownError = true
 		}
 
-		if enableMongoData || enableMongoImport || enableAuthImport {
+		if mongoIsEnabled {
 			if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
 				log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
 				hasShutdownError = true
