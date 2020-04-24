@@ -67,6 +67,7 @@ func main() {
 
 	//Feature Flag for Mongo Connection
 	enableMongoData := cfg.MongoConfig.EnableMongoData
+	enableMongoImport := cfg.MongoConfig.EnableMongoImport
 
 	datastore := &store.DataStore{Backend: nil}
 
@@ -77,7 +78,7 @@ func main() {
 	}
 
 	var err error
-	if enableMongoData {
+	if enableMongoData || enableMongoImport {
 
 		mongodb.Session, err = mongodb.Init()
 		if err != nil {
@@ -103,7 +104,9 @@ func main() {
 			log.Event(ctx, "failed to add mongoDB checker", log.ERROR, log.Error(err))
 			os.Exit(1)
 		}
-	} else {
+	}
+
+	if !enableMongoData {
 		log.Event(ctx, "using recipes from data.go", log.INFO, log.Data{
 			"bind_address": cfg.BindAddr,
 		})
