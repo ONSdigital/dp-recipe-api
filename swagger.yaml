@@ -16,6 +16,13 @@ parameters:
     type: string
     in: path
     required: true
+  new_recipe:
+    name: recipe
+    description: "A new recipe"
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/Recipe'
 paths:
   /recipes:
     get:
@@ -32,6 +39,24 @@ paths:
         500:
           $ref: '#/responses/InternalError'
   /recipes/{recipe_id}:
+    post:
+      summary: "Create a recipe"
+      description: |
+        Create a recipe and add to mongo
+      parameters:
+      - $ref: '#/parameters/recipe_id' 
+      - $ref: '#/parameters/new_recipe'
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "A json object of a recipe which has been created"
+          schema:
+            $ref: '#/definitions/Recipe'
+        409:
+          description: "Recipe ID entered in request does not match recipe ID in given data "
+        500:
+          $ref: '#/responses/InternalError'
     get:
       summary: "Get a specific recipe"
       description: |
@@ -47,6 +72,22 @@ paths:
             $ref: '#/definitions/Recipe'
         404:
           description: "Recipe not found"
+        500:
+          $ref: '#/responses/InternalError'
+    put:
+      summary: "Update a recipe"
+      description: |
+        Update a recipe by getting the specific recipe by id and update in mongo
+      parameters:
+      - $ref: '#/parameters/recipe_id' 
+      - $ref: '#/parameters/new_recipe'
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "A json object of a recipe which has been updated"
+          schema:
+            $ref: '#/definitions/Recipe'
         500:
           $ref: '#/responses/InternalError'
 responses:
