@@ -165,3 +165,51 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	w.Header().Set("content-type", "application/json")
 	w.Write(output)
 }
+
+//UpdateRecipeHandler - update specific recipe by ID
+func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
+
+	//Get Update Recipe ID
+	vars := mux.Vars(req)
+	recipeID := vars["id"]
+	logD := log.Data{"recipe_id": recipeID}
+
+	// Read body
+	b, err := ioutil.ReadAll(req.Body)
+	defer req.Body.Close()
+	if err != nil {
+		log.Event(ctx, "error in reading request body", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Unmarshal to the shape of Response struct
+	var recipeUpdate recipe.Response
+	err = json.Unmarshal(b, &recipeUpdate)
+	if err != nil {
+		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Update Recipe to Mongo
+	recipeUpdate.ID = recipeID
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, recipeUpdate)
+	if err != nil {
+		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Marshal to output the newly updated recipe
+	updatedRecipe, _ := api.dataStore.Backend.GetRecipe(recipeID)
+	output, err := json.Marshal(updatedRecipe)
+	if err != nil {
+		log.Event(ctx, "error getting updated recipe from mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(output)
+}

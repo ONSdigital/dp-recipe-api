@@ -64,6 +64,7 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 	}
 	if api.EnableAuthImport {
 		api.Router.HandleFunc("/recipes", api.AddRecipeHandler).Methods("POST")
+		api.Router.HandleFunc("/recipes/{id}", api.UpdateRecipeHandler).Methods("PUT")
 	}
 	return api
 }
