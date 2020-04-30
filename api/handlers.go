@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"reflect"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
@@ -138,14 +139,16 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	if recipe.ID != "" {
-		log.Event(ctx, "bad request returned as id given in request body", log.ERROR)
+	//Randomly generated version 4 UUID for recipe ID
+	recipe.ID = uuid.UUID.String(uuid.New())
+
+	//Validation to check if all the recipe fields are entered
+	recipeValueNil := CheckRecipeValuesNil(recipe)
+	if recipeValueNil {
+		log.Event(ctx, "bad request error as one field value of recipe is nil in request body", log.ERROR)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
-	//Randomly generated version 4 UUID for recipe ID
-	recipe.ID = uuid.UUID.String(uuid.New())
 
 	// Add Recipe to Mongo
 	err = api.dataStore.Backend.AddRecipe(recipe)
@@ -192,9 +195,32 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	recipeUpdate.ID = recipeID
+
+	// Use exisiting (old) recipe and fills in the fields of the update recipe with data from exisiting when particular field is nil
+	var oldRecipe *recipe.Response
+	oldRecipe, err = api.dataStore.Backend.GetRecipe(recipeID)
+	if err == errs.ErrRecipeNotFound {
+		log.Event(ctx, "recipe not found in mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	if err != nil {
+		log.Event(ctx, "error getting recipe from mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	recipeUpdate = UpdateRecipeFieldsFromPrevious(recipeUpdate, *oldRecipe)
+
+	// Validation to check if all the recipe fields are entered
+	recipeValueNil := CheckRecipeValuesNil(recipeUpdate)
+	if recipeValueNil {
+		log.Event(ctx, "bad request error as one field value of updated recipe is nil in request body", log.ERROR)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	// Update Recipe to Mongo
-	recipeUpdate.ID = recipeID
 	err = api.dataStore.Backend.UpdateRecipe(recipeID, recipeUpdate)
 	if err != nil {
 		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
@@ -212,4 +238,37 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 	w.Header().Set("content-type", "application/json")
 	w.Write(output)
+}
+
+//CheckRecipeValuesNil - checks whether the values of each field in recipe are nil
+func CheckRecipeValuesNil(recipe recipe.Response) (recipeValueNil bool) {
+	recipeElem := reflect.ValueOf(&recipe).Elem()
+	for i := 0; i < recipeElem.NumField(); i++ {
+		recipeValueNil = recipeElem.Field(i).IsZero()
+		if recipeValueNil {
+			return recipeValueNil
+		}
+	}
+	return recipeValueNil
+}
+
+//UpdateRecipeFieldsFromPrevious - uses the exisiting recipe and fills in the fields of the update recipe with data from exisiting when field is nil
+func UpdateRecipeFieldsFromPrevious(updates recipe.Response, oldRecipe recipe.Response) (updateRecipe recipe.Response) {
+	recipeElem := reflect.ValueOf(&updates).Elem()
+	for i := 0; i < recipeElem.NumField(); i++ {
+		recipeValueNil := recipeElem.Field(i).IsZero()
+		if recipeValueNil {
+			switch i {
+			case 1:
+				updates.Alias = oldRecipe.Alias
+			case 2:
+				updates.Format = oldRecipe.Format
+			case 3:
+				updates.InputFiles = oldRecipe.InputFiles
+			case 4:
+				updates.OutputInstances = oldRecipe.OutputInstances
+			}
+		}
+	}
+	return updates
 }

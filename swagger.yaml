@@ -38,13 +38,11 @@ paths:
             $ref: '#/definitions/RecipeList'
         500:
           $ref: '#/responses/InternalError'
-  /recipes/{recipe_id}:
     post:
       summary: "Create a recipe"
       description: |
         Create a recipe and add to mongo
       parameters:
-      - $ref: '#/parameters/recipe_id' 
       - $ref: '#/parameters/new_recipe'
       produces:
       - "application/json"
@@ -53,10 +51,11 @@ paths:
           description: "A json object of a recipe which has been created"
           schema:
             $ref: '#/definitions/Recipe'
-        409:
-          description: "Recipe ID entered in request does not match recipe ID in given data "
+        400:
+          description: "An incomplete recipe entered in request to be added to mongo"
         500:
           $ref: '#/responses/InternalError'
+  /recipes/{recipe_id}:
     get:
       summary: "Get a specific recipe"
       description: |
@@ -85,9 +84,13 @@ paths:
       - "application/json"
       responses:
         200:
-          description: "A json object of a recipe which has been updated"
+          description: "A json object of specific recipe (by id) which has been updated"
           schema:
             $ref: '#/definitions/Recipe'
+        400:
+          description: "An incomplete recipe entered in request to be added to mongo"
+        404:
+          description: "Recipe not found"
         500:
           $ref: '#/responses/InternalError'
 responses:
