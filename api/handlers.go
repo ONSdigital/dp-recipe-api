@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"reflect"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
@@ -242,21 +241,22 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 
 //UpdateRecipeFieldsFromPrevious - uses the exisiting recipe and fills in the fields of the update recipe with data from exisiting when field is nil
 func UpdateRecipeFieldsFromPrevious(updates recipe.Response, oldRecipe recipe.Response) (updateRecipe recipe.Response) {
-	recipeElem := reflect.ValueOf(&updates).Elem()
-	for i := 0; i < recipeElem.NumField(); i++ {
-		recipeValueNil := recipeElem.Field(i).IsZero()
-		if recipeValueNil {
-			switch i {
-			case 1:
-				updates.Alias = oldRecipe.Alias
-			case 2:
-				updates.Format = oldRecipe.Format
-			case 3:
-				updates.InputFiles = oldRecipe.InputFiles
-			case 4:
-				updates.OutputInstances = oldRecipe.OutputInstances
-			}
-		}
+
+	if updates.Alias == "" {
+		updates.Alias = oldRecipe.Alias
 	}
+
+	if updates.Format == "" {
+		updates.Format = oldRecipe.Format
+	}
+
+	if updates.InputFiles == nil {
+		updates.InputFiles = oldRecipe.InputFiles
+	}
+
+	if updates.OutputInstances == nil {
+		updates.OutputInstances = oldRecipe.OutputInstances
+	}
+
 	return updates
 }
