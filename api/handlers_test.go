@@ -19,7 +19,33 @@ import (
 
 var (
 	mu         sync.Mutex
-	recipeTest = `{"id" : "123", "alias" : "test", "format" : "v4", "files" : [{"description" : "test files"}], "output_instances" : [{"title" : "test"}]}`
+	recipeTest = `{
+					"id" : "123", 
+					"alias" : "test", 
+					"format" : "v4", 
+					"files" : [
+						{
+							"description" : "test files"
+						}
+					], 
+					"output_instances" : [
+						{
+							"dataset_id" : "1234",
+							"editions" : [ 
+                				"edition-test"
+            				],
+							"title" : "test",
+							"code_lists" : [ 
+                				{
+                    				"id" : "12345",
+                    				"href" : "http://localhost:22400/code-lists/12345",
+                    				"name" : "codelist-test-name",
+                    				"is_hierarchy" : false
+								}
+							]
+						}
+					]
+				}`
 )
 
 // GetAPIWithMocks also used in other tests, so exported

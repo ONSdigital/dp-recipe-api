@@ -143,9 +143,9 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	recipe.ID = uuid.UUID.String(uuid.New())
 
 	//Validation to check if all the recipe fields are entered
-	recipeValueNil := CheckRecipeValuesNil(recipe)
-	if recipeValueNil {
-		log.Event(ctx, "bad request error as one field value of recipe is nil in request body", log.ERROR)
+	err = recipe.Validate()
+	if err != nil {
+		log.Event(ctx, "bad request error as incomplete recipe given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -212,10 +212,10 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 	recipeUpdate = UpdateRecipeFieldsFromPrevious(recipeUpdate, *oldRecipe)
 
-	// Validation to check if all the recipe fields are entered
-	recipeValueNil := CheckRecipeValuesNil(recipeUpdate)
-	if recipeValueNil {
-		log.Event(ctx, "bad request error as one field value of updated recipe is nil in request body", log.ERROR)
+	//Validation to check if all the recipe fields are entered
+	err = recipeUpdate.Validate()
+	if err != nil {
+		log.Event(ctx, "bad request error as incomplete updated recipe given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -238,18 +238,6 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 	w.Header().Set("content-type", "application/json")
 	w.Write(output)
-}
-
-//CheckRecipeValuesNil - checks whether the values of each field in recipe are nil
-func CheckRecipeValuesNil(recipe recipe.Response) (recipeValueNil bool) {
-	recipeElem := reflect.ValueOf(&recipe).Elem()
-	for i := 0; i < recipeElem.NumField(); i++ {
-		recipeValueNil = recipeElem.Field(i).IsZero()
-		if recipeValueNil {
-			return recipeValueNil
-		}
-	}
-	return recipeValueNil
 }
 
 //UpdateRecipeFieldsFromPrevious - uses the exisiting recipe and fills in the fields of the update recipe with data from exisiting when field is nil
