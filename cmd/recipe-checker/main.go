@@ -235,7 +235,7 @@ func getCodelists(recipeID string) status.CodelistList {
 				c := &status.Codelist{
 					ID:          codelist.ID,
 					Name:        codelist.Name,
-					IsHierarchy: codelist.IsHierarchy,
+					IsHierarchy: *codelist.IsHierarchy,
 				}
 
 				go func(c *status.Codelist) {
