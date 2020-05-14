@@ -42,7 +42,7 @@ var CPI = Response{
 	InputFiles: []file{
 		{"CPI COICOP v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "931a8a2a-0dc8-42b6-a884-7b6054ed3b68",
 			Editions:  []string{"time-series"},
@@ -77,7 +77,7 @@ var CPIH = Response{
 	InputFiles: []file{
 		{"CPIH v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "cpih01",
 			Editions:  []string{"time-series"},
@@ -112,7 +112,7 @@ var Trade = Response{
 	InputFiles: []file{
 		{"Trade"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "trade",
 			Editions:  []string{"time-series"},
@@ -157,7 +157,7 @@ var MidYearPopEst = Response{
 	InputFiles: []file{
 		{"Mid-year Population Estimates v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "mid-year-pop-est",
 			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "mid-2018-april-2019-geography"},
@@ -197,7 +197,7 @@ var MidYearPopEstPCON = Response{
 	InputFiles: []file{
 		{"Mid-year Population Estimates Parliamentary Constituencies v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "mid-year-pop-est-parliamentary-constituencies",
 			Editions:  []string{"time-series"},
@@ -237,7 +237,7 @@ var MidYearPopEstCCG = Response{
 	InputFiles: []file{
 		{"Mid-year Population Estimates Clinical Commissioning Group v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "mid-year-pop-est-ccg",
 			Editions:  []string{"time-series"},
@@ -277,7 +277,7 @@ var ASHE3 = Response{
 	InputFiles: []file{
 		{"ASHE3"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-tables-3",
 			Editions:  []string{"time-series"},
@@ -332,7 +332,7 @@ var ASHE5 = Response{
 	InputFiles: []file{
 		{"ASHE5Excel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-table-5",
 			Editions:  []string{"time-series"},
@@ -387,7 +387,7 @@ var ASHE7Hours = Response{
 	InputFiles: []file{
 		{"Ashe Table 7 Hours Dataset v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-table-7-hours",
 			Editions:  []string{"time-series"},
@@ -437,7 +437,7 @@ var ASHE7Earnings = Response{
 	InputFiles: []file{
 		{"Ashe Table 7 Earnings Dataset v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-table-7-earnings",
 			Editions:  []string{"time-series"},
@@ -487,7 +487,7 @@ var ASHE8Hours = Response{
 	InputFiles: []file{
 		{"Ashe Table 8 Hours Dataset v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-table-8-hours",
 			Editions:  []string{"time-series"},
@@ -537,7 +537,7 @@ var ASHE8Earnings = Response{
 	InputFiles: []file{
 		{"Ashe Table 8 Earnings Dataset v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-table-8-earnings",
 			Editions:  []string{"time-series"},
@@ -587,7 +587,7 @@ var ASHE7and8 = Response{
 	InputFiles: []file{
 		{"ASHE78Excel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-tables-7-and-8",
 			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "time-series"},
@@ -642,7 +642,7 @@ var ASHE9and10 = Response{
 	InputFiles: []file{
 		{"ASHE910Excel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-tables-9-and-10",
 			Editions:  []string{"time-series"},
@@ -697,7 +697,7 @@ var ASHE11and12 = Response{
 	InputFiles: []file{
 		{"ASHE1112Excel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-tables-11-and-12",
 			Editions:  []string{"time-series"},
@@ -752,7 +752,7 @@ var ASHE20 = Response{
 	InputFiles: []file{
 		{"ASHE20"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-tables-20",
 			Editions:  []string{"time-series"},
@@ -812,7 +812,7 @@ var ASHE25 = Response{
 	InputFiles: []file{
 		{"ASHE25"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-tables-25",
 			Editions:  []string{"time-series"},
@@ -867,7 +867,7 @@ var ASHE26 = Response{
 	InputFiles: []file{
 		{"ASHE26"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-tables-26",
 			Editions:  []string{"time-series"},
@@ -917,7 +917,7 @@ var ASHE27and28 = Response{
 	InputFiles: []file{
 		{"ASHE27-28"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ashe-tables-27-and-28",
 			Editions:  []string{"time-series"},
@@ -972,7 +972,7 @@ var WellbeingYearEnding = Response{
 	InputFiles: []file{
 		{"wellbeingExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "wellbeing-year-ending",
 			Editions:  []string{"time-series"},
@@ -1012,7 +1012,7 @@ var WellbeingLocalAuthority = Response{
 	InputFiles: []file{
 		{"wellbeingExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "wellbeing-local-authority",
 			Editions:  []string{"time-series"},
@@ -1052,7 +1052,7 @@ var WellbeingQuarterly = Response{
 	InputFiles: []file{
 		{"wellbeingquarterly"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "wellbeing-quarterly",
 			Editions:  []string{"time-series"},
@@ -1092,7 +1092,7 @@ var WellbeingChildrens = Response{
 	InputFiles: []file{
 		{"WellbeingChildrens"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "childrens-wellbeing",
 			Editions:  []string{"time-series"},
@@ -1137,7 +1137,7 @@ var NppPopulationNumbers = Response{
 	InputFiles: []file{
 		{"National Population Projections - Population Numbers"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "national-population-projections-population",
 			Editions:  []string{"time-series"},
@@ -1182,7 +1182,7 @@ var NppMortalityAssumptions = Response{
 	InputFiles: []file{
 		{"National Population Projections - Mortality Assumptions"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "national-population-projections-mortality-assumptions",
 			Editions:  []string{"time-series"},
@@ -1227,7 +1227,7 @@ var NppMigration = Response{
 	InputFiles: []file{
 		{"National Population Projections - Migration"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "national-population-projections-migration",
 			Editions:  []string{"time-series"},
@@ -1277,7 +1277,7 @@ var NppFertility = Response{
 	InputFiles: []file{
 		{"National Population Projections - Fertility"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "national-population-projections-fertility",
 			Editions:  []string{"time-series"},
@@ -1322,7 +1322,7 @@ var NppDeaths = Response{
 	InputFiles: []file{
 		{"National Population Projections - Deaths"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "national-population-projections-deaths",
 			Editions:  []string{"time-series"},
@@ -1367,7 +1367,7 @@ var NppBirths = Response{
 	InputFiles: []file{
 		{"National Population Projections - Births"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "national-population-projections-births",
 			Editions:  []string{"time-series"},
@@ -1412,7 +1412,7 @@ var NppCrossBorderRates = Response{
 	InputFiles: []file{
 		{"National Population Projections - Cross Border Rates"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "national-population-projections-cross-border-rates",
 			Editions:  []string{"time-series"},
@@ -1462,7 +1462,7 @@ var QuarterlyDiffusion = Response{
 	InputFiles: []file{
 		{"VATQuarterlyDiffusionIndicesExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "faster-indicators-quarterly-diffusion-indices",
 			Editions:  []string{"time-series"},
@@ -1522,7 +1522,7 @@ var MonthlyDiffusion = Response{
 	InputFiles: []file{
 		{"VATMonthlyDiffusionIndicesExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "faster-indicators-monthly-diffusion-indices",
 			Editions:  []string{"time-series"},
@@ -1582,7 +1582,7 @@ var ReportingBehaviour = Response{
 	InputFiles: []file{
 		{"VATReportingBehaviourIndicesExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "faster-indicators-reporting-behaviour-indices",
 			Editions:  []string{"time-series"},
@@ -1637,7 +1637,7 @@ var ReportingBehaviour2 = Response{
 	InputFiles: []file{
 		{"VATReportingBehaviourIndices2Excel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "faster-indicators-reporting-behaviour-indices-2",
 			Editions:  []string{"time-series"},
@@ -1692,7 +1692,7 @@ var AgeingPopulationEstimates = Response{
 	InputFiles: []file{
 		{"AgeingPopulationEstimates"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ageing-population-estimates",
 			Editions:  []string{"time-series"},
@@ -1737,7 +1737,7 @@ var AgeingSingleHouseholds = Response{
 	InputFiles: []file{
 		{"AgeingSingleHouseholds"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "older-people-in-single-households",
 			Editions:  []string{"time-series"},
@@ -1777,7 +1777,7 @@ var AgeingSexRatios = Response{
 	InputFiles: []file{
 		{"AgeingSexRatios"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "older-people-sex-ratios",
 			Editions:  []string{"time-series"},
@@ -1812,7 +1812,7 @@ var AgeingNetInternalMigration = Response{
 	InputFiles: []file{
 		{"AgeingNetInternalMigration"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "older-people-net-internal-migration",
 			Editions:  []string{"time-series"},
@@ -1852,7 +1852,7 @@ var AgeingEconomicActivity = Response{
 	InputFiles: []file{
 		{"AgeingEconomicActivity"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "older-people-economic-activity",
 			Editions:  []string{"time-series"},
@@ -1892,7 +1892,7 @@ var AgeingProspectiveMeasures = Response{
 	InputFiles: []file{
 		{"AgeingProspectiveMeasures"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "ageing-prospective-measures",
 			Editions:  []string{"time-series"},
@@ -1932,7 +1932,7 @@ var LabourMarketStatistics = Response{
 	InputFiles: []file{
 		{"LMS"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "labour-market",
 			Editions:  []string{"time-series"},
@@ -1987,7 +1987,7 @@ var LMSEconomicByAge = Response{
 	InputFiles: []file{
 		{"LMSEconomicByAgeExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-lms-economic-status-age",
 			Editions:  []string{"time-series"},
@@ -2037,7 +2037,7 @@ var LMSWorkType = Response{
 	InputFiles: []file{
 		{"LMSWorkTypeExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-lms-by-work-type",
 			Editions:  []string{"time-series"},
@@ -2077,7 +2077,7 @@ var LMSActualHoursWork = Response{
 	InputFiles: []file{
 		{"LMSActualHoursWorkExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-lms-actual-hours-work",
 			Editions:  []string{"time-series"},
@@ -2117,7 +2117,7 @@ var LMSClaimantCount = Response{
 	InputFiles: []file{
 		{"LMSClaimantCountExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-lms-claimant-count",
 			Editions:  []string{"time-series"},
@@ -2162,7 +2162,7 @@ var LMSJobseekersByAgeDuration = Response{
 	InputFiles: []file{
 		{"LMSJobseekersByAgeDurationExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-lms-jobseekers-allowance-age-duration",
 			Editions:  []string{"time-series"},
@@ -2207,7 +2207,7 @@ var LMSEconomicInactivity = Response{
 	InputFiles: []file{
 		{"LMSEconomicInactivityExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-lms-economic-inactivity-reason",
 			Editions:  []string{"time-series"},
@@ -2252,7 +2252,7 @@ var LMSJobsByIndustry = Response{
 	InputFiles: []file{
 		{"LMSJobsByIndustryExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-lms-workforce-jobs-industry",
 			Editions:  []string{"time-series"},
@@ -2287,7 +2287,7 @@ var PublicSectorEmployment = Response{
 	InputFiles: []file{
 		{"PublicSectorEmployment"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "public-sector-employment",
 			Editions:  []string{"time-series"},
@@ -2322,7 +2322,7 @@ var PublicSectorEmploymentYear = Response{
 	InputFiles: []file{
 		{"PublicSectorEmploymentYear"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "public-sector-employment-by-year",
 			Editions:  []string{"time-series"},
@@ -2357,7 +2357,7 @@ var PublicSectorEmploymentQuarter = Response{
 	InputFiles: []file{
 		{"PublicSectorEmploymentQuarter"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "public-sector-employment-by-quarter",
 			Editions:  []string{"time-series"},
@@ -2392,7 +2392,7 @@ var AWE = Response{
 	InputFiles: []file{
 		{"AverageWeeklyEarnings"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "average-weekly-earnings",
 			Editions:  []string{"time-series"},
@@ -2437,7 +2437,7 @@ var AWEIndex = Response{
 	InputFiles: []file{
 		{"AverageWeeklyEarningsIndex"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "average-weekly-earnings-index",
 			Editions:  []string{"time-series"},
@@ -2477,7 +2477,7 @@ var CancerRegEng = Response{
 	InputFiles: []file{
 		{"CancerRegistrationsEnglandExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "cancer-registrations-england",
 			Editions:  []string{"time-series"},
@@ -2527,7 +2527,7 @@ var CancerRegRegions = Response{
 	InputFiles: []file{
 		{"CancerRegistrationsRegionsExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "cancer-registrations-regions",
 			Editions:  []string{"time-series"},
@@ -2572,7 +2572,7 @@ var HealthAccounts = Response{
 	InputFiles: []file{
 		{"UKHealthAccounts"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "health-accounts",
 			Editions:  []string{"time-series"},
@@ -2622,7 +2622,7 @@ var ProductivityNuts = Response{
 	InputFiles: []file{
 		{"ProductivityNuts"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "productivity-by-nuts",
 			Editions:  []string{"time-series"},
@@ -2662,7 +2662,7 @@ var GDP4decimal = Response{
 	InputFiles: []file{
 		{"GDP"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gdp-4-dp",
 			Editions:  []string{"time-series"},
@@ -2697,7 +2697,7 @@ var RegionalGDPYear = Response{
 	InputFiles: []file{
 		{"RegionalGDPYear"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-gdp-by-year",
 			Editions:  []string{"time-series"},
@@ -2742,7 +2742,7 @@ var RegionalGDPQuarter = Response{
 	InputFiles: []file{
 		{"RegionalGDPQuarter"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "regional-gdp-by-quarter",
 			Editions:  []string{"time-series"},
@@ -2787,7 +2787,7 @@ var GVAIndustryLA = Response{
 	InputFiles: []file{
 		{"GVAIndustryLA"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gva-by-industry-by-local-authority",
 			Editions:  []string{"time-series"},
@@ -2827,7 +2827,7 @@ var GVAIndustryNuts = Response{
 	InputFiles: []file{
 		{"GVAIndustryNuts"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gva-by-industry-by-nuts",
 			Editions:  []string{"time-series"},
@@ -2867,7 +2867,7 @@ var GVAHeadIncomeIndustry = Response{
 	InputFiles: []file{
 		{"GVAHeadIncomeIndustry"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gva-head-income-components-by-industry",
 			Editions:  []string{"time-series"},
@@ -2907,7 +2907,7 @@ var GVAHeadIncome = Response{
 	InputFiles: []file{
 		{"GVAHeadIncome"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gva-head-income-components",
 			Editions:  []string{"time-series"},
@@ -2942,7 +2942,7 @@ var GDPNuts = Response{
 	InputFiles: []file{
 		{"GDPNuts"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gdp-by-nuts",
 			Editions:  []string{"time-series"},
@@ -2977,7 +2977,7 @@ var GDPLA = Response{
 	InputFiles: []file{
 		{"GDPLA"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gdp-by-local-authority",
 			Editions:  []string{"time-series"},
@@ -3012,7 +3012,7 @@ var GDPLocalEnterprisePartnership = Response{
 	InputFiles: []file{
 		{"GDPLocalEnterprisePartnership"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gdp-by-local-enterprise-partnership",
 			Editions:  []string{"time-series"},
@@ -3047,7 +3047,7 @@ var GDPCityRegions = Response{
 	InputFiles: []file{
 		{"GDPCityRegions"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "gdp-by-city-regions",
 			Editions:  []string{"time-series"},
@@ -3082,7 +3082,7 @@ var TaxBenefitStats = Response{
 	InputFiles: []file{
 		{"TaxBenefitsStats"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "tax-benefits-statistics",
 			Editions:  []string{"time-series"},
@@ -3127,7 +3127,7 @@ var GenerationalIncome = Response{
 	InputFiles: []file{
 		{"GenerationalIncome"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "generational-income",
 			Editions:  []string{"time-series"},
@@ -3172,7 +3172,7 @@ var HousePrices = Response{
 	InputFiles: []file{
 		{"HousePrices"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "house-prices-local-authority",
 			Editions:  []string{"time-series-historic", "time-series"},
@@ -3222,7 +3222,7 @@ var PrivateHousingRentalPrices = Response{
 	InputFiles: []file{
 		{"PrivateHousingRentalPrices"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "index-private-housing-rental-prices",
 			Editions:  []string{"time-series"},
@@ -3257,7 +3257,7 @@ var OPSSMembership = Response{
 	InputFiles: []file{
 		{"OPSSMembership v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "opss-membership",
 			Editions:  []string{"2016", "2017", "2018", "2019", "2020", "time-series"},
@@ -3312,7 +3312,7 @@ var OPSSRates = Response{
 	InputFiles: []file{
 		{"OPSSRates v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "opss-rates",
 			Editions:  []string{"2016", "2017", "2018", "2019", "2020", "time-series"},
@@ -3362,7 +3362,7 @@ var CrimeAccommodation = Response{
 	InputFiles: []file{
 		{"Personal Crime by Accomodation v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "crime-accommodation",
 			Editions:  []string{"time-series"},
@@ -3417,7 +3417,7 @@ var CrimeOffences = Response{
 	InputFiles: []file{
 		{"Crime with home office, offence data"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "crime-with-home-office-offences",
 			Editions:  []string{"time-series", "2017-2018"},
@@ -3452,7 +3452,7 @@ var KnifeCrime = Response{
 	InputFiles: []file{
 		{"KnifeCrimeExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "knife-crime",
 			Editions:  []string{"time-series"},
@@ -3492,7 +3492,7 @@ var InternalMigrationLA = Response{
 	InputFiles: []file{
 		{"InternalMigrationLA"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "internal-migration-local-authority",
 			Editions:  []string{"time-series"},
@@ -3537,7 +3537,7 @@ var Migration401AGQ = Response{
 	InputFiles: []file{
 		{"AGQcombinedYears"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "migration-401-5-year-age-groups",
 			Editions:  []string{"time-series"},
@@ -3592,7 +3592,7 @@ var Migration401AG1 = Response{
 	InputFiles: []file{
 		{"AG1combinedYears"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "migration-401-alternative-age-groups-1",
 			Editions:  []string{"time-series"},
@@ -3647,7 +3647,7 @@ var Migration401AG2 = Response{
 	InputFiles: []file{
 		{"AG2combinedYears"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "migration-401-alternative-age-groups-2",
 			Editions:  []string{"time-series"},
@@ -3702,7 +3702,7 @@ var Migration402 = Response{
 	InputFiles: []file{
 		{"migration402combinedYears"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "migration-402",
 			Editions:  []string{"time-series"},
@@ -3747,7 +3747,7 @@ var BuisInvestGFCG = Response{
 	InputFiles: []file{
 		{"Business Investment GFCF, file 2200"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "buisness-investment-cross-classification-gfcf",
 			Editions:  []string{"time-series"},
@@ -3792,7 +3792,7 @@ var BuisInvestCapitalFormation = Response{
 	InputFiles: []file{
 		{"Business Investment Capital Formation, file 0302"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "business-investment-capital-formation",
 			Editions:  []string{"time-series"},
@@ -3837,7 +3837,7 @@ var UKBusinessIndustryGeography = Response{
 	InputFiles: []file{
 		{"UKbizIndustry"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "uk-business-by-industry-group",
 			Editions:  []string{"time-series"},
@@ -3877,7 +3877,7 @@ var OverseasTravelTourism = Response{
 	InputFiles: []file{
 		{"Overseas v4"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "overseas-travel-and-tourism",
 			Editions:  []string{"time-series"},
@@ -3922,7 +3922,7 @@ var ConstructionMonthly = Response{
 	InputFiles: []file{
 		{"ConstructionMonthly"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "output-in-the-construction-industry-monthly",
 			Editions:  []string{"time-series"},
@@ -3972,7 +3972,7 @@ var ConstructionYearsQuarters = Response{
 	InputFiles: []file{
 		{"ConstructionYearsQuarters"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "output-in-the-construction-industry-years-and-quarters",
 			Editions:  []string{"time-series"},
@@ -4022,7 +4022,7 @@ var FamiliesAndHouseholds = Response{
 	InputFiles: []file{
 		{"FamiliesAndHouseholds"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "families-and-households",
 			Editions:  []string{"time-series"},
@@ -4062,7 +4062,7 @@ var ParentsCountryOfBirth = Response{
 	InputFiles: []file{
 		{"ParentsBirth"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "parents-country-of-birth",
 			Editions:  []string{"time-series"},
@@ -4102,7 +4102,7 @@ var LifeExpectancy = Response{
 	InputFiles: []file{
 		{"LifeExpectancy"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "life-expectancy-local-authority",
 			Editions:  []string{"time-series"},
@@ -4142,7 +4142,7 @@ var ChildMortality = Response{
 	InputFiles: []file{
 		{"ChildMortalityLA"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "child-mortality-local-authority",
 			Editions:  []string{"time-series"},
@@ -4182,7 +4182,7 @@ var Suicides = Response{
 	InputFiles: []file{
 		{"Suicides"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "suicides-in-the-uk",
 			Editions:  []string{"2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "time-series"},
@@ -4212,7 +4212,7 @@ var DrugRelatedDeaths = Response{
 	InputFiles: []file{
 		{"DrugRelatedDeaths"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "drug-related-deaths-local-authority",
 			Editions:  []string{"time-series"},
@@ -4257,7 +4257,7 @@ var WeeklyDeathsRegion = Response{
 	InputFiles: []file{
 		{"WeeklyDeathsRegion"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "weekly-deaths-region",
 			Editions:  []string{"time-series", "covid-19"},
@@ -4297,7 +4297,7 @@ var WeeklyDeathsAgeSex = Response{
 	InputFiles: []file{
 		{"WeeklyDeathsAgeSex"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "weekly-deaths-age-sex",
 			Editions:  []string{"time-series", "covid-19"},
@@ -4347,7 +4347,7 @@ var WeeklyDeathsLocalAuthority = Response{
 	InputFiles: []file{
 		{"WeeklyDeathsLocalAuthority"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "weekly-deaths-local-authority",
 			Editions:  []string{"time-series"},
@@ -4397,7 +4397,7 @@ var WeeklyDeathsHealthBoard = Response{
 	InputFiles: []file{
 		{"WeeklyDeathsHealthBoard"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "weekly-deaths-health-board",
 			Editions:  []string{"time-series"},
@@ -4447,7 +4447,7 @@ var MonthlyDeaths = Response{
 	InputFiles: []file{
 		{"MonthlyDeaths"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "deaths-registered-monthly-england-wales",
 			Editions:  []string{"time-series", "current-geography-hierarchy", "previous-geography-hierarchy"},
@@ -4477,7 +4477,7 @@ var SexualOrientation = Response{
 	InputFiles: []file{
 		{"SexualOrientationExcel"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "sexual-orientation-uk",
 			Editions:  []string{"time-series"},

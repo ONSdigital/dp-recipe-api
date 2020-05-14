@@ -8,7 +8,7 @@ var Census1961 = Response{
 	InputFiles: []file{
 		{"1961Census"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961",
 			Editions:  []string{"time-series"},
@@ -53,7 +53,7 @@ var Census1961SH01 = Response{
 	InputFiles: []file{
 		{"Census1961SH01"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh01",
 			Editions:  []string{"time-series"},
@@ -93,7 +93,7 @@ var Census1961SH02 = Response{
 	InputFiles: []file{
 		{"Census1961SH02"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh02",
 			Editions:  []string{"time-series"},
@@ -133,7 +133,7 @@ var Census1961SH03 = Response{
 	InputFiles: []file{
 		{"Census1961SH03"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh03",
 			Editions:  []string{"time-series"},
@@ -173,7 +173,7 @@ var Census1961SH04 = Response{
 	InputFiles: []file{
 		{"Census1961SH04"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh04",
 			Editions:  []string{"time-series"},
@@ -213,7 +213,7 @@ var Census1961SH05 = Response{
 	InputFiles: []file{
 		{"Census1961SH05"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh05",
 			Editions:  []string{"time-series"},
@@ -253,7 +253,7 @@ var Census1961SH06 = Response{
 	InputFiles: []file{
 		{"Census1961SH06"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh06",
 			Editions:  []string{"time-series"},
@@ -293,7 +293,7 @@ var Census1961SH07 = Response{
 	InputFiles: []file{
 		{"Census1961SH07"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh07",
 			Editions:  []string{"time-series"},
@@ -328,7 +328,7 @@ var Census1961SH08 = Response{
 	InputFiles: []file{
 		{"Census1961SH08"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh08",
 			Editions:  []string{"time-series"},
@@ -368,7 +368,7 @@ var Census1961SH09 = Response{
 	InputFiles: []file{
 		{"Census1961SH09"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh09",
 			Editions:  []string{"time-series"},
@@ -408,7 +408,7 @@ var Census1961SH10 = Response{
 	InputFiles: []file{
 		{"Census1961SH10"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh10",
 			Editions:  []string{"time-series"},
@@ -448,7 +448,7 @@ var Census1961SH11 = Response{
 	InputFiles: []file{
 		{"Census1961SH11"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh11",
 			Editions:  []string{"time-series"},
@@ -488,7 +488,7 @@ var Census1961SH12 = Response{
 	InputFiles: []file{
 		{"Census1961SH12"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh12",
 			Editions:  []string{"time-series"},
@@ -528,7 +528,7 @@ var Census1961SH13 = Response{
 	InputFiles: []file{
 		{"Census1961SH13"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh13",
 			Editions:  []string{"time-series"},
@@ -573,7 +573,7 @@ var Census1961SH14 = Response{
 	InputFiles: []file{
 		{"Census1961SH14"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-under-21",
 			Editions:  []string{"time-series"},
@@ -613,7 +613,7 @@ var Census1961SH15 = Response{
 	InputFiles: []file{
 		{"Census1961SH15"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sh15",
 			Editions:  []string{"time-series"},
@@ -648,7 +648,7 @@ var Census1961ST01 = Response{
 	InputFiles: []file{
 		{"Census1961ST01"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st01",
 			Editions:  []string{"time-series"},
@@ -683,7 +683,7 @@ var Census1961ST02 = Response{
 	InputFiles: []file{
 		{"Census1961ST02"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st02",
 			Editions:  []string{"time-series"},
@@ -718,7 +718,7 @@ var Census1961ST03 = Response{
 	InputFiles: []file{
 		{"Census1961ST03"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st03",
 			Editions:  []string{"time-series"},
@@ -758,7 +758,7 @@ var Census1961ST04 = Response{
 	InputFiles: []file{
 		{"Census1961ST04"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st04",
 			Editions:  []string{"time-series"},
@@ -793,7 +793,7 @@ var Census1961ST05 = Response{
 	InputFiles: []file{
 		{"Census1961ST05"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st05",
 			Editions:  []string{"time-series"},
@@ -833,7 +833,7 @@ var Census1961ST06 = Response{
 	InputFiles: []file{
 		{"Census1961ST06"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st06",
 			Editions:  []string{"time-series"},
@@ -873,7 +873,7 @@ var Census1961ST07 = Response{
 	InputFiles: []file{
 		{"Census1961ST07"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st07",
 			Editions:  []string{"time-series"},
@@ -913,7 +913,7 @@ var Census1961ST08 = Response{
 	InputFiles: []file{
 		{"Census1961ST08"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st08",
 			Editions:  []string{"time-series"},
@@ -953,7 +953,7 @@ var Census1961ST09 = Response{
 	InputFiles: []file{
 		{"Census1961ST09"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-st09",
 			Editions:  []string{"time-series"},
@@ -988,7 +988,7 @@ var Census1961SC11 = Response{
 	InputFiles: []file{
 		{"Census1961SC11"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sc11",
 			Editions:  []string{"time-series"},
@@ -1028,7 +1028,7 @@ var Census1961SC13 = Response{
 	InputFiles: []file{
 		{"Census1961SC13"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sc13",
 			Editions:  []string{"time-series"},
@@ -1068,7 +1068,7 @@ var Census1961SC22 = Response{
 	InputFiles: []file{
 		{"Census1961SC22"},
 	},
-	OutputInstances: []instance{
+	OutputInstances: []Instance{
 		{
 			DatasetID: "census-1961-sc22",
 			Editions:  []string{"time-series"},

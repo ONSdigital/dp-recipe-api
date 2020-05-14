@@ -240,6 +240,7 @@ func TestAddRecipeReturnsBadRequest(t *testing.T) {
 				return nil
 			},
 		}
+
 		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
@@ -271,13 +272,13 @@ func TestAddRecipeReturnsError(t *testing.T) {
 func TestUpdateRecipeReturnsOK(t *testing.T) {
 	t.Parallel()
 	Convey("A successful request to update recipe in mongo returns 200 OK response", t, func() {
-		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(recipeTest))
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{"output_instances":[{"title":"Test"}]}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
 				return &recipe.Response{ID: "123", Alias: "Original", Format: "v3"}, nil
 			},
-			UpdateRecipeFunc: func(ID string, recipeUpdate recipe.Response) error {
+			UpdateRecipeFunc: func(ID string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) error {
 				return nil
 			},
 		}
@@ -286,20 +287,20 @@ func TestUpdateRecipeReturnsOK(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusOK)
 		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 1)
-		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 2)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }
 
 func TestUpdateRecipeReturnsBadRequest(t *testing.T) {
 	t.Parallel()
 	Convey("A request to process an incomplete update recipe to mongo returns 400 Bad Request response", t, func() {
-		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{"alias":"Test"}`))
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{"format":"v5"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
 				return &recipe.Response{ID: "123", Alias: "Original", Format: "v3"}, nil
 			},
-			UpdateRecipeFunc: func(ID string, recipeUpdate recipe.Response) error {
+			UpdateRecipeFunc: func(ID string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
 		}
@@ -309,7 +310,7 @@ func TestUpdateRecipeReturnsBadRequest(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
 		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
-		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
 	})
 }
 
@@ -319,7 +320,7 @@ func TestUpdateRecipeReturnsError(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			UpdateRecipeFunc: func(ID string, recipeUpdate recipe.Response) error {
+			UpdateRecipeFunc: func(ID string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {

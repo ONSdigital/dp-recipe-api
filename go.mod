@@ -10,6 +10,7 @@ require (
 	github.com/ONSdigital/dp-rchttp v0.0.0-20190919143000-bb5699e6fd59
 	github.com/ONSdigital/go-ns v0.0.0-20191104121206-f144c4ec2e58
 	github.com/ONSdigital/log.go v1.0.0
+	github.com/davecgh/go-spew v1.1.1
 	github.com/facebookgo/freeport v0.0.0-20150612182905-d4adf43b75b9 // indirect
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/google/uuid v1.1.1
