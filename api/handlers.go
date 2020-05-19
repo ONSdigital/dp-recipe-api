@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
+	"github.com/globalsign/mgo/bson"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
@@ -103,7 +105,7 @@ func (api *RecipeAPI) HealthCheck(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(200)
 }
 
-//AddAllRecipeHandler - Adds all the recipes from data.go to the mongo database
+//AddAllRecipeHandler - adds all the recipes from data.go to the mongo database
 func (api *RecipeAPI) AddAllRecipeHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 	for _, item := range recipe.FullList.Items {
@@ -116,7 +118,7 @@ func (api *RecipeAPI) AddAllRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 }
 
-//AddRecipeHandler - Add a Recipe
+//AddRecipeHandler - add a recipe
 func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 
@@ -170,6 +172,157 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	w.Write(output)
 }
 
+//AddInstanceHandler - add an instance to an existing recipe
+func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
+
+	//Get Update Recipe ID
+	vars := mux.Vars(req)
+	recipeID := vars["id"]
+	logD := log.Data{"recipe_id": recipeID}
+
+	// Read body
+	b, err := ioutil.ReadAll(req.Body)
+	defer req.Body.Close()
+	if err != nil {
+		log.Event(ctx, "error in reading request body", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Unmarshal to the shape of Instance struct
+	var instance recipe.Instance
+	err = json.Unmarshal(b, &instance)
+	if err != nil {
+		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	//Validation to check if all the instance fields are entered
+	err = instance.ValidateAddInstance()
+	if err != nil {
+		log.Event(ctx, "bad request error as invalid instance given in request body", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// Get currentRecipe from ID given to get instance of the recipe
+	currentRecipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+	if err != nil {
+		log.Event(ctx, "error retrieving specific recipe from mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Append new instance into the current instance of the recipe
+	currentRecipe.OutputInstances = append(currentRecipe.OutputInstances, instance)
+
+	// Update the current recipe in mongo with the updated instance
+	update := bson.M{"$set": currentRecipe}
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
+	if err != nil {
+		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Marshal to output the newly added recipe
+	output, err := json.Marshal(currentRecipe)
+	if err != nil {
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(output)
+}
+
+//AddCodelistHandler - add a codelist in the instance of an existing recipe
+func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Request) {
+	ctx := req.Context()
+
+	//Get Update Recipe ID
+	vars := mux.Vars(req)
+	recipeID := vars["id"]
+	instanceID := vars["instance_id"]
+	logD := log.Data{"recipe_id": recipeID, "instance_id": instanceID}
+
+	// Read body
+	b, err := ioutil.ReadAll(req.Body)
+	defer req.Body.Close()
+	if err != nil {
+		log.Event(ctx, "error in reading request body", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Unmarshal to the shape of Codelist struct
+	var codelist recipe.CodeList
+	err = json.Unmarshal(b, &codelist)
+	if err != nil {
+		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Generate the HRef of codelist if not given in request body as it follows a consistent pattern
+	hrefURL := "http://localhost:22400/code-lists/"
+	if codelist.HRef == "" {
+		codelist.HRef = hrefURL + instanceID
+	}
+
+	// Validation to check if all the instance fields are entered
+	err = codelist.ValidateAddCodelist()
+	if err != nil {
+		log.Event(ctx, "bad request error as invalid codelist given in request body", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// Get currentRecipe from ID and retrieve specific instance for codelist to be stored
+	currentRecipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+	if err != nil {
+		log.Event(ctx, "error retrieving specific recipe from mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	instanceIndex := -1
+	for i, instance := range currentRecipe.OutputInstances {
+		if instance.DatasetID == instanceID {
+			instanceIndex = i
+			break
+		}
+	}
+	if instanceIndex == -1 {
+		log.Event(ctx, "error retrieving specific instance of recipe from mongo", log.ERROR, logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Append new codelist into the current codelist within the specific instance of the recipe
+	currentRecipe.OutputInstances[instanceIndex].CodeLists = append(currentRecipe.OutputInstances[instanceIndex].CodeLists, codelist)
+
+	// Update the current recipe in mongo with the updated codelist in the specific instance
+	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): currentRecipe}}
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
+	if err != nil {
+		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Marshal to output the newly added recipe
+	output, err := json.Marshal(currentRecipe)
+	if err != nil {
+		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(output)
+}
+
 //UpdateRecipeHandler - update specific recipe by ID
 func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
@@ -198,7 +351,7 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 
 	//Validation to check if all the recipe fields are entered
-	err = updates.ValidateUpdateRecipe("recipe")
+	err = updates.ValidateUpdateRecipe()
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
@@ -206,7 +359,8 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 
 	// Update Recipe to Mongo
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, updates, 0, 0)
+	update := bson.M{"$set": updates}
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
 	if err != nil {
 		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -253,10 +407,8 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 		return
 	}
 
-	// Validation to check if all the codelists of the instance are entered if update of codelist given
-	var missingFields []string
-	var invalidFields []string
-	err = updates.ValidateInstance("instance", missingFields, invalidFields, 0)
+	// Validation to check fields of instance and if all the codelists of the instance are entered if update of codelist given
+	err = updates.ValidateUpdateInstance()
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
@@ -283,20 +435,21 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 		return
 	}
 
-	// Set the non-updated fields to values of the currentRecipe
+	// Set the non-updated fields to values of the currentRecipe - this needs to be done otherwise all fields in array will be overwritten
 	updates.DatasetID = instanceID
-	if updates.Editions == nil {
+	if updates.Editions == nil || len(updates.Editions) == 0 {
 		updates.Editions = currentRecipe.OutputInstances[instanceIndex].Editions
 	}
 	if updates.Title == "" {
 		updates.Title = currentRecipe.OutputInstances[instanceIndex].Title
 	}
-	if updates.CodeLists == nil {
+	if updates.CodeLists == nil || len(updates.CodeLists) == 0 {
 		updates.CodeLists = currentRecipe.OutputInstances[instanceIndex].CodeLists
 	}
 
 	// Update Recipe to Mongo
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, updates, instanceIndex, 0)
+	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): updates}}
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
 	if err != nil {
 		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -341,6 +494,14 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	if err != nil {
 		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Validating fields of codelist given in request body
+	err = updates.ValidateUpdateCodeList()
+	if err != nil {
+		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -392,7 +553,8 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Update Recipe to Mongo
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, updates, instanceIndex, codelistIndex)
+	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex) + ".code_lists." + strconv.Itoa(codelistIndex): updates}}
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
 	if err != nil {
 		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)

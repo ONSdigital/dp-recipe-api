@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/ONSdigital/dp-recipe-api/recipe"
+	"github.com/globalsign/mgo/bson"
 )
 
 var (
@@ -26,7 +27,7 @@ type StorerMock struct {
 	AddRecipeFunc func(item recipe.Response) error
 
 	// UpdateRecipeFunc mocks the UpdateRecipe method.
-	UpdateRecipeFunc func(ID string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) error
+	UpdateRecipeFunc func(ID string, update bson.M) error
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -49,12 +50,8 @@ type StorerMock struct {
 		UpdateRecipe []struct {
 			// ID is the ID argument value.
 			ID string
-			// recipeUpdate represents each recipe to be updated which can be in the form of whole recipe update, instance update and codelist update
-			recipeUpdate interface{}
-			// instanceIndex is the index of the instance to be updated in the recipe
-			instanceIndex int
-			// codelistIndex is the index of the codelist to be updated in the recipe
-			codelistIndex int
+			// updates represents updates to be added to recipe
+			update bson.M
 		}
 	}
 }
@@ -153,41 +150,33 @@ func (mock *StorerMock) AddRecipeCalls() []struct {
 }
 
 // UpdateRecipe calls UpdateRecipeFunc.
-func (mock *StorerMock) UpdateRecipe(ID string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) error {
+func (mock *StorerMock) UpdateRecipe(ID string, update bson.M) error {
 	if mock.UpdateRecipeFunc == nil {
 		panic("StorerMock.UpdateRecipeFunc: method is nil but Storer.UpdateRecipe was just called")
 	}
 	callInfo := struct {
-		ID            string
-		recipeUpdate  interface{}
-		instanceIndex int
-		codelistIndex int
+		ID     string
+		update bson.M
 	}{
-		ID:            ID,
-		recipeUpdate:  recipeUpdate,
-		instanceIndex: instanceIndex,
-		codelistIndex: codelistIndex,
+		ID:     ID,
+		update: update,
 	}
 	lockStorerMockUpdateRecipe.Lock()
 	mock.calls.UpdateRecipe = append(mock.calls.UpdateRecipe, callInfo)
 	lockStorerMockUpdateRecipe.Unlock()
-	return mock.UpdateRecipeFunc(ID, recipeUpdate, instanceIndex, codelistIndex)
+	return mock.UpdateRecipeFunc(ID, update)
 }
 
 // UpdateRecipeCalls gets all the calls that were made to UpdateRecipe.
 // Check the length with:
 //     len(mockedStorer.UpdateRecipeCalls())
 func (mock *StorerMock) UpdateRecipeCalls() []struct {
-	ID            string
-	recipeUpdate  interface{}
-	instanceIndex int
-	codelistIndex int
+	ID     string
+	update bson.M
 } {
 	var calls []struct {
-		ID            string
-		recipeUpdate  interface{}
-		instanceIndex int
-		codelistIndex int
+		ID     string
+		update bson.M
 	}
 	lockStorerMockUpdateRecipe.RLock()
 	calls = mock.calls.UpdateRecipe

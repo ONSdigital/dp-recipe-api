@@ -13,39 +13,42 @@ import (
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/dp-recipe-api/store"
 	storetest "github.com/ONSdigital/dp-recipe-api/store/datastoretest"
+	"github.com/globalsign/mgo/bson"
 	"github.com/gorilla/mux"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 var (
-	mu         sync.Mutex
-	recipeTest = `{
-					"id" : "123", 
-					"alias" : "test", 
-					"format" : "v4", 
-					"files" : [
-						{
-							"description" : "test files"
-						}
-					], 
-					"output_instances" : [
-						{
-							"dataset_id" : "1234",
-							"editions" : [ 
-                				"edition-test"
-            				],
-							"title" : "test",
-							"code_lists" : [ 
-                				{
-                    				"id" : "12345",
-                    				"href" : "http://localhost:22400/code-lists/12345",
-                    				"name" : "codelist-test-name",
-                    				"is_hierarchy" : false
-								}
-							]
-						}
-					]
-				}`
+	mu sync.Mutex
+
+	// Variables to point to bool for isHierarchy in CodeLists
+	falseVal    = false
+	falseValPtr = &falseVal
+	trueVal     = true
+	trueValPtr  = &trueVal
+
+	// Test data for request body
+	recipeTest   = `{"id":"123","alias":"test","format":"v4","files":[{"description":"test files"}],"output_instances":[` + instanceTest + `]}`
+	instanceTest = `{"dataset_id":"1234","editions":["edition-test"],"title":"test","code_lists" :[` + codelistTest + `]}`
+	codelistTest = `{"id":"12345", "href":"http://localhost:22400/code-lists/12345", "name":"codelist-test-name", "is_hierarchy":false}`
+
+	// Test data of recipe retrieved from GetRecipe()
+	initialCodelist = []recipe.CodeList{
+		{
+			ID:          "789",
+			Name:        "codelist-test",
+			HRef:        "http://localhost:22400/code-lists/789",
+			IsHierarchy: falseValPtr,
+		},
+	}
+	initialInstance = []recipe.Instance{
+		{
+			DatasetID: "456",
+			Editions:  []string{"editions"},
+			Title:     "test",
+			CodeLists: initialCodelist,
+		},
+	}
 )
 
 // GetAPIWithMocks also used in other tests, so exported
@@ -272,13 +275,13 @@ func TestAddRecipeReturnsError(t *testing.T) {
 func TestUpdateRecipeReturnsOK(t *testing.T) {
 	t.Parallel()
 	Convey("A successful request to update recipe in mongo returns 200 OK response", t, func() {
-		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{"output_instances":[{"title":"Test"}]}`))
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{"alias":"Test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v3"}, nil
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4"}, nil
 			},
-			UpdateRecipeFunc: func(ID string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) error {
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
 				return nil
 			},
 		}
@@ -300,7 +303,7 @@ func TestUpdateRecipeReturnsBadRequest(t *testing.T) {
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
 				return &recipe.Response{ID: "123", Alias: "Original", Format: "v3"}, nil
 			},
-			UpdateRecipeFunc: func(ID string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) error {
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
 		}
@@ -320,7 +323,277 @@ func TestUpdateRecipeReturnsError(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			UpdateRecipeFunc: func(ID string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) error {
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return errs.ErrAddUpdateRecipeBadRequest
+			},
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return nil, errs.ErrInternalServer
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusInternalServerError)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestAddInstanceReturnsOK(t *testing.T) {
+	t.Parallel()
+	Convey("A successful request to add instance in existing recipe to mongo returns 200 OK response", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances", bytes.NewBufferString(instanceTest))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4"}, nil
+			},
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return nil
+			},
+		}
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusOK)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 1)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
+	})
+}
+
+func TestAddInstanceReturnsBadRequestError(t *testing.T) {
+	t.Parallel()
+	Convey("A request to process and add an incomplete instance to recipe to mongo returns 400 Bad Request response", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances", bytes.NewBufferString(`{"dataset_id":"1234"}`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4"}, nil
+			},
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return nil
+			},
+		}
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusBadRequest)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestAddInstanceReturnsError(t *testing.T) {
+	t.Parallel()
+	Convey("When the api cannot add instance in mongo return an internal server error", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances", bytes.NewBufferString(`{`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return errs.ErrAddUpdateRecipeBadRequest
+			},
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return nil, errs.ErrInternalServer
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusInternalServerError)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestUpdateInstanceReturnsOK(t *testing.T) {
+	t.Parallel()
+	Convey("A successful request to update instance of a recipe in mongo returns 200 OK response", t, func() {
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456", bytes.NewBufferString(`{"title":"Test"}`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			},
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return nil
+			},
+		}
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusOK)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 1)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 2)
+	})
+}
+
+func TestUpdateInstanceReturnsBadRequest(t *testing.T) {
+	t.Parallel()
+	Convey("A request to process an invalid update instance to mongo returns 400 Bad Request response", t, func() {
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456", bytes.NewBufferString(`{"wrong-field":"Test"}`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			},
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return nil
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusBadRequest)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestUpdateInstanceReturnsError(t *testing.T) {
+	t.Parallel()
+	Convey("When the api cannot update instance in mongo return an internal server error", t, func() {
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456", bytes.NewBufferString(`{`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return errs.ErrAddUpdateRecipeBadRequest
+			},
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return nil, errs.ErrInternalServer
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusInternalServerError)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestAddCodelistReturnsOK(t *testing.T) {
+	t.Parallel()
+	Convey("A successful request to add codelist in instance of existing recipe to mongo returns 200 OK response", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/codelists", bytes.NewBufferString(codelistTest))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			},
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return nil
+			},
+		}
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusOK)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 1)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
+	})
+}
+
+func TestAddCodelistReturnsBadRequestError(t *testing.T) {
+	t.Parallel()
+	Convey("A request to process and add an invalid codelist to recipe to mongo returns 400 Bad Request response", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/codelists", bytes.NewBufferString(`{"name":"test"}`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			},
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return nil
+			},
+		}
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusBadRequest)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestAddCodelistReturnsError(t *testing.T) {
+	t.Parallel()
+	Convey("When the api cannot add codelist in mongo return an internal server error", t, func() {
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/codelists", bytes.NewBufferString(`{`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return errs.ErrAddUpdateRecipeBadRequest
+			},
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return nil, errs.ErrInternalServer
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusInternalServerError)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestUpdateCodelistReturnsOK(t *testing.T) {
+	t.Parallel()
+	Convey("A successful request to update codelist of a recipe in mongo returns 200 OK response", t, func() {
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/codelists/789", bytes.NewBufferString(`{"name":"Test"}`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			},
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return nil
+			},
+		}
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusOK)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 1)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 2)
+	})
+}
+
+func TestUpdateCodelistReturnsBadRequest(t *testing.T) {
+	t.Parallel()
+	Convey("A request to process an invalid update codelist to mongo returns 400 Bad Request response", t, func() {
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/codelists/789", bytes.NewBufferString(`{"href":"Test"}`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			},
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
+				return nil
+			},
+		}
+
+		api := GetAPIWithMocks(mockedDataStore)
+		api.Router.ServeHTTP(w, r)
+
+		So(w.Code, ShouldEqual, http.StatusBadRequest)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+	})
+}
+
+func TestUpdateCodelistReturnsError(t *testing.T) {
+	t.Parallel()
+	Convey("When the api cannot update codelist in mongo return an internal server error", t, func() {
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/codelists/789", bytes.NewBufferString(`{`))
+		w := httptest.NewRecorder()
+		mockedDataStore := &storetest.StorerMock{
+			UpdateRecipeFunc: func(ID string, update bson.M) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {

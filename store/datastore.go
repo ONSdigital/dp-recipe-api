@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ONSdigital/dp-recipe-api/recipe"
+	"github.com/globalsign/mgo/bson"
 )
 
 // DataStore provides a datastore.Storer interface used to store, retrieve, remove or update recipes
@@ -18,5 +19,5 @@ type Storer interface {
 	GetRecipes(ctx context.Context) ([]recipe.Response, error)
 	GetRecipe(id string) (*recipe.Response, error)
 	AddRecipe(item recipe.Response) error
-	UpdateRecipe(id string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) (err error)
+	UpdateRecipe(id string, update bson.M) (err error)
 }

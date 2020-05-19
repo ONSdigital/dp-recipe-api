@@ -43,7 +43,80 @@ type file struct {
 	Description string `bson:"description,omitempty" json:"description,omitempty"`
 }
 
-//ValidateAddRecipe - checks if all the fields are non-empty
+//validateInstance - checks if fields of OutputInstances are not empty for ValidateAddRecipe and ValidateAddInstance
+func (instance *Instance) validateInstance() (missingFields []string, invalidFields []string) {
+
+	if instance.DatasetID == "" {
+		missingFields = append(missingFields, "dataset-id")
+	}
+
+	if instance.Editions != nil && len(instance.Editions) > 0 {
+		for j, edition := range instance.Editions {
+			if edition == "" {
+				missingFields = append(missingFields, "editions["+strconv.Itoa(j)+"]")
+			}
+		}
+	} else {
+		missingFields = append(missingFields, "editions")
+	}
+
+	if instance.Title == "" {
+		missingFields = append(missingFields, "title")
+	}
+
+	if instance.CodeLists != nil && len(instance.CodeLists) > 0 {
+		for i, codelist := range instance.CodeLists {
+			codelistMissingFields, codelistInvalidFields := codelist.validateCodelists()
+
+			if len(codelistMissingFields) > 0 {
+				for _, mField := range codelistMissingFields {
+					codelistMissingFields[i] = "codelists[" + strconv.Itoa(i) + "]." + mField
+				}
+			}
+			if len(codelistInvalidFields) > 0 {
+				for _, iField := range codelistInvalidFields {
+					codelistInvalidFields[i] = "codelists[" + strconv.Itoa(i) + "]." + iField
+				}
+			}
+
+			missingFields = append(missingFields, codelistMissingFields...)
+			invalidFields = append(invalidFields, codelistInvalidFields...)
+		}
+	} else {
+		missingFields = append(missingFields, "codelists")
+	}
+
+	return missingFields, invalidFields
+}
+
+//validateCodelists - checks if fields of CodeList are not empty for ValidateAddRecipe, ValidateAddInstance, ValidateAddCodelist
+func (codelist *CodeList) validateCodelists() (missingFields []string, invalidFields []string) {
+	hrefURL := "http://localhost:22400/code-lists/"
+
+	if codelist.ID == "" {
+		missingFields = append(missingFields, "id")
+	}
+
+	if codelist.HRef == "" {
+		missingFields = append(missingFields, "href")
+	} else {
+		if codelist.HRef != hrefURL+codelist.ID {
+			invalidFields = append(invalidFields, "href should be in format (URL/id)")
+		}
+	}
+
+	if codelist.Name == "" {
+		missingFields = append(missingFields, "name")
+	}
+
+	if codelist.IsHierarchy == nil {
+		missingFields = append(missingFields, "isHierarchy")
+	}
+
+	return missingFields, invalidFields
+}
+
+//ValidateAddRecipe - checks if all the fields of the recipe are non-empty
 func (recipe *Response) ValidateAddRecipe() error {
 	var missingFields []string
 	var invalidFields []string
@@ -64,7 +137,7 @@ func (recipe *Response) ValidateAddRecipe() error {
 		}
 	}
 
-	if recipe.InputFiles != nil {
+	if recipe.InputFiles != nil && len(recipe.InputFiles) > 0 {
 		for i, file := range recipe.InputFiles {
 			if file.Description == "" {
 				missingFields = append(missingFields, "input-files["+strconv.Itoa(i)+"].description")
@@ -74,9 +147,21 @@ func (recipe *Response) ValidateAddRecipe() error {
 		missingFields = append(missingFields, "input-files")
 	}
 
-	if recipe.OutputInstances != nil {
-		for instanceCount, instance := range recipe.OutputInstances {
-			instance.ValidateInstance("recipe", missingFields, invalidFields, instanceCount)
+	if recipe.OutputInstances != nil && len(recipe.OutputInstances) > 0 {
+		for i, instance := range recipe.OutputInstances {
+			instanceMissingFields, instanceInvalidFields := instance.validateInstance()
+			if len(instanceMissingFields) > 0 {
+				for _, mField := range instanceMissingFields {
+					instanceMissingFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + mField
+				}
+			}
+			if len(instanceInvalidFields) > 0 {
+				for _, iField := range instanceInvalidFields {
+					instanceInvalidFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + iField
+				}
+			}
+			missingFields = append(missingFields, instanceMissingFields...)
+			invalidFields = append(invalidFields, instanceInvalidFields...)
 		}
 	} else {
 		missingFields = append(missingFields, "output-instances")
@@ -94,20 +179,59 @@ func (recipe *Response) ValidateAddRecipe() error {
 
 }
 
+//ValidateAddInstance - checks if fields of OutputInstances are not empty
+func (instance *Instance) ValidateAddInstance() error {
+	var missingFields []string
+	var invalidFields []string
+
+	instanceMissingField, instanceInvalidField := instance.validateInstance()
+	missingFields = append(missingFields, instanceMissingField...)
+	invalidFields = append(invalidFields, instanceInvalidField...)
+
+	if missingFields != nil {
+		return fmt.Errorf("missing mandatory fields: %v", missingFields)
+	}
+
+	if invalidFields != nil {
+		return fmt.Errorf("invalid fields: %v", invalidFields)
+	}
+
+	return nil
+}
+
+//ValidateAddCodelist - checks if fields of Codelist are not empty
+func (codelist *CodeList) ValidateAddCodelist() error {
+	var missingFields []string
+	var invalidFields []string
+
+	codelistMissingFields, codelistinvalidFields := codelist.validateCodelists()
+	missingFields = append(missingFields, codelistMissingFields...)
+	invalidFields = append(invalidFields, codelistinvalidFields...)
+
+	if missingFields != nil {
+		return fmt.Errorf("missing mandatory fields: %v", missingFields)
+	}
+
+	if invalidFields != nil {
+		return fmt.Errorf("invalid fields: %v", invalidFields)
+	}
+
+	return nil
+}
+
 //ValidateUpdateRecipe - checks updates of recipe for PUT request
-func (recipe *Response) ValidateUpdateRecipe(level string) error {
+func (recipe *Response) ValidateUpdateRecipe() error {
 	var missingFields []string
 	var invalidFields []string
 	validFormats := map[string]bool{
 		"v4": true,
 	}
 
-	if level == "recipe" {
-		allStringFieldsEmpty := recipe.ID == "" && recipe.Format == "" && recipe.Alias == ""
-		allRemainingFieldsNil := recipe.InputFiles == nil && recipe.OutputInstances == nil
-		if allStringFieldsEmpty && allRemainingFieldsNil {
-			invalidFields = append(invalidFields, "no recipe fields updates given")
-		}
+	// Validation to check at least one field of the recipe is updated
+	allStringFieldsEmpty := recipe.ID == "" && recipe.Format == "" && recipe.Alias == ""
+	allRemainingFieldsNil := recipe.InputFiles == nil && recipe.OutputInstances == nil
+	if allStringFieldsEmpty && allRemainingFieldsNil {
+		invalidFields = append(invalidFields, "no recipe fields updates given")
 	}
 
 	if recipe.ID != "" {
@@ -119,23 +243,39 @@ func (recipe *Response) ValidateUpdateRecipe(level string) error {
 		}
 	}
 
-	if recipe.InputFiles != nil {
+	if recipe.InputFiles != nil && len(recipe.InputFiles) > 0 {
 		for i, file := range recipe.InputFiles {
 			if file.Description == "" {
 				missingFields = append(missingFields, "input-files["+strconv.Itoa(i)+"].description")
 			}
 		}
 	}
-
-	fmt.Println(missingFields)
-
-	if recipe.OutputInstances != nil {
-		for instanceCount, instance := range recipe.OutputInstances {
-			instance.ValidateInstance(level, missingFields, invalidFields, instanceCount)
-		}
+	if recipe.InputFiles != nil && len(recipe.InputFiles) == 0 {
+		invalidFields = append(invalidFields, "empty input-files update given")
 	}
 
-	fmt.Println(missingFields)
+	//When doing the update, as recipe.OutputInstances is an array, it needs to make sure that all fields of the instance are complete
+	//This functionality is already available in validateInstance
+	if recipe.OutputInstances != nil && len(recipe.OutputInstances) > 0 {
+		for i, instance := range recipe.OutputInstances {
+			instanceMissingFields, instanceInvalidFields := instance.validateInstance()
+			if len(instanceMissingFields) > 0 {
+				for _, mField := range instanceMissingFields {
+					instanceMissingFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + mField
+				}
+			}
+			if len(instanceInvalidFields) > 0 {
+				for _, iField := range instanceInvalidFields {
+					instanceInvalidFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + iField
+				}
+			}
+			missingFields = append(missingFields, instanceMissingFields...)
+			invalidFields = append(invalidFields, instanceInvalidFields...)
+		}
+	}
+	if recipe.OutputInstances != nil && len(recipe.OutputInstances) == 0 {
+		invalidFields = append(invalidFields, "empty output-instances update given")
+	}
 
 	if missingFields != nil {
 		return fmt.Errorf("missing mandatory fields: %v", missingFields)
@@ -149,132 +289,88 @@ func (recipe *Response) ValidateUpdateRecipe(level string) error {
 
 }
 
-//ValidateInstance - checks if fields of OutputInstances is not empty for ValidateAddRecipe and
-func (instance *Instance) ValidateInstance(level string, missingFields []string, invalidFields []string, instanceCount int) error {
+//ValidateUpdateInstance - checks fields of instance before updating the instance of the recipe
+func (instance *Instance) ValidateUpdateInstance() error {
+	var missingFields []string
+	var invalidFields []string
 
-	if level == "instance" {
-		allStringFieldsEmpty := instance.DatasetID == "" && instance.Title == ""
-		allRemainingFieldsNil := instance.Editions == nil && instance.CodeLists == nil
-		if allStringFieldsEmpty && allRemainingFieldsNil {
-			invalidFields = append(invalidFields, "no instance fields updates given")
-		}
+	// Validation to check if at least one instance field is updated
+	allStringFieldsEmpty := instance.DatasetID == "" && instance.Title == ""
+	allRemainingFieldsNil := instance.Editions == nil && instance.CodeLists == nil
+	if allStringFieldsEmpty && allRemainingFieldsNil {
+		invalidFields = append(invalidFields, "no instance fields updates given")
 	}
 
-	if instance.DatasetID == "" {
-		if level == "recipe" {
-			missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].dataset-id")
-		}
-	} else {
-		if level == "instance" {
-			invalidFields = append(invalidFields, "dataset-id cannot be changed")
-		}
+	if instance.DatasetID != "" {
+		invalidFields = append(invalidFields, "dataset-id cannot be changed")
 	}
 
-	if instance.Editions != nil {
+	if instance.Editions != nil && len(instance.Editions) > 0 {
 		for j, edition := range instance.Editions {
 			if edition == "" {
-				switch level {
-				case "recipe":
-					missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].editions["+strconv.Itoa(j)+"]")
-				case "instance":
-					missingFields = append(missingFields, "editions["+strconv.Itoa(j)+"]")
-				}
+				missingFields = append(missingFields, "editions["+strconv.Itoa(j)+"]")
 			}
 		}
-	} else {
-		if level == "recipe" {
-			missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].editions")
+	}
+	if instance.Editions != nil && len(instance.Editions) == 0 {
+		missingFields = append(missingFields, "editions")
+	}
+
+	//When doing the update, as instance.Codelist is an array, it needs to make sure that all fields of the codelist are complete
+	//This functionality is already available in validateCodelists
+	if instance.CodeLists != nil && len(instance.CodeLists) > 0 {
+		for i, codelist := range instance.CodeLists {
+			codelistMissingFields, codelistInvalidFields := codelist.validateCodelists()
+			if len(codelistMissingFields) > 0 {
+				for _, mField := range codelistMissingFields {
+					codelistMissingFields[i] = "codelists[" + strconv.Itoa(i) + "]." + mField
+				}
+			}
+			if len(codelistInvalidFields) > 0 {
+				for _, iField := range codelistInvalidFields {
+					codelistInvalidFields[i] = "codelists[" + strconv.Itoa(i) + "]." + iField
+				}
+			}
+			missingFields = append(missingFields, codelistMissingFields...)
+			invalidFields = append(invalidFields, codelistInvalidFields...)
 		}
 	}
 
-	if instance.Title == "" {
-		if level == "recipe" {
-			missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].title")
-		}
+	// If any fields missing from the codelists of the instance
+	if missingFields != nil {
+		return fmt.Errorf("missing mandatory fields: %v", missingFields)
 	}
 
-	if instance.CodeLists != nil {
-		for codelistCount, codelist := range instance.CodeLists {
-			codelist.ValidateCodelists(level, missingFields, invalidFields, instanceCount, codelistCount)
-		}
-	} else {
-		if level == "recipe" {
-			missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].codelists")
-		}
-	}
-
-	fmt.Println(missingFields)
-
-	if level == "instance" {
-		// If any fields missing from the codelists of the instance
-		if missingFields != nil {
-			return fmt.Errorf("missing mandatory fields: %v", missingFields)
-		}
-
-		if invalidFields != nil {
-			return fmt.Errorf("invalid fields: %v", invalidFields)
-		}
+	if invalidFields != nil {
+		return fmt.Errorf("invalid fields: %v", invalidFields)
 	}
 
 	return nil
 
 }
 
-//ValidateCodelists - checks if fields of CodeList is not empty
-func (codelist *CodeList) ValidateCodelists(level string, missingFields []string, invalidFields []string, instanceCount int, codelistCount int) error {
+//ValidateUpdateCodeList - checks fields of codelist before updating the codelist in instance of the recipe
+func (codelist *CodeList) ValidateUpdateCodeList() error {
+	var invalidFields []string
 
-	if level == "codelist" {
-		allStringFieldsEmpty := codelist.ID == "" && codelist.Name == "" && codelist.HRef == ""
-		if allStringFieldsEmpty && codelist.IsHierarchy == nil {
-			invalidFields = append(invalidFields, "no codelist fields updates given")
-		}
+	// Validation to check if at least one codelist field is updated
+	allStringFieldsEmpty := codelist.ID == "" && codelist.Name == "" && codelist.HRef == ""
+	if allStringFieldsEmpty && codelist.IsHierarchy == nil {
+		invalidFields = append(invalidFields, "no codelist fields updates given")
 	}
 
-	if codelist.ID == "" {
-		switch level {
-		case "recipe":
-			missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].codelists["+strconv.Itoa(codelistCount)+"].id")
-		case "instance":
-			missingFields = append(missingFields, "codelists["+strconv.Itoa(codelistCount)+"].id")
-		}
-	} else {
-		if level == "codelist" {
-			invalidFields = append(invalidFields, "id cannot be changed")
-		}
+	if codelist.ID != "" {
+		invalidFields = append(invalidFields, "id cannot be changed")
 	}
 
-	if codelist.HRef == "" {
-		switch level {
-		case "recipe":
-			missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].codelists["+strconv.Itoa(codelistCount)+"].href")
-		case "instance":
-			missingFields = append(missingFields, "codelists["+strconv.Itoa(codelistCount)+"].href")
-		}
+	if codelist.HRef != "" {
+		invalidFields = append(invalidFields, "href cannot be changed as linked to id")
 	}
 
-	if codelist.Name == "" {
-		switch level {
-		case "recipe":
-			missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].codelists["+strconv.Itoa(codelistCount)+"].name")
-		case "instance":
-			missingFields = append(missingFields, "codelists["+strconv.Itoa(codelistCount)+"].name")
-		}
-	}
-
-	if codelist.IsHierarchy == nil {
-		switch level {
-		case "recipe":
-			missingFields = append(missingFields, "output-instances["+strconv.Itoa(instanceCount)+"].codelists["+strconv.Itoa(codelistCount)+"].isHierarchy")
-		case "instance":
-			missingFields = append(missingFields, "codelists["+strconv.Itoa(codelistCount)+"].isHierarchy")
-		}
-	}
-
-	if level == "codelist" {
-		if invalidFields != nil {
-			return fmt.Errorf("invalid fields: %v", invalidFields)
-		}
+	if invalidFields != nil {
+		return fmt.Errorf("invalid fields: %v", invalidFields)
 	}
 
 	return nil
+
 }

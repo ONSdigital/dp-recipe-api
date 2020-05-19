@@ -60,23 +60,35 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
 	if api.EnableMongoImport {
-		api.Router.HandleFunc("/allrecipes", api.AddAllRecipeHandler).Methods("POST")
+		api.post("/allrecipes", api.AddAllRecipeHandler)
 	}
 	if api.EnableAuthImport {
-		api.Router.HandleFunc("/recipes", api.AddRecipeHandler).Methods("POST")
-		api.Router.HandleFunc("/recipes/{id}", api.UpdateRecipeHandler).Methods("PUT")
-		api.Router.HandleFunc("/recipes/{id}/output-instances/{instance_id}", api.UpdateInstanceHandler).Methods("PUT")
-		api.Router.HandleFunc("/recipes/{id}/output-instances/{instance_id}/codelists/{codelist_id}", api.UpdateCodelistHandler).Methods("PUT")
+		api.post("/recipes", api.AddRecipeHandler)
+		api.post("/recipes/{id}/instances", api.AddInstanceHandler)
+		api.post("/recipes/{id}/instances/{instance_id}/codelists", api.AddCodelistHandler)
+		api.put("/recipes/{id}", api.UpdateRecipeHandler)
+		api.put("/recipes/{id}/instances/{instance_id}", api.UpdateInstanceHandler)
+		api.put("/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", api.UpdateCodelistHandler)
 	}
 	return api
 }
 
-// get register a GET http.HandlerFunc.
+//get - register a GET http.HandlerFunc.
 func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
 	api.Router.HandleFunc(path, handler).Methods("GET")
 }
 
-// Close represents the graceful shutting down of the http server
+//post - register a POST http.HandlerFunc.
+func (api *RecipeAPI) post(path string, handler http.HandlerFunc) {
+	api.Router.HandleFunc(path, handler).Methods("POST")
+}
+
+//put - register a PUT http.HandlerFunc.
+func (api *RecipeAPI) put(path string, handler http.HandlerFunc) {
+	api.Router.HandleFunc(path, handler).Methods("PUT")
+}
+
+//Close represents the graceful shutting down of the http server
 func Close(ctx context.Context) error {
 	if err := srv.Shutdown(ctx); err != nil {
 		return err

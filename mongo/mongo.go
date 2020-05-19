@@ -3,8 +3,6 @@ package mongo
 import (
 	"context"
 	"errors"
-	"fmt"
-	"strconv"
 
 	"github.com/globalsign/mgo"
 
@@ -86,21 +84,9 @@ func (m *Mongo) AddRecipe(item recipe.Response) error {
 }
 
 //UpdateRecipe updates an existing recipe document
-func (m *Mongo) UpdateRecipe(id string, recipeUpdate interface{}, instanceIndex int, codelistIndex int) (err error) {
+func (m *Mongo) UpdateRecipe(id string, update bson.M) (err error) {
 	s := m.Session.Copy()
 	defer s.Close()
-
-	var update bson.M
-	switch recipeUpdate.(type) {
-	case recipe.Response:
-		update = bson.M{"$set": recipeUpdate}
-	case recipe.Instance:
-		update = bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): recipeUpdate}}
-		fmt.Println("HERE I AM 2")
-	case recipe.CodeList:
-		update = bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex) + ".code_lists." + strconv.Itoa(codelistIndex): recipeUpdate}}
-		fmt.Println("HERE I AM 3")
-	}
 
 	err = s.DB(m.Database).C("recipes").UpdateId(id, update)
 	if err != nil {
