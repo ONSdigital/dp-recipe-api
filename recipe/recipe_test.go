@@ -7,27 +7,33 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var (
-	completeRecipeData = Response{
-		ID:              "123",
-		Alias:           "test",
-		Format:          "v4",
-		InputFiles:      []file{{Description: "test files"}},
-		OutputInstances: []Instance{completeInstanceData},
-	}
-	completeInstanceData = Instance{
-		DatasetID: "456",
-		Editions:  []string{"editions"},
-		Title:     "test",
-		CodeLists: []CodeList{completeCodelistData},
-	}
-	completeCodelistData = CodeList{
+func createCodeList() CodeList {
+	return CodeList{
 		ID:          "789",
 		Name:        "codelist-test",
 		HRef:        "http://localhost:22400/code-lists/789",
 		IsHierarchy: falseValPtr,
 	}
-)
+}
+
+func createRecipeData() Response {
+	return Response{
+		ID:              "123",
+		Alias:           "test",
+		Format:          "v4",
+		InputFiles:      []file{{Description: "test files"}},
+		OutputInstances: []Instance{createInstance()},
+	}
+}
+
+func createInstance() Instance {
+	return Instance{
+		DatasetID: "456",
+		Editions:  []string{"editions"},
+		Title:     "test",
+		CodeLists: []CodeList{createCodeList()},
+	}
+}
 
 //ValidateAddInstance uses validateInstance so this test covers the former function as well
 func TestValidateInstance(t *testing.T) {
@@ -36,7 +42,7 @@ func TestValidateInstance(t *testing.T) {
 	Convey("Non-empty missing field successfully returned", t, func() {
 
 		Convey("when datasetID is missing", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			instance.DatasetID = ""
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldNotBeNil)
@@ -45,7 +51,7 @@ func TestValidateInstance(t *testing.T) {
 		})
 
 		Convey("when editions is missing", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			instance.Editions = nil
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldNotBeNil)
@@ -54,7 +60,7 @@ func TestValidateInstance(t *testing.T) {
 		})
 
 		Convey("when an edition of editions is missing", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			instance.Editions = []string{""}
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldNotBeNil)
@@ -65,7 +71,7 @@ func TestValidateInstance(t *testing.T) {
 		})
 
 		Convey("when title is missing", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			instance.Title = ""
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldNotBeNil)
@@ -74,7 +80,7 @@ func TestValidateInstance(t *testing.T) {
 		})
 
 		Convey("when codelists is missing", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			instance.CodeLists = nil
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldNotBeNil)
@@ -83,7 +89,7 @@ func TestValidateInstance(t *testing.T) {
 		})
 
 		Convey("when any field of codelists is missing", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			instance.CodeLists[0].Name = ""
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldNotBeNil)
@@ -98,7 +104,7 @@ func TestValidateInstance(t *testing.T) {
 	Convey("Empty missing field successfully returned", t, func() {
 
 		Convey("when all fields are output-instances are given", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldBeNil)
@@ -109,7 +115,7 @@ func TestValidateInstance(t *testing.T) {
 	Convey("Non-empty invalid field successfully returned", t, func() {
 
 		Convey("when codelists.href is incorrectly entered", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			instance.CodeLists[0].HRef = "incorrect-href"
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldBeNil)
@@ -124,7 +130,7 @@ func TestValidateInstance(t *testing.T) {
 	Convey("Empty invalid field successfully returned", t, func() {
 
 		Convey("when codelists.href is correctly entered", func() {
-			instance := completeInstanceData
+			instance := createInstance()
 			instance.CodeLists[0].HRef = "http://localhost:22400/code-lists/789"
 			missingFields, invalidFields := instance.validateInstance()
 			So(missingFields, ShouldBeNil)
@@ -142,7 +148,7 @@ func TestValidateCodelists(t *testing.T) {
 	Convey("Non-empty missing field successfully returned", t, func() {
 
 		Convey("when id is missing", func() {
-			codelist := completeCodelistData
+			codelist := createCodeList()
 			codelist.ID = ""
 			//HRef Updated as the format of HRef follows the value from ID
 			codelist.HRef = "http://localhost:22400/code-lists/"
@@ -153,7 +159,7 @@ func TestValidateCodelists(t *testing.T) {
 		})
 
 		Convey("when href is missing", func() {
-			codelist := completeCodelistData
+			codelist := createCodeList()
 			codelist.HRef = ""
 			missingFields, invalidFields := codelist.validateCodelists()
 			So(missingFields, ShouldNotBeNil)
@@ -162,7 +168,7 @@ func TestValidateCodelists(t *testing.T) {
 		})
 
 		Convey("when name is missing", func() {
-			codelist := completeCodelistData
+			codelist := createCodeList()
 			codelist.Name = ""
 			missingFields, invalidFields := codelist.validateCodelists()
 			So(missingFields, ShouldNotBeNil)
@@ -171,7 +177,7 @@ func TestValidateCodelists(t *testing.T) {
 		})
 
 		Convey("when ishierarchy is missing", func() {
-			codelist := completeCodelistData
+			codelist := createCodeList()
 			codelist.IsHierarchy = nil
 			missingFields, invalidFields := codelist.validateCodelists()
 			So(missingFields, ShouldNotBeNil)
@@ -184,7 +190,7 @@ func TestValidateCodelists(t *testing.T) {
 	Convey("Empty missing field successfully returned", t, func() {
 
 		Convey("when all fields are codelist are given", func() {
-			codelist := completeCodelistData
+			codelist := createCodeList()
 			missingFields, invalidFields := codelist.validateCodelists()
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldBeNil)
@@ -195,7 +201,7 @@ func TestValidateCodelists(t *testing.T) {
 	Convey("Non-empty invalid field successfully returned", t, func() {
 
 		Convey("when href is incorrectly entered", func() {
-			codelist := completeCodelistData
+			codelist := createCodeList()
 			codelist.HRef = "incorrect-href"
 			missingFields, invalidFields := codelist.validateCodelists()
 			So(missingFields, ShouldBeNil)
@@ -208,7 +214,7 @@ func TestValidateCodelists(t *testing.T) {
 	Convey("Empty invalid field successfully returned", t, func() {
 
 		Convey("when href is correctly entered", func() {
-			codelist := completeCodelistData
+			codelist := createCodeList()
 			codelist.HRef = "http://localhost:22400/code-lists/789"
 			missingFields, invalidFields := codelist.validateCodelists()
 			So(missingFields, ShouldBeNil)
@@ -225,7 +231,7 @@ func TestValidateAddRecipe(t *testing.T) {
 	Convey("Error returned with missing field", t, func() {
 
 		Convey("when alias is missing", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.Alias = ""
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldNotBeNil)
@@ -233,7 +239,7 @@ func TestValidateAddRecipe(t *testing.T) {
 		})
 
 		Convey("when format is missing", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.Format = ""
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldNotBeNil)
@@ -241,7 +247,7 @@ func TestValidateAddRecipe(t *testing.T) {
 		})
 
 		Convey("when input-files is missing", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.InputFiles = nil
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldNotBeNil)
@@ -249,7 +255,7 @@ func TestValidateAddRecipe(t *testing.T) {
 		})
 
 		Convey("when input-files.description is missing", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.InputFiles[0].Description = ""
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldNotBeNil)
@@ -259,7 +265,7 @@ func TestValidateAddRecipe(t *testing.T) {
 		})
 
 		Convey("when output-instances is missing", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.OutputInstances = nil
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldNotBeNil)
@@ -267,7 +273,7 @@ func TestValidateAddRecipe(t *testing.T) {
 		})
 
 		Convey("when any field of output-instances is missing", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.OutputInstances[0].Title = ""
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldNotBeNil)
@@ -281,7 +287,7 @@ func TestValidateAddRecipe(t *testing.T) {
 	Convey("Successful with no missing fields (nil error returned)", t, func() {
 
 		Convey("when all fields of recipe are given", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldBeNil)
 		})
@@ -291,7 +297,7 @@ func TestValidateAddRecipe(t *testing.T) {
 	Convey("Error returned with invalid field", t, func() {
 
 		Convey("when output-instances.codelists.href is incorrectly entered", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.OutputInstances[0].CodeLists[0].HRef = "incorrect-href"
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldNotBeNil)
@@ -301,7 +307,7 @@ func TestValidateAddRecipe(t *testing.T) {
 		})
 
 		Convey("when format is not valid", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.Format = "v1"
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldNotBeNil)
@@ -313,14 +319,14 @@ func TestValidateAddRecipe(t *testing.T) {
 	Convey("Successful with no invalid fields (nil error returned)", t, func() {
 
 		Convey("when format is valid", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.Format = "v4"
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when output-instances.codelists.href is correctly entered", func() {
-			recipe := completeRecipeData
+			recipe := createRecipeData()
 			recipe.OutputInstances[0].CodeLists[0].HRef = "http://localhost:22400/code-lists/789"
 			err := recipe.ValidateAddRecipe()
 			So(err, ShouldBeNil)
@@ -345,7 +351,7 @@ func TestValidateUpdateRecipe(t *testing.T) {
 		})
 
 		Convey("when any one field of output-instance update is missing", func() {
-			recipe := Response{OutputInstances: []Instance{completeInstanceData}}
+			recipe := Response{OutputInstances: []Instance{createInstance()}}
 			recipe.OutputInstances[0].Title = ""
 			err := recipe.ValidateUpdateRecipe()
 			So(err, ShouldNotBeNil)
@@ -365,7 +371,7 @@ func TestValidateUpdateRecipe(t *testing.T) {
 		})
 
 		Convey("when all fields of output-instance update is given", func() {
-			recipe := Response{OutputInstances: []Instance{completeInstanceData}}
+			recipe := Response{OutputInstances: []Instance{createInstance()}}
 			err := recipe.ValidateUpdateRecipe()
 			So(err, ShouldBeNil)
 		})
@@ -410,7 +416,7 @@ func TestValidateUpdateRecipe(t *testing.T) {
 		})
 
 		Convey("when any field of output-instances update is invalid", func() {
-			recipe := Response{OutputInstances: []Instance{completeInstanceData}}
+			recipe := Response{OutputInstances: []Instance{createInstance()}}
 			recipe.OutputInstances[0].CodeLists[0].HRef = "incorrect-href"
 			err := recipe.ValidateUpdateRecipe()
 			So(err, ShouldNotBeNil)
@@ -444,13 +450,13 @@ func TestValidateUpdateRecipe(t *testing.T) {
 		})
 
 		Convey("when complete output-instances is given", func() {
-			recipe := Response{OutputInstances: []Instance{completeInstanceData}}
+			recipe := Response{OutputInstances: []Instance{createInstance()}}
 			err := recipe.ValidateUpdateRecipe()
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when any field of output-instances update is valid", func() {
-			recipe := Response{OutputInstances: []Instance{completeInstanceData}}
+			recipe := Response{OutputInstances: []Instance{createInstance()}}
 			recipe.OutputInstances[0].CodeLists[0].HRef = "http://localhost:22400/code-lists/789" //Reset
 			err := recipe.ValidateUpdateRecipe()
 			So(err, ShouldBeNil)
@@ -483,7 +489,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 		})
 
 		Convey("when any codelists fields is missing", func() {
-			instance := Instance{CodeLists: []CodeList{completeCodelistData}}
+			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			instance.CodeLists[0].Name = ""
 			err := instance.ValidateUpdateInstance()
 			So(err, ShouldNotBeNil)
@@ -503,7 +509,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 		})
 
 		Convey("when all codelists fields are not missing", func() {
-			instance := Instance{CodeLists: []CodeList{completeCodelistData}}
+			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			err := instance.ValidateUpdateInstance()
 			So(err, ShouldBeNil)
 		})
@@ -527,7 +533,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 		})
 
 		Convey("when any codelists fields is invalid", func() {
-			instance := Instance{CodeLists: []CodeList{completeCodelistData}}
+			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			instance.CodeLists[0].HRef = "incorrect-href"
 			err := instance.ValidateUpdateInstance()
 			So(err, ShouldNotBeNil)
@@ -545,9 +551,9 @@ func TestValidateUpdateInstance(t *testing.T) {
 			Convey("and dataset-id is not given", func() {
 
 				Convey("and any codelists fields is valid", func() {
-					//completeCodelistData is a complete and valid codelist
+					//createCodeList() is a complete and valid codelist
 					//instance just updating codelists of instance
-					instance := Instance{CodeLists: []CodeList{completeCodelistData}}
+					instance := Instance{CodeLists: []CodeList{createCodeList()}}
 					err := instance.ValidateUpdateInstance()
 					So(err, ShouldBeNil)
 				})
