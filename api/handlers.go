@@ -81,19 +81,6 @@ func (api *RecipeAPI) HealthCheck(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(200)
 }
 
-//AddAllRecipeHandler - adds all the recipes from data.go to the mongo database
-func (api *RecipeAPI) AddAllRecipeHandler(w http.ResponseWriter, req *http.Request) {
-	ctx := req.Context()
-	for _, item := range recipe.FullList.Items {
-		err := api.dataStore.Backend.AddRecipe(item)
-		if err != nil {
-			log.Event(ctx, "error in adding all recipes to mongo from data.go", log.ERROR, log.Error(err))
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-	}
-}
-
 //AddRecipeHandler - add a recipe
 func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()

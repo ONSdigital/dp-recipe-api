@@ -17,11 +17,10 @@ type Configuration struct {
 
 // MongoConfig contains the config required to connect to MongoDB.
 type MongoConfig struct {
-	BindAddr          string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
-	Collection        string `envconfig:"MONGODB_COLLECTION"`
-	Database          string `envconfig:"MONGODB_DATABASE"`
-	EnableMongoImport bool   `envconfig:"ENABLE_MONGO_IMPORT"`
-	EnableAuthImport  bool   `envconfig:"ENABLE_AUTH_IMPORT"`
+	BindAddr         string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
+	Collection       string `envconfig:"MONGODB_COLLECTION"`
+	Database         string `envconfig:"MONGODB_DATABASE"`
+	EnableAuthImport bool   `envconfig:"ENABLE_AUTH_IMPORT"`
 }
 
 var cfg *Configuration
@@ -38,11 +37,10 @@ func Get() (*Configuration, error) {
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,
 		MongoConfig: MongoConfig{
-			BindAddr:          "localhost:27017",
-			Collection:        "recipes",
-			Database:          "recipes",
-			EnableMongoImport: false,
-			EnableAuthImport:  false,
+			BindAddr:         "localhost:27017",
+			Collection:       "recipes",
+			Database:         "recipes",
+			EnableAuthImport: false,
 		},
 	}
 

@@ -25,7 +25,6 @@ func TestSpec(t *testing.T) {
 				So(cfg.MongoConfig.BindAddr, ShouldEqual, "localhost:27017")
 				So(cfg.MongoConfig.Collection, ShouldEqual, "recipes")
 				So(cfg.MongoConfig.Database, ShouldEqual, "recipes")
-				So(cfg.MongoConfig.EnableMongoImport, ShouldEqual, false)
 				So(cfg.MongoConfig.EnableAuthImport, ShouldEqual, false)
 			})
 		})

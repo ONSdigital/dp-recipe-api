@@ -17,10 +17,9 @@ var srv *server.Server
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
-	dataStore         store.DataStore
-	Router            *mux.Router
-	EnableMongoImport bool
-	EnableAuthImport  bool
+	dataStore        store.DataStore
+	Router           *mux.Router
+	EnableAuthImport bool
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
@@ -48,18 +47,14 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 //NewRecipeAPI create a new Recipe API instance and register the API routes based on the application configuration.
 func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore) *RecipeAPI {
 	api := &RecipeAPI{
-		dataStore:         dataStore,
-		Router:            router,
-		EnableMongoImport: cfg.MongoConfig.EnableMongoImport,
-		EnableAuthImport:  cfg.MongoConfig.EnableAuthImport,
+		dataStore:        dataStore,
+		Router:           router,
+		EnableAuthImport: cfg.MongoConfig.EnableAuthImport,
 	}
 
 	api.get("/health", api.HealthCheck)
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
-	if api.EnableMongoImport {
-		api.post("/allrecipes", api.AddAllRecipeHandler)
-	}
 	if api.EnableAuthImport {
 		api.post("/recipes", api.AddRecipeHandler)
 		api.post("/recipes/{id}/instances", api.AddInstanceHandler)
