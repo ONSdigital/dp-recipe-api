@@ -20,7 +20,6 @@ type MongoConfig struct {
 	BindAddr          string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
 	Collection        string `envconfig:"MONGODB_COLLECTION"`
 	Database          string `envconfig:"MONGODB_DATABASE"`
-	EnableMongoData   bool   `envconfig:"ENABLE_MONGO_DATA"`
 	EnableMongoImport bool   `envconfig:"ENABLE_MONGO_IMPORT"`
 	EnableAuthImport  bool   `envconfig:"ENABLE_AUTH_IMPORT"`
 }
@@ -42,7 +41,6 @@ func Get() (*Configuration, error) {
 			BindAddr:          "localhost:27017",
 			Collection:        "recipes",
 			Database:          "recipes",
-			EnableMongoData:   false,
 			EnableMongoImport: false,
 			EnableAuthImport:  false,
 		},

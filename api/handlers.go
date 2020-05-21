@@ -18,16 +18,13 @@ import (
 func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 	var list recipe.List
-	if api.EnableMongoData {
-		var err error
-		list.Items, err = api.dataStore.Backend.GetRecipes(ctx)
-		if err != nil && err != errs.ErrRecipesNotFound {
-			log.Event(ctx, "error getting recipes from mongo", log.ERROR, log.Error(err))
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-	} else {
-		list = recipe.FullList
+
+	var err error
+	list.Items, err = api.dataStore.Backend.GetRecipes(ctx)
+	if err != nil && err != errs.ErrRecipesNotFound {
+		log.Event(ctx, "error getting recipes from mongo", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	c := len(list.Items)
@@ -54,39 +51,18 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	logD := log.Data{"recipe_id": recipeID}
 
 	var r recipe.Response
-	if api.EnableMongoData {
-
-		recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
-		if err == errs.ErrRecipeNotFound {
-			log.Event(ctx, "recipe not found in mongo", log.ERROR, log.Error(err))
-			w.WriteHeader(http.StatusNotFound)
-			return
-		}
-		if err != nil {
-			log.Event(ctx, "error getting recipe from mongo", log.ERROR, log.Error(err), logD)
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		r = *recipe
-
-	} else {
-
-		found := false
-
-		for _, item := range recipe.FullList.Items {
-			if item.ID == recipeID {
-				r = item
-				found = true
-				break
-			}
-		}
-
-		if !found {
-			log.Event(ctx, "recipe not found", log.ERROR, logD)
-			w.WriteHeader(http.StatusNotFound)
-			return
-		}
+	recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+	if err == errs.ErrRecipeNotFound {
+		log.Event(ctx, "recipe not found in mongo", log.ERROR, log.Error(err))
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
+	if err != nil {
+		log.Event(ctx, "error getting recipe from mongo", log.ERROR, log.Error(err), logD)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	r = *recipe
 
 	b, err := json.Marshal(r)
 	if err != nil {

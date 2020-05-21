@@ -58,7 +58,6 @@ func GetAPIWithMocks(mockedDataStore store.Storer) *RecipeAPI {
 	ctx := context.Background()
 	cfg, err := config.Get()
 	So(err, ShouldBeNil)
-	cfg.MongoConfig.EnableMongoData = true
 	cfg.MongoConfig.EnableMongoImport = true
 	cfg.MongoConfig.EnableAuthImport = true
 
