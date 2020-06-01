@@ -63,12 +63,14 @@ func getAuthorisationHandlerMock() *AuthHandlerMock {
 }
 
 // GetAPIWithMocks also used in other tests, so exported
-func GetAPIWithMocks(mockedDataStore store.Storer, recipePermissionsMock AuthHandler, permissionsMock AuthHandler) *RecipeAPI {
+func GetAPIWithMocks(mockedDataStore store.Storer) *RecipeAPI {
 	mu.Lock()
 	defer mu.Unlock()
 	ctx := context.Background()
 	cfg, err := config.Get()
 	So(err, ShouldBeNil)
+	recipePermissionsMock := getAuthorisationHandlerMock()
+	permissionsMock := getAuthorisationHandlerMock()
 	cfg.MongoConfig.EnableAuthImport = true
 
 	return NewRecipeAPI(ctx, *cfg, mux.NewRouter(), store.DataStore{Backend: mockedDataStore}, recipePermissionsMock, permissionsMock)
@@ -85,15 +87,11 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
 		So(len(mockedDataStore.GetRecipesCalls()), ShouldEqual, 1)
-		//So(len(recipePermissions.RequireCalls()), ShouldEqual, 1)
-		So(len(permissions.RequireCalls()), ShouldEqual, 1)
 
 	})
 
@@ -106,9 +104,7 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
@@ -127,9 +123,7 @@ func TestGetRecipesReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
@@ -148,9 +142,7 @@ func TestGetRecipeReturnsOK(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
@@ -170,9 +162,7 @@ func TestGetRecipeReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
@@ -188,9 +178,7 @@ func TestGetRecipeReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusNotFound)
@@ -251,9 +239,7 @@ func TestAddRecipeReturnsOK(t *testing.T) {
 				return nil
 			},
 		}
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
@@ -273,9 +259,7 @@ func TestAddRecipeReturnsBadRequest(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
@@ -295,9 +279,7 @@ func TestAddRecipeReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
@@ -318,9 +300,7 @@ func TestUpdateRecipeReturnsOK(t *testing.T) {
 				return nil
 			},
 		}
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
@@ -343,9 +323,7 @@ func TestUpdateRecipeReturnsBadRequest(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
@@ -368,9 +346,7 @@ func TestUpdateRecipeReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
@@ -392,9 +368,7 @@ func TestAddInstanceReturnsOK(t *testing.T) {
 				return nil
 			},
 		}
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
@@ -416,9 +390,7 @@ func TestAddInstanceReturnsBadRequestError(t *testing.T) {
 				return nil
 			},
 		}
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
@@ -441,9 +413,7 @@ func TestAddInstanceReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
@@ -465,9 +435,7 @@ func TestUpdateInstanceReturnsOK(t *testing.T) {
 				return nil
 			},
 		}
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
@@ -490,9 +458,7 @@ func TestUpdateInstanceReturnsBadRequest(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
@@ -515,9 +481,7 @@ func TestUpdateInstanceReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
@@ -539,9 +503,7 @@ func TestAddCodelistReturnsOK(t *testing.T) {
 				return nil
 			},
 		}
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
@@ -563,9 +525,7 @@ func TestAddCodelistReturnsBadRequestError(t *testing.T) {
 				return nil
 			},
 		}
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
@@ -588,9 +548,7 @@ func TestAddCodelistReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
@@ -612,9 +570,7 @@ func TestUpdateCodelistReturnsOK(t *testing.T) {
 				return nil
 			},
 		}
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
@@ -637,9 +593,7 @@ func TestUpdateCodelistReturnsBadRequest(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
@@ -662,9 +616,7 @@ func TestUpdateCodelistReturnsError(t *testing.T) {
 			},
 		}
 
-		recipePermissions := getAuthorisationHandlerMock()
-		permissions := getAuthorisationHandlerMock()
-		api := GetAPIWithMocks(mockedDataStore, recipePermissions, permissions)
+		api := GetAPIWithMocks(mockedDataStore)
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
