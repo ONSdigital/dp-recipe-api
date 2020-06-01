@@ -6,11 +6,16 @@ import (
 	"fmt"
 	"syscall"
 
+	"github.com/ONSdigital/dp-authorisation/auth"
+	rchttp "github.com/ONSdigital/dp-rchttp"
 	"github.com/ONSdigital/log.go/log"
+	"github.com/gorilla/mux"
 
 	"os"
 	"os/signal"
 
+	"github.com/ONSdigital/dp-api-clients-go/zebedee"
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
 	mongolib "github.com/ONSdigital/dp-mongodb"
 	mongoHealth "github.com/ONSdigital/dp-mongodb/health"
@@ -84,24 +89,19 @@ func main() {
 	}
 
 	mongoClient := mongoHealth.NewClient(mongodb.Session)
+	zebedeeClient := zebedee.New(cfg.ZebedeeURL)
 
-	mongoHealth := mongoHealth.CheckMongoClient{
-		Client:      *mongoClient,
-		Healthcheck: mongoClient.Healthcheck,
-	}
+	// Add dataset API and graph checks
+	registerCheckers(ctx, &hc, mongoClient, zebedeeClient, cfg.MongoConfig.EnableAuthImport)
 
 	//Create RecipeAPI instance with Mongo in datastore
 	datastore.Backend = RecipeAPIStore{mongodb}
 
-	if err = hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
-		log.Event(ctx, "failed to add mongoDB checker", log.ERROR, log.Error(err))
-		os.Exit(1)
-	}
-
 	hc.Start(ctx)
 
 	apiErrors := make(chan error, 1)
-	api.CreateAndInitialiseRecipeAPI(ctx, *cfg, *datastore, &hc, apiErrors)
+	recipePermissions, permissions := getAuthorisationHandlers(ctx, cfg)
+	api.CreateAndInitialiseRecipeAPI(ctx, *cfg, *datastore, &hc, apiErrors, recipePermissions, permissions)
 
 	// block until a fatal error occurs
 	select {
@@ -155,4 +155,58 @@ func main() {
 
 	os.Exit(0)
 
+}
+
+func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) (api.AuthHandler, api.AuthHandler) {
+	if !cfg.MongoConfig.EnableAuthImport {
+		log.Event(ctx, "feature flag not enabled defaulting to nop auth impl", log.INFO, log.Data{"feature": "ENABLE_AUTH_IMPORT"})
+		return &auth.NopHandler{}, &auth.NopHandler{}
+	}
+
+	log.Event(ctx, "feature flag enabled", log.INFO, log.Data{"feature": "ENABLE_AUTH_IMPORT"})
+	auth.LoggerNamespace("dp-recipe-api-auth")
+
+	authClient := auth.NewPermissionsClient(rchttp.NewClient())
+	authVerifier := auth.DefaultPermissionsVerifier()
+
+	// for checking caller permissions when we have a recipeID, collection ID and user/service token
+	recipePermissions := auth.NewHandler(
+		auth.NewDatasetPermissionsRequestBuilder(cfg.ZebedeeURL, "id", mux.Vars),
+		authClient,
+		authVerifier,
+	)
+
+	// for checking caller permissions when we only have a user/service token
+	permissions := auth.NewHandler(
+		auth.NewPermissionsRequestBuilder(cfg.ZebedeeURL),
+		authClient,
+		authVerifier,
+	)
+
+	return recipePermissions, permissions
+}
+
+// registerCheckers adds the checkers for the provided clients to the health check object
+func registerCheckers(ctx context.Context, hc *healthcheck.HealthCheck, mongoClient *mongoHealth.Client, zebedeeClient *zebedee.Client, EnableAuthImport bool) {
+	var hasErrors bool
+	if EnableAuthImport {
+		if err := hc.AddCheck("Zebedee", zebedeeClient.Checker); err != nil {
+			hasErrors = true
+			log.Event(ctx, "error adding check for zebedeee", log.ERROR, log.Error(err))
+		}
+	}
+
+	mongoHealth := mongoHealth.CheckMongoClient{
+		Client:      *mongoClient,
+		Healthcheck: mongoClient.Healthcheck,
+	}
+	if err := hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
+		hasErrors = true
+		log.Event(ctx, "error adding mongoDB checker", log.FATAL, log.Error(err))
+		os.Exit(1)
+	}
+
+	if hasErrors {
+		log.Event(ctx, "error registering checkers for healthcheck", log.ERROR)
+	}
 }

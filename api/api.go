@@ -1,34 +1,53 @@
 package api
 
+//go:generate moq -out mockauth_test.go . AuthHandler
+
 import (
 	"context"
 	"net/http"
 
+	"github.com/ONSdigital/dp-authorisation/auth"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/store"
+	"github.com/ONSdigital/go-ns/identity"
 	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
 	"github.com/justinas/alice"
 )
 
-var srv *server.Server
+var (
+	srv *server.Server
+
+	create = auth.Permissions{Create: true}
+	update = auth.Permissions{Update: true}
+)
+
+// AuthHandler provides authorisation checks on requests
+type AuthHandler interface {
+	Require(required auth.Permissions, handler http.HandlerFunc) http.HandlerFunc
+}
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
-	dataStore        store.DataStore
-	Router           *mux.Router
-	EnableAuthImport bool
+	dataStore         store.DataStore
+	Router            *mux.Router
+	recipePermissions AuthHandler
+	permissions       AuthHandler
+	EnableAuthImport  bool
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
-func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck, errorChan chan error) {
+func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck, errorChan chan error, recipePermissions AuthHandler, permissions AuthHandler) {
 	router := mux.NewRouter()
-	api := NewRecipeAPI(ctx, cfg, router, dataStore)
+	api := NewRecipeAPI(ctx, cfg, router, dataStore, recipePermissions, permissions)
 
 	healthcheckHandler := newMiddleware(hc.Handler)
 	middleware := alice.New(healthcheckHandler)
+
+	// Add the identity middleware when running in publishing
+	middleware = middleware.Append(identity.Handler(cfg.ZebedeeURL))
 
 	srv = server.New(cfg.BindAddr, middleware.Then(api.Router))
 
@@ -45,23 +64,25 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 }
 
 //NewRecipeAPI create a new Recipe API instance and register the API routes based on the application configuration.
-func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore) *RecipeAPI {
+func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore, recipePermissions AuthHandler, permissions AuthHandler) *RecipeAPI {
 	api := &RecipeAPI{
-		dataStore:        dataStore,
-		Router:           router,
-		EnableAuthImport: cfg.MongoConfig.EnableAuthImport,
+		dataStore:         dataStore,
+		Router:            router,
+		recipePermissions: recipePermissions,
+		permissions:       permissions,
+		EnableAuthImport:  cfg.MongoConfig.EnableAuthImport,
 	}
 
 	api.get("/health", api.HealthCheck)
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
 	if api.EnableAuthImport {
-		api.post("/recipes", api.AddRecipeHandler)
-		api.post("/recipes/{id}/instances", api.AddInstanceHandler)
-		api.post("/recipes/{id}/instances/{instance_id}/codelists", api.AddCodelistHandler)
-		api.put("/recipes/{id}", api.UpdateRecipeHandler)
-		api.put("/recipes/{id}/instances/{instance_id}", api.UpdateInstanceHandler)
-		api.put("/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", api.UpdateCodelistHandler)
+		api.post("/recipes", permissions.Require(create, api.AddRecipeHandler))
+		api.post("/recipes/{id}/instances", recipePermissions.Require(create, api.AddInstanceHandler))
+		api.post("/recipes/{id}/instances/{instance_id}/codelists", recipePermissions.Require(create, api.AddCodelistHandler))
+		api.put("/recipes/{id}", recipePermissions.Require(update, api.UpdateRecipeHandler))
+		api.put("/recipes/{id}/instances/{instance_id}", recipePermissions.Require(update, api.UpdateInstanceHandler))
+		api.put("/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", recipePermissions.Require(update, api.UpdateCodelistHandler))
 	}
 	return api
 }
