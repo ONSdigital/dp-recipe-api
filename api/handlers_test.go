@@ -173,45 +173,6 @@ func TestGetRecipeReturnsError(t *testing.T) {
 	})
 }
 
-func TestAddAllRecipesReturnsOK(t *testing.T) {
-	t.Parallel()
-	Convey("A successful request to add all recipes to mongo returns 200 OK response", t, func() {
-		r := httptest.NewRequest("POST", "http://localhost:22300/allrecipes", nil)
-		w := httptest.NewRecorder()
-		mockedDataStore := &storetest.StorerMock{
-			AddRecipeFunc: func(item recipe.Response) error {
-				return nil
-			},
-		}
-
-		api := GetAPIWithMocks(mockedDataStore)
-		api.Router.ServeHTTP(w, r)
-
-		So(w.Code, ShouldEqual, http.StatusOK)
-		So(len(mockedDataStore.AddRecipeCalls()), ShouldEqual, len(recipe.FullList.Items))
-
-	})
-}
-
-func TestAddAllRecipesReturnsError(t *testing.T) {
-	t.Parallel()
-	Convey("When the api cannot add all recipes to mongo return an internal server error", t, func() {
-		r := httptest.NewRequest("POST", "http://localhost:22300/allrecipes", nil)
-		w := httptest.NewRecorder()
-		mockedDataStore := &storetest.StorerMock{
-			AddRecipeFunc: func(item recipe.Response) error {
-				return errs.ErrInternalServer
-			},
-		}
-
-		api := GetAPIWithMocks(mockedDataStore)
-		api.Router.ServeHTTP(w, r)
-
-		So(w.Code, ShouldEqual, http.StatusInternalServerError)
-		So(len(mockedDataStore.AddRecipeCalls()), ShouldEqual, 1)
-	})
-}
-
 func TestAddRecipeReturnsOK(t *testing.T) {
 	t.Parallel()
 	Convey("A successful request to add recipe to mongo returns 200 OK response", t, func() {
