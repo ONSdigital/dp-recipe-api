@@ -28,7 +28,7 @@ one of:
 | GRACEFUL_SHUTDOWN_TIMEOUT    | 5s                                     | The graceful shutdown timeout in seconds
 | HEALTHCHECK_INTERVAL         | 30s                                    | The time between calling healthcheck endpoints for check subsystems
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s                                    | The time taken for the health changes from warning state to critical due to subsystem check failures
-| ENABLE_AUTH_IMPORT           | false                                  | Enable/disable importing or updating recipes into mongo depending on when authorisation is added
+| ENABLE_PRIVATE_ENDPOINTS     | false                                  | Enable/disable private endpoints of the API
 
 ### Recipe Checker
 

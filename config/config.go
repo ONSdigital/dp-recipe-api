@@ -13,15 +13,15 @@ type Configuration struct {
 	GracefulShutdownTimeout    time.Duration `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT"`
 	HealthCheckInterval        time.Duration `envconfig:"HEALTHCHECK_INTERVAL"`
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
+	EnablePrivateEndpoints     bool          `envconfig:"ENABLE_PRIVATE_ENDPOINTS"`
 	MongoConfig                MongoConfig
 }
 
 // MongoConfig contains the config required to connect to MongoDB.
 type MongoConfig struct {
-	BindAddr         string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
-	Collection       string `envconfig:"MONGODB_COLLECTION"`
-	Database         string `envconfig:"MONGODB_DATABASE"`
-	EnableAuthImport bool   `envconfig:"ENABLE_AUTH_IMPORT"`
+	BindAddr   string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
+	Collection string `envconfig:"MONGODB_COLLECTION"`
+	Database   string `envconfig:"MONGODB_DATABASE"`
 }
 
 var cfg *Configuration
@@ -38,11 +38,11 @@ func Get() (*Configuration, error) {
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,
+		EnablePrivateEndpoints:     false,
 		MongoConfig: MongoConfig{
-			BindAddr:         "localhost:27017",
-			Collection:       "recipes",
-			Database:         "recipes",
-			EnableAuthImport: true,
+			BindAddr:   "localhost:27017",
+			Collection: "recipes",
+			Database:   "recipes",
 		},
 	}
 

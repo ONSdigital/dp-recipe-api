@@ -31,11 +31,11 @@ type AuthHandler interface {
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
-	dataStore         store.DataStore
-	Router            *mux.Router
-	recipePermissions AuthHandler
-	permissions       AuthHandler
-	EnableAuthImport  bool
+	dataStore              store.DataStore
+	Router                 *mux.Router
+	recipePermissions      AuthHandler
+	permissions            AuthHandler
+	EnablePrivateEndpoints bool
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
@@ -66,17 +66,17 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 //NewRecipeAPI create a new Recipe API instance and register the API routes based on the application configuration.
 func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore, recipePermissions AuthHandler, permissions AuthHandler) *RecipeAPI {
 	api := &RecipeAPI{
-		dataStore:         dataStore,
-		Router:            router,
-		recipePermissions: recipePermissions,
-		permissions:       permissions,
-		EnableAuthImport:  cfg.MongoConfig.EnableAuthImport,
+		dataStore:              dataStore,
+		Router:                 router,
+		recipePermissions:      recipePermissions,
+		permissions:            permissions,
+		EnablePrivateEndpoints: cfg.EnablePrivateEndpoints,
 	}
 
 	api.get("/health", api.HealthCheck)
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
-	if api.EnableAuthImport {
+	if api.EnablePrivateEndpoints {
 		api.post("/recipes", permissions.Require(create, api.AddRecipeHandler))
 		api.post("/recipes/{id}/instances", recipePermissions.Require(create, api.AddInstanceHandler))
 		api.post("/recipes/{id}/instances/{instance_id}/codelists", recipePermissions.Require(create, api.AddCodelistHandler))

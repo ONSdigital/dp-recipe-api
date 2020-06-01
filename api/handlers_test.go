@@ -71,7 +71,7 @@ func GetAPIWithMocks(mockedDataStore store.Storer) *RecipeAPI {
 	So(err, ShouldBeNil)
 	recipePermissionsMock := getAuthorisationHandlerMock()
 	permissionsMock := getAuthorisationHandlerMock()
-	cfg.MongoConfig.EnableAuthImport = true
+	cfg.EnablePrivateEndpoints = true
 
 	return NewRecipeAPI(ctx, *cfg, mux.NewRouter(), store.DataStore{Backend: mockedDataStore}, recipePermissionsMock, permissionsMock)
 }
