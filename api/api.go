@@ -10,7 +10,6 @@ import (
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/store"
-	"github.com/ONSdigital/go-ns/identity"
 	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
@@ -45,9 +44,6 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 
 	healthcheckHandler := newMiddleware(hc.Handler)
 	middleware := alice.New(healthcheckHandler)
-
-	// Add the identity middleware when running in publishing
-	middleware = middleware.Append(identity.Handler(cfg.ZebedeeURL))
 
 	srv = server.New(cfg.BindAddr, middleware.Then(api.Router))
 
