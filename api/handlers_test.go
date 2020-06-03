@@ -5,22 +5,16 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
-	"sync"
 	"testing"
 
-	"github.com/ONSdigital/dp-authorisation/auth"
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
-	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
-	"github.com/ONSdigital/dp-recipe-api/store"
 	storetest "github.com/ONSdigital/dp-recipe-api/store/datastoretest"
 	"github.com/globalsign/mgo/bson"
-	"github.com/gorilla/mux"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 var (
-	mu sync.Mutex
 
 	// Variables to point to bool for isHierarchy in CodeLists
 	falseVal    = false
@@ -51,30 +45,6 @@ var (
 		},
 	}
 )
-
-func getAuthorisationHandlerMock() *AuthHandlerMock {
-	return &AuthHandlerMock{
-		RequireFunc: func(required auth.Permissions, handler http.HandlerFunc) http.HandlerFunc {
-			return func(w http.ResponseWriter, r *http.Request) {
-				handler.ServeHTTP(w, r)
-			}
-		},
-	}
-}
-
-// GetAPIWithMocks also used in other tests, so exported
-func GetAPIWithMocks(mockedDataStore store.Storer) *RecipeAPI {
-	mu.Lock()
-	defer mu.Unlock()
-	ctx := context.Background()
-	cfg, err := config.Get()
-	So(err, ShouldBeNil)
-	recipePermissionsMock := getAuthorisationHandlerMock()
-	permissionsMock := getAuthorisationHandlerMock()
-	cfg.EnablePrivateEndpoints = true
-
-	return NewRecipeAPI(ctx, *cfg, mux.NewRouter(), store.DataStore{Backend: mockedDataStore}, recipePermissionsMock, permissionsMock)
-}
 
 func TestGetRecipesReturnsOK(t *testing.T) {
 	t.Parallel()
