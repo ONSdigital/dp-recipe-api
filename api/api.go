@@ -1,6 +1,6 @@
 package api
 
-//go:generate moq -out mockauth_test.go . AuthHandler
+//go:generate moq -out mock/mockauth.go -pkg mock . AuthHandler
 
 import (
 	"context"
