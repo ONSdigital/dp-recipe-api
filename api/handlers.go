@@ -146,7 +146,7 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	}
 
 	//Validation to check if all the recipe fields are entered
-	err = recipe.ValidateAddRecipe()
+	err = recipe.ValidateAddRecipe(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error as incomplete recipe given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
@@ -200,7 +200,7 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 	}
 
 	//Validation to check if all the instance fields are entered
-	err = instance.ValidateAddInstance()
+	err = instance.ValidateAddInstance(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error as invalid instance given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
@@ -267,13 +267,12 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	}
 
 	// Generate the HRef of codelist if not given in request body as it follows a consistent pattern
-	hrefURL := "http://localhost:22400/code-lists/"
-	if codelist.HRef == "" {
-		codelist.HRef = hrefURL + instanceID
+	if codelist.ID != "" && codelist.HRef == "" {
+		codelist.HRef = recipe.HRefURL + codelist.ID
 	}
 
 	// Validation to check if all the instance fields are entered
-	err = codelist.ValidateAddCodelist()
+	err = codelist.ValidateAddCodelist(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error as invalid codelist given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
@@ -351,7 +350,7 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 
 	//Validation to check if all the recipe fields are entered
-	err = updates.ValidateUpdateRecipe()
+	err = updates.ValidateUpdateRecipe(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
@@ -408,7 +407,7 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Validation to check fields of instance and if all the codelists of the instance are entered if update of codelist given
-	err = updates.ValidateUpdateInstance()
+	err = updates.ValidateUpdateInstance(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)

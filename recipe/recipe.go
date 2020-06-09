@@ -1,8 +1,13 @@
 package recipe
 
 import (
+	"context"
 	"fmt"
+	"net/url"
 	"strconv"
+	"strings"
+
+	"github.com/ONSdigital/log.go/log"
 )
 
 //List - struct for list of recipes
@@ -43,8 +48,11 @@ type file struct {
 	Description string `bson:"description,omitempty" json:"description,omitempty"`
 }
 
+//HRefURL - the href of all current codelists
+const HRefURL = "http://localhost:22400/code-lists/"
+
 //validateInstance - checks if fields of OutputInstances are not empty for ValidateAddRecipe and ValidateAddInstance
-func (instance *Instance) validateInstance() (missingFields []string, invalidFields []string) {
+func (instance *Instance) validateInstance(ctx context.Context) (missingFields []string, invalidFields []string) {
 
 	if instance.DatasetID == "" {
 		missingFields = append(missingFields, "dataset-id")
@@ -66,7 +74,7 @@ func (instance *Instance) validateInstance() (missingFields []string, invalidFie
 
 	if instance.CodeLists != nil && len(instance.CodeLists) > 0 {
 		for i, codelist := range instance.CodeLists {
-			codelistMissingFields, codelistInvalidFields := codelist.validateCodelists()
+			codelistMissingFields, codelistInvalidFields := codelist.validateCodelist(ctx)
 
 			if len(codelistMissingFields) > 0 {
 				for _, mField := range codelistMissingFields {
@@ -90,8 +98,7 @@ func (instance *Instance) validateInstance() (missingFields []string, invalidFie
 }
 
 //validateCodelists - checks if fields of CodeList are not empty for ValidateAddRecipe, ValidateAddInstance, ValidateAddCodelist
-func (codelist *CodeList) validateCodelists() (missingFields []string, invalidFields []string) {
-	hrefURL := "http://localhost:22400/code-lists/"
+func (codelist *CodeList) validateCodelist(ctx context.Context) (missingFields []string, invalidFields []string) {
 
 	if codelist.ID == "" {
 		missingFields = append(missingFields, "id")
@@ -100,7 +107,7 @@ func (codelist *CodeList) validateCodelists() (missingFields []string, invalidFi
 	if codelist.HRef == "" {
 		missingFields = append(missingFields, "href")
 	} else {
-		if codelist.HRef != hrefURL+codelist.ID {
+		if !codelist.validateCodelistHRef(ctx) {
 			invalidFields = append(invalidFields, "href should be in format (URL/id)")
 		}
 	}
@@ -116,8 +123,22 @@ func (codelist *CodeList) validateCodelists() (missingFields []string, invalidFi
 	return missingFields, invalidFields
 }
 
+//ValidateCodelistHRef - checks if the format of the codelist.href is correct
+func (codelist *CodeList) validateCodelistHRef(ctx context.Context) bool {
+	hRefURL, err := url.Parse(codelist.HRef)
+	if err != nil {
+		log.Event(ctx, "error parsing codelist.href", log.ERROR, log.Error(err))
+		return false
+	}
+	urlPathBool := strings.Contains(hRefURL.Path, "/code-lists") && strings.Contains(hRefURL.Path, codelist.ID)
+	if hRefURL.Scheme == "http" && hRefURL.Host == "localhost:22400" && urlPathBool {
+		return true
+	}
+	return false
+}
+
 //ValidateAddRecipe - checks if all the fields of the recipe are non-empty
-func (recipe *Response) ValidateAddRecipe() error {
+func (recipe *Response) ValidateAddRecipe(ctx context.Context) error {
 	var missingFields []string
 	var invalidFields []string
 	validFormats := map[string]bool{
@@ -149,7 +170,7 @@ func (recipe *Response) ValidateAddRecipe() error {
 
 	if recipe.OutputInstances != nil && len(recipe.OutputInstances) > 0 {
 		for i, instance := range recipe.OutputInstances {
-			instanceMissingFields, instanceInvalidFields := instance.validateInstance()
+			instanceMissingFields, instanceInvalidFields := instance.validateInstance(ctx)
 			if len(instanceMissingFields) > 0 {
 				for _, mField := range instanceMissingFields {
 					instanceMissingFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + mField
@@ -180,11 +201,11 @@ func (recipe *Response) ValidateAddRecipe() error {
 }
 
 //ValidateAddInstance - checks if fields of OutputInstances are not empty
-func (instance *Instance) ValidateAddInstance() error {
+func (instance *Instance) ValidateAddInstance(ctx context.Context) error {
 	var missingFields []string
 	var invalidFields []string
 
-	instanceMissingField, instanceInvalidField := instance.validateInstance()
+	instanceMissingField, instanceInvalidField := instance.validateInstance(ctx)
 	missingFields = append(missingFields, instanceMissingField...)
 	invalidFields = append(invalidFields, instanceInvalidField...)
 
@@ -200,11 +221,11 @@ func (instance *Instance) ValidateAddInstance() error {
 }
 
 //ValidateAddCodelist - checks if fields of Codelist are not empty
-func (codelist *CodeList) ValidateAddCodelist() error {
+func (codelist *CodeList) ValidateAddCodelist(ctx context.Context) error {
 	var missingFields []string
 	var invalidFields []string
 
-	codelistMissingFields, codelistinvalidFields := codelist.validateCodelists()
+	codelistMissingFields, codelistinvalidFields := codelist.validateCodelist(ctx)
 	missingFields = append(missingFields, codelistMissingFields...)
 	invalidFields = append(invalidFields, codelistinvalidFields...)
 
@@ -220,7 +241,7 @@ func (codelist *CodeList) ValidateAddCodelist() error {
 }
 
 //ValidateUpdateRecipe - checks updates of recipe for PUT request
-func (recipe *Response) ValidateUpdateRecipe() error {
+func (recipe *Response) ValidateUpdateRecipe(ctx context.Context) error {
 	var missingFields []string
 	var invalidFields []string
 	validFormats := map[string]bool{
@@ -258,7 +279,7 @@ func (recipe *Response) ValidateUpdateRecipe() error {
 	//This functionality is already available in validateInstance
 	if recipe.OutputInstances != nil && len(recipe.OutputInstances) > 0 {
 		for i, instance := range recipe.OutputInstances {
-			instanceMissingFields, instanceInvalidFields := instance.validateInstance()
+			instanceMissingFields, instanceInvalidFields := instance.validateInstance(ctx)
 			if len(instanceMissingFields) > 0 {
 				for _, mField := range instanceMissingFields {
 					instanceMissingFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + mField
@@ -290,7 +311,7 @@ func (recipe *Response) ValidateUpdateRecipe() error {
 }
 
 //ValidateUpdateInstance - checks fields of instance before updating the instance of the recipe
-func (instance *Instance) ValidateUpdateInstance() error {
+func (instance *Instance) ValidateUpdateInstance(ctx context.Context) error {
 	var missingFields []string
 	var invalidFields []string
 
@@ -320,7 +341,7 @@ func (instance *Instance) ValidateUpdateInstance() error {
 	//This functionality is already available in validateCodelists
 	if instance.CodeLists != nil && len(instance.CodeLists) > 0 {
 		for i, codelist := range instance.CodeLists {
-			codelistMissingFields, codelistInvalidFields := codelist.validateCodelists()
+			codelistMissingFields, codelistInvalidFields := codelist.validateCodelist(ctx)
 			if len(codelistMissingFields) > 0 {
 				for _, mField := range codelistMissingFields {
 					codelistMissingFields[i] = "codelists[" + strconv.Itoa(i) + "]." + mField
