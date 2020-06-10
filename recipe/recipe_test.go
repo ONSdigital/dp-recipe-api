@@ -50,7 +50,7 @@ func TestValidateInstance(t *testing.T) {
 			instance.DatasetID = ""
 			missingFields, invalidFields := instance.validateInstance(ctx)
 			So(missingFields, ShouldNotBeNil)
-			So(missingFields, ShouldResemble, []string{"dataset-id"})
+			So(missingFields, ShouldResemble, []string{"dataset_id"})
 			So(invalidFields, ShouldBeNil)
 		})
 
@@ -398,15 +398,6 @@ func TestValidateUpdateRecipe(t *testing.T) {
 
 	Convey("Error returned with missing field", t, func() {
 
-		Convey("when input-files.description is missing", func() {
-			recipe := Response{InputFiles: []file{{Description: ""}}}
-			err := recipe.ValidateUpdateRecipe(ctx)
-			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [input-files[0].description]").Error())
-
-			recipe.InputFiles = []file{{Description: "test files"}} //Reset
-		})
-
 		Convey("when any one field of output-instance update is missing", func() {
 			recipe := Response{OutputInstances: []Instance{createInstance()}}
 			recipe.OutputInstances[0].Title = ""
@@ -463,6 +454,15 @@ func TestValidateUpdateRecipe(t *testing.T) {
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [empty input-files update given]").Error())
+		})
+
+		Convey("when empty input-files.description is given", func() {
+			recipe := Response{InputFiles: []file{{Description: ""}}}
+			err := recipe.ValidateUpdateRecipe(ctx)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldResemble, errors.New("invalid fields: [empty input-files[0].description given]").Error())
+
+			recipe.InputFiles = []file{{Description: "test files"}} //Reset
 		})
 
 		Convey("when empty output-instances is given", func() {
@@ -533,7 +533,7 @@ func TestValidateAddInstance(t *testing.T) {
 			instance.DatasetID = ""
 			err := instance.ValidateAddInstance(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [dataset-id]").Error())
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [dataset_id]").Error())
 		})
 
 		Convey("when editions is missing", func() {
@@ -678,13 +678,6 @@ func TestValidateUpdateInstance(t *testing.T) {
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [no instance fields updates given]").Error())
 		})
 
-		Convey("when dataset-id is given to be updated", func() {
-			instance := Instance{DatasetID: "123"}
-			err := instance.ValidateUpdateInstance(ctx)
-			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("invalid fields: [dataset-id cannot be changed]").Error())
-		})
-
 		Convey("when any codelists fields is invalid", func() {
 			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			instance.CodeLists[0].HRef = "incorrect-href"
@@ -802,23 +795,16 @@ func TestValidateUpdateCodelist(t *testing.T) {
 
 		Convey("when no codelist fields updates are given", func() {
 			codelist := CodeList{}
-			err := codelist.ValidateUpdateCodeList()
+			err := codelist.ValidateUpdateCodeList(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [no codelist fields updates given]").Error())
 		})
 
-		Convey("when id update is given", func() {
-			codelist := CodeList{ID: "789"}
-			err := codelist.ValidateUpdateCodeList()
-			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("invalid fields: [id cannot be changed]").Error())
-		})
-
 		Convey("when href update is given", func() {
 			codelist := CodeList{HRef: "incorrect-href"}
-			err := codelist.ValidateUpdateCodeList()
+			err := codelist.ValidateUpdateCodeList(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("invalid fields: [href cannot be changed as linked to id]").Error())
+			So(err.Error(), ShouldResemble, errors.New("invalid fields: [href should be in format (URL/id)]").Error())
 		})
 
 	})
@@ -831,7 +817,7 @@ func TestValidateUpdateCodelist(t *testing.T) {
 
 				Convey("when href update is not given", func() {
 					codelist := CodeList{Name: "test"}
-					err := codelist.ValidateUpdateCodeList()
+					err := codelist.ValidateUpdateCodeList(ctx)
 					So(err, ShouldBeNil)
 				})
 

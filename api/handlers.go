@@ -265,6 +265,7 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 
 	// Generate the HRef of codelist if not given in request body as it follows a consistent pattern
 	if codelist.ID != "" && codelist.HRef == "" {
+		log.Event(ctx, "href automatically updated with new id", log.INFO)
 		codelist.HRef = recipe.HRefURL + codelist.ID
 	}
 
@@ -283,13 +284,8 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	instanceIndex := -1
-	for i, instance := range currentRecipe.OutputInstances {
-		if instance.DatasetID == instanceID {
-			instanceIndex = i
-			break
-		}
-	}
+
+	instanceIndex := findInstance(instanceID, currentRecipe.OutputInstances)
 	if instanceIndex == -1 {
 		log.Event(ctx, "error retrieving specific instance of recipe from mongo", log.ERROR, logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -364,16 +360,6 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	w.Header().Set("content-type", "application/json")
 }
 
-func findInstance(instanceID string, instances []recipe.Instance) int {
-	defaultIndex := -1
-	for i, instance := range instances {
-		if instance.DatasetID == instanceID {
-			return i
-		}
-	}
-	return defaultIndex
-}
-
 //UpdateInstanceHandler - update specific recipe by ID
 func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
@@ -426,16 +412,8 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Set the non-updated fields to values of the currentRecipe - this needs to be done otherwise all fields in array will be overwritten
-	updates.DatasetID = instanceID
-	if updates.Editions == nil || len(updates.Editions) == 0 {
-		updates.Editions = currentRecipe.OutputInstances[instanceIndex].Editions
-	}
-	if updates.Title == "" {
-		updates.Title = currentRecipe.OutputInstances[instanceIndex].Title
-	}
-	if updates.CodeLists == nil || len(updates.CodeLists) == 0 {
-		updates.CodeLists = currentRecipe.OutputInstances[instanceIndex].CodeLists
-	}
+	currentInstance := currentRecipe.OutputInstances[instanceIndex]
+	updates = setInstance(instanceID, currentInstance, updates)
 
 	// Update Recipe to Mongo
 	err = api.dataStore.Backend.UpdateInstance(recipeID, instanceIndex, updates)
@@ -446,16 +424,6 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	w.Header().Set("content-type", "application/json")
-}
-
-func findCodelist(codelistID string, codelists []recipe.CodeList) int {
-	defaultIndex := -1
-	for i, codelist := range codelists {
-		if codelist.ID == codelistID {
-			return i
-		}
-	}
-	return defaultIndex
 }
 
 //UpdateCodelistHandler - update specific recipe by ID
@@ -487,8 +455,14 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 		return
 	}
 
+	// Generate the HRef of codelist if not given in request body as it follows a consistent pattern
+	if updates.ID != "" && updates.HRef == "" {
+		log.Event(ctx, "href automatically updated with new id", log.INFO)
+		updates.HRef = recipe.HRefURL + updates.ID
+	}
+
 	// Validating fields of codelist given in request body
-	err = updates.ValidateUpdateCodeList()
+	err = updates.ValidateUpdateCodeList(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusBadRequest)
@@ -518,16 +492,8 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Set the non-updated fields to values of the currentRecipe
-	updates.ID = codelistID
-	if updates.HRef == "" {
-		updates.HRef = currentRecipe.OutputInstances[instanceIndex].CodeLists[codelistIndex].HRef
-	}
-	if updates.Name == "" {
-		updates.Name = currentRecipe.OutputInstances[instanceIndex].CodeLists[codelistIndex].Name
-	}
-	if updates.IsHierarchy == nil {
-		updates.IsHierarchy = currentRecipe.OutputInstances[instanceIndex].CodeLists[codelistIndex].IsHierarchy
-	}
+	currentCodelist := currentRecipe.OutputInstances[instanceIndex].CodeLists[codelistIndex]
+	updates = setCodelist(codelistID, currentCodelist, updates)
 
 	// Update Recipe to Mongo
 	err = api.dataStore.Backend.UpdateCodelist(recipeID, instanceIndex, codelistIndex, updates)
@@ -538,4 +504,56 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	w.Header().Set("content-type", "application/json")
+}
+
+func findInstance(instanceID string, instances []recipe.Instance) int {
+	defaultIndex := -1
+	for i, instance := range instances {
+		if instance.DatasetID == instanceID {
+			return i
+		}
+	}
+	return defaultIndex
+}
+
+func setInstance(instanceID string, currentInstance recipe.Instance, updates recipe.Instance) recipe.Instance {
+	if updates.DatasetID == "" {
+		updates.DatasetID = instanceID
+	}
+	if updates.Editions == nil || len(updates.Editions) == 0 {
+		updates.Editions = currentInstance.Editions
+	}
+	if updates.Title == "" {
+		updates.Title = currentInstance.Title
+	}
+	if updates.CodeLists == nil || len(updates.CodeLists) == 0 {
+		updates.CodeLists = currentInstance.CodeLists
+	}
+	return updates
+}
+
+func findCodelist(codelistID string, codelists []recipe.CodeList) int {
+	defaultIndex := -1
+	for i, codelist := range codelists {
+		if codelist.ID == codelistID {
+			return i
+		}
+	}
+	return defaultIndex
+}
+
+func setCodelist(codelistID string, currentCodelist recipe.CodeList, updates recipe.CodeList) recipe.CodeList {
+	if updates.ID == "" {
+		updates.ID = codelistID
+	}
+	if updates.HRef == "" {
+		updates.HRef = currentCodelist.HRef
+	}
+	if updates.Name == "" {
+		updates.Name = currentCodelist.Name
+	}
+	if updates.IsHierarchy == nil {
+		updates.IsHierarchy = currentCodelist.IsHierarchy
+	}
+	return updates
 }
