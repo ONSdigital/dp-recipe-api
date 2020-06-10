@@ -4,12 +4,10 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"strconv"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
-	"github.com/globalsign/mgo/bson"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
@@ -218,11 +216,10 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 	// Append new instance into the current instance of the recipe
 	currentRecipe.OutputInstances = append(currentRecipe.OutputInstances, instance)
 
-	// Update the current recipe in mongo with the updated instance
-	update := bson.M{"$set": currentRecipe}
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
+	// Add instance to existing recipe in mongo
+	err = api.dataStore.Backend.AddInstance(recipeID, currentRecipe)
 	if err != nil {
-		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error adding instance by updating recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -303,10 +300,9 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	currentRecipe.OutputInstances[instanceIndex].CodeLists = append(currentRecipe.OutputInstances[instanceIndex].CodeLists, codelist)
 
 	// Update the current recipe in mongo with the updated codelist in the specific instance
-	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): currentRecipe}}
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
+	err = api.dataStore.Backend.AddCodelist(recipeID, instanceIndex, currentRecipe)
 	if err != nil {
-		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error adding codelist by updating recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -358,24 +354,24 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 
 	// Update Recipe to Mongo
-	update := bson.M{"$set": updates}
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, updates)
 	if err != nil {
 		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	// Marshal to output the newly updated recipe
-	updatedRecipe, _ := api.dataStore.Backend.GetRecipe(recipeID)
-	output, err := json.Marshal(updatedRecipe)
-	if err != nil {
-		log.Event(ctx, "error marshaling updated recipe from mongo", log.ERROR, log.Error(err), logD)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
 	w.Header().Set("content-type", "application/json")
-	w.Write(output)
+}
+
+func findInstance(instanceID string, instances []recipe.Instance) int {
+	defaultIndex := -1
+	for i, instance := range instances {
+		if instance.DatasetID == instanceID {
+			return i
+		}
+	}
+	return defaultIndex
 }
 
 //UpdateInstanceHandler - update specific recipe by ID
@@ -421,13 +417,8 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	instanceIndex := -1
-	for i, instance := range currentRecipe.OutputInstances {
-		if instance.DatasetID == instanceID {
-			instanceIndex = i
-			break
-		}
-	}
+
+	instanceIndex := findInstance(instanceID, currentRecipe.OutputInstances)
 	if instanceIndex == -1 {
 		log.Event(ctx, "error retrieving specific instance of recipe from mongo", log.ERROR, logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -447,24 +438,24 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Update Recipe to Mongo
-	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): updates}}
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
+	err = api.dataStore.Backend.UpdateInstance(recipeID, instanceIndex, updates)
 	if err != nil {
-		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error updating specific instance of recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	// Marshal to output the newly updated recipe
-	updatedRecipe, _ := api.dataStore.Backend.GetRecipe(recipeID)
-	output, err := json.Marshal(updatedRecipe)
-	if err != nil {
-		log.Event(ctx, "error marshaling updated recipe from mongo", log.ERROR, log.Error(err), logD)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
 	w.Header().Set("content-type", "application/json")
-	w.Write(output)
+}
+
+func findCodelist(codelistID string, codelists []recipe.CodeList) int {
+	defaultIndex := -1
+	for i, codelist := range codelists {
+		if codelist.ID == codelistID {
+			return i
+		}
+	}
+	return defaultIndex
 }
 
 //UpdateCodelistHandler - update specific recipe by ID
@@ -511,28 +502,15 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	instanceIndex := -1
-	codelistIndex := -1
-	for i, instance := range currentRecipe.OutputInstances {
-		if instance.DatasetID == instanceID {
-			instanceIndex = i
 
-			for j, codelist := range instance.CodeLists {
-				if codelist.ID == codelistID {
-					codelistIndex = j
-					break
-				}
-			}
-
-			break
-		}
-	}
-
+	instanceIndex := findInstance(instanceID, currentRecipe.OutputInstances)
 	if instanceIndex == -1 {
 		log.Event(ctx, "error retrieving specific instance of recipe from mongo", log.ERROR, logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	codelistIndex := findCodelist(codelistID, currentRecipe.OutputInstances[instanceIndex].CodeLists)
 	if codelistIndex == -1 {
 		log.Event(ctx, "error retrieving specific codelist of instance of recipe from mongo", log.ERROR, logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -552,22 +530,12 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Update Recipe to Mongo
-	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex) + ".code_lists." + strconv.Itoa(codelistIndex): updates}}
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, update)
+	err = api.dataStore.Backend.UpdateCodelist(recipeID, instanceIndex, codelistIndex, updates)
 	if err != nil {
-		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
+		log.Event(ctx, "error updating codelist to recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	// Marshal to output the newly updated recipe
-	updatedRecipe, _ := api.dataStore.Backend.GetRecipe(recipeID)
-	output, err := json.Marshal(updatedRecipe)
-	if err != nil {
-		log.Event(ctx, "error marshaling updated recipe from mongo", log.ERROR, log.Error(err), logD)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
 	w.Header().Set("content-type", "application/json")
-	w.Write(output)
 }
