@@ -70,6 +70,11 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/CodeList'
+securityDefinitions:
+  ServiceToken:
+    type: apiKey
+    in: header
+    name: service-token
 paths:
   /recipes:
     get:
@@ -91,6 +96,8 @@ paths:
         Create a recipe and add to mongo
       parameters:
       - $ref: '#/parameters/new_recipe'
+      security:
+        - ServiceToken: []
       produces:
       - "application/json"
       responses:
@@ -100,6 +107,8 @@ paths:
             $ref: '#/definitions/Recipe'
         400:
           description: "An incomplete/invalid recipe entered in request to be added to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
   /recipes/recipe_id:
@@ -127,6 +136,8 @@ paths:
       parameters:
       - $ref: '#/parameters/recipe_id' 
       - $ref: '#/parameters/recipe_update'
+      security:
+        - ServiceToken: []
       produces:
       - "application/json"
       responses:
@@ -134,6 +145,8 @@ paths:
           description: "Specific recipe updated successfully with given recipe updates"
         400:
           description: "An incomplete/invalid recipe entered in request to be updated to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
         404:
           description: "Recipe not found"
         500:
@@ -146,6 +159,8 @@ paths:
       parameters:
       - $ref: '#/parameters/recipe_id'
       - $ref: '#/parameters/new_instance'
+      security:
+        - ServiceToken: []
       produces:
       - "application/json"
       responses:
@@ -155,6 +170,8 @@ paths:
             $ref: '#/definitions/Recipe'
         400:
           description: "An incomplete/invalid instance entered in request to be added to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
   /recipes/recipe_id/instances/instance_id:
@@ -168,11 +185,15 @@ paths:
       - $ref: '#/parameters/instance_update'
       produces:
       - "application/json"
+      security:
+        - ServiceToken: []
       responses:
         200:
           description: "Specific recipe updated successfully with given instance updates"
         400:
           description: "An incomplete/invalid instance entered in request to be updated to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
         404:
           description: "Recipe not found"
         500:
@@ -186,6 +207,8 @@ paths:
       - $ref: '#/parameters/recipe_id'
       - $ref: '#/parameters/instance_id'
       - $ref: '#/parameters/new_codelist'
+      security:
+        - ServiceToken: []
       produces:
       - "application/json"
       responses:
@@ -195,6 +218,8 @@ paths:
             $ref: '#/definitions/Recipe'
         400:
           description: "An incomplete/invalid codelist entered in request to be added to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
   /recipes/recipe_id/instances/instance_id/codelists/codelist_id:
@@ -207,6 +232,8 @@ paths:
       - $ref: '#/parameters/instance_id' 
       - $ref: '#/parameters/codelist_id'
       - $ref: '#/parameters/codelist_update'
+      security:
+        - ServiceToken: []
       produces:
       - "application/json"
       responses:
@@ -214,12 +241,16 @@ paths:
           description: "Specific recipe updated successfully with given codelist updates"
         400:
           description: "An incomplete/invalid codelist entered in request to be updated to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
   
 responses:
   InternalError:
     description: "Failed to process the request due to an internal error"
+  AuthorisationError:
+    description: "Unauthorisation request as invalid auth token given"
 definitions:
   RecipeList:
     type: object
