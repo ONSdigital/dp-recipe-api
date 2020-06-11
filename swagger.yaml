@@ -7,6 +7,9 @@ info:
   license:
     name: "Open Government Licence v3.0"
     url: "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+tags:
+- name: "Public"
+- name: "Private"
 schemes:
 - "http"
 parameters:
@@ -76,8 +79,26 @@ securityDefinitions:
     in: header
     name: service-token
 paths:
+  /health:
+    get:
+      tags:
+        - Public
+      summary: "Get health of API"
+      description: |
+        Returns a health information of API and list of the health of its dependent services
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Health information and list of dependent services health"
+          schema:
+            $ref: "#/definitions/Health"
+        500:
+          $ref: '#/responses/InternalError'
   /recipes:
     get:
+      tags:
+        - Public
       summary: "Get a list of recipes"
       description: |
         Returns a paged list of recipes
@@ -91,6 +112,8 @@ paths:
         500:
           $ref: '#/responses/InternalError'
     post:
+      tags:
+        - Private
       summary: "Create a recipe"
       description: |
         Create a recipe and add to mongo
@@ -113,6 +136,8 @@ paths:
           $ref: '#/responses/InternalError'
   /recipes/recipe_id:
     get:
+      tags:
+        - Public
       summary: "Get a specific recipe"
       description: |
         Returns a specific recipe
@@ -130,6 +155,8 @@ paths:
         500:
           $ref: '#/responses/InternalError'
     put:
+      tags:
+        - Private
       summary: "Update a recipe"
       description: |
         Update a recipe by getting the specific recipe by id and update in mongo
@@ -153,6 +180,8 @@ paths:
           $ref: '#/responses/InternalError'
   /recipes/recipe_id/instances:
     post:
+      tags:
+        - Private
       summary: "Create an instance"
       description: |
         Create an instance in the recipe and add to mongo
@@ -176,6 +205,8 @@ paths:
           $ref: '#/responses/InternalError'
   /recipes/recipe_id/instances/instance_id:
     put:
+      tags:
+        - Private
       summary: "Update an instance"
       description: |
         Update an instance of recipe by getting the specific instance and recipe by id and update in mongo
@@ -200,6 +231,8 @@ paths:
           $ref: '#/responses/InternalError'
   /recipes/recipe_id/instances/instance_id/codelists:
     post:
+      tags:
+        - Private
       summary: "Create a codelist"
       description: |
         Create a codelist for an instance in recipe and add to mongo
@@ -224,6 +257,8 @@ paths:
           $ref: '#/responses/InternalError'
   /recipes/recipe_id/instances/instance_id/codelists/codelist_id:
     put:
+      tags:
+        - Private
       summary: "Update a codelist"
       description: |
         Update an codelist of a specific instance in the specific recipe and update in mongo
@@ -415,3 +450,72 @@ definitions:
       - isHierarchy
     allOf: 
       - $ref: '#/definitions/CodeList'
+  Health:
+    type: object
+    properties:
+      status:
+        type: string
+        description: "The status of the API"
+        enum: ["OK", "WARNING", "CRITICAL"]
+      version:
+        type: object
+        properties:
+          build_time:
+            type: string
+            description: "The build date and time of the API"
+            example: "2020-06-11T12:49:20+01:00"
+          git_commit:
+            type: string
+            description: "The git commit hash of the API"
+            example: "7c2febbf2b818175112478d4ffbadbee1b654f63"
+          language:
+            type: string
+            description: "The programming language used to implement API"
+            example: "go"
+          language_version:
+            type: string
+            description: "The version of the programming language used to implement API"
+            example: "go1.14.3"
+          version:
+            type: string
+            description: "The version of API"
+            example: "1.0.0"
+      uptime:
+        type: string
+        description: "The uptime of API"
+        example: "34516"
+      start_time:
+        type: string
+        description: "The start date and time of API running"
+        example: "2020-06-11T11:49:21.520922Z"
+      checks:
+        type: array
+        items:
+          $ref: '#/definitions/HealthChecker'
+  HealthChecker:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "The name of external service used by API"
+        enum: ["mongodb"]
+      status:
+        type: string
+        description: "The status of the external service"
+        enum: ["OK", "WARNING", "CRITICAL"]
+      message:
+        type: string
+        description: "The message status of the external service"
+        example: "mongodb is OK"
+      last_checked:
+        type: string
+        description: "The last health check date and time of the external service"
+        example: "2020-06-11T11:49:50.330089Z"
+      last_success:
+        type: string
+        description: "The last successful health check date and time of the external service"
+        example: "2020-06-11T11:49:50.330089Z"
+      last_failure:
+        type: string
+        description: "The last failed health check date and time of the external service"
+        example: null 
