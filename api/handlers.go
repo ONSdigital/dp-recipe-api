@@ -217,7 +217,7 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 	currentRecipe.OutputInstances = append(currentRecipe.OutputInstances, instance)
 
 	// Add instance to existing recipe in mongo
-	err = api.dataStore.Backend.AddInstance(recipeID, currentRecipe)
+	err = api.dataStore.Backend.UpdateRecipe(recipeID, *currentRecipe)
 	if err != nil {
 		log.Event(ctx, "error adding instance by updating recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)

@@ -336,7 +336,7 @@ func TestAddInstanceReturnsOK(t *testing.T) {
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
 				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4"}, nil
 			},
-			AddInstanceFunc: func(recipeID string, currentRecipe *recipe.Response) error {
+			UpdateRecipeFunc: func(recipeID string, currentRecipe recipe.Response) error {
 				return nil
 			},
 		}
@@ -344,7 +344,7 @@ func TestAddInstanceReturnsOK(t *testing.T) {
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusOK)
-		So(len(mockedDataStore.AddInstanceCalls()), ShouldEqual, 1)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 1)
 		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }
@@ -358,7 +358,7 @@ func TestAddInstanceReturnsBadRequestError(t *testing.T) {
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
 				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4"}, nil
 			},
-			AddInstanceFunc: func(recipeID string, currentRecipe *recipe.Response) error {
+			UpdateRecipeFunc: func(recipeID string, currentRecipe recipe.Response) error {
 				return nil
 			},
 		}
@@ -366,7 +366,7 @@ func TestAddInstanceReturnsBadRequestError(t *testing.T) {
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
-		So(len(mockedDataStore.AddInstanceCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
 		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
 	})
 }
@@ -377,7 +377,7 @@ func TestAddInstanceReturnsError(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			AddInstanceFunc: func(recipeID string, currentRecipe *recipe.Response) error {
+			UpdateRecipeFunc: func(recipeID string, currentRecipe recipe.Response) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
@@ -389,7 +389,7 @@ func TestAddInstanceReturnsError(t *testing.T) {
 		api.Router.ServeHTTP(w, r)
 
 		So(w.Code, ShouldEqual, http.StatusInternalServerError)
-		So(len(mockedDataStore.AddInstanceCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
 		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
 	})
 }

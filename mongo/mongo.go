@@ -104,12 +104,6 @@ func (m *Mongo) UpdateRecipe(recipeID string, updates recipe.Response) (err erro
 	return m.UpdateAllRecipe(recipeID, update)
 }
 
-//AddInstance adds instance to existing recipe document
-func (m *Mongo) AddInstance(recipeID string, currentRecipe *recipe.Response) (err error) {
-	update := bson.M{"$set": currentRecipe}
-	return m.UpdateAllRecipe(recipeID, update)
-}
-
 //UpdateInstance updates specific instance to existing recipe document
 func (m *Mongo) UpdateInstance(recipeID string, instanceIndex int, updates recipe.Instance) (err error) {
 	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): updates}}

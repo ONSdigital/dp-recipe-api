@@ -14,7 +14,6 @@ import (
 
 var (
 	lockStorerMockAddCodelist     sync.RWMutex
-	lockStorerMockAddInstance     sync.RWMutex
 	lockStorerMockAddRecipe       sync.RWMutex
 	lockStorerMockGetRecipe       sync.RWMutex
 	lockStorerMockGetRecipes      sync.RWMutex
@@ -71,9 +70,6 @@ type StorerMock struct {
 	// AddCodelistFunc mocks the AddCodelist method.
 	AddCodelistFunc func(recipeID string, instanceIndex int, currentRecipe *recipe.Response) error
 
-	// AddInstanceFunc mocks the AddInstance method.
-	AddInstanceFunc func(recipeID string, currentRecipe *recipe.Response) error
-
 	// AddRecipeFunc mocks the AddRecipe method.
 	AddRecipeFunc func(item recipe.Response) error
 
@@ -103,13 +99,6 @@ type StorerMock struct {
 			RecipeID string
 			// InstanceIndex is the instanceIndex argument value.
 			InstanceIndex int
-			// CurrentRecipe is the currentRecipe argument value.
-			CurrentRecipe *recipe.Response
-		}
-		// AddInstance holds details about calls to the AddInstance method.
-		AddInstance []struct {
-			// RecipeID is the recipeID argument value.
-			RecipeID string
 			// CurrentRecipe is the currentRecipe argument value.
 			CurrentRecipe *recipe.Response
 		}
@@ -201,41 +190,6 @@ func (mock *StorerMock) AddCodelistCalls() []struct {
 	lockStorerMockAddCodelist.RLock()
 	calls = mock.calls.AddCodelist
 	lockStorerMockAddCodelist.RUnlock()
-	return calls
-}
-
-// AddInstance calls AddInstanceFunc.
-func (mock *StorerMock) AddInstance(recipeID string, currentRecipe *recipe.Response) error {
-	if mock.AddInstanceFunc == nil {
-		panic("StorerMock.AddInstanceFunc: method is nil but Storer.AddInstance was just called")
-	}
-	callInfo := struct {
-		RecipeID      string
-		CurrentRecipe *recipe.Response
-	}{
-		RecipeID:      recipeID,
-		CurrentRecipe: currentRecipe,
-	}
-	lockStorerMockAddInstance.Lock()
-	mock.calls.AddInstance = append(mock.calls.AddInstance, callInfo)
-	lockStorerMockAddInstance.Unlock()
-	return mock.AddInstanceFunc(recipeID, currentRecipe)
-}
-
-// AddInstanceCalls gets all the calls that were made to AddInstance.
-// Check the length with:
-//     len(mockedStorer.AddInstanceCalls())
-func (mock *StorerMock) AddInstanceCalls() []struct {
-	RecipeID      string
-	CurrentRecipe *recipe.Response
-} {
-	var calls []struct {
-		RecipeID      string
-		CurrentRecipe *recipe.Response
-	}
-	lockStorerMockAddInstance.RLock()
-	calls = mock.calls.AddInstance
-	lockStorerMockAddInstance.RUnlock()
 	return calls
 }
 
