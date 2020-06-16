@@ -10,7 +10,6 @@ import (
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	storetest "github.com/ONSdigital/dp-recipe-api/store/datastoretest"
-	"github.com/gorilla/mux"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
