@@ -19,7 +19,6 @@ var srv *server.Server
 type RecipeAPI struct {
 	dataStore         store.DataStore
 	Router            *mux.Router
-	EnableMongoData   bool
 	EnableMongoImport bool
 	EnableAuthImport  bool
 }
@@ -51,7 +50,6 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 	api := &RecipeAPI{
 		dataStore:         dataStore,
 		Router:            router,
-		EnableMongoData:   cfg.MongoConfig.EnableMongoData,
 		EnableMongoImport: cfg.MongoConfig.EnableMongoImport,
 		EnableAuthImport:  cfg.MongoConfig.EnableAuthImport,
 	}

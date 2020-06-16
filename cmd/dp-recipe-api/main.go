@@ -64,12 +64,6 @@ func main() {
 	}
 
 	hc := health.New(versionInfo, cfg.HealthCheckCriticalTimeout, cfg.HealthCheckInterval)
-
-	//Feature Flag for Mongo Connection
-	enableMongoData := cfg.MongoConfig.EnableMongoData
-	enableMongoImport := cfg.MongoConfig.EnableMongoImport
-	enableAuthImport := cfg.MongoConfig.EnableAuthImport
-
 	datastore := &store.DataStore{Backend: nil}
 
 	mongodb := &mongo.Mongo{
@@ -79,39 +73,29 @@ func main() {
 	}
 
 	var err error
-	mongoIsEnabled := enableMongoData || enableMongoImport || enableAuthImport
-	if mongoIsEnabled {
-
-		mongodb.Session, err = mongodb.Init()
-		if err != nil {
-			log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
-			os.Exit(1)
-		} else {
-			log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{
-				"mongo_bind_address": mongodb.URI,
-			})
-		}
-
-		mongoClient := mongoHealth.NewClient(mongodb.Session)
-
-		mongoHealth := mongoHealth.CheckMongoClient{
-			Client:      *mongoClient,
-			Healthcheck: mongoClient.Healthcheck,
-		}
-
-		//Create RecipeAPI instance with Mongo in datastore
-		datastore.Backend = RecipeAPIStore{mongodb}
-
-		if err = hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
-			log.Event(ctx, "failed to add mongoDB checker", log.ERROR, log.Error(err))
-			os.Exit(1)
-		}
+	mongodb.Session, err = mongodb.Init()
+	if err != nil {
+		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
+		os.Exit(1)
+	} else {
+		log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{
+			"mongo_bind_address": mongodb.URI,
+		})
 	}
 
-	if !enableMongoData {
-		log.Event(ctx, "using recipes from data.go", log.INFO, log.Data{
-			"bind_address": cfg.BindAddr,
-		})
+	mongoClient := mongoHealth.NewClient(mongodb.Session)
+
+	mongoHealth := mongoHealth.CheckMongoClient{
+		Client:      *mongoClient,
+		Healthcheck: mongoClient.Healthcheck,
+	}
+
+	//Create RecipeAPI instance with Mongo in datastore
+	datastore.Backend = RecipeAPIStore{mongodb}
+
+	if err = hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
+		log.Event(ctx, "failed to add mongoDB checker", log.ERROR, log.Error(err))
+		os.Exit(1)
 	}
 
 	hc.Start(ctx)
@@ -146,11 +130,9 @@ func main() {
 			hasShutdownError = true
 		}
 
-		if mongoIsEnabled {
-			if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
-				log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
-				hasShutdownError = true
-			}
+		if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
+			log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
+			hasShutdownError = true
 		}
 
 		log.Event(shutdownContext, "shutdown complete", log.INFO)
