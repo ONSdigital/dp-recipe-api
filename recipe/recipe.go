@@ -320,10 +320,6 @@ func (instance *Instance) ValidateUpdateInstance(ctx context.Context) error {
 		invalidFields = append(invalidFields, "no instance fields updates given")
 	}
 
-	// if instance.DatasetID != "" {
-	// 	invalidFields = append(invalidFields, "dataset-id cannot be changed")
-	// }
-
 	if instance.Editions != nil && len(instance.Editions) > 0 {
 		for j, edition := range instance.Editions {
 			if edition == "" {
