@@ -34,7 +34,6 @@ type RecipeAPI struct {
 	Router                 *mux.Router
 	recipePermissions      AuthHandler
 	permissions            AuthHandler
-	EnablePrivateEndpoints bool
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
@@ -66,20 +65,17 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 		Router:                 router,
 		recipePermissions:      recipePermissions,
 		permissions:            permissions,
-		EnablePrivateEndpoints: cfg.EnablePrivateEndpoints,
 	}
 
 	api.get("/health", api.HealthCheck)
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
-	if api.EnablePrivateEndpoints {
-		api.post("/recipes", permissions.Require(create, api.AddRecipeHandler))
-		api.post("/recipes/{id}/instances", recipePermissions.Require(create, api.AddInstanceHandler))
-		api.post("/recipes/{id}/instances/{instance_id}/codelists", recipePermissions.Require(create, api.AddCodelistHandler))
-		api.put("/recipes/{id}", recipePermissions.Require(update, api.UpdateRecipeHandler))
-		api.put("/recipes/{id}/instances/{instance_id}", recipePermissions.Require(update, api.UpdateInstanceHandler))
-		api.put("/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", recipePermissions.Require(update, api.UpdateCodelistHandler))
-	}
+	api.post("/recipes", permissions.Require(create, api.AddRecipeHandler))
+	api.post("/recipes/{id}/instances", recipePermissions.Require(create, api.AddInstanceHandler))
+	api.post("/recipes/{id}/instances/{instance_id}/codelists", recipePermissions.Require(create, api.AddCodelistHandler))
+	api.put("/recipes/{id}", recipePermissions.Require(update, api.UpdateRecipeHandler))
+	api.put("/recipes/{id}/instances/{instance_id}", recipePermissions.Require(update, api.UpdateInstanceHandler))
+	api.put("/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", recipePermissions.Require(update, api.UpdateCodelistHandler))
 	return api
 }
 

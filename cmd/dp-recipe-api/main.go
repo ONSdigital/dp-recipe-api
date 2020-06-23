@@ -92,7 +92,7 @@ func main() {
 	zebedeeClient := zebedee.New(cfg.ZebedeeURL)
 
 	// Add dataset API and graph checks
-	registerCheckers(ctx, &hc, mongoClient, zebedeeClient, cfg.EnablePrivateEndpoints)
+	registerCheckers(ctx, &hc, mongoClient, zebedeeClient)
 
 	//Create RecipeAPI instance with Mongo in datastore
 	datastore.Backend = RecipeAPIStore{mongodb}
@@ -158,12 +158,6 @@ func main() {
 }
 
 func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) (api.AuthHandler, api.AuthHandler) {
-	if !cfg.EnablePrivateEndpoints {
-		log.Event(ctx, "feature flag not enabled defaulting to nop auth impl", log.INFO, log.Data{"feature": "ENABLE_PRIVATE_ENDPOINTS"})
-		return &auth.NopHandler{}, &auth.NopHandler{}
-	}
-
-	log.Event(ctx, "feature flag enabled", log.INFO, log.Data{"feature": "ENABLE_PRIVATE_ENDPOINTS"})
 	auth.LoggerNamespace("dp-recipe-api-auth")
 
 	authClient := auth.NewPermissionsClient(rchttp.NewClient())
@@ -187,13 +181,11 @@ func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) (a
 }
 
 // registerCheckers adds the checkers for the provided clients to the health check object
-func registerCheckers(ctx context.Context, hc *healthcheck.HealthCheck, mongoClient *mongoHealth.Client, zebedeeClient *zebedee.Client, EnablePrivateEndpoints bool) {
+func registerCheckers(ctx context.Context, hc *healthcheck.HealthCheck, mongoClient *mongoHealth.Client, zebedeeClient *zebedee.Client) {
 	var hasErrors bool
-	if EnablePrivateEndpoints {
-		if err := hc.AddCheck("Zebedee", zebedeeClient.Checker); err != nil {
-			hasErrors = true
-			log.Event(ctx, "error adding check for zebedeee", log.ERROR, log.Error(err))
-		}
+	if err := hc.AddCheck("Zebedee", zebedeeClient.Checker); err != nil {
+		hasErrors = true
+		log.Event(ctx, "error adding check for zebedeee", log.ERROR, log.Error(err))
 	}
 
 	mongoHealth := mongoHealth.CheckMongoClient{

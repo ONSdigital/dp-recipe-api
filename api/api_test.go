@@ -38,7 +38,6 @@ func GetAPIWithMocks(mockedDataStore store.Storer) *RecipeAPI {
 	So(err, ShouldBeNil)
 	recipePermissionsMock := getAuthorisationHandlerMock()
 	permissionsMock := getAuthorisationHandlerMock()
-	cfg.EnablePrivateEndpoints = true
 
 	return NewRecipeAPI(ctx, *cfg, mux.NewRouter(), store.DataStore{Backend: mockedDataStore}, recipePermissionsMock, permissionsMock)
 }
@@ -53,7 +52,6 @@ func TestNewRecipeAPI(t *testing.T) {
 	Convey("Given a public API instance", t, func() {
 		mockedDataStore := &storetest.StorerMock{}
 		api := GetAPIWithMocks(mockedDataStore)
-		api.EnablePrivateEndpoints = false
 
 		Convey("When created the following routes should have been added", func() {
 			So(hasRoute(api.Router, "/health", "GET"), ShouldBeTrue)
