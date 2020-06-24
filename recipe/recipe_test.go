@@ -9,7 +9,9 @@ import (
 )
 
 var (
-	ctx = context.Background()
+	ctx         = context.Background()
+	falseVal    = false
+	falseValPtr = &falseVal
 )
 
 func createCodeList() CodeList {
