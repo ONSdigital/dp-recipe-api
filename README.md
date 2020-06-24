@@ -29,23 +29,6 @@ one of:
 | HEALTHCHECK_INTERVAL         | 30s                                    | The time between calling healthcheck endpoints for check subsystems
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s                                    | The time taken for the health changes from warning state to critical due to subsystem check failures
 
-### Recipe Checker
-
-#### Configuration
-
-| Command line flag    | Default                                   | Description
-| -------------------- | ----------------------------------------- | -----------
-| bind                 | :2222                                     | The host and port to bind to
-| dev                  | ""                                        | The host for the develop environment
-| beta                 | ""                                        | The host for the production environment
-
-Using the [Makefile](Makefile) target `make checker` the environment flags will not be set by default.
-The Makefile reads these flags from local environment variables to prevent internal hostnames
-being committed. The environment variables you will need to set are:
-
-`export $CMD_DEV_API_HOST=<cmd-dev host>`
-`export $CMD_API_HOST=<cmd host>`
-
 ### Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md) for details.
