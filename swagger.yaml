@@ -33,8 +33,8 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/UpdateRecipe'
-  instance_id:
-    name: instance_id
+  dataset_id:
+    name: dataset_id
     description: "An id for an instance in the recipe"
     type: string
     in: path
@@ -53,22 +53,22 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/UpdateInstance'
-  codelist_id:
-    name: codelist_id
+  code_list_id:
+    name: code_list_id
     description: "An id for codelist in an instance of a recipe"
     type: string
     in: path
     required: true
-  new_codelist:
-    name: codelist
-    description: "A new codelist"
+  new_code_list:
+    name: code-list
+    description: "A new code list"
     in: body
     required: true
     schema:
-      $ref: '#/definitions/AddCodelist'
-  codelist_update:
-    name: codelist_updates
-    description: "Update of codelist in instance in existing recipe"
+      $ref: '#/definitions/AddCodeList'
+  code_list_update:
+    name: code_list_updates
+    description: "Update of code list in instance in existing recipe"
     in: body
     required: true
     schema:
@@ -203,7 +203,7 @@ paths:
           $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
-  /recipes/{recipe_id}/instances/{instance_id}:
+  /recipes/{recipe_id}/instances/{dataset_id}:
     put:
       tags:
         - Private
@@ -212,7 +212,7 @@ paths:
         Update an instance of recipe by getting the specific instance and recipe by id and update in mongo
       parameters:
       - $ref: '#/parameters/recipe_id' 
-      - $ref: '#/parameters/instance_id' 
+      - $ref: '#/parameters/dataset_id' 
       - $ref: '#/parameters/instance_update'
       produces:
       - "application/json"
@@ -229,53 +229,53 @@ paths:
           description: "Recipe not found"
         500:
           $ref: '#/responses/InternalError'
-  /recipes/{recipe_id}/instances/{instance_id}/codelists:
+  /recipes/{recipe_id}/instances/{dataset_id}/code-lists:
     post:
       tags:
         - Private
-      summary: "Create a codelist"
+      summary: "Create a code list"
       description: |
         Create a codelist for an instance in recipe and add to mongo
       parameters:
       - $ref: '#/parameters/recipe_id'
-      - $ref: '#/parameters/instance_id'
-      - $ref: '#/parameters/new_codelist'
+      - $ref: '#/parameters/dataset_id'
+      - $ref: '#/parameters/new_code_list'
       security:
         - ServiceToken: []
       produces:
       - "application/json"
       responses:
         200:
-          description: "A json object of specific recipe with new added codelist in specific instance"
+          description: "A json object of specific recipe with new added code list in specific instance"
           schema:
             $ref: '#/definitions/Recipe'
         400:
-          description: "An incomplete/invalid codelist entered in request to be added to mongo"
+          description: "An incomplete/invalid code list entered in request to be added to mongo"
         401:
           $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
-  /recipes/{recipe_id}/instances/{instance_id}/codelists/{codelist_id}:
+  /recipes/{recipe_id}/instances/{dataset_id}/code-lists/{code_list_id}:
     put:
       tags:
         - Private
-      summary: "Update a codelist"
+      summary: "Update a code list"
       description: |
-        Update an codelist of a specific instance in the specific recipe and update in mongo
+        Update an code list of a specific instance in the specific recipe and update in mongo
       parameters:
       - $ref: '#/parameters/recipe_id' 
-      - $ref: '#/parameters/instance_id' 
-      - $ref: '#/parameters/codelist_id'
-      - $ref: '#/parameters/codelist_update'
+      - $ref: '#/parameters/dataset_id' 
+      - $ref: '#/parameters/code_list_id'
+      - $ref: '#/parameters/code_list_update'
       security:
         - ServiceToken: []
       produces:
       - "application/json"
       responses:
         200:
-          description: "Specific recipe updated successfully with given codelist updates"
+          description: "Specific recipe updated successfully with given code list updates"
         400:
-          description: "An incomplete/invalid codelist entered in request to be updated to mongo"
+          description: "An incomplete/invalid code list entered in request to be updated to mongo"
         401:
           $ref: '#/responses/AuthorisationError'
         500:
@@ -328,7 +328,7 @@ definitions:
         type: string
         description: "The recipe format"
         enum: ["v4"]
-      input_files:
+      files:
         type: array
         items: 
           $ref: '#/definitions/InputFile'
@@ -385,8 +385,8 @@ definitions:
       href:
         type: string
         description: "A URL to the code list"
-        example: "http://localhost/code-lists/e44de4c4-d39e-4e2f-942b-3ca10584d0782"
-      isHierarchy:
+        example: "http://localhost:22300/code-lists/e44de4c4-d39e-4e2f-942b-3ca10584d0782"
+      is_hierarchy:
         type: boolean
         description: "A bool to inform if there is hierarchy for codelist"
   AddRecipe:
@@ -425,7 +425,7 @@ definitions:
         type: array
         description: "A list of all code lists within this instance"
         items:
-          $ref: '#/definitions/AddAllCodelist'
+          $ref: '#/definitions/AddAllCodeList'
   UpdateInstance:
     allOf: 
       - $ref: '#/definitions/Instance'
@@ -434,20 +434,20 @@ definitions:
         type: array
         description: "A list of all code lists within this instance"
         items:
-          $ref: '#/definitions/AddAllCodelist'
-  AddAllCodelist:
+          $ref: '#/definitions/AddAllCodeList'
+  AddAllCodeList:
     required:
       - id
       - name
-      - isHierarchy
+      - is_hierarchy
       - href
     allOf: 
       - $ref: '#/definitions/CodeList'
-  AddCodelist:
+  AddCodeList:
     required:
       - id
       - name
-      - isHierarchy
+      - is_hierarchy
     allOf: 
       - $ref: '#/definitions/CodeList'
   Health:
