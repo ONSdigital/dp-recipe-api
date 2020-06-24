@@ -36,10 +36,9 @@ func GetAPIWithMocks(mockedDataStore store.Storer) *RecipeAPI {
 	ctx := context.Background()
 	cfg, err := config.Get()
 	So(err, ShouldBeNil)
-	recipePermissionsMock := getAuthorisationHandlerMock()
 	permissionsMock := getAuthorisationHandlerMock()
 
-	return NewRecipeAPI(ctx, *cfg, mux.NewRouter(), store.DataStore{Backend: mockedDataStore}, recipePermissionsMock, permissionsMock)
+	return NewRecipeAPI(ctx, *cfg, mux.NewRouter(), store.DataStore{Backend: mockedDataStore}, permissionsMock)
 }
 
 func hasRoute(r *mux.Router, path, method string) bool {

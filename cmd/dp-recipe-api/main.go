@@ -9,7 +9,6 @@ import (
 	"github.com/ONSdigital/dp-authorisation/auth"
 	rchttp "github.com/ONSdigital/dp-rchttp"
 	"github.com/ONSdigital/log.go/log"
-	"github.com/gorilla/mux"
 
 	"os"
 	"os/signal"
@@ -100,8 +99,8 @@ func main() {
 	hc.Start(ctx)
 
 	apiErrors := make(chan error, 1)
-	recipePermissions, permissions := getAuthorisationHandlers(ctx, cfg)
-	api.CreateAndInitialiseRecipeAPI(ctx, *cfg, *datastore, &hc, apiErrors, recipePermissions, permissions)
+	permissions := getAuthorisationHandlers(ctx, cfg)
+	api.CreateAndInitialiseRecipeAPI(ctx, *cfg, *datastore, &hc, apiErrors, permissions)
 
 	// block until a fatal error occurs
 	select {
@@ -157,18 +156,11 @@ func main() {
 
 }
 
-func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) (api.AuthHandler, api.AuthHandler) {
+func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) api.AuthHandler {
 	auth.LoggerNamespace("dp-recipe-api-auth")
 
 	authClient := auth.NewPermissionsClient(rchttp.NewClient())
 	authVerifier := auth.DefaultPermissionsVerifier()
-
-	// for checking caller permissions when we have a recipeID, collection ID and user/service token
-	recipePermissions := auth.NewHandler(
-		auth.NewDatasetPermissionsRequestBuilder(cfg.ZebedeeURL, "id", mux.Vars),
-		authClient,
-		authVerifier,
-	)
 
 	// for checking caller permissions when we only have a user/service token
 	permissions := auth.NewHandler(
@@ -177,7 +169,7 @@ func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) (a
 		authVerifier,
 	)
 
-	return recipePermissions, permissions
+	return permissions
 }
 
 // registerCheckers adds the checkers for the provided clients to the health check object

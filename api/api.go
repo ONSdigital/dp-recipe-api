@@ -30,16 +30,16 @@ type AuthHandler interface {
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
-	dataStore              store.DataStore
-	Router                 *mux.Router
-	recipePermissions      AuthHandler
-	permissions            AuthHandler
+	dataStore         store.DataStore
+	Router            *mux.Router
+	recipePermissions AuthHandler
+	permissions       AuthHandler
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
-func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck, errorChan chan error, recipePermissions AuthHandler, permissions AuthHandler) {
+func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck, errorChan chan error, permissions AuthHandler) {
 	router := mux.NewRouter()
-	api := NewRecipeAPI(ctx, cfg, router, dataStore, recipePermissions, permissions)
+	api := NewRecipeAPI(ctx, cfg, router, dataStore, permissions)
 
 	healthcheckHandler := newMiddleware(hc.Handler)
 	middleware := alice.New(healthcheckHandler)
@@ -59,23 +59,22 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 }
 
 //NewRecipeAPI create a new Recipe API instance and register the API routes based on the application configuration.
-func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore, recipePermissions AuthHandler, permissions AuthHandler) *RecipeAPI {
+func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore, permissions AuthHandler) *RecipeAPI {
 	api := &RecipeAPI{
-		dataStore:              dataStore,
-		Router:                 router,
-		recipePermissions:      recipePermissions,
-		permissions:            permissions,
+		dataStore:   dataStore,
+		Router:      router,
+		permissions: permissions,
 	}
 
 	api.get("/health", api.HealthCheck)
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
 	api.post("/recipes", permissions.Require(create, api.AddRecipeHandler))
-	api.post("/recipes/{id}/instances", recipePermissions.Require(create, api.AddInstanceHandler))
-	api.post("/recipes/{id}/instances/{instance_id}/codelists", recipePermissions.Require(create, api.AddCodelistHandler))
-	api.put("/recipes/{id}", recipePermissions.Require(update, api.UpdateRecipeHandler))
-	api.put("/recipes/{id}/instances/{instance_id}", recipePermissions.Require(update, api.UpdateInstanceHandler))
-	api.put("/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", recipePermissions.Require(update, api.UpdateCodelistHandler))
+	api.post("/recipes/{id}/instances", permissions.Require(create, api.AddInstanceHandler))
+	api.post("/recipes/{id}/instances/{instance_id}/codelists", permissions.Require(create, api.AddCodelistHandler))
+	api.put("/recipes/{id}", permissions.Require(update, api.UpdateRecipeHandler))
+	api.put("/recipes/{id}/instances/{instance_id}", permissions.Require(update, api.UpdateInstanceHandler))
+	api.put("/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", permissions.Require(update, api.UpdateCodelistHandler))
 	return api
 }
 
