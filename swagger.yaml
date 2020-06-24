@@ -134,7 +134,7 @@ paths:
           $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
-  /recipes/recipe_id:
+  /recipes/{recipe_id}:
     get:
       tags:
         - Public
@@ -178,7 +178,7 @@ paths:
           description: "Recipe not found"
         500:
           $ref: '#/responses/InternalError'
-  /recipes/recipe_id/instances:
+  /recipes/{recipe_id}/instances:
     post:
       tags:
         - Private
@@ -203,7 +203,7 @@ paths:
           $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
-  /recipes/recipe_id/instances/instance_id:
+  /recipes/{recipe_id}/instances/{instance_id}:
     put:
       tags:
         - Private
@@ -229,7 +229,7 @@ paths:
           description: "Recipe not found"
         500:
           $ref: '#/responses/InternalError'
-  /recipes/recipe_id/instances/instance_id/codelists:
+  /recipes/{recipe_id}/instances/{instance_id}/codelists:
     post:
       tags:
         - Private
@@ -255,7 +255,7 @@ paths:
           $ref: '#/responses/AuthorisationError'
         500:
           $ref: '#/responses/InternalError'
-  /recipes/recipe_id/instances/instance_id/codelists/codelist_id:
+  /recipes/{recipe_id}/instances/{instance_id}/codelists/{codelist_id}:
     put:
       tags:
         - Private
