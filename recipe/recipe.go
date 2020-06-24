@@ -135,7 +135,7 @@ func (codelist *CodeList) validateCodelistHRef(ctx context.Context) bool {
 		return false
 	}
 	urlPathBool := strings.Contains(hRefURL.Path, "/code-lists") && strings.Contains(hRefURL.Path, codelist.ID)
-	if hRefURL.Scheme == "http" && hRefURL.Host == "localhost:22400" && urlPathBool {
+	if hRefURL.Scheme != "" && hRefURL.Host != "" && urlPathBool {
 		return true
 	}
 	return false
