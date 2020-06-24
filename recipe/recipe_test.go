@@ -85,21 +85,21 @@ func TestValidateInstance(t *testing.T) {
 			So(invalidFields, ShouldBeNil)
 		})
 
-		Convey("when codelists is missing", func() {
+		Convey("when code lists is missing", func() {
 			instance := createInstance()
 			instance.CodeLists = nil
 			missingFields, invalidFields := instance.validateInstance(ctx)
 			So(missingFields, ShouldNotBeNil)
-			So(missingFields, ShouldResemble, []string{"codelists"})
+			So(missingFields, ShouldResemble, []string{"code-lists"})
 			So(invalidFields, ShouldBeNil)
 		})
 
-		Convey("when any field of codelists is missing", func() {
+		Convey("when any field of code lists is missing", func() {
 			instance := createInstance()
 			instance.CodeLists[0].Name = ""
 			missingFields, invalidFields := instance.validateInstance(ctx)
 			So(missingFields, ShouldNotBeNil)
-			So(missingFields, ShouldResemble, []string{"codelists[0].name"})
+			So(missingFields, ShouldResemble, []string{"code-lists[0].name"})
 			So(invalidFields, ShouldBeNil)
 
 			instance.CodeLists[0].Name = "codelist-test" //Reset to original
@@ -120,13 +120,13 @@ func TestValidateInstance(t *testing.T) {
 
 	Convey("Non-empty invalid field successfully returned", t, func() {
 
-		Convey("when codelists.href is incorrectly entered", func() {
+		Convey("when code-lists.href is incorrectly entered", func() {
 			instance := createInstance()
 			instance.CodeLists[0].HRef = "incorrect-href"
 			missingFields, invalidFields := instance.validateInstance(ctx)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldNotBeNil)
-			So(invalidFields, ShouldResemble, []string{"codelists[0].href should be in format (URL/id)"})
+			So(invalidFields, ShouldResemble, []string{"code-lists[0].href should be in format (URL/id)"})
 
 			instance.CodeLists[0].HRef = "http://localhost:22400/code-lists/789" //Reset
 		})
@@ -135,7 +135,7 @@ func TestValidateInstance(t *testing.T) {
 
 	Convey("Empty invalid field successfully returned", t, func() {
 
-		Convey("when codelists.href is correctly entered", func() {
+		Convey("when code-lists.href is correctly entered", func() {
 			instance := createInstance()
 			instance.CodeLists[0].HRef = "http://localhost:22400/code-lists/789"
 			missingFields, invalidFields := instance.validateInstance(ctx)
@@ -355,12 +355,12 @@ func TestValidateAddRecipe(t *testing.T) {
 
 	Convey("Error returned with invalid field", t, func() {
 
-		Convey("when output-instances.codelists.href is incorrectly entered", func() {
+		Convey("when output-instances.code-lists.href is incorrectly entered", func() {
 			recipe := createRecipeData()
 			recipe.OutputInstances[0].CodeLists[0].HRef = "incorrect-href"
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("invalid fields: [output-instances[0].codelists[0].href should be in format (URL/id)]").Error())
+			So(err.Error(), ShouldResemble, errors.New("invalid fields: [output-instances[0].code-lists[0].href should be in format (URL/id)]").Error())
 
 			recipe.OutputInstances[0].CodeLists[0].HRef = "http://localhost:22400/code-lists/789" //Reset to original
 		})
@@ -384,7 +384,7 @@ func TestValidateAddRecipe(t *testing.T) {
 			So(err, ShouldBeNil)
 		})
 
-		Convey("when output-instances.codelists.href is correctly entered", func() {
+		Convey("when output-instances.code-lists.href is correctly entered", func() {
 			recipe := createRecipeData()
 			recipe.OutputInstances[0].CodeLists[0].HRef = "http://localhost:22400/code-lists/789"
 			err := recipe.ValidateAddRecipe(ctx)
@@ -479,7 +479,7 @@ func TestValidateUpdateRecipe(t *testing.T) {
 			recipe.OutputInstances[0].CodeLists[0].HRef = "incorrect-href"
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("invalid fields: [output-instances[0].codelists[0].href should be in format (URL/id)]").Error())
+			So(err.Error(), ShouldResemble, errors.New("invalid fields: [output-instances[0].code-lists[0].href should be in format (URL/id)]").Error())
 
 			recipe.OutputInstances[0].CodeLists[0].HRef = "http://localhost:22400/code-lists/789" //Reset to original
 		})
@@ -564,20 +564,20 @@ func TestValidateAddInstance(t *testing.T) {
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [title]").Error())
 		})
 
-		Convey("when codelists is missing", func() {
+		Convey("when code lists is missing", func() {
 			instance := createInstance()
 			instance.CodeLists = nil
 			err := instance.ValidateAddInstance(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [codelists]").Error())
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists]").Error())
 		})
 
-		Convey("when any field of codelists is missing", func() {
+		Convey("when any field of code lists is missing", func() {
 			instance := createInstance()
 			instance.CodeLists[0].Name = ""
 			err := instance.ValidateAddInstance(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [codelists[0].name]").Error())
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists[0].name]").Error())
 
 			instance.CodeLists[0].Name = "codelist-test" //Reset to original
 		})
@@ -596,12 +596,12 @@ func TestValidateAddInstance(t *testing.T) {
 
 	Convey("Non-empty invalid field successfully returned", t, func() {
 
-		Convey("when codelists.href is incorrectly entered", func() {
+		Convey("when code-lists.href is incorrectly entered", func() {
 			instance := createInstance()
 			instance.CodeLists[0].HRef = "incorrect-href"
 			err := instance.ValidateAddInstance(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("invalid fields: [codelists[0].href should be in format (URL/id)]").Error())
+			So(err.Error(), ShouldResemble, errors.New("invalid fields: [code-lists[0].href should be in format (URL/id)]").Error())
 
 			instance.CodeLists[0].HRef = "http://localhost:22400/code-lists/789" //Reset
 		})
@@ -610,7 +610,7 @@ func TestValidateAddInstance(t *testing.T) {
 
 	Convey("Empty invalid field successfully returned", t, func() {
 
-		Convey("when codelists.href is correctly entered", func() {
+		Convey("when code-lists.href is correctly entered", func() {
 			instance := createInstance()
 			instance.CodeLists[0].HRef = "http://localhost:22400/code-lists/789"
 			err := instance.ValidateAddInstance(ctx)
@@ -643,12 +643,12 @@ func TestValidateUpdateInstance(t *testing.T) {
 			instance.Editions = []string{"editions"} //Reset
 		})
 
-		Convey("when any codelists fields is missing", func() {
+		Convey("when any code lists fields is missing", func() {
 			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			instance.CodeLists[0].Name = ""
 			err := instance.ValidateUpdateInstance(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [codelists[0].name]").Error())
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists[0].name]").Error())
 
 			instance.CodeLists[0].Name = "codelist-test" //Reset
 		})
@@ -663,7 +663,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 			So(err, ShouldBeNil)
 		})
 
-		Convey("when all codelists fields are not missing", func() {
+		Convey("when all code lists fields are not missing", func() {
 			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			err := instance.ValidateUpdateInstance(ctx)
 			So(err, ShouldBeNil)
@@ -680,12 +680,12 @@ func TestValidateUpdateInstance(t *testing.T) {
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [no instance fields updates given]").Error())
 		})
 
-		Convey("when any codelists fields is invalid", func() {
+		Convey("when any code lists fields is invalid", func() {
 			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			instance.CodeLists[0].HRef = "incorrect-href"
 			err := instance.ValidateUpdateInstance(ctx)
 			So(err, ShouldNotBeNil)
-			So(err.Error(), ShouldResemble, errors.New("invalid fields: [codelists[0].href should be in format (URL/id)]").Error())
+			So(err.Error(), ShouldResemble, errors.New("invalid fields: [code-lists[0].href should be in format (URL/id)]").Error())
 
 			instance.CodeLists[0].HRef = "http://localhost:22400/code-lists/789" //Reset
 		})
@@ -698,9 +698,9 @@ func TestValidateUpdateInstance(t *testing.T) {
 
 			Convey("and dataset-id is not given", func() {
 
-				Convey("and any codelists fields is valid", func() {
+				Convey("and any code lists fields is valid", func() {
 					//createCodeList() is a complete and valid codelist
-					//instance just updating codelists of instance
+					//instance just updating code lists of instance
 					instance := Instance{CodeLists: []CodeList{createCodeList()}}
 					err := instance.ValidateUpdateInstance(ctx)
 					So(err, ShouldBeNil)

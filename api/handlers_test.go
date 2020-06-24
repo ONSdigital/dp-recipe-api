@@ -407,7 +407,7 @@ func TestUpdateInstanceReturnsError(t *testing.T) {
 func TestAddCodelistReturnsOK(t *testing.T) {
 	t.Parallel()
 	Convey("A successful request to add codelist in instance of existing recipe to mongo returns 200 OK response", t, func() {
-		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/codelists", bytes.NewBufferString(codelistTest))
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/code-lists", bytes.NewBufferString(codelistTest))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
@@ -429,7 +429,7 @@ func TestAddCodelistReturnsOK(t *testing.T) {
 func TestAddCodelistReturnsBadRequestError(t *testing.T) {
 	t.Parallel()
 	Convey("A request to process and add an invalid codelist to recipe to mongo returns 400 Bad Request response", t, func() {
-		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/codelists", bytes.NewBufferString(`{"name":"test"}`))
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/code-lists", bytes.NewBufferString(`{"name":"test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
@@ -451,7 +451,7 @@ func TestAddCodelistReturnsBadRequestError(t *testing.T) {
 func TestAddCodelistReturnsError(t *testing.T) {
 	t.Parallel()
 	Convey("When the api cannot add codelist in mongo return an internal server error", t, func() {
-		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/codelists", bytes.NewBufferString(`{`))
+		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/code-lists", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *recipe.Response) error {
@@ -474,7 +474,7 @@ func TestAddCodelistReturnsError(t *testing.T) {
 func TestUpdateCodelistReturnsOK(t *testing.T) {
 	t.Parallel()
 	Convey("A successful request to update codelist of a recipe in mongo returns 200 OK response", t, func() {
-		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/codelists/789", bytes.NewBufferString(`{"name":"Test"}`))
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/code-lists/789", bytes.NewBufferString(`{"name":"Test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
@@ -496,7 +496,7 @@ func TestUpdateCodelistReturnsOK(t *testing.T) {
 func TestUpdateCodelistReturnsBadRequest(t *testing.T) {
 	t.Parallel()
 	Convey("A request to process an invalid update codelist to mongo returns 400 Bad Request response", t, func() {
-		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/codelists/789", bytes.NewBufferString(`{"href":"Test"}`))
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/code-lists/789", bytes.NewBufferString(`{"href":"Test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
@@ -519,7 +519,7 @@ func TestUpdateCodelistReturnsBadRequest(t *testing.T) {
 func TestUpdateCodelistReturnsError(t *testing.T) {
 	t.Parallel()
 	Convey("When the api cannot update codelist in mongo return an internal server error", t, func() {
-		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/codelists/789", bytes.NewBufferString(`{`))
+		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/code-lists/789", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) error {

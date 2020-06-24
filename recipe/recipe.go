@@ -48,7 +48,7 @@ type file struct {
 	Description string `bson:"description,omitempty" json:"description,omitempty"`
 }
 
-//HRefURL - the href of all current codelists
+//HRefURL - the href of all current code lists
 const HRefURL = "http://localhost:22400/code-lists/"
 
 var (
@@ -82,12 +82,12 @@ func (instance *Instance) validateInstance(ctx context.Context) (missingFields [
 
 			if len(codelistMissingFields) > 0 {
 				for _, mField := range codelistMissingFields {
-					codelistMissingFields[i] = "codelists[" + strconv.Itoa(i) + "]." + mField
+					codelistMissingFields[i] = "code-lists[" + strconv.Itoa(i) + "]." + mField
 				}
 			}
 			if len(codelistInvalidFields) > 0 {
 				for _, iField := range codelistInvalidFields {
-					codelistInvalidFields[i] = "codelists[" + strconv.Itoa(i) + "]." + iField
+					codelistInvalidFields[i] = "code-lists[" + strconv.Itoa(i) + "]." + iField
 				}
 			}
 
@@ -95,7 +95,7 @@ func (instance *Instance) validateInstance(ctx context.Context) (missingFields [
 			invalidFields = append(invalidFields, codelistInvalidFields...)
 		}
 	} else {
-		missingFields = append(missingFields, "codelists")
+		missingFields = append(missingFields, "code-lists")
 	}
 
 	return missingFields, invalidFields
@@ -338,12 +338,12 @@ func (instance *Instance) ValidateUpdateInstance(ctx context.Context) error {
 			codelistMissingFields, codelistInvalidFields := codelist.validateCodelist(ctx)
 			if len(codelistMissingFields) > 0 {
 				for _, mField := range codelistMissingFields {
-					codelistMissingFields[i] = "codelists[" + strconv.Itoa(i) + "]." + mField
+					codelistMissingFields[i] = "code-lists[" + strconv.Itoa(i) + "]." + mField
 				}
 			}
 			if len(codelistInvalidFields) > 0 {
 				for _, iField := range codelistInvalidFields {
-					codelistInvalidFields[i] = "codelists[" + strconv.Itoa(i) + "]." + iField
+					codelistInvalidFields[i] = "code-lists[" + strconv.Itoa(i) + "]." + iField
 				}
 			}
 			missingFields = append(missingFields, codelistMissingFields...)
@@ -351,7 +351,7 @@ func (instance *Instance) ValidateUpdateInstance(ctx context.Context) error {
 		}
 	}
 
-	// If any fields missing from the codelists of the instance
+	// If any fields missing from the code lists of the instance
 	if missingFields != nil {
 		return fmt.Errorf("missing mandatory fields: %v", missingFields)
 	}

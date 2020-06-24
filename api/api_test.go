@@ -70,11 +70,11 @@ func TestNewRecipeAPI(t *testing.T) {
 
 			So(hasRoute(api.Router, "/recipes", "POST"), ShouldBeTrue)
 			So(hasRoute(api.Router, "/recipes/{id}/instances", "POST"), ShouldBeTrue)
-			So(hasRoute(api.Router, "/recipes/{id}/instances/{instance_id}/codelists", "POST"), ShouldBeTrue)
+			So(hasRoute(api.Router, "/recipes/{id}/instances/{dataset_id}/code-lists", "POST"), ShouldBeTrue)
 
 			So(hasRoute(api.Router, "/recipes/{id}", "PUT"), ShouldBeTrue)
-			So(hasRoute(api.Router, "/recipes/{id}/instances/{instance_id}", "PUT"), ShouldBeTrue)
-			So(hasRoute(api.Router, "/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", "PUT"), ShouldBeTrue)
+			So(hasRoute(api.Router, "/recipes/{id}/instances/{dataset_id}", "PUT"), ShouldBeTrue)
+			So(hasRoute(api.Router, "/recipes/{id}/instances/{dataset_id}/code-lists/{code_list_id}", "PUT"), ShouldBeTrue)
 		})
 	})
 }

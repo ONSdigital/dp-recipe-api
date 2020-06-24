@@ -205,8 +205,8 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	//Get Update Recipe ID
 	vars := mux.Vars(req)
 	recipeID := vars["id"]
-	instanceID := vars["instance_id"]
-	logD := log.Data{"recipe_id": recipeID, "instance_id": instanceID}
+	instanceID := vars["dataset_id"]
+	logD := log.Data{"recipe_id": recipeID, "dataset_id": instanceID}
 
 	// Read body
 	b, err := ioutil.ReadAll(req.Body)
@@ -330,8 +330,8 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	//Get Update Recipe ID
 	vars := mux.Vars(req)
 	recipeID := vars["id"]
-	instanceID := vars["instance_id"]
-	logD := log.Data{"recipe_id": recipeID, "instance_id": instanceID}
+	instanceID := vars["dataset_id"]
+	logD := log.Data{"recipe_id": recipeID, "dataset_id": instanceID}
 
 	// Read body
 	b, err := ioutil.ReadAll(req.Body)
@@ -351,7 +351,7 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 		return
 	}
 
-	// Validation to check fields of instance and if all the codelists of the instance are entered if update of codelist given
+	// Validation to check fields of instance and if all the code lists of the instance are entered if update of codelist given
 	err = updates.ValidateUpdateInstance(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
@@ -396,9 +396,9 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	//Get Update Recipe ID
 	vars := mux.Vars(req)
 	recipeID := vars["id"]
-	instanceID := vars["instance_id"]
-	codelistID := vars["codelist_id"]
-	logD := log.Data{"recipe_id": recipeID, "instance_id": instanceID, "codelist_id": codelistID}
+	instanceID := vars["dataset_id"]
+	codelistID := vars["code_list_id"]
+	logD := log.Data{"recipe_id": recipeID, "dataset_id": instanceID, "code_list_id": codelistID}
 
 	// Read body
 	b, err := ioutil.ReadAll(req.Body)

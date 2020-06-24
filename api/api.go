@@ -71,10 +71,10 @@ func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Rou
 	api.get("/recipes/{id}", api.RecipeHandler)
 	api.post("/recipes", permissions.Require(create, api.AddRecipeHandler))
 	api.post("/recipes/{id}/instances", permissions.Require(create, api.AddInstanceHandler))
-	api.post("/recipes/{id}/instances/{instance_id}/codelists", permissions.Require(create, api.AddCodelistHandler))
+	api.post("/recipes/{id}/instances/{dataset_id}/code-lists", permissions.Require(create, api.AddCodelistHandler))
 	api.put("/recipes/{id}", permissions.Require(update, api.UpdateRecipeHandler))
-	api.put("/recipes/{id}/instances/{instance_id}", permissions.Require(update, api.UpdateInstanceHandler))
-	api.put("/recipes/{id}/instances/{instance_id}/codelists/{codelist_id}", permissions.Require(update, api.UpdateCodelistHandler))
+	api.put("/recipes/{id}/instances/{dataset_id}", permissions.Require(update, api.UpdateInstanceHandler))
+	api.put("/recipes/{id}/instances/{dataset_id}/code-lists/{code_list_id}", permissions.Require(update, api.UpdateCodelistHandler))
 	return api
 }
 
