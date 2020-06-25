@@ -16,9 +16,6 @@ build:
 	@mkdir -p $(BUILD_ARCH)/$(BIN_DIR)
 	go build $(LDFLAGS) -o $(BUILD_ARCH)/$(BIN_DIR)/dp-recipe-api cmd/dp-recipe-api/main.go
 
-checker:
-	go run $(LDFLAGS) cmd/recipe-checker/main.go --dev="$(CMD_DEV_API_HOST)" --beta="$(CMD_API_HOST)"
-
 debug:
 	HUMAN_LOG=1 go run -race $(LDFLAGS) cmd/dp-recipe-api/main.go
 

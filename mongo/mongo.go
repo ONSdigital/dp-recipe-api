@@ -3,6 +3,7 @@ package mongo
 import (
 	"context"
 	"errors"
+	"strconv"
 
 	"github.com/globalsign/mgo"
 
@@ -81,4 +82,42 @@ func (m *Mongo) AddRecipe(item recipe.Response) error {
 	defer s.Close()
 	_, err := s.DB(m.Database).C(m.Collection).UpsertId(item.ID, item)
 	return err
+}
+
+//UpdateAllRecipe updates an existing recipe document
+func (m *Mongo) UpdateAllRecipe(id string, update bson.M) (err error) {
+	s := m.Session.Copy()
+	defer s.Close()
+
+	err = s.DB(m.Database).C("recipes").UpdateId(id, update)
+	if err != nil {
+		if err == mgo.ErrNotFound {
+			return errs.ErrRecipeNotFound
+		}
+	}
+	return err
+}
+
+//UpdateRecipe prepares updates in bson.M and then updates existing recipe document
+func (m *Mongo) UpdateRecipe(recipeID string, updates recipe.Response) (err error) {
+	update := bson.M{"$set": updates}
+	return m.UpdateAllRecipe(recipeID, update)
+}
+
+//UpdateInstance updates specific instance to existing recipe document
+func (m *Mongo) UpdateInstance(recipeID string, instanceIndex int, updates recipe.Instance) (err error) {
+	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): updates}}
+	return m.UpdateAllRecipe(recipeID, update)
+}
+
+//AddCodelist adds codelist to a specific instance in existing recipe document
+func (m *Mongo) AddCodelist(recipeID string, instanceIndex int, currentRecipe *recipe.Response) (err error) {
+	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): currentRecipe}}
+	return m.UpdateAllRecipe(recipeID, update)
+}
+
+//UpdateCodelist updates specific codelist of a specific instance in existing recipe document
+func (m *Mongo) UpdateCodelist(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) (err error) {
+	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex) + ".code_lists." + strconv.Itoa(codelistIndex): updates}}
+	return m.UpdateAllRecipe(recipeID, update)
 }

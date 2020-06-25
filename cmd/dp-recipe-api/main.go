@@ -6,11 +6,15 @@ import (
 	"fmt"
 	"syscall"
 
+	"github.com/ONSdigital/dp-authorisation/auth"
+	rchttp "github.com/ONSdigital/dp-rchttp"
 	"github.com/ONSdigital/log.go/log"
 
 	"os"
 	"os/signal"
 
+	"github.com/ONSdigital/dp-api-clients-go/zebedee"
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
 	mongolib "github.com/ONSdigital/dp-mongodb"
 	mongoHealth "github.com/ONSdigital/dp-mongodb/health"
@@ -64,11 +68,6 @@ func main() {
 	}
 
 	hc := health.New(versionInfo, cfg.HealthCheckCriticalTimeout, cfg.HealthCheckInterval)
-
-	//Feature Flag for Mongo Connection
-	enableMongoData := cfg.MongoConfig.EnableMongoData
-	enableMongoImport := cfg.MongoConfig.EnableMongoImport
-
 	datastore := &store.DataStore{Backend: nil}
 
 	mongodb := &mongo.Mongo{
@@ -78,44 +77,30 @@ func main() {
 	}
 
 	var err error
-	if enableMongoData || enableMongoImport {
-
-		mongodb.Session, err = mongodb.Init()
-		if err != nil {
-			log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
-			os.Exit(1)
-		} else {
-			log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{
-				"mongo_bind_address": mongodb.URI,
-			})
-		}
-
-		mongoClient := mongoHealth.NewClient(mongodb.Session)
-
-		mongoHealth := mongoHealth.CheckMongoClient{
-			Client:      *mongoClient,
-			Healthcheck: mongoClient.Healthcheck,
-		}
-
-		//Create RecipeAPI instance with Mongo in datastore
-		datastore.Backend = RecipeAPIStore{mongodb}
-
-		if err = hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
-			log.Event(ctx, "failed to add mongoDB checker", log.ERROR, log.Error(err))
-			os.Exit(1)
-		}
-	}
-
-	if !enableMongoData {
-		log.Event(ctx, "using recipes from data.go", log.INFO, log.Data{
-			"bind_address": cfg.BindAddr,
+	mongodb.Session, err = mongodb.Init()
+	if err != nil {
+		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
+		os.Exit(1)
+	} else {
+		log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{
+			"mongo_bind_address": mongodb.URI,
 		})
 	}
+
+	mongoClient := mongoHealth.NewClient(mongodb.Session)
+	zebedeeClient := zebedee.New(cfg.ZebedeeURL)
+
+	// Add dataset API and graph checks
+	registerCheckers(ctx, &hc, mongoClient, zebedeeClient)
+
+	//Create RecipeAPI instance with Mongo in datastore
+	datastore.Backend = RecipeAPIStore{mongodb}
 
 	hc.Start(ctx)
 
 	apiErrors := make(chan error, 1)
-	api.CreateAndInitialiseRecipeAPI(ctx, *cfg, *datastore, &hc, apiErrors)
+	permissions := getAuthorisationHandlers(ctx, cfg)
+	api.CreateAndInitialiseRecipeAPI(ctx, *cfg, *datastore, &hc, apiErrors, permissions)
 
 	// block until a fatal error occurs
 	select {
@@ -144,11 +129,9 @@ func main() {
 			hasShutdownError = true
 		}
 
-		if enableMongoData {
-			if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
-				log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
-				hasShutdownError = true
-			}
+		if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
+			log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
+			hasShutdownError = true
 		}
 
 		log.Event(shutdownContext, "shutdown complete", log.INFO)
@@ -171,4 +154,43 @@ func main() {
 
 	os.Exit(0)
 
+}
+
+func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) api.AuthHandler {
+	auth.LoggerNamespace("dp-recipe-api-auth")
+
+	authClient := auth.NewPermissionsClient(rchttp.NewClient())
+	authVerifier := auth.DefaultPermissionsVerifier()
+
+	// for checking caller permissions when we only have a user/service token
+	permissions := auth.NewHandler(
+		auth.NewPermissionsRequestBuilder(cfg.ZebedeeURL),
+		authClient,
+		authVerifier,
+	)
+
+	return permissions
+}
+
+// registerCheckers adds the checkers for the provided clients to the health check object
+func registerCheckers(ctx context.Context, hc *healthcheck.HealthCheck, mongoClient *mongoHealth.Client, zebedeeClient *zebedee.Client) {
+	var hasErrors bool
+	if err := hc.AddCheck("Zebedee", zebedeeClient.Checker); err != nil {
+		hasErrors = true
+		log.Event(ctx, "error adding check for zebedeee", log.ERROR, log.Error(err))
+	}
+
+	mongoHealth := mongoHealth.CheckMongoClient{
+		Client:      *mongoClient,
+		Healthcheck: mongoClient.Healthcheck,
+	}
+	if err := hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
+		hasErrors = true
+		log.Event(ctx, "error adding mongoDB checker", log.FATAL, log.Error(err))
+		os.Exit(1)
+	}
+
+	if hasErrors {
+		log.Event(ctx, "error registering checkers for healthcheck", log.ERROR)
+	}
 }

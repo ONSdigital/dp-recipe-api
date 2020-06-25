@@ -1,9 +1,12 @@
 package api
 
+//go:generate moq -out mock/mockauth.go -pkg mock . AuthHandler
+
 import (
 	"context"
 	"net/http"
 
+	"github.com/ONSdigital/dp-authorisation/auth"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/store"
@@ -13,20 +16,29 @@ import (
 	"github.com/justinas/alice"
 )
 
-var srv *server.Server
+var (
+	srv *server.Server
+
+	create = auth.Permissions{Create: true}
+	update = auth.Permissions{Update: true}
+)
+
+// AuthHandler provides authorisation checks on requests
+type AuthHandler interface {
+	Require(required auth.Permissions, handler http.HandlerFunc) http.HandlerFunc
+}
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
-	dataStore         store.DataStore
-	Router            *mux.Router
-	EnableMongoData   bool
-	EnableMongoImport bool
+	dataStore   store.DataStore
+	Router      *mux.Router
+	permissions AuthHandler
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
-func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck, errorChan chan error) {
+func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration, dataStore store.DataStore, hc *healthcheck.HealthCheck, errorChan chan error, permissions AuthHandler) {
 	router := mux.NewRouter()
-	api := NewRecipeAPI(ctx, cfg, router, dataStore)
+	api := NewRecipeAPI(ctx, cfg, router, dataStore, permissions)
 
 	healthcheckHandler := newMiddleware(hc.Handler)
 	middleware := alice.New(healthcheckHandler)
@@ -46,29 +58,41 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 }
 
 //NewRecipeAPI create a new Recipe API instance and register the API routes based on the application configuration.
-func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore) *RecipeAPI {
+func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore, permissions AuthHandler) *RecipeAPI {
 	api := &RecipeAPI{
-		dataStore:         dataStore,
-		Router:            router,
-		EnableMongoData:   cfg.MongoConfig.EnableMongoData,
-		EnableMongoImport: cfg.MongoConfig.EnableMongoImport,
+		dataStore:   dataStore,
+		Router:      router,
+		permissions: permissions,
 	}
 
 	api.get("/health", api.HealthCheck)
 	api.get("/recipes", api.RecipeListHandler)
 	api.get("/recipes/{id}", api.RecipeHandler)
-	if api.EnableMongoImport {
-		api.Router.HandleFunc("/allrecipes", api.AddAllRecipeHandler).Methods("POST")
-	}
+	api.post("/recipes", permissions.Require(create, api.AddRecipeHandler))
+	api.post("/recipes/{id}/instances", permissions.Require(create, api.AddInstanceHandler))
+	api.post("/recipes/{id}/instances/{dataset_id}/code-lists", permissions.Require(create, api.AddCodelistHandler))
+	api.put("/recipes/{id}", permissions.Require(update, api.UpdateRecipeHandler))
+	api.put("/recipes/{id}/instances/{dataset_id}", permissions.Require(update, api.UpdateInstanceHandler))
+	api.put("/recipes/{id}/instances/{dataset_id}/code-lists/{code_list_id}", permissions.Require(update, api.UpdateCodelistHandler))
 	return api
 }
 
-// get register a GET http.HandlerFunc.
+//get - register a GET http.HandlerFunc.
 func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
 	api.Router.HandleFunc(path, handler).Methods("GET")
 }
 
-// Close represents the graceful shutting down of the http server
+//post - register a POST http.HandlerFunc.
+func (api *RecipeAPI) post(path string, handler http.HandlerFunc) {
+	api.Router.HandleFunc(path, handler).Methods("POST")
+}
+
+//put - register a PUT http.HandlerFunc.
+func (api *RecipeAPI) put(path string, handler http.HandlerFunc) {
+	api.Router.HandleFunc(path, handler).Methods("PUT")
+}
+
+//Close represents the graceful shutting down of the http server
 func Close(ctx context.Context) error {
 	if err := srv.Shutdown(ctx); err != nil {
 		return err

@@ -7,6 +7,9 @@ info:
   license:
     name: "Open Government Licence v3.0"
     url: "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+tags:
+- name: "Public"
+- name: "Private"
 schemes:
 - "http"
 parameters:
@@ -16,9 +19,86 @@ parameters:
     type: string
     in: path
     required: true
+  new_recipe:
+    name: recipe
+    description: "A new recipe"
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/AddRecipe'
+  recipe_update:
+    name: recipe_updates
+    description: "Update for existing recipe"
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/UpdateRecipe'
+  dataset_id:
+    name: dataset_id
+    description: "An id for an instance in the recipe"
+    type: string
+    in: path
+    required: true
+  new_instance:
+    name: instance
+    description: "A new instance"
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/AddInstance'
+  instance_update:
+    name: instance_updates
+    description: "Update for instance in existing recipe"
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/UpdateInstance'
+  code_list_id:
+    name: code_list_id
+    description: "An id for codelist in an instance of a recipe"
+    type: string
+    in: path
+    required: true
+  new_code_list:
+    name: code-list
+    description: "A new code list"
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/AddCodeList'
+  code_list_update:
+    name: code_list_updates
+    description: "Update of code list in instance in existing recipe"
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/CodeList'
+securityDefinitions:
+  ServiceToken:
+    type: apiKey
+    in: header
+    name: service-token
 paths:
+  /health:
+    get:
+      tags:
+        - Public
+      summary: "Get health of API"
+      description: |
+        Returns a health information of API and list of the health of its dependent services
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Health information and list of dependent services health"
+          schema:
+            $ref: "#/definitions/Health"
+        500:
+          $ref: '#/responses/InternalError'
   /recipes:
     get:
+      tags:
+        - Public
       summary: "Get a list of recipes"
       description: |
         Returns a paged list of recipes
@@ -31,8 +111,33 @@ paths:
             $ref: '#/definitions/RecipeList'
         500:
           $ref: '#/responses/InternalError'
+    post:
+      tags:
+        - Private
+      summary: "Create a recipe"
+      description: |
+        Create a recipe and add to mongo
+      parameters:
+      - $ref: '#/parameters/new_recipe'
+      security:
+        - ServiceToken: []
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "A json object of a recipe which has been created"
+          schema:
+            $ref: '#/definitions/Recipe'
+        400:
+          description: "An incomplete/invalid recipe entered in request to be added to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
+        500:
+          $ref: '#/responses/InternalError'
   /recipes/{recipe_id}:
     get:
+      tags:
+        - Public
       summary: "Get a specific recipe"
       description: |
         Returns a specific recipe
@@ -49,9 +154,138 @@ paths:
           description: "Recipe not found"
         500:
           $ref: '#/responses/InternalError'
+    put:
+      tags:
+        - Private
+      summary: "Update a recipe"
+      description: |
+        Update a recipe by getting the specific recipe by id and update in mongo
+      parameters:
+      - $ref: '#/parameters/recipe_id' 
+      - $ref: '#/parameters/recipe_update'
+      security:
+        - ServiceToken: []
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Specific recipe updated successfully with given recipe updates"
+        400:
+          description: "An incomplete/invalid recipe entered in request to be updated to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
+        404:
+          description: "Recipe not found"
+        500:
+          $ref: '#/responses/InternalError'
+  /recipes/{recipe_id}/instances:
+    post:
+      tags:
+        - Private
+      summary: "Create an instance"
+      description: |
+        Create an instance in the recipe and add to mongo
+      parameters:
+      - $ref: '#/parameters/recipe_id'
+      - $ref: '#/parameters/new_instance'
+      security:
+        - ServiceToken: []
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "A json object of specific recipe with new added instance"
+          schema:
+            $ref: '#/definitions/Recipe'
+        400:
+          description: "An incomplete/invalid instance entered in request to be added to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
+        500:
+          $ref: '#/responses/InternalError'
+  /recipes/{recipe_id}/instances/{dataset_id}:
+    put:
+      tags:
+        - Private
+      summary: "Update an instance"
+      description: |
+        Update an instance of recipe by getting the specific instance and recipe by id and update in mongo
+      parameters:
+      - $ref: '#/parameters/recipe_id' 
+      - $ref: '#/parameters/dataset_id' 
+      - $ref: '#/parameters/instance_update'
+      produces:
+      - "application/json"
+      security:
+        - ServiceToken: []
+      responses:
+        200:
+          description: "Specific recipe updated successfully with given instance updates"
+        400:
+          description: "An incomplete/invalid instance entered in request to be updated to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
+        404:
+          description: "Recipe not found"
+        500:
+          $ref: '#/responses/InternalError'
+  /recipes/{recipe_id}/instances/{dataset_id}/code-lists:
+    post:
+      tags:
+        - Private
+      summary: "Create a code list"
+      description: |
+        Create a codelist for an instance in recipe and add to mongo
+      parameters:
+      - $ref: '#/parameters/recipe_id'
+      - $ref: '#/parameters/dataset_id'
+      - $ref: '#/parameters/new_code_list'
+      security:
+        - ServiceToken: []
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "A json object of specific recipe with new added code list in specific instance"
+          schema:
+            $ref: '#/definitions/Recipe'
+        400:
+          description: "An incomplete/invalid code list entered in request to be added to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
+        500:
+          $ref: '#/responses/InternalError'
+  /recipes/{recipe_id}/instances/{dataset_id}/code-lists/{code_list_id}:
+    put:
+      tags:
+        - Private
+      summary: "Update a code list"
+      description: |
+        Update an code list of a specific instance in the specific recipe and update in mongo
+      parameters:
+      - $ref: '#/parameters/recipe_id' 
+      - $ref: '#/parameters/dataset_id' 
+      - $ref: '#/parameters/code_list_id'
+      - $ref: '#/parameters/code_list_update'
+      security:
+        - ServiceToken: []
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Specific recipe updated successfully with given code list updates"
+        400:
+          description: "An incomplete/invalid code list entered in request to be updated to mongo"
+        401:
+          $ref: '#/responses/AuthorisationError'
+        500:
+          $ref: '#/responses/InternalError'
+  
 responses:
   InternalError:
     description: "Failed to process the request due to an internal error"
+  AuthorisationError:
+    description: "Unauthorisation request as invalid auth token given"
 definitions:
   RecipeList:
     type: object
@@ -84,36 +318,32 @@ definitions:
     properties:
       id:
         type: string
-        readOnly: true
         description: "A unique id for the recipe"
         example: "b944be78-f56d-409b-9ebd-ab2b77ffe187"
       alias:
         type: string
-        readOnly: true
         description: "An alias for the recipe"
         example: "CPI COICOP"
       format:
         type: string
-        readOnly: true
         description: "The recipe format"
-        example: "v4"
-      input_files:
+        enum: ["v4"]
+      files:
         type: array
         items: 
           $ref: '#/definitions/InputFile'
       output_instances:
-        type: array
-        readOnly: true
-        description: "A list of all instances created using this recipe"
-        items:
-          $ref: '#/definitions/Instance'
+          type: array
+          description: "A list of all instances created using this recipe"
+          items:
+            $ref: '#/definitions/Instance'
   InputFile:
     type: object
+    required: [description]
     description: "An input file"
     properties:
       description: 
         type: string
-        readOnly: true
         description: "The description of the input file"
         example: "CPI COICOP v4"
   Instance:
@@ -122,24 +352,21 @@ definitions:
     properties:
       dataset_id:
         type: string
-        readOnly: true
         description: "A unique id for a dataset"
         example: "931a8a2a-0dc8-42b6-a884-7b6054ed3b68"
       editions:
         type: array
-        readOnly: true
+        required: [items]
         description: "Types of editions within the dataset"
         items:
           type: string
-          example: "Time-serie"
+          example: "Time-series"
       title:
         type: string
-        readOnly: true
         description: "The title for the dataset"
         example: "UK consumer price inflation"
       code_lists:
         type: array
-        readOnly: true
         description: "A list of all code lists within this instance"
         items:
           $ref: '#/definitions/CodeList'
@@ -149,11 +376,146 @@ definitions:
     properties:
       id:
         type: string
-        readOnly: true
         description: "A unique id for a single code list"
         example: "e44de4c4-d39e-4e2f-942b-3ca10584d078"
+      name:
+        type: string
+        description: "The name of the codelist"
+        example: "calendar-years"
       href:
         type: string
-        readOnly: true
         description: "A URL to the code list"
-        example: "http://localhost/code-lists/e44de4c4-d39e-4e2f-942b-3ca10584d0782"
+        example: "http://localhost:22300/code-lists/e44de4c4-d39e-4e2f-942b-3ca10584d0782"
+      is_hierarchy:
+        type: boolean
+        description: "A bool to inform if there is hierarchy for codelist"
+  AddRecipe:
+    required:
+      - alias
+      - format
+      - input_files
+      - output_instances
+    allOf: 
+      - $ref: '#/definitions/Recipe'
+    properties:
+      output_instances:
+          type: array
+          description: "A list of all instances created using this recipe"
+          items:
+            $ref: '#/definitions/AddInstance'
+  UpdateRecipe:
+    allOf: 
+      - $ref: '#/definitions/Recipe'
+    properties:
+      output_instances:
+          type: array
+          description: "A list of all instances created using this recipe"
+          items:
+            $ref: '#/definitions/AddInstance'
+  AddInstance:
+    required:
+      - dataset_id
+      - editions
+      - title
+      - code_lists
+    allOf: 
+      - $ref: '#/definitions/Instance'
+    properties:
+      code_lists:
+        type: array
+        description: "A list of all code lists within this instance"
+        items:
+          $ref: '#/definitions/AddAllCodeList'
+  UpdateInstance:
+    allOf: 
+      - $ref: '#/definitions/Instance'
+    properties:
+      code_lists:
+        type: array
+        description: "A list of all code lists within this instance"
+        items:
+          $ref: '#/definitions/AddAllCodeList'
+  AddAllCodeList:
+    required:
+      - id
+      - name
+      - is_hierarchy
+      - href
+    allOf: 
+      - $ref: '#/definitions/CodeList'
+  AddCodeList:
+    required:
+      - id
+      - name
+      - is_hierarchy
+    allOf: 
+      - $ref: '#/definitions/CodeList'
+  Health:
+    type: object
+    properties:
+      status:
+        type: string
+        description: "The status of the API"
+        enum: ["OK", "WARNING", "CRITICAL"]
+      version:
+        type: object
+        properties:
+          build_time:
+            type: string
+            description: "The build date and time of the API"
+            example: "2020-06-11T12:49:20+01:00"
+          git_commit:
+            type: string
+            description: "The git commit hash of the API"
+            example: "7c2febbf2b818175112478d4ffbadbee1b654f63"
+          language:
+            type: string
+            description: "The programming language used to implement API"
+            example: "go"
+          language_version:
+            type: string
+            description: "The version of the programming language used to implement API"
+            example: "go1.14.3"
+          version:
+            type: string
+            description: "The version of API"
+            example: "1.0.0"
+      uptime:
+        type: string
+        description: "The uptime of API"
+        example: "34516"
+      start_time:
+        type: string
+        description: "The start date and time of API running"
+        example: "2020-06-11T11:49:21.520922Z"
+      checks:
+        type: array
+        items:
+          $ref: '#/definitions/HealthChecker'
+  HealthChecker:
+    type: object
+    properties:
+      name:
+        type: string
+        description: "The name of external service used by API"
+        enum: ["mongodb"]
+      status:
+        type: string
+        description: "The status of the external service"
+        enum: ["OK", "WARNING", "CRITICAL"]
+      message:
+        type: string
+        description: "The message status of the external service"
+        example: "mongodb is OK"
+      last_checked:
+        type: string
+        description: "The last health check date and time of the external service"
+        example: "2020-06-11T11:49:50.330089Z"
+      last_success:
+        type: string
+        description: "The last successful health check date and time of the external service"
+        example: "2020-06-11T11:49:50.330089Z"
+      last_failure:
+        type: string
+        description: "The last failed health check date and time of the external service"
+        example: null 
