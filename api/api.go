@@ -30,10 +30,9 @@ type AuthHandler interface {
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
-	dataStore         store.DataStore
-	Router            *mux.Router
-	recipePermissions AuthHandler
-	permissions       AuthHandler
+	dataStore   store.DataStore
+	Router      *mux.Router
+	permissions AuthHandler
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
