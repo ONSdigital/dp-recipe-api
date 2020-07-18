@@ -3,9 +3,7 @@ DP Recipe API
 
 ### Getting started
 
-This repo contains 2 executables - the recipe API and a recipe checker app.
-The recipe API can be run by running `make debug` and the recipe checker can be
-run by running `make checker` (but has some prerequisites, documented below).
+The recipe API can be run by running `make debug`.
 
 ### Healthcheck
 
@@ -28,6 +26,7 @@ one of:
 | GRACEFUL_SHUTDOWN_TIMEOUT    | 5s                                     | The graceful shutdown timeout in seconds
 | HEALTHCHECK_INTERVAL         | 30s                                    | The time between calling healthcheck endpoints for check subsystems
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s                                    | The time taken for the health changes from warning state to critical due to subsystem check failures
+| ZEBEDEE_URL                  | http://localhost:8082                  | The URL to Zebedee (for authentication)
 
 ### Contributing
 
