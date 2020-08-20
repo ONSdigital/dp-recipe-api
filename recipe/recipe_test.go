@@ -410,6 +410,17 @@ func TestValidateUpdateRecipe(t *testing.T) {
 			recipe.OutputInstances[0].Title = "test" //Reset
 		})
 
+		// test fix: non-existant instanceMissingFields[1] was assigned to, instead of [0] - causing panic
+		Convey("when any one field of second output-instance update is missing", func() {
+			recipe := Response{OutputInstances: []Instance{createInstance(), createInstance()}}
+			recipe.OutputInstances[1].Title = ""
+			err := recipe.ValidateUpdateRecipe(ctx)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [output-instances[1].title]").Error())
+
+			recipe.OutputInstances[1].Title = "test" //Reset
+		})
+
 	})
 
 	Convey("Successful with no missing fields (nil error returned)", t, func() {
@@ -651,6 +662,17 @@ func TestValidateUpdateInstance(t *testing.T) {
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists[0].name]").Error())
 
 			instance.CodeLists[0].Name = "codelist-test" //Reset
+		})
+
+		// test fix: non-existant codelistMissingFields[1] was assigned to, instead of [0] - causing panic
+		Convey("when there are two code lists and second has error", func() {
+			instance := Instance{CodeLists: []CodeList{createCodeList(), createCodeList()}}
+			instance.CodeLists[1].Name = ""
+			err := instance.ValidateUpdateInstance(ctx)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists[1].name]").Error())
+
+			instance.CodeLists[1].Name = "codelist-test" //Reset
 		})
 
 	})

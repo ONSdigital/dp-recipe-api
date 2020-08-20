@@ -81,13 +81,13 @@ func (instance *Instance) validateInstance(ctx context.Context) (missingFields [
 			codelistMissingFields, codelistInvalidFields := codelist.validateCodelist(ctx)
 
 			if len(codelistMissingFields) > 0 {
-				for _, mField := range codelistMissingFields {
-					codelistMissingFields[i] = "code-lists[" + strconv.Itoa(i) + "]." + mField
+				for mIndex, mField := range codelistMissingFields {
+					codelistMissingFields[mIndex] = "code-lists[" + strconv.Itoa(i) + "]." + mField
 				}
 			}
 			if len(codelistInvalidFields) > 0 {
-				for _, iField := range codelistInvalidFields {
-					codelistInvalidFields[i] = "code-lists[" + strconv.Itoa(i) + "]." + iField
+				for iIndex, iField := range codelistInvalidFields {
+					codelistInvalidFields[iIndex] = "code-lists[" + strconv.Itoa(i) + "]." + iField
 				}
 			}
 
@@ -173,13 +173,13 @@ func (recipe *Response) ValidateAddRecipe(ctx context.Context) error {
 		for i, instance := range recipe.OutputInstances {
 			instanceMissingFields, instanceInvalidFields := instance.validateInstance(ctx)
 			if len(instanceMissingFields) > 0 {
-				for _, mField := range instanceMissingFields {
-					instanceMissingFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + mField
+				for mIndex, mField := range instanceMissingFields {
+					instanceMissingFields[mIndex] = "output-instances[" + strconv.Itoa(i) + "]." + mField
 				}
 			}
 			if len(instanceInvalidFields) > 0 {
-				for _, iField := range instanceInvalidFields {
-					instanceInvalidFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + iField
+				for iIndex, iField := range instanceInvalidFields {
+					instanceInvalidFields[iIndex] = "output-instances[" + strconv.Itoa(i) + "]." + iField
 				}
 			}
 			missingFields = append(missingFields, instanceMissingFields...)
@@ -279,13 +279,13 @@ func (recipe *Response) ValidateUpdateRecipe(ctx context.Context) error {
 		for i, instance := range recipe.OutputInstances {
 			instanceMissingFields, instanceInvalidFields := instance.validateInstance(ctx)
 			if len(instanceMissingFields) > 0 {
-				for _, mField := range instanceMissingFields {
-					instanceMissingFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + mField
+				for mIndex, mField := range instanceMissingFields {
+					instanceMissingFields[mIndex] = "output-instances[" + strconv.Itoa(i) + "]." + mField
 				}
 			}
 			if len(instanceInvalidFields) > 0 {
-				for _, iField := range instanceInvalidFields {
-					instanceInvalidFields[i] = "output-instances[" + strconv.Itoa(i) + "]." + iField
+				for iIndex, iField := range instanceInvalidFields {
+					instanceInvalidFields[iIndex] = "output-instances[" + strconv.Itoa(i) + "]." + iField
 				}
 			}
 			missingFields = append(missingFields, instanceMissingFields...)
@@ -337,13 +337,13 @@ func (instance *Instance) ValidateUpdateInstance(ctx context.Context) error {
 		for i, codelist := range instance.CodeLists {
 			codelistMissingFields, codelistInvalidFields := codelist.validateCodelist(ctx)
 			if len(codelistMissingFields) > 0 {
-				for _, mField := range codelistMissingFields {
-					codelistMissingFields[i] = "code-lists[" + strconv.Itoa(i) + "]." + mField
+				for mIndex, mField := range codelistMissingFields {
+					codelistMissingFields[mIndex] = "code-lists[" + strconv.Itoa(i) + "]." + mField
 				}
 			}
 			if len(codelistInvalidFields) > 0 {
-				for _, iField := range codelistInvalidFields {
-					codelistInvalidFields[i] = "code-lists[" + strconv.Itoa(i) + "]." + iField
+				for iIndex, iField := range codelistInvalidFields {
+					codelistInvalidFields[iIndex] = "code-lists[" + strconv.Itoa(i) + "]." + iField
 				}
 			}
 			missingFields = append(missingFields, codelistMissingFields...)
