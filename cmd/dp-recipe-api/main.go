@@ -157,8 +157,6 @@ func main() {
 }
 
 func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) api.AuthHandler {
-	auth.LoggerNamespace("dp-recipe-api-auth")
-
 	authClient := auth.NewPermissionsClient(rchttp.NewClient())
 	authVerifier := auth.DefaultPermissionsVerifier()
 
