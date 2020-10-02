@@ -18,9 +18,13 @@ type Configuration struct {
 
 // MongoConfig contains the config required to connect to MongoDB.
 type MongoConfig struct {
-	BindAddr   string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
-	Collection string `envconfig:"MONGODB_COLLECTION"`
-	Database   string `envconfig:"MONGODB_DATABASE"`
+	IsDocumentDB bool   `envconfig:"MONGODB_IS_DOC_DB"`
+	Host         string `envconfig:"MONGODB_HOST" json:"-"`
+	Username     string `envconfig:"MONGODB_USERNAME" json:"-"`
+	Password     string `envconfig:"MONGODB_PASSWORD"   json:"-"`
+	BindAddr     string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
+	Collection   string `envconfig:"MONGODB_COLLECTION"`
+	Database     string `envconfig:"MONGODB_DATABASE"`
 }
 
 var cfg *Configuration
@@ -38,9 +42,13 @@ func Get() (*Configuration, error) {
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,
 		MongoConfig: MongoConfig{
-			BindAddr:   "localhost:27017",
-			Collection: "recipes",
-			Database:   "recipes",
+			IsDocumentDB: false,
+			Host:         "",
+			Username:     "",
+			Password:     "",
+			BindAddr:     "localhost:27017",
+			Collection:   "recipes",
+			Database:     "recipes",
 		},
 	}
 

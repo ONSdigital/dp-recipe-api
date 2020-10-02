@@ -74,6 +74,9 @@ func main() {
 		Collection: cfg.MongoConfig.Collection,
 		Database:   cfg.MongoConfig.Database,
 		URI:        cfg.MongoConfig.BindAddr,
+		Host:       cfg.MongoConfig.Host,
+		Username:   cfg.MongoConfig.Username,
+		Password:   cfg.MongoConfig.Password,
 	}
 
 	var err error

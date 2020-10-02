@@ -2,9 +2,15 @@ package mongo
 
 import (
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"errors"
+	"io/ioutil"
+	"net"
 	"strconv"
+	"time"
 
+	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/globalsign/mgo"
 
 	"github.com/globalsign/mgo/bson"
@@ -20,6 +26,9 @@ type Mongo struct {
 	Database   string
 	Session    *mgo.Session
 	URI        string
+	Username   string
+	Password   string
+	Host       string
 }
 
 // Init creates a new mgo.Session with a strong consistency and a write mode of "majority".
@@ -28,8 +37,39 @@ func (m *Mongo) Init() (session *mgo.Session, err error) {
 		return nil, errors.New("session already exists")
 	}
 
-	if session, err = mgo.Dial(m.URI); err != nil {
+	cfg, err := config.Get()
+	if err != nil {
 		return nil, err
+	}
+
+	if cfg.MongoConfig.IsDocumentDB {
+		tlsConfig, err := getCustomTLSConfig("") // todo
+		if err != nil {
+			return nil, err
+		}
+
+		session, err = mgo.DialWithInfo(&mgo.DialInfo{
+			Addrs:        []string{m.Host},
+			Timeout:      time.Second * 5,
+			Username:     m.Username,
+			Password:     m.Password,
+			ReadTimeout:  time.Second * 3,
+			WriteTimeout: time.Second * 3,
+			ReadPreference: &mgo.ReadPreference{
+				Mode: mgo.SecondaryPreferred,
+			},
+			DialServer: func(addr *mgo.ServerAddr) (net.Conn, error) {
+				return tls.Dial("tcp", m.Host, tlsConfig)
+			},
+		})
+
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		if session, err = mgo.Dial(m.URI); err != nil {
+			return nil, err
+		}
 	}
 
 	session.EnsureSafe(&mgo.Safe{WMode: "majority"})
@@ -120,4 +160,22 @@ func (m *Mongo) AddCodelist(recipeID string, instanceIndex int, currentRecipe *r
 func (m *Mongo) UpdateCodelist(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) (err error) {
 	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex) + ".code_lists." + strconv.Itoa(codelistIndex): updates}}
 	return m.UpdateAllRecipe(recipeID, update)
+}
+
+func getCustomTLSConfig(caFile string) (*tls.Config, error) {
+	tlsConfig := new(tls.Config)
+	certs, err := ioutil.ReadFile(caFile)
+
+	if err != nil {
+		return tlsConfig, err
+	}
+
+	tlsConfig.RootCAs = x509.NewCertPool()
+	ok := tlsConfig.RootCAs.AppendCertsFromPEM(certs)
+
+	if !ok {
+		return tlsConfig, errors.New("failed parsing pem file")
+	}
+
+	return tlsConfig, nil
 }
