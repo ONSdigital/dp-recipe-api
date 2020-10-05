@@ -29,6 +29,7 @@ type Mongo struct {
 	Username   string
 	Password   string
 	Host       string
+	Cert       string
 }
 
 // Init creates a new mgo.Session with a strong consistency and a write mode of "majority".
@@ -43,7 +44,7 @@ func (m *Mongo) Init() (session *mgo.Session, err error) {
 	}
 
 	if cfg.MongoConfig.IsDocumentDB {
-		tlsConfig, err := getCustomTLSConfig("") // todo
+		tlsConfig, err := getCustomTLSConfig(m.Cert)
 		if err != nil {
 			return nil, err
 		}

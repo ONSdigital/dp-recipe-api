@@ -77,6 +77,7 @@ func main() {
 		Host:       cfg.MongoConfig.Host,
 		Username:   cfg.MongoConfig.Username,
 		Password:   cfg.MongoConfig.Password,
+		Cert:       cfg.MongoConfig.Cert,
 	}
 
 	var err error

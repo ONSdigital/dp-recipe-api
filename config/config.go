@@ -22,6 +22,7 @@ type MongoConfig struct {
 	Host         string `envconfig:"MONGODB_HOST" json:"-"`
 	Username     string `envconfig:"MONGODB_USERNAME" json:"-"`
 	Password     string `envconfig:"MONGODB_PASSWORD"   json:"-"`
+	Cert         string `envconfig:"MONGODB_CERT"   json:"-"`
 	BindAddr     string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
 	Collection   string `envconfig:"MONGODB_COLLECTION"`
 	Database     string `envconfig:"MONGODB_DATABASE"`
