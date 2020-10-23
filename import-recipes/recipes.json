@@ -1,0 +1,2636 @@
+[
+  {
+    "alias": "CPIH",
+    "files": [
+      {
+        "description": "CPIH v4"
+      }
+    ],
+    "format": "v4",
+    "_id": "2943f3c5-c3f1-4a9a-aa6e-14d21c33524c",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/mmm-yy",
+            "id": "mmm-yy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/cpih1dim1aggid",
+            "id": "cpih1dim1aggid",
+            "is_hierarchy": true,
+            "name": "aggregate"
+          }
+        ],
+        "dataset_id": "cpih01",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Consumer Prices Index including owner occupiers’ housing costs (CPIH)"
+      }
+    ]
+  },
+  {
+    "alias": "Trade",
+    "files": [
+      {
+        "description": "Trade"
+      }
+    ],
+    "format": "v4",
+    "_id": "9D2BE73A-F3E4-46FD-9495-8AA7E7C7DAE9",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/mmm-yy",
+            "id": "mmm-yy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sitc",
+            "id": "sitc",
+            "is_hierarchy": true,
+            "name": "standardindustrialtradeclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/countries-and-territories",
+            "id": "countries-and-territories",
+            "is_hierarchy": true,
+            "name": "countriesandterritories"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/trade-direction",
+            "id": "trade-direction",
+            "name": "direction"
+          }
+        ],
+        "dataset_id": "trade",
+        "editions": [
+          "time-series"
+        ],
+        "title": "UK Trade in Goods by Country"
+      }
+    ]
+  },
+  {
+    "alias": "Mid-year Population Estimates",
+    "files": [
+      {
+        "description": "Mid-year Population Estimates v4"
+      }
+    ],
+    "format": "v4",
+    "_id": "40AA070E-7A43-4EC5-A1FC-84CEA2BC4461",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/single-year-of-age",
+            "id": "single-year-of-age",
+            "name": "age"
+          }
+        ],
+        "dataset_id": "mid-year-pop-est",
+        "editions": [
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "mid-2018-april-2019-geography",
+          "mid-2019-april-2020-geography"
+        ],
+        "title": "Population Estimates for UK, England and Wales, Scotland and Northern Ireland"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Tables 3",
+    "files": [
+      {
+        "description": "ASHE3"
+      }
+    ],
+    "format": "v4",
+    "_id": "55c24ef5-82fe-4752-9455-a119bac39293",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/soc",
+            "id": "soc",
+            "is_hierarchy": true,
+            "name": "standardoccupationalclassification"
+          }
+        ],
+        "dataset_id": "ashe-tables-3",
+        "editions": [
+          "time-series"
+        ],
+        "title": "ASHE Tables 3"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Table 5",
+    "files": [
+      {
+        "description": "ASHE5Excel"
+      }
+    ],
+    "format": "v4",
+    "_id": "edf7d98c-fd59-4901-a813-87d6aed077d0",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic",
+            "id": "sic",
+            "is_hierarchy": true,
+            "name": "standardindustrialclassification"
+          }
+        ],
+        "dataset_id": "ashe-table-5",
+        "editions": [
+          "time-series"
+        ],
+        "title": "ASHE Table 5"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Tables 7 and 8",
+    "files": [
+      {
+        "description": "ASHE78Excel"
+      }
+    ],
+    "format": "v4",
+    "_id": "8dd6cc0f-54d5-42e2-b186-4c00b00dcb02",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/workplace-or-residence",
+            "id": "workplace-or-residence",
+            "name": "workplaceorresidence"
+          }
+        ],
+        "dataset_id": "ashe-tables-7-and-8",
+        "editions": [
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "time-series"
+        ],
+        "title": "ASHE Tables 7 and 8"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Tables 9 and 10",
+    "files": [
+      {
+        "description": "ASHE910Excel"
+      }
+    ],
+    "format": "v4",
+    "_id": "e8b95232-1135-4bc3-a9f4-ae6551669dba",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/parliamentary-constituencies",
+            "id": "parliamentary-constituencies",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/workplace-or-residence",
+            "id": "workplace-or-residence",
+            "name": "workplaceorresidence"
+          }
+        ],
+        "dataset_id": "ashe-tables-9-and-10",
+        "editions": [
+          "time-series"
+        ],
+        "title": "ASHE Tables 9 and 10"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Tables 11 and 12",
+    "files": [
+      {
+        "description": "ASHE1112Excel"
+      }
+    ],
+    "format": "v4",
+    "_id": "5d3a275f-0ad3-4181-93a5-332f936354f9",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/travel-to-work-area",
+            "id": "travel-to-work-area",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/workplace-or-residence",
+            "id": "workplace-or-residence",
+            "name": "workplaceorresidence"
+          }
+        ],
+        "dataset_id": "ashe-tables-11-and-12",
+        "editions": [
+          "time-series"
+        ],
+        "title": "ASHE Tables 11 and 12"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Tables 20",
+    "files": [
+      {
+        "description": "ASHE20"
+      }
+    ],
+    "format": "v4",
+    "_id": "70cab339-c01a-477a-8e4c-96a261e3595e",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/soc",
+            "id": "soc",
+            "is_hierarchy": true,
+            "name": "standardoccupationalclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          }
+        ],
+        "dataset_id": "ashe-tables-20",
+        "editions": [
+          "time-series"
+        ],
+        "title": "ASHE Tables 20"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Tables 25",
+    "files": [
+      {
+        "description": "ASHE25"
+      }
+    ],
+    "format": "v4",
+    "_id": "3669408a-6705-445c-a1a4-a4c5c75a0346",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sector",
+            "id": "sector",
+            "name": "sector"
+          }
+        ],
+        "dataset_id": "ashe-tables-25",
+        "editions": [
+          "time-series"
+        ],
+        "title": "ASHE Tables 25"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Tables 26",
+    "files": [
+      {
+        "description": "ASHE26"
+      }
+    ],
+    "format": "v4",
+    "_id": "e7fc556a-a71b-44a6-9843-c38e6d4b4e62",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          }
+        ],
+        "dataset_id": "ashe-tables-26",
+        "editions": [
+          "time-series"
+        ],
+        "title": "ASHE Tables 26"
+      }
+    ]
+  },
+  {
+    "alias": "ASHE Tables 27 and 28",
+    "files": [
+      {
+        "description": "ASHE27-28"
+      }
+    ],
+    "format": "v4",
+    "_id": "10213937-4076-4fd9-ba1a-506b2206a71f",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/enterprise-regions",
+            "id": "enterprise-regions",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/working-pattern",
+            "id": "working-pattern",
+            "name": "workingpattern"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/hours-and-earnings",
+            "id": "hours-and-earnings",
+            "name": "hoursandearnings"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/workplace-or-residence",
+            "id": "workplace-or-residence",
+            "name": "workplaceorresidence"
+          }
+        ],
+        "dataset_id": "ashe-tables-27-and-28",
+        "editions": [
+          "time-series"
+        ],
+        "title": "ASHE Tables 27 and 28"
+      }
+    ]
+  },
+  {
+    "alias": "Wellbeing Local Authority",
+    "files": [
+      {
+        "description": "wellbeingExcel"
+      }
+    ],
+    "format": "v4",
+    "_id": "e8238bad-e248-4008-92cf-d29c087741b7",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/yyyy-yy",
+            "id": "yyyy-yy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/wellbeing-estimate",
+            "id": "wellbeing-estimate",
+            "name": "estimate"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/measure-of-wellbeing",
+            "id": "measure-of-wellbeing",
+            "name": "measureofwellbeing"
+          }
+        ],
+        "dataset_id": "wellbeing-local-authority",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Well-being by local authority"
+      }
+    ]
+  },
+  {
+    "alias": "Wellbeing Quarterly",
+    "files": [
+      {
+        "description": "wellbeingquarterly"
+      }
+    ],
+    "format": "v4",
+    "_id": "cc738a86-e14f-4181-93c4-9aab2dac467a",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/yyyy-qq",
+            "id": "yyyy-qq",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/wellbeing-estimate",
+            "id": "wellbeing-estimate",
+            "name": "estimate"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/measure-of-wellbeing",
+            "id": "measure-of-wellbeing",
+            "name": "measureofwellbeing"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/seasonal-adjustment",
+            "id": "seasonal-adjustment",
+            "name": "seasonaladjustment"
+          }
+        ],
+        "dataset_id": "wellbeing-quarterly",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Well-being by quarters"
+      }
+    ]
+  },
+  {
+    "alias": "Children's Well-being Measures",
+    "files": [
+      {
+        "description": "WellbeingChildrens"
+      }
+    ],
+    "format": "v4",
+    "_id": "1a56119b-584b-4455-aa2c-81635d1aec56",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/countries",
+            "id": "countries",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/wellbeing-estimate",
+            "id": "wellbeing-estimate",
+            "name": "estimate"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/measure-of-wellbeing",
+            "id": "measure-of-wellbeing",
+            "name": "measureofwellbeing"
+          }
+        ],
+        "dataset_id": "childrens-wellbeing",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Children's Well-being Measures"
+      }
+    ]
+  },
+  {
+    "alias": "Local authority ageing statistics - principal population estimates",
+    "files": [
+      {
+        "description": "ageingPopulationEstimates"
+      }
+    ],
+    "format": "v4",
+    "_id": "1c5b0a7b-024c-49fe-8446-a66eb9736ed3",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/unit-of-measure",
+            "id": "unit-of-measure",
+            "name": "unitofmeasure"
+          }
+        ],
+        "dataset_id": "ageing-population-estimates",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Local authority ageing statistics, principal population estimates"
+      }
+    ]
+  },
+  {
+    "alias": "Local authority ageing statistics, sex ratios for people aged 65 and over and 85 and over",
+    "files": [
+      {
+        "description": "ageingsexRatios"
+      }
+    ],
+    "format": "v4",
+    "_id": "df8c8df5-484a-4d29-b246-a7720caf2474",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          }
+        ],
+        "dataset_id": "older-people-sex-ratios",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Local authority ageing statistics, sex ratios for people aged 65 and over and 85 and over"
+      }
+    ]
+  },
+  {
+    "alias": "Local authority ageing statistics - net internal migration for people aged 65 and over and 85 and over",
+    "files": [
+      {
+        "description": "ageingNetInternalMigration"
+      }
+    ],
+    "format": "v4",
+    "_id": "c5875623-0874-429d-bbc6-63d2d84e6159",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          }
+        ],
+        "dataset_id": "older-people-net-internal-migration",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Local authority ageing statistics, net internal migration people aged 65 and over and 85 and over"
+      }
+    ]
+  },
+  {
+    "alias": "Local authority ageing statistics - older people economic activity",
+    "files": [
+      {
+        "description": "ageingEconomicActivity"
+      }
+    ],
+    "format": "v4",
+    "_id": "854946e8-cc7f-4b41-910b-d8625594a0119",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/economic-activity",
+            "id": "economic-activity",
+            "name": "economicactivity"
+          }
+        ],
+        "dataset_id": "older-people-economic-activity",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Local authority ageing statistics, older people economic activity"
+      }
+    ]
+  },
+  {
+    "alias": "Labour Market",
+    "files": [
+      {
+        "description": "LMS"
+      }
+    ],
+    "format": "v4",
+    "_id": "daf08e97-0a21-4800-9a2f-d7c90c88519b",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+            "id": "mmm-mmm-yyyy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/unit-of-measure",
+            "id": "unit-of-measure",
+            "name": "unitofmeasure"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/economic-activity",
+            "id": "economic-activity",
+            "name": "economicactivity"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/seasonal-adjustment",
+            "id": "seasonal-adjustment",
+            "name": "seasonaladjustment"
+          }
+        ],
+        "dataset_id": "labour-market",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Labour Market"
+      }
+    ]
+  },
+  {
+    "alias": "Public sector employment",
+    "files": [
+      {
+        "description": "PublicSectorEmployment"
+      }
+    ],
+    "format": "v4",
+    "_id": "390136b5-21b5-49dc-8af5-4cf466f2c4d5",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/yyyy-qq",
+            "id": "yyyy-qq",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sector",
+            "id": "sector",
+            "name": "sector"
+          }
+        ],
+        "dataset_id": "public-sector-employment",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Public sector employment"
+      }
+    ]
+  },
+  {
+    "alias": "Expenditure on healthcare: UK Health Accounts",
+    "files": [
+      {
+        "description": "UKHealthAccounts"
+      }
+    ],
+    "format": "v4",
+    "_id": "fc33d7f5-1f0e-46ed-99bf-a1cb7e19fbbf",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/healthcare-financing-scheme",
+            "id": "healthcare-financing-scheme",
+            "name": "financingscheme"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/healthcare-provider",
+            "id": "healthcare-provider",
+            "name": "healthcareprovider"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/healthcare-function",
+            "id": "healthcare-function",
+            "name": "healthcarefunction"
+          }
+        ],
+        "dataset_id": "health-accounts",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Expenditure on healthcare: UK Health Accounts"
+      }
+    ]
+  },
+  {
+    "alias": "GDP to four decimal places",
+    "files": [
+      {
+        "description": "GDP"
+      }
+    ],
+    "format": "v4",
+    "_id": "6a1899df-6b2f-41df-b0a9-a0b48c1c1ff5",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/mmm-yy",
+            "id": "mmm-yy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "name": "unofficialstandardindustrialclassification"
+          }
+        ],
+        "dataset_id": "gdp-to-four-decimal-places",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GDP to four decimal places"
+      }
+    ]
+  },
+  {
+    "alias": "Regional GDP by Year",
+    "files": [
+      {
+        "description": "RegionalGDPYear"
+      }
+    ],
+    "format": "v4",
+    "_id": "eec65efd-da07-4089-8e3e-a356751fa72d",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/nuts",
+            "id": "nuts",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "name": "unofficialstandardindustrialclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/quarterly-index-and-growth-rate",
+            "id": "quarterly-index-and-growth-rate",
+            "name": "growthrate"
+          }
+        ],
+        "dataset_id": "regional-gdp-by-year",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Regional GDP by Year"
+      }
+    ]
+  },
+  {
+    "alias": "Regional GDP by Quarter",
+    "files": [
+      {
+        "description": "RegionalGDPQuarter"
+      }
+    ],
+    "format": "v4",
+    "_id": "b89ba5a1-96ec-4311-af3f-d732943eeb2f",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/yyyy-qq",
+            "id": "yyyy-qq",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/nuts",
+            "id": "nuts",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "name": "unofficialstandardindustrialclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/quarterly-index-and-growth-rate",
+            "id": "quarterly-index-and-growth-rate",
+            "name": "growthrate"
+          }
+        ],
+        "dataset_id": "regional-gdp-by-quarter",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Regional GDP by Quarter"
+      }
+    ]
+  },
+  {
+    "alias": "GVA by industry by local authority",
+    "files": [
+      {
+        "description": "GVAIndustryLA"
+      }
+    ],
+    "format": "v4",
+    "_id": "b69041ca-efcd-4b87-ad7e-267a0beb53d6",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "is_hierarchy": true,
+            "name": "unofficialstandardindustrialclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gva-by-industry-by-local-authority",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GVA by industry by local authority"
+      }
+    ]
+  },
+  {
+    "alias": "GVA by industry by nuts geography",
+    "files": [
+      {
+        "description": "GVAIndustryNuts"
+      }
+    ],
+    "format": "v4",
+    "_id": "fc2a9ac8-a7b8-45bb-b88b-55777d7f6af0",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/nuts",
+            "id": "nuts",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "is_hierarchy": true,
+            "name": "unofficialstandardindustrialclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gva-by-industry-by-nuts",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GVA by industry by nuts geography"
+      }
+    ]
+  },
+  {
+    "alias": "GVA per head and income components by industry",
+    "files": [
+      {
+        "description": "GVAHeadIncomeIndustry"
+      }
+    ],
+    "format": "v4",
+    "_id": "a2388313-1363-4317-b885-ba753f6ecb81",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/nuts",
+            "id": "nuts",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "is_hierarchy": true,
+            "name": "unofficialstandardindustrialclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gva-head-income-components-by-industry",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GVA per head and income components by industry"
+      }
+    ]
+  },
+  {
+    "alias": "GVA per head and income components",
+    "files": [
+      {
+        "description": "GVAHeadIncome"
+      }
+    ],
+    "format": "v4",
+    "_id": "ca7b5ced-74a2-4cc4-996a-196d6bb40b4c",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/nuts",
+            "id": "nuts",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gva-head-income-components",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GVA per head and income components"
+      }
+    ]
+  },
+  {
+    "alias": "GDP by nuts geography",
+    "files": [
+      {
+        "description": "GDPNuts"
+      }
+    ],
+    "format": "v4",
+    "_id": "732ec126-8589-4da9-bbd0-3135f2b24156",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/nuts",
+            "id": "nuts",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gdp-by-nuts",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GDP by nuts geography"
+      }
+    ]
+  },
+  {
+    "alias": "GDP by local authority",
+    "files": [
+      {
+        "description": "GDPLA"
+      }
+    ],
+    "format": "v4",
+    "_id": "8aeef5b9-92b1-4a3f-bf97-bf77a0205411",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gdp-by-local-authority",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GDP by local authority"
+      }
+    ]
+  },
+  {
+    "alias": "GDP by enterprise regions",
+    "files": [
+      {
+        "description": "GDPEnterpriseRegions"
+      }
+    ],
+    "format": "v4",
+    "_id": "204dd609-ace9-4ede-9d17-90df041e6615",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/enterprise-regions",
+            "id": "enterprise-regions",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gdp-by-enterprise-regions",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GDP by enterprise regions"
+      }
+    ]
+  },
+  {
+    "alias": "GDP by city regions",
+    "files": [
+      {
+        "description": "GDPCityRegions"
+      }
+    ],
+    "format": "v4",
+    "_id": "b75f4749-6d02-4d06-aaf6-48f87dc577c7",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/city-regions",
+            "id": "city-regions",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gdp-by-city-regions",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GDP by city regions"
+      }
+    ]
+  },
+  {
+    "alias": "Tax Benefits Statistics",
+    "files": [
+      {
+        "description": "TaxBenefitsStats"
+      }
+    ],
+    "format": "v4",
+    "_id": "6cadb0b9-927d-4fa3-b07f-2654ad7e71b9",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/financial-and-calendar-years",
+            "id": "financial-and-calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/quintile",
+            "id": "quintile",
+            "name": "quintile"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/averages-and-percentiles",
+            "id": "averages-and-percentiles",
+            "name": "averagesandpercentiles"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/income-type",
+            "id": "income-type",
+            "name": "income"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/value-deflation",
+            "id": "value-deflation",
+            "name": "deflation"
+          }
+        ],
+        "dataset_id": "tax-benefits-statistics",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Tax Benefits Statistics"
+      }
+    ]
+  },
+  {
+    "alias": "Generational Income",
+    "files": [
+      {
+        "description": "GenerationalIncome"
+      }
+    ],
+    "format": "v4",
+    "_id": "d4e813a9-dc67-4a66-b0ae-c7e531f3b64b",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/yyyy-years",
+            "id": "yyyy-yy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/single-year-of-age",
+            "id": "single-year-of-age",
+            "name": "age"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/tax-benefit-type",
+            "id": "tax-benefit-type",
+            "name": "typeoftaxorbenefit"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/decade",
+            "id": "decade",
+            "name": "decade"
+          }
+        ],
+        "dataset_id": "generational-income",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Generational income"
+      }
+    ]
+  },
+  {
+    "alias": "House Prices",
+    "files": [
+      {
+        "description": "HousePrices"
+      }
+    ],
+    "format": "v4",
+    "_id": "4a4273d2-85ed-4d8e-9da9-22b42b70d624",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/mmm",
+            "id": "mmm",
+            "name": "month"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/house-sales-and-prices",
+            "id": "house-sales-and-prices",
+            "name": "housesalesandprices"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/property-type",
+            "id": "property-type",
+            "name": "propertytype"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/build-status",
+            "id": "build-status",
+            "name": "buildstatus"
+          }
+        ],
+        "dataset_id": "house-prices-local-authority",
+        "editions": [
+          "time-series-historic",
+          "time-series"
+        ],
+        "title": "UK House Price Index"
+      }
+    ]
+  },
+  {
+    "alias": "Index of Private Housing Rental Prices",
+    "files": [
+      {
+        "description": "PrivateHousingRentalPrices"
+      }
+    ],
+    "format": "v4",
+    "_id": "d5943cff-a8b7-4002-ad1f-1957764aec7b",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/mmm-yy",
+            "id": "mmm-yy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/index-and-year-change",
+            "id": "index-and-year-change",
+            "name": "indexandyearchange"
+          }
+        ],
+        "dataset_id": "index-private-housing-rental-prices",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Index of Private Housing Rental Prices"
+      }
+    ]
+  },
+  {
+    "alias": "UK Business by Broad Industry Group",
+    "files": [
+      {
+        "description": "UKbizIndustry"
+      }
+    ],
+    "format": "v4",
+    "_id": "a6e80e1e-2011-48ab-8c1d-35a7833b38db",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "name": "unofficialstandardindustrialclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-business-unit",
+            "id": "uk-business-unit",
+            "name": "unit"
+          }
+        ],
+        "dataset_id": "uk-business-by-industry-group",
+        "editions": [
+          "time-series"
+        ],
+        "title": "UK Business by Broad Industry Group"
+      }
+    ]
+  },
+  {
+    "alias": "Output in the Construction Industry - Monthly",
+    "files": [
+      {
+        "description": "ConstructionMonthly"
+      }
+    ],
+    "format": "v4",
+    "_id": "5c1aab52-7538-4105-8305-c63a4ba37cab",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/mmm-yy",
+            "id": "mmm-yy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/seasonal-adjustment",
+            "id": "seasonal-adjustment",
+            "name": "seasonaladjustment"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/construction-series-type",
+            "id": "construction-series-type",
+            "name": "seriestype"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/construction-classifications",
+            "id": "construction-classifications",
+            "name": "typeofwork"
+          }
+        ],
+        "dataset_id": "output-in-the-construction-industry-monthly",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Output in the Construction Industry - Monthly"
+      }
+    ]
+  },
+  {
+    "alias": "Output in the Construction Industry - by Years and Quarters",
+    "files": [
+      {
+        "description": "ConstructionYearsQuarters"
+      }
+    ],
+    "format": "v4",
+    "_id": "de60043e-76ba-4dc8-b110-dbb4ba6cfa5e",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/yyyy-qq",
+            "id": "yyyy-qq",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/seasonal-adjustment",
+            "id": "seasonal-adjustment",
+            "name": "seasonaladjustment"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/construction-series-type",
+            "id": "construction-series-type",
+            "name": "seriestype"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/construction-classifications",
+            "id": "construction-classifications",
+            "name": "typeofwork"
+          }
+        ],
+        "dataset_id": "output-in-the-construction-industry-years-and-quarters",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Output in the Construction Industry - by Years and Quarters"
+      }
+    ]
+  },
+  {
+    "alias": "Suicides",
+    "files": [
+      {
+        "description": "Suicides"
+      }
+    ],
+    "format": "v4",
+    "_id": "f78ee223-ac49-450d-b2ae-ee8efeb53b6a",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          }
+        ],
+        "dataset_id": "suicides-in-the-uk",
+        "editions": [
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "time-series"
+        ],
+        "title": "Suicides in the UK"
+      }
+    ]
+  },
+  {
+    "alias": "Deaths registered weekly in England and Wales by region",
+    "files": [
+      {
+        "description": "WeeklyDeathsRegion"
+      }
+    ],
+    "format": "v4",
+    "_id": "33fccb64-56ac-4e64-88c0-144be4750f21",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/week-number",
+            "id": "week-number",
+            "name": "week"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/recorded-deaths",
+            "id": "recorded-deaths",
+            "name": "deaths"
+          }
+        ],
+        "dataset_id": "weekly-deaths-region",
+        "editions": [
+          "time-series",
+          "covid-19",
+          "2010-19"
+        ],
+        "title": "Deaths registered weekly in England and Wales by region"
+      }
+    ]
+  },
+  {
+    "alias": "Deaths registered weekly in England and Wales by age and sex",
+    "files": [
+      {
+        "description": "WeeklyDeathsagesex"
+      }
+    ],
+    "format": "v4",
+    "_id": "ccdf1371-d2c9-4768-ac78-d6cae4691d9b",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/week-number",
+            "id": "week-number",
+            "name": "week"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/recorded-deaths",
+            "id": "recorded-deaths",
+            "name": "deaths"
+          }
+        ],
+        "dataset_id": "weekly-deaths-age-sex",
+        "editions": [
+          "time-series",
+          "covid-19",
+          "2010-19"
+        ],
+        "title": "Deaths registered weekly in England and Wales by age and sex"
+      }
+    ]
+  },
+  {
+    "alias": "Death registrations and occurrences by local authority and place of death",
+    "files": [
+      {
+        "description": "WeeklyDeathsLocalAuthority"
+      }
+    ],
+    "format": "v4",
+    "_id": "944e6132-15d4-4da7-8c58-b87c6d3a4633",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/week-number",
+            "id": "week-number",
+            "name": "week"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/cause-of-death",
+            "id": "cause-of-death",
+            "name": "causeofdeath"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/place-of-death",
+            "id": "place-of-death",
+            "name": "placeofdeath"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/registration-or-occurrence",
+            "id": "registration-or-occurrence",
+            "name": "registrationoroccurrence"
+          }
+        ],
+        "dataset_id": "weekly-deaths-local-authority",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Death registrations and occurrences by local authority and place of death"
+      }
+    ]
+  },
+  {
+    "alias": "Death registrations and occurrences by health board and place of death",
+    "files": [
+      {
+        "description": "WeeklyDeathsHealthBoard"
+      }
+    ],
+    "format": "v4",
+    "_id": "0bfbf3a1-35be-435b-8fe6-b2801ce13a60",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/health-board",
+            "id": "health-board",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/week-number",
+            "id": "week-number",
+            "name": "week"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/cause-of-death",
+            "id": "cause-of-death",
+            "name": "causeofdeath"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/place-of-death",
+            "id": "place-of-death",
+            "name": "placeofdeath"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/registration-or-occurrence",
+            "id": "registration-or-occurrence",
+            "name": "registrationoroccurrence"
+          }
+        ],
+        "dataset_id": "weekly-deaths-health-board",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Death registrations and occurrences by health board and place of death"
+      }
+    ]
+  },
+  {
+    "alias": "Local authority ageing statistics - principal population projections",
+    "files": [
+      {
+        "description": "ageingPopulationProjections"
+      }
+    ],
+    "format": "v4",
+    "_id": "3139be0d-8b84-4e15-93e6-8063682c4577",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/unit-of-measure",
+            "id": "unit-of-measure",
+            "name": "unitofmeasure"
+          }
+        ],
+        "dataset_id": "ageing-population-projections",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Local authority ageing statistics, principal population projections"
+      }
+    ]
+  },
+  {
+    "alias": "Local authority ageing statistics, projections of sex ratios for people aged 65 and over and 85 and over",
+    "files": [
+      {
+        "description": "ageingProjectionssexRatios"
+      }
+    ],
+    "format": "v4",
+    "_id": "fb39cd81-ce94-41de-897c-b63e4df1a3ee",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          }
+        ],
+        "dataset_id": "projections-older-people-sex-ratios",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Local authority ageing statistics, projections of sex ratios for people aged 65 and over and 85 and over"
+      }
+    ]
+  },
+  {
+    "alias": "Local authority ageing statistics, projections of percentage of single households headed by someone aged 65 and over and 85 and over",
+    "files": [
+      {
+        "description": "ageingProjectionsSingleHouseholds"
+      }
+    ],
+    "format": "v4",
+    "_id": "72e81582-e598-43c8-bd51-90764b76e4b7",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          }
+        ],
+        "dataset_id": "projections-older-people-in-single-households",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Local authority ageing statistics, projections of percentage of single households headed by someone aged 65 and over and 85 and over"
+      }
+    ]
+  },
+  {
+    "alias": "GVA by enterprise regions",
+    "files": [
+      {
+        "description": "GVAEnterpriseRegions"
+      }
+    ],
+    "format": "v4",
+    "_id": "1a8b981c-243e-4752-ae38-0b07fdcc7a72",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/enterprise-regions",
+            "id": "enterprise-regions",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "is_hierarchy": true,
+            "name": "unofficialstandardindustrialclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gva-by-enterprise-regions",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GVA by enterprise regions"
+      }
+    ]
+  },
+  {
+    "alias": "GVA by city regions",
+    "files": [
+      {
+        "description": "GVACityRegions"
+      }
+    ],
+    "format": "v4",
+    "_id": "4537ec68-3ccf-4afb-b23f-bd1f6768a043",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/city-regions",
+            "id": "city-regions",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sic-unofficial",
+            "id": "sic-unofficial",
+            "is_hierarchy": true,
+            "name": "unofficialstandardindustrialclassification"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/type-of-prices",
+            "id": "type-of-prices",
+            "name": "prices"
+          }
+        ],
+        "dataset_id": "gva-by-city-regions",
+        "editions": [
+          "time-series"
+        ],
+        "title": "GVA by city regions"
+      }
+    ]
+  },
+  {
+    "alias": "Faster indicators of UK economic activity: more timely and relevant shipping indicators",
+    "files": [
+      {
+        "description": "ShippingData"
+      }
+    ],
+    "format": "v4",
+    "_id": "cb0eab22-322b-4aeb-a24f-368b64177a02",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/week-number",
+            "id": "week-number",
+            "name": "week"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/shipping-port",
+            "id": "shipping-port",
+            "name": "port"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/ship-and-visit-type",
+            "id": "ship-and-visit-type",
+            "name": "shipandvisittype"
+          }
+        ],
+        "dataset_id": "faster-indicators-shipping-data",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Faster indicators of UK economic activity: more timely and relevant shipping indicators"
+      }
+    ]
+  },
+  {
+    "alias": "Online job advert estimates",
+    "files": [
+      {
+        "description": "OnlinejobAdvertEstimates"
+      }
+    ],
+    "format": "v4",
+    "_id": "41b55db7-8dce-41d9-9301-d08bc7aeac41",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/uk-only",
+            "id": "uk-only",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/week-number",
+            "id": "week-number",
+            "name": "week"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/adzuna-jobs-category",
+            "id": "adzuna-jobs-category",
+            "name": "adzunajobscategory"
+          }
+        ],
+        "dataset_id": "online-job-advert-estimates",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Online job advert estimates"
+      }
+    ]
+  },
+  {
+    "alias": "Life expectancy by local authority",
+    "files": [
+      {
+        "description": "LifeExpectancyByLocalAuthority"
+      }
+    ],
+    "format": "v4",
+    "_id": "7a8b134a-56ea-44a9-8a2a-9e7507285387",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/two-year-intervals",
+            "id": "two-year-intervals",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          }
+        ],
+        "dataset_id": "life-expectancy-by-local-authority",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Life expectancy by local authority"
+      }
+    ]
+  },
+  {
+    "alias": "Healthy life expectancy by local authority",
+    "files": [
+      {
+        "description": "HealthyLifeExpectancyByLocalAuthority"
+      }
+    ],
+    "format": "v4",
+    "_id": "d6aa9f75-a09e-4087-bd64-fb64c7b7efc4",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/two-year-intervals",
+            "id": "two-year-intervals",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          }
+        ],
+        "dataset_id": "healthy-life-expectancy-by-local-authority",
+        "editions": [
+          "time-series",
+          "2009-11-to-2010-12",
+          "2011-13-to-2012-14",
+          "2013-15",
+          "2014-16-to-2016-18"
+        ],
+        "title": "Healthy life expectancy by local authority"
+      }
+    ]
+  },
+  {
+    "alias": "Disability free life expectancy by local authority",
+    "files": [
+      {
+        "description": "DisabilityFreeLifeExpectancyByLocalAuthority"
+      }
+    ],
+    "format": "v4",
+    "_id": "2676c4a0-cb80-46dd-8f79-1c4cc681d569",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/two-year-intervals",
+            "id": "two-year-intervals",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          }
+        ],
+        "dataset_id": "disability-free-life-expectancy-by-local-authority",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Disability free life expectancy by local authority"
+      }
+    ]
+  },
+  {
+    "alias": "Regional Labour Market Statistics",
+    "files": [
+      {
+        "description": "Regional Labour Market Statistics"
+      }
+    ],
+    "format": "v4",
+    "_id": "e1977c2f-6532-4e37-ae3c-e7c73aae83a6",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/mmmm-mmm-yyyy",
+            "id": "mmmm-mmm-yyyy",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/administrative-geography",
+            "id": "administrative-geography",
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/economic-activity",
+            "id": "economic-activity",
+            "name": "economicactivity"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/age-groups",
+            "id": "age-groups",
+            "name": "agegroups"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/sex",
+            "id": "sex",
+            "name": "sex"
+          }
+        ],
+        "dataset_id": "regional-labour-market-statistics",
+        "editions": [
+          "time-series"
+        ],
+        "title": "Regional Labour Market Statistics"
+      }
+    ]
+  },
+  {
+    "alias": "2011 Census - DC2601WA",
+    "files": [
+      {
+        "description": "2011 Census - DC2601WA"
+      }
+    ],
+    "format": "v4",
+    "_id": "aeb08d0b-44d7-434a-816c-3a73be533ab2",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://localhost:22400/code-lists/calendar-years",
+            "id": "calendar-years",
+            "name": "time"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/middle-layer-super-output-area",
+            "id": "middle-layer-super-output-area",
+            "is_hierarchy": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/speak-welsh",
+            "id": "speak-welsh",
+            "name": "speakwelsh"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/welsh-household-composition",
+            "id": "welsh-household-composition",
+            "name": "welshhouseholdcomposition"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/household-reference-person",
+            "id": "household-reference-person",
+            "name": "householdreferenceperson"
+          }
+        ],
+        "dataset_id": "census-2011-market-dc2601wa",
+        "editions": [
+          "time-series"
+        ],
+        "title": "2011 Census - DC2601WA"
+      }
+    ]
+  }
+]
