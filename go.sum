@@ -13,8 +13,8 @@ github.com/ONSdigital/dp-healthcheck v1.0.5 h1:DXnohGIqXaLLeYGdaGOhgkZjAbWMNoLAj
 github.com/ONSdigital/dp-healthcheck v1.0.5/go.mod h1:2wbVAUHMl9+4tWhUlxYUuA1dnf2+NrwzC+So5f5BMLk=
 github.com/ONSdigital/dp-mocking v0.0.0-20190905163309-fee2702ad1b9 h1:+WXVfTDyWXY1DQRDFSmt1b/ORKk5c7jGiPu7NoeaM/0=
 github.com/ONSdigital/dp-mocking v0.0.0-20190905163309-fee2702ad1b9/go.mod h1:BcIRgitUju//qgNePRBmNjATarTtynAgc0yV29VpLEk=
-github.com/ONSdigital/dp-mongodb v1.4.0 h1:nDyRgGLfLYkQnS1SZgpq9y3BD87IqfjihZERn9pudy0=
-github.com/ONSdigital/dp-mongodb v1.4.0/go.mod h1:kJRKmL4JUub+DGlWGeqaV8D13Jaj9939UEaPXfSIdVg=
+github.com/ONSdigital/dp-mongodb v1.4.1-0.20201026095620-33bee80d3c80 h1:BlWJ4trUaiLjuqrsgjSvxWOJiBIi5tShStiAr2ySZN4=
+github.com/ONSdigital/dp-mongodb v1.4.1-0.20201026095620-33bee80d3c80/go.mod h1:kJRKmL4JUub+DGlWGeqaV8D13Jaj9939UEaPXfSIdVg=
 github.com/ONSdigital/dp-net v1.0.5-0.20200805082802-e518bc287596/go.mod h1:wDVhk2pYosQ1q6PXxuFIRYhYk2XX5+1CeRRnXpSczPY=
 github.com/ONSdigital/dp-net v1.0.5-0.20200805145012-9227a11caddb/go.mod h1:MrSZwDUvp8u1VJEqa+36Gwq4E7/DdceW+BDCvGes6Cs=
 github.com/ONSdigital/dp-net v1.0.5-0.20200805150805-cac050646ab5 h1:JqZtDTXQJZ48WNG+VVs3+H2qVymOVuotfRmOp+mm02I=

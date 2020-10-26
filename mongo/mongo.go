@@ -9,6 +9,7 @@ import (
 
 	"github.com/globalsign/mgo/bson"
 
+	"github.com/ONSdigital/dp-mongodb/health"
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/recipe"
 	"github.com/ONSdigital/log.go/log"
@@ -18,23 +19,27 @@ import (
 type Mongo struct {
 	Collection string
 	Database   string
-	Session    *mgo.Session
+	Session    *health.MongoSession
 	URI        string
 }
 
 // Init creates a new mgo.Session with a strong consistency and a write mode of "majority".
-func (m *Mongo) Init() (session *mgo.Session, err error) {
-	if session != nil {
+func (m *Mongo) Init() (session *health.MongoSession, err error) {
+	if session != nil && session.Session != nil {
 		return nil, errors.New("session already exists")
 	}
 
-	if session, err = mgo.Dial(m.URI); err != nil {
+	s, err := mgo.Dial(m.URI)
+	if err != nil {
 		return nil, err
 	}
 
-	session.EnsureSafe(&mgo.Safe{WMode: "majority"})
-	session.SetMode(mgo.Strong, true)
-	return session, nil
+	s.EnsureSafe(&mgo.Safe{WMode: "majority"})
+	s.SetMode(mgo.Strong, true)
+
+	mSess := &health.MongoSession{Session: s}
+
+	return mSess, nil
 }
 
 // GetRecipes retrieves all recipe documents from Mongo

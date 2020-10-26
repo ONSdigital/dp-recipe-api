@@ -87,7 +87,17 @@ func main() {
 		})
 	}
 
-	mongoClient := mongoHealth.NewClient(mongodb.Session)
+	dbCollections := make(map[mongoHealth.Database][]mongoHealth.Collection)
+
+	db := (mongoHealth.Database)(mongodb.Database)
+	collection := (mongoHealth.Collection)(mongodb.Collection)
+	// collection2 := (mongoHealth.Collection)("bullshit")
+
+	dbCollections[db] = []mongoHealth.Collection{collection}
+
+	// mongoClient := mongodb.Session.mongoHealth.NewClientWithCollections(*mongodb.Session, dbCollections)
+	mongoClient := mongoHealth.NewClientWithCollections(*mongodb.Session, dbCollections)
+
 	zebedeeClient := zebedee.New(cfg.ZebedeeURL)
 
 	// Add dataset API and graph checks
@@ -129,7 +139,7 @@ func main() {
 			hasShutdownError = true
 		}
 
-		if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
+		if err = mongolib.Close(shutdownContext, mongodb.Session.Session); err != nil {
 			log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
 			hasShutdownError = true
 		}
