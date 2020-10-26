@@ -2553,8 +2553,8 @@
       {
         "code_lists": [
           {
-            "href": "http://localhost:22400/code-lists/mmmm-mmm-yyyy",
-            "id": "mmmm-mmm-yyyy",
+            "href": "http://localhost:22400/code-lists/mmm-mmm-yyyy",
+            "id": "mmm-mmm-yyyy",
             "name": "time"
           },
           {
