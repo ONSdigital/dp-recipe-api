@@ -87,7 +87,10 @@ func main() {
 		})
 	}
 
-	mongoClient := mongoHealth.NewClient(mongodb.Session)
+	databaseCollectionBuilder := make(map[mongoHealth.Database][]mongoHealth.Collection)
+	databaseCollectionBuilder[(mongoHealth.Database)(mongodb.Database)] = []mongoHealth.Collection{(mongoHealth.Collection)(mongodb.Collection)}
+
+	mongoClient := mongoHealth.NewClientWithCollections(mongodb.Session, databaseCollectionBuilder)
 	zebedeeClient := zebedee.New(cfg.ZebedeeURL)
 
 	// Add dataset API and graph checks
