@@ -5,7 +5,11 @@ DP Recipe API
 
 The recipe API can be run by running `make debug`.
 
-### Healthcheck
+#### Import recipe data locally
+
+To import recipe's into your local MongoDB instance you can use the [import-recipes script](import-recipes/README.md)
+
+### Health check
 
 The endpoint `/health` checks the connection to the database and returns
 one of:
