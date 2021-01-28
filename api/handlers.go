@@ -110,7 +110,7 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	err = recipe.ValidateAddRecipe(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error as incomplete recipe given in request body", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -164,7 +164,7 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 	err = instance.ValidateAddInstance(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error as invalid instance given in request body", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -236,7 +236,7 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	err = codelist.ValidateAddCodelist(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error as invalid codelist given in request body", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -308,7 +308,7 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	err = updates.ValidateUpdateRecipe(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -355,7 +355,7 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	err = updates.ValidateUpdateInstance(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -428,7 +428,7 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	err = updates.ValidateUpdateCodeList(ctx)
 	if err != nil {
 		log.Event(ctx, "bad request error for invalid updates given in request body", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
