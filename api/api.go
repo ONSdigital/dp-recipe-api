@@ -30,9 +30,12 @@ type AuthHandler interface {
 
 //RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
-	dataStore   store.DataStore
-	Router      *mux.Router
-	permissions AuthHandler
+	dataStore     store.DataStore
+	Router        *mux.Router
+	permissions   AuthHandler
+	defaultLimit  int
+	defaultOffset int
+	maxLimit      int
 }
 
 //CreateAndInitialiseRecipeAPI create a new RecipeAPI instance based on the configuration provided and starts the HTTP server.
@@ -60,9 +63,12 @@ func CreateAndInitialiseRecipeAPI(ctx context.Context, cfg config.Configuration,
 //NewRecipeAPI create a new Recipe API instance and register the API routes based on the application configuration.
 func NewRecipeAPI(ctx context.Context, cfg config.Configuration, router *mux.Router, dataStore store.DataStore, permissions AuthHandler) *RecipeAPI {
 	api := &RecipeAPI{
-		dataStore:   dataStore,
-		Router:      router,
-		permissions: permissions,
+		dataStore:     dataStore,
+		Router:        router,
+		permissions:   permissions,
+		defaultLimit:  cfg.DefaultLimit,
+		defaultOffset: cfg.DefaultOffset,
+		maxLimit:      cfg.DefaultMaxLimit,
 	}
 
 	api.get("/health", api.HealthCheck)
