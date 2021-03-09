@@ -4,6 +4,7 @@ package api
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/ONSdigital/dp-authorisation/auth"
@@ -14,6 +15,7 @@ import (
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
 	"github.com/justinas/alice"
+	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 )
 
 var (
@@ -118,4 +120,48 @@ func newMiddleware(healthcheckHandler func(http.ResponseWriter, *http.Request)) 
 			h.ServeHTTP(w, req)
 		})
 	}
+}
+
+
+func writeResponse(ctx context.Context, w http.ResponseWriter, statusCode int, b []byte, action string, logData log.Data) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+	if _, err := w.Write(b); err != nil {
+		log.Event(ctx, fmt.Sprintf("%s endpoint: failed to write response body", action), log.ERROR, log.Error(err), logData)
+	}
+}
+
+func handleErr(ctx context.Context, w http.ResponseWriter, err error, logData log.Data) {
+	if logData == nil {
+		logData = log.Data{}
+	}
+
+	var status int
+	response := err
+
+	switch {
+	case errs.NotFoundMap[err]:
+		status = http.StatusNotFound
+	case errs.BadRequestMap[err]:
+		status = http.StatusBadRequest
+	default:
+		status = http.StatusInternalServerError
+		response = errs.ErrInternalServer
+	}
+
+	logResponseStatus(ctx, logData, status, err)
+	http.Error(w, response.Error(), status)
+}
+
+func handleCustomErr(ctx context.Context, w http.ResponseWriter, err error, logData log.Data, status int) {
+	if logData == nil {
+		logData = log.Data{}
+	}
+	logResponseStatus(ctx, logData, status, err)
+	http.Error(w, err.Error(), status)
+}
+
+func logResponseStatus(ctx context.Context, logData log.Data, status int, err error) {
+	logData["responseStatus"] = status
+	log.Event(ctx, "request unsuccessful", log.ERROR, log.Error(err), logData)
 }
