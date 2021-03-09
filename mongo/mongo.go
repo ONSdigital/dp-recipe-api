@@ -57,9 +57,6 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 		}
 		return nil, err
 	}
-	if totalCount < 1 {
-		return nil, errs.ErrRecipeNotFound
-	}
 
 	var recipeItems []*models.Recipe
 	if limit > 0 {

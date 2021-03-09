@@ -19,7 +19,6 @@ var (
 	ErrNoAuthHeader                      = errors.New("no authentication header provided")
 	ErrNotFound                          = errors.New("not found")
 	ErrRecipeNotFound                    = errors.New("recipe not found")
-	ErrRecipesNotFound                   = errors.New("recipes not found")
 	ErrTooManyWildcards                  = errors.New("only one wildcard (*) is allowed as a value in selected query parameters")
 	ErrUnableToParseJSON                 = errors.New("failed to parse json body")
 	ErrUnableToReadMessage               = errors.New("failed to read message body")

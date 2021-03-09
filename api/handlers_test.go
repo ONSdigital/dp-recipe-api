@@ -69,7 +69,7 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
 			GetRecipesFunc: func(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
-				return nil, errs.ErrRecipesNotFound
+				return &models.RecipeResults{}, nil
 			},
 		}
 

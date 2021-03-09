@@ -55,21 +55,21 @@ func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request
 	var recipeResults *models.RecipeResults
 
 	recipeResults, err = api.dataStore.Backend.GetRecipes(ctx, offset, limit)
-	if err != nil && err != errs.ErrRecipesNotFound {
-		log.Event(ctx, "error getting recipes from mongo", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusInternalServerError)
+	if err != nil {
+		log.Event(ctx, "getRecipes endpoint: failed to retrieve a list of recipes from mongo", log.ERROR, log.Error(err), logData)
+		handleErr(ctx, w, err, nil)
 		return
 	}
 
 	b, err := json.Marshal(recipeResults)
 	if err != nil {
-		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusInternalServerError)
+		log.Event(ctx, "getRecipes endpoint: failed to marshal recipes resource into bytes", log.ERROR, log.Error(err), logData)
+		handleErr(ctx, w, err, nil)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
+	writeResponse(ctx, w, http.StatusOK, b, "getRecipes", logData)
+	log.Event(ctx, "getRecipes endpoint: request successful", logData)
 }
 
 //RecipeHandler - get recipe by ID
