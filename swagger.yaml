@@ -73,6 +73,18 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/CodeList'
+  limit:
+    name: limit
+    description: "Maximum number of items that will be returned. A value of zero will return zero items. The default value is 20, and the maximum limit allowed is 1000"
+    in: query
+    required: false
+    type: integer
+  offset:
+    name: offset
+    description: "Starting index of the items array that will be returned. By default it is zero, meaning that the returned items will start from the beginning."
+    in: query
+    required: false
+    type: integer
 securityDefinitions:
   ServiceToken:
     type: apiKey
@@ -104,6 +116,9 @@ paths:
         Returns a paged list of recipes
       produces:
       - "application/json"
+      parameters:
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
       responses:
         200:
           description: "A list of recipes"
