@@ -9,10 +9,13 @@ import (
 // Configuration structure which hold information for configuring the import API
 type Configuration struct {
 	BindAddr                   string        `envconfig:"BIND_ADDR"`
-	ZebedeeURL                 string        `envconfig:"ZEBEDEE_URL"`
+	DefaultLimit               int           `envconfig:"DEFAULT_LIMIT"`
+	DefaultMaxLimit            int           `envconfig:"DEFAULT_MAXIMUM_LIMIT"`
+	DefaultOffset              int           `envconfig:"DEFAULT_OFFSET"`
 	GracefulShutdownTimeout    time.Duration `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT"`
 	HealthCheckInterval        time.Duration `envconfig:"HEALTHCHECK_INTERVAL"`
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
+	ZebedeeURL                 string        `envconfig:"ZEBEDEE_URL"`
 	MongoConfig                MongoConfig
 }
 
@@ -33,10 +36,13 @@ func Get() (*Configuration, error) {
 
 	cfg = &Configuration{
 		BindAddr:                   ":22300",
-		ZebedeeURL:                 "http://localhost:8082",
+		DefaultLimit:               20,
+		DefaultMaxLimit:            1000,
+		DefaultOffset:              0,
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,
+		ZebedeeURL:                 "http://localhost:8082",
 		MongoConfig: MongoConfig{
 			BindAddr:   "localhost:27017",
 			Collection: "recipes",

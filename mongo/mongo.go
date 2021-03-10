@@ -10,7 +10,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
-	"github.com/ONSdigital/dp-recipe-api/recipe"
+	"github.com/ONSdigital/dp-recipe-api/models"
 	"github.com/ONSdigital/log.go/log"
 )
 
@@ -38,33 +38,62 @@ func (m *Mongo) Init() (session *mgo.Session, err error) {
 }
 
 // GetRecipes retrieves all recipe documents from Mongo
-func (m *Mongo) GetRecipes(ctx context.Context) ([]recipe.Response, error) {
+func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
 	s := m.Session.Copy()
 	defer s.Close()
 
-	iter := s.DB(m.Database).C(m.Collection).Find(nil).Iter()
-	defer func() {
-		err := iter.Close()
-		if err != nil {
-			log.Event(ctx, "error closing iterator", log.ERROR, log.Error(err))
-		}
-	}()
-
-	results := []recipe.Response{}
-	if err := iter.All(&results); err != nil {
+	query := s.DB(m.Database).C(m.Collection).Find(nil)
+	totalCount, err := query.Count()
+	if err != nil {
 		if err == mgo.ErrNotFound {
-			return []recipe.Response{}, errs.ErrRecipesNotFound
+			return emptyRecipeResults(offset, limit), nil
 		}
+		log.Event(ctx, "error counting items", log.ERROR, log.Error(err))
 		return nil, err
 	}
-	return results, nil
+
+	var recipeItems []*models.Recipe
+	if limit > 0 {
+		iter := query.Sort().Skip(offset).Limit(limit).Iter()
+		defer func() {
+			err := iter.Close()
+			if err != nil {
+				log.Event(ctx, "error closing job iterator", log.ERROR, log.Error(err), log.Data{})
+			}
+		}()
+
+		if err := iter.All(&recipeItems); err != nil {
+			if err == mgo.ErrNotFound {
+				return emptyRecipeResults(offset, limit), nil
+			}
+			return nil, err
+		}
+	}
+
+	return &models.RecipeResults{
+		Items:      recipeItems,
+		Count:      len(recipeItems),
+		TotalCount: totalCount,
+		Offset:     offset,
+		Limit:      limit,
+	}, nil
+}
+
+func emptyRecipeResults(offset int, limit int) *models.RecipeResults {
+	return &models.RecipeResults{
+		Items:      []*models.Recipe{},
+		Count:      0,
+		TotalCount: 0,
+		Offset:     offset,
+		Limit:      limit,
+	}
 }
 
 // GetRecipe retrieves a recipe document
-func (m *Mongo) GetRecipe(id string) (*recipe.Response, error) {
+func (m *Mongo) GetRecipe(id string) (*models.Recipe, error) {
 	s := m.Session.Copy()
 	defer s.Close()
-	var recipe recipe.Response
+	var recipe models.Recipe
 	err := s.DB(m.Database).C(m.Collection).Find(bson.M{"_id": id}).One(&recipe)
 	if err != nil {
 		if err == mgo.ErrNotFound {
@@ -77,7 +106,7 @@ func (m *Mongo) GetRecipe(id string) (*recipe.Response, error) {
 }
 
 //AddRecipe adds a recipe document
-func (m *Mongo) AddRecipe(item recipe.Response) error {
+func (m *Mongo) AddRecipe(item models.Recipe) error {
 	s := m.Session.Copy()
 	defer s.Close()
 	_, err := s.DB(m.Database).C(m.Collection).UpsertId(item.ID, item)
@@ -99,25 +128,25 @@ func (m *Mongo) UpdateAllRecipe(id string, update bson.M) (err error) {
 }
 
 //UpdateRecipe prepares updates in bson.M and then updates existing recipe document
-func (m *Mongo) UpdateRecipe(recipeID string, updates recipe.Response) (err error) {
+func (m *Mongo) UpdateRecipe(recipeID string, updates models.Recipe) (err error) {
 	update := bson.M{"$set": updates}
 	return m.UpdateAllRecipe(recipeID, update)
 }
 
 //UpdateInstance updates specific instance to existing recipe document
-func (m *Mongo) UpdateInstance(recipeID string, instanceIndex int, updates recipe.Instance) (err error) {
+func (m *Mongo) UpdateInstance(recipeID string, instanceIndex int, updates models.Instance) (err error) {
 	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): updates}}
 	return m.UpdateAllRecipe(recipeID, update)
 }
 
 //AddCodelist adds codelist to a specific instance in existing recipe document
-func (m *Mongo) AddCodelist(recipeID string, instanceIndex int, currentRecipe *recipe.Response) (err error) {
+func (m *Mongo) AddCodelist(recipeID string, instanceIndex int, currentRecipe *models.Recipe) (err error) {
 	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex): currentRecipe}}
 	return m.UpdateAllRecipe(recipeID, update)
 }
 
 //UpdateCodelist updates specific codelist of a specific instance in existing recipe document
-func (m *Mongo) UpdateCodelist(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) (err error) {
+func (m *Mongo) UpdateCodelist(recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) (err error) {
 	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex) + ".code_lists." + strconv.Itoa(codelistIndex): updates}}
 	return m.UpdateAllRecipe(recipeID, update)
 }

@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"github.com/ONSdigital/dp-api-clients-go/dataset"
-	"github.com/ONSdigital/dp-recipe-api/recipe"
+	"github.com/ONSdigital/dp-recipe-api/models"
 )
 
 type RecipeList struct {
@@ -35,7 +35,7 @@ type CheckRequest struct {
 	DevURL           string
 	CollectionID     string
 	DatasetID        string
-	CodeLists        []recipe.CodeList
+	CodeLists        []models.CodeList
 }
 
 func CheckRecipe(ctx context.Context, req CheckRequest) *Output {

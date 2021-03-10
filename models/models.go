@@ -1,4 +1,4 @@
-package recipe
+package models
 
 import (
 	"context"
@@ -10,17 +10,17 @@ import (
 	"github.com/ONSdigital/log.go/log"
 )
 
-//List - struct for list of recipes
-type List struct {
-	Count      int        `bson:"count,omitempty" json:"count,omitempty"`
-	Offset     int        `bson:"offset_index,omitempty" json:"offset_index,omitempty"`
-	Limit      int        `bson:"limit,omitempty" json:"limit,omitempty"`
-	Items      []Response `bson:"items,omitempty" json:"items,omitempty"`
-	TotalCount int        `bson:"total_count,omitempty" json:"total_count,omitempty"`
+//RecipeResults - struct for list of recipes
+type RecipeResults struct {
+	Count      int      `json:"count"`
+	Offset     int      `json:"offset_index"`
+	Limit      int      `json:"limit"`
+	TotalCount int      `json:"total_count"`
+	Items      []*Recipe `json:"items"`
 }
 
-//Response - struct for individual recipe
-type Response struct {
+//Recipe - struct for individual recipe
+type Recipe struct {
 	ID              string     `bson:"_id,omitempty" json:"id,omitempty"`
 	Alias           string     `bson:"alias,omitempty" json:"alias,omitempty"`
 	Format          string     `bson:"format,omitempty" json:"format,omitempty"`
@@ -142,7 +142,7 @@ func (codelist *CodeList) validateCodelistHRef(ctx context.Context) bool {
 }
 
 //ValidateAddRecipe - checks if all the fields of the recipe are non-empty
-func (recipe *Response) ValidateAddRecipe(ctx context.Context) error {
+func (recipe *Recipe) ValidateAddRecipe(ctx context.Context) error {
 	var missingFields []string
 	var invalidFields []string
 
@@ -242,7 +242,7 @@ func (codelist *CodeList) ValidateAddCodelist(ctx context.Context) error {
 }
 
 //ValidateUpdateRecipe - checks updates of recipe for PUT request
-func (recipe *Response) ValidateUpdateRecipe(ctx context.Context) error {
+func (recipe *Recipe) ValidateUpdateRecipe(ctx context.Context) error {
 	var missingFields []string
 	var invalidFields []string
 
