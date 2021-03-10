@@ -127,7 +127,8 @@ func writeResponse(ctx context.Context, w http.ResponseWriter, statusCode int, b
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	if _, err := w.Write(b); err != nil {
-		log.Event(ctx, fmt.Sprintf("%s endpoint: failed to write response body", action), log.ERROR, log.Error(err), logData)
+		logData["endpoint"] = action
+		log.Event(ctx, fmt.Sprintf("failed to write response body"), log.ERROR, log.Error(err), logData)
 	}
 }
 

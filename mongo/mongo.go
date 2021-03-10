@@ -45,16 +45,10 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 	query := s.DB(m.Database).C(m.Collection).Find(nil)
 	totalCount, err := query.Count()
 	if err != nil {
-		log.Event(ctx, "error counting items", log.ERROR, log.Error(err))
 		if err == mgo.ErrNotFound {
-			return &models.RecipeResults{
-				Items:      []*models.Recipe{},
-				Count:      0,
-				TotalCount: 0,
-				Offset:     offset,
-				Limit:      limit,
-			}, nil
+			return emptyRecipeResults(offset, limit), nil
 		}
+		log.Event(ctx, "error counting items", log.ERROR, log.Error(err))
 		return nil, err
 	}
 
@@ -70,13 +64,7 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 
 		if err := iter.All(&recipeItems); err != nil {
 			if err == mgo.ErrNotFound {
-				return &models.RecipeResults{
-					Items:      []*models.Recipe{},
-					Count:      0,
-					TotalCount: totalCount,
-					Offset:     offset,
-					Limit:      limit,
-				}, nil
+				return emptyRecipeResults(offset, limit), nil
 			}
 			return nil, err
 		}
@@ -89,6 +77,16 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 		Offset:     offset,
 		Limit:      limit,
 	}, nil
+}
+
+func emptyRecipeResults(offset int, limit int) *models.RecipeResults {
+	return &models.RecipeResults{
+		Items:      []*models.Recipe{},
+		Count:      0,
+		TotalCount: 0,
+		Offset:     offset,
+		Limit:      limit,
+	}
 }
 
 // GetRecipe retrieves a recipe document
