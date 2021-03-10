@@ -3,7 +3,6 @@ package apierrors
 import (
 	"errors"
 	"fmt"
-	"strconv"
 )
 
 // A list of error messages for Recipes API
@@ -41,5 +40,5 @@ var (
 
 // ErrorMaximumLimitReached creates an for the given limit
 func ErrorMaximumLimitReached(m int) error {
-	return fmt.Errorf("the maximum limit has been reached, the limit cannot be more than %s", strconv.Itoa(m))
+	return fmt.Errorf("the maximum limit has been reached, the limit cannot be more than %d", m)
 }

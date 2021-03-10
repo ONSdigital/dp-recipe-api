@@ -4,18 +4,17 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/ONSdigital/dp-authorisation/auth"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
+	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/store"
 	"github.com/ONSdigital/go-ns/server"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/gorilla/mux"
 	"github.com/justinas/alice"
-	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 )
 
 var (
@@ -128,7 +127,7 @@ func writeResponse(ctx context.Context, w http.ResponseWriter, statusCode int, b
 	w.WriteHeader(statusCode)
 	if _, err := w.Write(b); err != nil {
 		logData["endpoint"] = action
-		log.Event(ctx, fmt.Sprintf("failed to write response body"), log.ERROR, log.Error(err), logData)
+		log.Event(ctx, "failed to write response body", log.ERROR, log.Error(err), logData)
 	}
 }
 
