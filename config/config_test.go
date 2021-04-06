@@ -26,6 +26,10 @@ func TestSpec(t *testing.T) {
 				So(cfg.MongoConfig.BindAddr, ShouldEqual, "localhost:27017")
 				So(cfg.MongoConfig.Collection, ShouldEqual, "recipes")
 				So(cfg.MongoConfig.Database, ShouldEqual, "recipes")
+				So(cfg.DefaultLimit, ShouldEqual, 20)
+				So(cfg.DefaultMaxLimit, ShouldEqual, 1000)
+				So(cfg.DefaultOffset, ShouldEqual, 0)
+
 			})
 		})
 	})

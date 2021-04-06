@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
-	"github.com/ONSdigital/dp-recipe-api/recipe"
+	"github.com/ONSdigital/dp-recipe-api/models"
 	storetest "github.com/ONSdigital/dp-recipe-api/store/datastoretest"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -27,7 +27,7 @@ var (
 	codelistTest = `{"id":"12345", "href":"http://localhost:22400/code-lists/12345", "name":"codelist-test-name", "is_hierarchy":false}`
 
 	// Test data of recipe retrieved from GetRecipe()
-	initialCodelist = []recipe.CodeList{
+	initialCodelist = []models.CodeList{
 		{
 			ID:          "789",
 			Name:        "codelist-test",
@@ -35,7 +35,7 @@ var (
 			IsHierarchy: falseValPtr,
 		},
 	}
-	initialInstance = []recipe.Instance{
+	initialInstance = []models.Instance{
 		{
 			DatasetID: "456",
 			Editions:  []string{"editions"},
@@ -51,8 +51,8 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
-				return []recipe.Response{}, nil
+			GetRecipesFunc: func(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
+				return &models.RecipeResults{}, nil
 			},
 		}
 
@@ -68,8 +68,8 @@ func TestGetRecipesReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
-				return nil, errs.ErrRecipesNotFound
+			GetRecipesFunc: func(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
+				return &models.RecipeResults{}, nil
 			},
 		}
 
@@ -87,7 +87,7 @@ func TestGetRecipesReturnsError(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
+			GetRecipesFunc: func(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
 				return nil, errs.ErrInternalServer
 			},
 		}
@@ -106,8 +106,8 @@ func TestGetRecipeReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes/123", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123"}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123"}, nil
 			},
 		}
 
@@ -126,7 +126,7 @@ func TestGetRecipeReturnsError(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes/123", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
 				return nil, errs.ErrInternalServer
 			},
 		}
@@ -142,7 +142,7 @@ func TestGetRecipeReturnsError(t *testing.T) {
 		r := httptest.NewRequest("GET", "http://localhost:22300/recipes/123", nil)
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
 				return nil, errs.ErrRecipeNotFound
 			},
 		}
@@ -161,7 +161,7 @@ func TestAddRecipeReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes", bytes.NewBufferString(recipeTest))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			AddRecipeFunc: func(item recipe.Response) error {
+			AddRecipeFunc: func(item models.Recipe) error {
 				return nil
 			},
 		}
@@ -180,7 +180,7 @@ func TestAddRecipeReturnsBadRequest(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes", bytes.NewBufferString(`{"alias":"test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			AddRecipeFunc: func(item recipe.Response) error {
+			AddRecipeFunc: func(item models.Recipe) error {
 				return nil
 			},
 		}
@@ -200,7 +200,7 @@ func TestAddRecipeReturnsError(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			AddRecipeFunc: func(item recipe.Response) error {
+			AddRecipeFunc: func(item models.Recipe) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
 		}
@@ -219,7 +219,7 @@ func TestUpdateRecipeReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{"alias":"Test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			UpdateRecipeFunc: func(ID string, updates recipe.Response) error {
+			UpdateRecipeFunc: func(ID string, updates models.Recipe) error {
 				return nil
 			},
 		}
@@ -237,7 +237,7 @@ func TestUpdateRecipeReturnsBadRequest(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{"format":"v5"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			UpdateRecipeFunc: func(ID string, updates recipe.Response) error {
+			UpdateRecipeFunc: func(ID string, updates models.Recipe) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
 		}
@@ -256,7 +256,7 @@ func TestUpdateRecipeReturnsError(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			UpdateRecipeFunc: func(ID string, updates recipe.Response) error {
+			UpdateRecipeFunc: func(ID string, updates models.Recipe) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
 		}
@@ -275,10 +275,10 @@ func TestAddInstanceReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances", bytes.NewBufferString(instanceTest))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4"}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123", Alias: "Original", Format: "v4"}, nil
 			},
-			UpdateRecipeFunc: func(recipeID string, currentRecipe recipe.Response) error {
+			UpdateRecipeFunc: func(recipeID string, currentRecipe models.Recipe) error {
 				return nil
 			},
 		}
@@ -297,10 +297,10 @@ func TestAddInstanceReturnsBadRequestError(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances", bytes.NewBufferString(`{"dataset_id":"1234"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4"}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123", Alias: "Original", Format: "v4"}, nil
 			},
-			UpdateRecipeFunc: func(recipeID string, currentRecipe recipe.Response) error {
+			UpdateRecipeFunc: func(recipeID string, currentRecipe models.Recipe) error {
 				return nil
 			},
 		}
@@ -319,10 +319,10 @@ func TestAddInstanceReturnsError(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			UpdateRecipeFunc: func(recipeID string, currentRecipe recipe.Response) error {
+			UpdateRecipeFunc: func(recipeID string, currentRecipe models.Recipe) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
 				return nil, errs.ErrInternalServer
 			},
 		}
@@ -342,10 +342,10 @@ func TestUpdateInstanceReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456", bytes.NewBufferString(`{"title":"Test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
 			},
-			UpdateInstanceFunc: func(recipeID string, instanceIndex int, updates recipe.Instance) error {
+			UpdateInstanceFunc: func(recipeID string, instanceIndex int, updates models.Instance) error {
 				return nil
 			},
 		}
@@ -364,10 +364,10 @@ func TestUpdateInstanceReturnsBadRequest(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456", bytes.NewBufferString(`{"wrong-field":"Test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
 			},
-			UpdateInstanceFunc: func(recipeID string, instanceIndex int, updates recipe.Instance) error {
+			UpdateInstanceFunc: func(recipeID string, instanceIndex int, updates models.Instance) error {
 				return nil
 			},
 		}
@@ -387,10 +387,10 @@ func TestUpdateInstanceReturnsError(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			UpdateInstanceFunc: func(recipeID string, instanceIndex int, updates recipe.Instance) error {
+			UpdateInstanceFunc: func(recipeID string, instanceIndex int, updates models.Instance) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
 				return nil, errs.ErrInternalServer
 			},
 		}
@@ -410,10 +410,10 @@ func TestAddCodelistReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/code-lists", bytes.NewBufferString(codelistTest))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
 			},
-			AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *recipe.Response) error {
+			AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
 				return nil
 			},
 		}
@@ -432,10 +432,10 @@ func TestAddCodelistReturnsBadRequestError(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/code-lists", bytes.NewBufferString(`{"name":"test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
 			},
-			AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *recipe.Response) error {
+			AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
 				return nil
 			},
 		}
@@ -454,10 +454,10 @@ func TestAddCodelistReturnsError(t *testing.T) {
 		r := httptest.NewRequest("POST", "http://localhost:22300/recipes/123/instances/456/code-lists", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *recipe.Response) error {
+			AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
 				return nil, errs.ErrInternalServer
 			},
 		}
@@ -477,10 +477,10 @@ func TestUpdateCodelistReturnsOK(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/code-lists/789", bytes.NewBufferString(`{"name":"Test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
 			},
-			UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) error {
+			UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error {
 				return nil
 			},
 		}
@@ -499,10 +499,10 @@ func TestUpdateCodelistReturnsBadRequest(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/code-lists/789", bytes.NewBufferString(`{"href":"Test"}`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
-				return &recipe.Response{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
+				return &models.Recipe{ID: "123", Alias: "Original", Format: "v4", OutputInstances: initialInstance}, nil
 			},
-			UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) error {
+			UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error {
 				return nil
 			},
 		}
@@ -522,10 +522,10 @@ func TestUpdateCodelistReturnsError(t *testing.T) {
 		r := httptest.NewRequest("PUT", "http://localhost:22300/recipes/123/instances/456/code-lists/789", bytes.NewBufferString(`{`))
 		w := httptest.NewRecorder()
 		mockedDataStore := &storetest.StorerMock{
-			UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) error {
+			UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error {
 				return errs.ErrAddUpdateRecipeBadRequest
 			},
-			GetRecipeFunc: func(ID string) (*recipe.Response, error) {
+			GetRecipeFunc: func(ID string) (*models.Recipe, error) {
 				return nil, errs.ErrInternalServer
 			},
 		}

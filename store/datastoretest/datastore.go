@@ -7,7 +7,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/ONSdigital/dp-recipe-api/recipe"
+	"github.com/ONSdigital/dp-recipe-api/models"
 	"github.com/ONSdigital/dp-recipe-api/store"
 	"github.com/globalsign/mgo/bson"
 )
@@ -33,31 +33,31 @@ var _ store.Storer = &StorerMock{}
 //
 //         // make and configure a mocked store.Storer
 //         mockedStorer := &StorerMock{
-//             AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *recipe.Response) error {
+//             AddCodelistFunc: func(recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
 // 	               panic("mock out the AddCodelist method")
 //             },
-//             AddInstanceFunc: func(recipeID string, currentRecipe *recipe.Response) error {
+//             AddInstanceFunc: func(recipeID string, currentRecipe *models.Recipe) error {
 // 	               panic("mock out the AddInstance method")
 //             },
-//             AddRecipeFunc: func(item recipe.Response) error {
+//             AddRecipeFunc: func(item models.Recipe) error {
 // 	               panic("mock out the AddRecipe method")
 //             },
-//             GetRecipeFunc: func(id string) (*recipe.Response, error) {
+//             GetRecipeFunc: func(id string) (*models.Recipe, error) {
 // 	               panic("mock out the GetRecipe method")
 //             },
-//             GetRecipesFunc: func(ctx context.Context) ([]recipe.Response, error) {
+//             GetRecipesFunc: func(ctx context.Context) ([]models.Recipe, error) {
 // 	               panic("mock out the GetRecipes method")
 //             },
 //             UpdateAllRecipeFunc: func(id string, update bson.M) error {
 // 	               panic("mock out the UpdateAllRecipe method")
 //             },
-//             UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) error {
+//             UpdateCodelistFunc: func(recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error {
 // 	               panic("mock out the UpdateCodelist method")
 //             },
-//             UpdateInstanceFunc: func(recipeID string, instanceIndex int, updates recipe.Instance) error {
+//             UpdateInstanceFunc: func(recipeID string, instanceIndex int, updates models.Instance) error {
 // 	               panic("mock out the UpdateInstance method")
 //             },
-//             UpdateRecipeFunc: func(recipeID string, updates recipe.Response) error {
+//             UpdateRecipeFunc: func(recipeID string, updates models.Recipe) error {
 // 	               panic("mock out the UpdateRecipe method")
 //             },
 //         }
@@ -68,28 +68,28 @@ var _ store.Storer = &StorerMock{}
 //     }
 type StorerMock struct {
 	// AddCodelistFunc mocks the AddCodelist method.
-	AddCodelistFunc func(recipeID string, instanceIndex int, currentRecipe *recipe.Response) error
+	AddCodelistFunc func(recipeID string, instanceIndex int, currentRecipe *models.Recipe) error
 
 	// AddRecipeFunc mocks the AddRecipe method.
-	AddRecipeFunc func(item recipe.Response) error
+	AddRecipeFunc func(item models.Recipe) error
 
 	// GetRecipeFunc mocks the GetRecipe method.
-	GetRecipeFunc func(id string) (*recipe.Response, error)
+	GetRecipeFunc func(id string) (*models.Recipe, error)
 
 	// GetRecipesFunc mocks the GetRecipes method.
-	GetRecipesFunc func(ctx context.Context) ([]recipe.Response, error)
+	GetRecipesFunc func(ctx context.Context, offset int, limit int) (*models.RecipeResults, error)
 
 	// UpdateAllRecipeFunc mocks the UpdateAllRecipe method.
 	UpdateAllRecipeFunc func(id string, update bson.M) error
 
 	// UpdateCodelistFunc mocks the UpdateCodelist method.
-	UpdateCodelistFunc func(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) error
+	UpdateCodelistFunc func(recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error
 
 	// UpdateInstanceFunc mocks the UpdateInstance method.
-	UpdateInstanceFunc func(recipeID string, instanceIndex int, updates recipe.Instance) error
+	UpdateInstanceFunc func(recipeID string, instanceIndex int, updates models.Instance) error
 
 	// UpdateRecipeFunc mocks the UpdateRecipe method.
-	UpdateRecipeFunc func(recipeID string, updates recipe.Response) error
+	UpdateRecipeFunc func(recipeID string, updates models.Recipe) error
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -100,12 +100,12 @@ type StorerMock struct {
 			// InstanceIndex is the instanceIndex argument value.
 			InstanceIndex int
 			// CurrentRecipe is the currentRecipe argument value.
-			CurrentRecipe *recipe.Response
+			CurrentRecipe *models.Recipe
 		}
 		// AddRecipe holds details about calls to the AddRecipe method.
 		AddRecipe []struct {
 			// Item is the item argument value.
-			Item recipe.Response
+			Item models.Recipe
 		}
 		// GetRecipe holds details about calls to the GetRecipe method.
 		GetRecipe []struct {
@@ -133,7 +133,7 @@ type StorerMock struct {
 			// CodelistIndex is the codelistIndex argument value.
 			CodelistIndex int
 			// Updates is the updates argument value.
-			Updates recipe.CodeList
+			Updates models.CodeList
 		}
 		// UpdateInstance holds details about calls to the UpdateInstance method.
 		UpdateInstance []struct {
@@ -142,27 +142,27 @@ type StorerMock struct {
 			// InstanceIndex is the instanceIndex argument value.
 			InstanceIndex int
 			// Updates is the updates argument value.
-			Updates recipe.Instance
+			Updates models.Instance
 		}
 		// UpdateRecipe holds details about calls to the UpdateRecipe method.
 		UpdateRecipe []struct {
 			// RecipeID is the recipeID argument value.
 			RecipeID string
 			// Updates is the updates argument value.
-			Updates recipe.Response
+			Updates models.Recipe
 		}
 	}
 }
 
 // AddCodelist calls AddCodelistFunc.
-func (mock *StorerMock) AddCodelist(recipeID string, instanceIndex int, currentRecipe *recipe.Response) error {
+func (mock *StorerMock) AddCodelist(recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
 	if mock.AddCodelistFunc == nil {
 		panic("StorerMock.AddCodelistFunc: method is nil but Storer.AddCodelist was just called")
 	}
 	callInfo := struct {
 		RecipeID      string
 		InstanceIndex int
-		CurrentRecipe *recipe.Response
+		CurrentRecipe *models.Recipe
 	}{
 		RecipeID:      recipeID,
 		InstanceIndex: instanceIndex,
@@ -180,12 +180,12 @@ func (mock *StorerMock) AddCodelist(recipeID string, instanceIndex int, currentR
 func (mock *StorerMock) AddCodelistCalls() []struct {
 	RecipeID      string
 	InstanceIndex int
-	CurrentRecipe *recipe.Response
+	CurrentRecipe *models.Recipe
 } {
 	var calls []struct {
 		RecipeID      string
 		InstanceIndex int
-		CurrentRecipe *recipe.Response
+		CurrentRecipe *models.Recipe
 	}
 	lockStorerMockAddCodelist.RLock()
 	calls = mock.calls.AddCodelist
@@ -194,12 +194,12 @@ func (mock *StorerMock) AddCodelistCalls() []struct {
 }
 
 // AddRecipe calls AddRecipeFunc.
-func (mock *StorerMock) AddRecipe(item recipe.Response) error {
+func (mock *StorerMock) AddRecipe(item models.Recipe) error {
 	if mock.AddRecipeFunc == nil {
 		panic("StorerMock.AddRecipeFunc: method is nil but Storer.AddRecipe was just called")
 	}
 	callInfo := struct {
-		Item recipe.Response
+		Item models.Recipe
 	}{
 		Item: item,
 	}
@@ -213,10 +213,10 @@ func (mock *StorerMock) AddRecipe(item recipe.Response) error {
 // Check the length with:
 //     len(mockedStorer.AddRecipeCalls())
 func (mock *StorerMock) AddRecipeCalls() []struct {
-	Item recipe.Response
+	Item models.Recipe
 } {
 	var calls []struct {
-		Item recipe.Response
+		Item models.Recipe
 	}
 	lockStorerMockAddRecipe.RLock()
 	calls = mock.calls.AddRecipe
@@ -225,7 +225,7 @@ func (mock *StorerMock) AddRecipeCalls() []struct {
 }
 
 // GetRecipe calls GetRecipeFunc.
-func (mock *StorerMock) GetRecipe(id string) (*recipe.Response, error) {
+func (mock *StorerMock) GetRecipe(id string) (*models.Recipe, error) {
 	if mock.GetRecipeFunc == nil {
 		panic("StorerMock.GetRecipeFunc: method is nil but Storer.GetRecipe was just called")
 	}
@@ -256,7 +256,7 @@ func (mock *StorerMock) GetRecipeCalls() []struct {
 }
 
 // GetRecipes calls GetRecipesFunc.
-func (mock *StorerMock) GetRecipes(ctx context.Context) ([]recipe.Response, error) {
+func (mock *StorerMock) GetRecipes(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
 	if mock.GetRecipesFunc == nil {
 		panic("StorerMock.GetRecipesFunc: method is nil but Storer.GetRecipes was just called")
 	}
@@ -268,7 +268,7 @@ func (mock *StorerMock) GetRecipes(ctx context.Context) ([]recipe.Response, erro
 	lockStorerMockGetRecipes.Lock()
 	mock.calls.GetRecipes = append(mock.calls.GetRecipes, callInfo)
 	lockStorerMockGetRecipes.Unlock()
-	return mock.GetRecipesFunc(ctx)
+	return mock.GetRecipesFunc(ctx, offset, limit)
 }
 
 // GetRecipesCalls gets all the calls that were made to GetRecipes.
@@ -322,7 +322,7 @@ func (mock *StorerMock) UpdateAllRecipeCalls() []struct {
 }
 
 // UpdateCodelist calls UpdateCodelistFunc.
-func (mock *StorerMock) UpdateCodelist(recipeID string, instanceIndex int, codelistIndex int, updates recipe.CodeList) error {
+func (mock *StorerMock) UpdateCodelist(recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error {
 	if mock.UpdateCodelistFunc == nil {
 		panic("StorerMock.UpdateCodelistFunc: method is nil but Storer.UpdateCodelist was just called")
 	}
@@ -330,7 +330,7 @@ func (mock *StorerMock) UpdateCodelist(recipeID string, instanceIndex int, codel
 		RecipeID      string
 		InstanceIndex int
 		CodelistIndex int
-		Updates       recipe.CodeList
+		Updates       models.CodeList
 	}{
 		RecipeID:      recipeID,
 		InstanceIndex: instanceIndex,
@@ -350,13 +350,13 @@ func (mock *StorerMock) UpdateCodelistCalls() []struct {
 	RecipeID      string
 	InstanceIndex int
 	CodelistIndex int
-	Updates       recipe.CodeList
+	Updates       models.CodeList
 } {
 	var calls []struct {
 		RecipeID      string
 		InstanceIndex int
 		CodelistIndex int
-		Updates       recipe.CodeList
+		Updates       models.CodeList
 	}
 	lockStorerMockUpdateCodelist.RLock()
 	calls = mock.calls.UpdateCodelist
@@ -365,14 +365,14 @@ func (mock *StorerMock) UpdateCodelistCalls() []struct {
 }
 
 // UpdateInstance calls UpdateInstanceFunc.
-func (mock *StorerMock) UpdateInstance(recipeID string, instanceIndex int, updates recipe.Instance) error {
+func (mock *StorerMock) UpdateInstance(recipeID string, instanceIndex int, updates models.Instance) error {
 	if mock.UpdateInstanceFunc == nil {
 		panic("StorerMock.UpdateInstanceFunc: method is nil but Storer.UpdateInstance was just called")
 	}
 	callInfo := struct {
 		RecipeID      string
 		InstanceIndex int
-		Updates       recipe.Instance
+		Updates       models.Instance
 	}{
 		RecipeID:      recipeID,
 		InstanceIndex: instanceIndex,
@@ -390,12 +390,12 @@ func (mock *StorerMock) UpdateInstance(recipeID string, instanceIndex int, updat
 func (mock *StorerMock) UpdateInstanceCalls() []struct {
 	RecipeID      string
 	InstanceIndex int
-	Updates       recipe.Instance
+	Updates       models.Instance
 } {
 	var calls []struct {
 		RecipeID      string
 		InstanceIndex int
-		Updates       recipe.Instance
+		Updates       models.Instance
 	}
 	lockStorerMockUpdateInstance.RLock()
 	calls = mock.calls.UpdateInstance
@@ -404,13 +404,13 @@ func (mock *StorerMock) UpdateInstanceCalls() []struct {
 }
 
 // UpdateRecipe calls UpdateRecipeFunc.
-func (mock *StorerMock) UpdateRecipe(recipeID string, updates recipe.Response) error {
+func (mock *StorerMock) UpdateRecipe(recipeID string, updates models.Recipe) error {
 	if mock.UpdateRecipeFunc == nil {
 		panic("StorerMock.UpdateRecipeFunc: method is nil but Storer.UpdateRecipe was just called")
 	}
 	callInfo := struct {
 		RecipeID string
-		Updates  recipe.Response
+		Updates  models.Recipe
 	}{
 		RecipeID: recipeID,
 		Updates:  updates,
@@ -426,11 +426,11 @@ func (mock *StorerMock) UpdateRecipe(recipeID string, updates recipe.Response) e
 //     len(mockedStorer.UpdateRecipeCalls())
 func (mock *StorerMock) UpdateRecipeCalls() []struct {
 	RecipeID string
-	Updates  recipe.Response
+	Updates  models.Recipe
 } {
 	var calls []struct {
 		RecipeID string
-		Updates  recipe.Response
+		Updates  models.Recipe
 	}
 	lockStorerMockUpdateRecipe.RLock()
 	calls = mock.calls.UpdateRecipe

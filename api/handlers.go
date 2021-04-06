@@ -2,43 +2,74 @@ package api
 
 import (
 	"encoding/json"
-	"io/ioutil"
-	"net/http"
-
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
-	"github.com/ONSdigital/dp-recipe-api/recipe"
+	"github.com/ONSdigital/dp-recipe-api/models"
+	"github.com/ONSdigital/dp-recipe-api/utils"
 	"github.com/ONSdigital/log.go/log"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+	"io/ioutil"
+	"net/http"
 )
 
 //RecipeListHandler - get all recipes
 func (api *RecipeAPI) RecipeListHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
-	var list recipe.List
+	logData := log.Data{}
+
+	offsetParameter := req.URL.Query().Get("offset")
+	limitParameter := req.URL.Query().Get("limit")
+
+	limit := api.defaultLimit
+	offset := api.defaultOffset
 
 	var err error
-	list.Items, err = api.dataStore.Backend.GetRecipes(ctx)
-	if err != nil && err != errs.ErrRecipesNotFound {
-		log.Event(ctx, "error getting recipes from mongo", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusInternalServerError)
+
+	if offsetParameter != "" {
+		logData["offset"] = offsetParameter
+		offset, err = utils.ValidatePositiveInt(offsetParameter)
+		if err != nil {
+			log.Event(ctx, "invalid query parameter: offset", log.ERROR, log.Error(err), logData)
+			handleErr(ctx, w, err, nil)
+			return
+		}
+	}
+
+	if limitParameter != "" {
+		logData["limit"] = limitParameter
+		limit, err = utils.ValidatePositiveInt(limitParameter)
+		if err != nil {
+			log.Event(ctx, "invalid query parameter: limit", log.ERROR, log.Error(err), logData)
+			handleErr(ctx, w, err, nil)
+			return
+		}
+	}
+
+	if limit > api.maxLimit {
+		logData["max_limit"] = api.maxLimit
+		log.Event(ctx, "limit is greater than the maximum allowed", log.ERROR, logData)
+		handleCustomErr(ctx, w, errs.ErrorMaximumLimitReached(api.maxLimit), logData, http.StatusBadRequest)
 		return
 	}
 
-	c := len(list.Items)
-	list.Count = c
-	list.TotalCount = c
-	list.Limit = c
+	var recipeResults *models.RecipeResults
 
-	b, err := json.Marshal(list)
+	recipeResults, err = api.dataStore.Backend.GetRecipes(ctx, offset, limit)
 	if err != nil {
-		log.Event(ctx, "error returned from json marshal", log.ERROR, log.Error(err))
-		w.WriteHeader(http.StatusInternalServerError)
+		log.Event(ctx, "getRecipes endpoint: failed to retrieve a list of recipes from mongo", log.ERROR, log.Error(err), logData)
+		handleErr(ctx, w, err, nil)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
+	b, err := json.Marshal(recipeResults)
+	if err != nil {
+		log.Event(ctx, "getRecipes endpoint: failed to marshal recipes resource into bytes", log.ERROR, log.Error(err), logData)
+		handleErr(ctx, w, err, nil)
+		return
+	}
+
+	writeResponse(ctx, w, http.StatusOK, b, "getRecipes", logData)
+	log.Event(ctx, "getRecipes endpoint: request successful", logData)
 }
 
 //RecipeHandler - get recipe by ID
@@ -48,7 +79,7 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	recipeID := vars["id"]
 	logD := log.Data{"recipe_id": recipeID}
 
-	var r recipe.Response
+	var r models.Recipe
 	recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
 	if err == errs.ErrRecipeNotFound {
 		log.Event(ctx, "recipe not found in mongo", log.ERROR, log.Error(err))
@@ -92,8 +123,8 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	// Unmarshal to the shape of Response struct
-	var recipe recipe.Response
+	// Unmarshal to the shape of Recipe struct
+	var recipe models.Recipe
 	err = json.Unmarshal(b, &recipe)
 	if err != nil {
 		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
@@ -152,7 +183,7 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 	}
 
 	// Unmarshal to the shape of Instance struct
-	var instance recipe.Instance
+	var instance models.Instance
 	err = json.Unmarshal(b, &instance)
 	if err != nil {
 		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
@@ -218,7 +249,7 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	}
 
 	// Unmarshal to the shape of Codelist struct
-	var codelist recipe.CodeList
+	var codelist models.CodeList
 	err = json.Unmarshal(b, &codelist)
 	if err != nil {
 		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
@@ -229,7 +260,7 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	// Generate the HRef of codelist if not given in request body as it follows a consistent pattern
 	if codelist.ID != "" && codelist.HRef == "" {
 		log.Event(ctx, "href automatically updated with new id", log.INFO)
-		codelist.HRef = recipe.HRefURL + codelist.ID
+		codelist.HRef = models.HRefURL + codelist.ID
 	}
 
 	// Validation to check if all the instance fields are entered
@@ -295,8 +326,8 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 		return
 	}
 
-	// Unmarshal to the shape of Response struct
-	var updates recipe.Response
+	// Unmarshal to the shape of Recipe struct
+	var updates models.Recipe
 	err = json.Unmarshal(b, &updates)
 	if err != nil {
 		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
@@ -343,7 +374,7 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Unmarshal to the shape of Instance struct
-	var updates recipe.Instance
+	var updates models.Instance
 	err = json.Unmarshal(b, &updates)
 	if err != nil {
 		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
@@ -409,8 +440,8 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 		return
 	}
 
-	// Unmarshal to the shape of Response struct
-	var updates recipe.CodeList
+	// Unmarshal to the shape of Recipe struct
+	var updates models.CodeList
 	err = json.Unmarshal(b, &updates)
 	if err != nil {
 		log.Event(ctx, "error returned from json unmarshal", log.ERROR, log.Error(err))
@@ -421,7 +452,7 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	// Generate the HRef of codelist if not given in request body as it follows a consistent pattern
 	if updates.ID != "" && updates.HRef == "" {
 		log.Event(ctx, "href automatically updated with new id", log.INFO)
-		updates.HRef = recipe.HRefURL + updates.ID
+		updates.HRef = models.HRefURL + updates.ID
 	}
 
 	// Validating fields of codelist given in request body
@@ -469,7 +500,7 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	w.Header().Set("content-type", "application/json")
 }
 
-func findInstance(instanceID string, instances []recipe.Instance) int {
+func findInstance(instanceID string, instances []models.Instance) int {
 	defaultIndex := -1
 	for i, instance := range instances {
 		if instance.DatasetID == instanceID {
@@ -479,7 +510,7 @@ func findInstance(instanceID string, instances []recipe.Instance) int {
 	return defaultIndex
 }
 
-func setInstance(instanceID string, currentInstance recipe.Instance, updates recipe.Instance) recipe.Instance {
+func setInstance(instanceID string, currentInstance models.Instance, updates models.Instance) models.Instance {
 	if updates.DatasetID == "" {
 		updates.DatasetID = instanceID
 	}
@@ -495,7 +526,7 @@ func setInstance(instanceID string, currentInstance recipe.Instance, updates rec
 	return updates
 }
 
-func findCodelist(codelistID string, codelists []recipe.CodeList) int {
+func findCodelist(codelistID string, codelists []models.CodeList) int {
 	defaultIndex := -1
 	for i, codelist := range codelists {
 		if codelist.ID == codelistID {
@@ -505,7 +536,7 @@ func findCodelist(codelistID string, codelists []recipe.CodeList) int {
 	return defaultIndex
 }
 
-func setCodelist(codelistID string, currentCodelist recipe.CodeList, updates recipe.CodeList) recipe.CodeList {
+func setCodelist(codelistID string, currentCodelist models.CodeList, updates models.CodeList) models.CodeList {
 	if updates.ID == "" {
 		updates.ID = codelistID
 	}

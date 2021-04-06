@@ -1,4 +1,4 @@
-package recipe
+package models
 
 import (
 	"context"
@@ -23,8 +23,8 @@ func createCodeList() CodeList {
 	}
 }
 
-func createRecipeData() Response {
-	return Response{
+func createRecipeData() Recipe {
+	return Recipe{
 		ID:              "123",
 		Alias:           "test",
 		Format:          "v4",
@@ -401,7 +401,7 @@ func TestValidateUpdateRecipe(t *testing.T) {
 	Convey("Error returned with missing field", t, func() {
 
 		Convey("when any one field of output-instance update is missing", func() {
-			recipe := Response{OutputInstances: []Instance{createInstance()}}
+			recipe := Recipe{OutputInstances: []Instance{createInstance()}}
 			recipe.OutputInstances[0].Title = ""
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
@@ -412,7 +412,7 @@ func TestValidateUpdateRecipe(t *testing.T) {
 
 		// test fix: non-existant instanceMissingFields[1] was assigned to, instead of [0] - causing panic
 		Convey("when any one field of second output-instance update is missing", func() {
-			recipe := Response{OutputInstances: []Instance{createInstance(), createInstance()}}
+			recipe := Recipe{OutputInstances: []Instance{createInstance(), createInstance()}}
 			recipe.OutputInstances[1].Title = ""
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
@@ -426,13 +426,13 @@ func TestValidateUpdateRecipe(t *testing.T) {
 	Convey("Successful with no missing fields (nil error returned)", t, func() {
 
 		Convey("when input-files.description is not missing", func() {
-			recipe := Response{InputFiles: []file{{Description: "test files"}}}
+			recipe := Recipe{InputFiles: []file{{Description: "test files"}}}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when all fields of output-instance update is given", func() {
-			recipe := Response{OutputInstances: []Instance{createInstance()}}
+			recipe := Recipe{OutputInstances: []Instance{createInstance()}}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
@@ -442,35 +442,35 @@ func TestValidateUpdateRecipe(t *testing.T) {
 	Convey("Error returned with invalid field", t, func() {
 
 		Convey("when no recipe fields updates is given", func() {
-			recipe := Response{}
+			recipe := Recipe{}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [no recipe fields updates given]").Error())
 		})
 
 		Convey("when id update given when it should not be changed", func() {
-			recipe := Response{ID: "123"}
+			recipe := Recipe{ID: "123"}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [id cannot be changed]").Error())
 		})
 
 		Convey("when format is not valid", func() {
-			recipe := Response{Format: "v1"}
+			recipe := Recipe{Format: "v1"}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [format is not valid]").Error())
 		})
 
 		Convey("when empty input-files is given", func() {
-			recipe := Response{InputFiles: []file{}}
+			recipe := Recipe{InputFiles: []file{}}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [empty input-files update given]").Error())
 		})
 
 		Convey("when empty input-files.description is given", func() {
-			recipe := Response{InputFiles: []file{{Description: ""}}}
+			recipe := Recipe{InputFiles: []file{{Description: ""}}}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [empty input-files[0].description given]").Error())
@@ -479,14 +479,14 @@ func TestValidateUpdateRecipe(t *testing.T) {
 		})
 
 		Convey("when empty output-instances is given", func() {
-			recipe := Response{OutputInstances: []Instance{}}
+			recipe := Recipe{OutputInstances: []Instance{}}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [empty output-instances update given]").Error())
 		})
 
 		Convey("when any field of output-instances update is invalid", func() {
-			recipe := Response{OutputInstances: []Instance{createInstance()}}
+			recipe := Recipe{OutputInstances: []Instance{createInstance()}}
 			recipe.OutputInstances[0].CodeLists[0].HRef = "incorrect-href"
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldNotBeNil)
@@ -504,7 +504,7 @@ func TestValidateUpdateRecipe(t *testing.T) {
 			Convey("and id update is not given", func() {
 
 				Convey("and format is valid", func() {
-					recipe := Response{Format: "v4"}
+					recipe := Recipe{Format: "v4"}
 					err := recipe.ValidateUpdateRecipe(ctx)
 					So(err, ShouldBeNil)
 				})
@@ -514,19 +514,19 @@ func TestValidateUpdateRecipe(t *testing.T) {
 		})
 
 		Convey("when complete input-files is given", func() {
-			recipe := Response{InputFiles: []file{{Description: "test files"}}}
+			recipe := Recipe{InputFiles: []file{{Description: "test files"}}}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when complete output-instances is given", func() {
-			recipe := Response{OutputInstances: []Instance{createInstance()}}
+			recipe := Recipe{OutputInstances: []Instance{createInstance()}}
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when any field of output-instances update is valid", func() {
-			recipe := Response{OutputInstances: []Instance{createInstance()}}
+			recipe := Recipe{OutputInstances: []Instance{createInstance()}}
 			recipe.OutputInstances[0].CodeLists[0].HRef = "http://localhost:22400/code-lists/789" //Reset
 			err := recipe.ValidateUpdateRecipe(ctx)
 			So(err, ShouldBeNil)
