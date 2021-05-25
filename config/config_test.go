@@ -29,7 +29,9 @@ func TestSpec(t *testing.T) {
 				So(cfg.DefaultLimit, ShouldEqual, 20)
 				So(cfg.DefaultMaxLimit, ShouldEqual, 1000)
 				So(cfg.DefaultOffset, ShouldEqual, 0)
-
+				So(cfg.MongoConfig.Username, ShouldEqual, "test")
+				So(cfg.MongoConfig.Password, ShouldEqual, "test")
+				So(cfg.MongoConfig.CAFilePath, ShouldEqual, "")
 			})
 		})
 	})
