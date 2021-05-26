@@ -16,8 +16,7 @@ import (
 	"github.com/ONSdigital/dp-api-clients-go/zebedee"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	health "github.com/ONSdigital/dp-healthcheck/healthcheck"
-	mongolib "github.com/ONSdigital/dp-mongodb"
-	mongoHealth "github.com/ONSdigital/dp-mongodb/health"
+	mongoHealth "github.com/ONSdigital/dp-mongodb/v2/pkg/health"
 	"github.com/ONSdigital/dp-recipe-api/api"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
@@ -74,10 +73,13 @@ func main() {
 		Collection: cfg.MongoConfig.Collection,
 		Database:   cfg.MongoConfig.Database,
 		URI:        cfg.MongoConfig.BindAddr,
+		Username:   cfg.MongoConfig.Username,
+		Password:   cfg.MongoConfig.Password,
+		CAFilePath: cfg.MongoConfig.CAFilePath,
 	}
 
 	var err error
-	mongodb.Session, err = mongodb.Init()
+	err = mongodb.Init(ctx)
 	if err != nil {
 		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
 		os.Exit(1)
@@ -90,7 +92,7 @@ func main() {
 	databaseCollectionBuilder := make(map[mongoHealth.Database][]mongoHealth.Collection)
 	databaseCollectionBuilder[(mongoHealth.Database)(mongodb.Database)] = []mongoHealth.Collection{(mongoHealth.Collection)(mongodb.Collection)}
 
-	mongoClient := mongoHealth.NewClientWithCollections(mongodb.Session, databaseCollectionBuilder)
+	mongoClient := mongoHealth.NewClientWithCollections(mongodb.Connection, databaseCollectionBuilder)
 	zebedeeClient := zebedee.New(cfg.ZebedeeURL)
 
 	// Add dataset API and graph checks
@@ -132,8 +134,8 @@ func main() {
 			hasShutdownError = true
 		}
 
-		if err = mongolib.Close(shutdownContext, mongodb.Session); err != nil {
-			log.Event(shutdownContext, "failed to close mongo session", log.ERROR, log.Error(err))
+		if err = mongodb.Connection.Close(shutdownContext); err != nil {
+			log.Event(shutdownContext, "failed to close mongo connection", log.ERROR, log.Error(err))
 			hasShutdownError = true
 		}
 

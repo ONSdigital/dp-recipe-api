@@ -5,6 +5,8 @@ import (
 	"errors"
 	"strconv"
 
+	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v2/pkg/mongo-driver"
+
 	"github.com/globalsign/mgo"
 
 	"github.com/globalsign/mgo/bson"
@@ -14,27 +16,48 @@ import (
 	"github.com/ONSdigital/log.go/log"
 )
 
+const (
+	connectTimeoutInSeconds = 5
+	queryTimeoutInSeconds   = 15
+)
+
 // Mongo represents a simplistic MongoDB configuration.
 type Mongo struct {
 	Collection string
 	Database   string
 	Session    *mgo.Session
+	Connection *dpMongoDriver.MongoConnection
+	Username   string
+	Password   string
+	CAFilePath string
 	URI        string
 }
+func (m *Mongo) getConnectionConfig() *dpMongoDriver.MongoConnectionConfig {
+	return &dpMongoDriver.MongoConnectionConfig{
+		CaFilePath:              m.CAFilePath,
+		ConnectTimeoutInSeconds: connectTimeoutInSeconds,
+		QueryTimeoutInSeconds:   queryTimeoutInSeconds,
 
-// Init creates a new mgo.Session with a strong consistency and a write mode of "majority".
-func (m *Mongo) Init() (session *mgo.Session, err error) {
-	if session != nil {
-		return nil, errors.New("session already exists")
+		Username:             m.Username,
+		Password:             m.Password,
+		ClusterEndpoint:      m.URI,
+		Database:             m.Database,
+		Collection:           m.Collection,
+		SkipCertVerification: true,
 	}
+}
 
-	if session, err = mgo.Dial(m.URI); err != nil {
-		return nil, err
+// Init creates a new mgo.Connection with a strong consistency and a write mode of "majority".
+func (m *Mongo) Init(ctx context.Context) (err error) {
+	if m.Connection != nil {
+		return errors.New("Datastore Connection already exists")
 	}
-
-	session.EnsureSafe(&mgo.Safe{WMode: "majority"})
-	session.SetMode(mgo.Strong, true)
-	return session, nil
+	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig())
+	if err != nil {
+		return err
+	}
+	m.Connection = mongoConnection
+	return nil
 }
 
 // GetRecipes retrieves all recipe documents from Mongo
