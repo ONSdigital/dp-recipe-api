@@ -12,10 +12,10 @@ import (
 
 //RecipeResults - struct for list of recipes
 type RecipeResults struct {
-	Count      int      `json:"count"`
-	Offset     int      `json:"offset"`
-	Limit      int      `json:"limit"`
-	TotalCount int      `json:"total_count"`
+	Count      int       `json:"count"`
+	Offset     int       `json:"offset"`
+	Limit      int       `json:"limit"`
+	TotalCount int       `json:"total_count"`
 	Items      []*Recipe `json:"items"`
 }
 
@@ -26,6 +26,7 @@ type Recipe struct {
 	Format          string     `bson:"format,omitempty" json:"format,omitempty"`
 	InputFiles      []file     `bson:"files,omitempty" json:"files,omitempty"`
 	OutputInstances []Instance `bson:"output_instances,omitempty" json:"output_instances,omitempty"`
+	CantabularBlob  string     `bson:"cantabular_blob,omitempty" json:"cantabular_blob,omitempty"`
 }
 
 //CodeList - Code lists for instance
@@ -52,7 +53,11 @@ type file struct {
 const HRefURL = "http://localhost:22400/code-lists/"
 
 var (
-	validFormats = map[string]bool{"v4": true}
+	validFormats = map[string]bool{
+		"v4":               true,
+		"cantabular-blob":  true,
+		"cantabular-table": true,
+	}
 )
 
 //validateInstance - checks if fields of OutputInstances are not empty for ValidateAddRecipe and ValidateAddInstance
@@ -159,14 +164,24 @@ func (recipe *Recipe) ValidateAddRecipe(ctx context.Context) error {
 		}
 	}
 
-	if recipe.InputFiles != nil && len(recipe.InputFiles) > 0 {
-		for i, file := range recipe.InputFiles {
-			if file.Description == "" {
-				missingFields = append(missingFields, "input-files["+strconv.Itoa(i)+"].description")
-			}
-		}
+	if recipe.Format == "cantabular-blob" && recipe.CantabularBlob == "" {
+		missingFields = append(missingFields, "cantabular-blob")
 	} else {
-		missingFields = append(missingFields, "input-files")
+		if recipe.Format == "cantabular-table" && recipe.CantabularBlob == "" {
+			missingFields = append(missingFields, "cantabular-table")
+		}
+	}
+
+	if recipe.Format == "v4" {
+		if recipe.InputFiles != nil && len(recipe.InputFiles) > 0 {
+			for i, file := range recipe.InputFiles {
+				if file.Description == "" {
+					missingFields = append(missingFields, "input-files["+strconv.Itoa(i)+"].description")
+				}
+			}
+		} else {
+			missingFields = append(missingFields, "input-files")
+		}
 	}
 
 	if recipe.OutputInstances != nil && len(recipe.OutputInstances) > 0 {

@@ -30,6 +30,7 @@ func createRecipeData() Recipe {
 		Format:          "v4",
 		InputFiles:      []file{{Description: "test files"}},
 		OutputInstances: []Instance{createInstance()},
+		CantabularBlob:  "blob1",
 	}
 }
 
@@ -313,6 +314,24 @@ func TestValidateAddRecipe(t *testing.T) {
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [input-files]").Error())
 		})
 
+		Convey("when format is cantabular-blob and cantabular-blob field is missing", func() {
+			recipe := createRecipeData()
+			recipe.Format = "cantabular-blob"
+			recipe.CantabularBlob = ""
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [cantabular-blob]").Error())
+		})
+
+		Convey("when format is cantabular-table and cantabular-blob field is missing", func() {
+			recipe := createRecipeData()
+			recipe.Format = "cantabular-table"
+			recipe.CantabularBlob = ""
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [cantabular-table]").Error())
+		})
+
 		Convey("when input-files.description is missing", func() {
 			recipe := createRecipeData()
 			recipe.InputFiles[0].Description = ""
@@ -351,6 +370,22 @@ func TestValidateAddRecipe(t *testing.T) {
 			So(err, ShouldBeNil)
 		})
 
+		Convey("when format is cantabular-blob and input-files is missing", func() {
+			recipe := createRecipeData()
+			recipe.InputFiles = nil
+			recipe.Format = "cantabular-blob"
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("when format is cantabular-table and input-files is missing", func() {
+			recipe := createRecipeData()
+			recipe.InputFiles = nil
+			recipe.Format = "cantabular-table"
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldBeNil)
+		})
+
 	})
 
 	Convey("Error returned with invalid field", t, func() {
@@ -377,9 +412,23 @@ func TestValidateAddRecipe(t *testing.T) {
 
 	Convey("Successful with no invalid fields (nil error returned)", t, func() {
 
-		Convey("when format is valid", func() {
+		Convey("when v4 format is valid", func() {
 			recipe := createRecipeData()
 			recipe.Format = "v4"
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("when cantabular-blob format is valid", func() {
+			recipe := createRecipeData()
+			recipe.Format = "cantabular-blob"
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("when cantabular-table format is valid", func() {
+			recipe := createRecipeData()
+			recipe.Format = "cantabular-table"
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
