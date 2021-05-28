@@ -352,6 +352,10 @@ definitions:
           description: "A list of all instances created using this recipe"
           items:
             $ref: '#/definitions/Instance'
+      cantabular_blob:
+          type: string
+          description: "A Cantabular-specific collection of data"
+          example: "People"
   InputFile:
     type: object
     required: [description]
