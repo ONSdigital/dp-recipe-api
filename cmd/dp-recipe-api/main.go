@@ -75,11 +75,11 @@ func main() {
 		URI:        cfg.MongoConfig.BindAddr,
 		Username:   cfg.MongoConfig.Username,
 		Password:   cfg.MongoConfig.Password,
-		CAFilePath: cfg.MongoConfig.CAFilePath,
+		IsSSL:      cfg.MongoConfig.IsSSL,
 	}
 
 	var err error
-	err = mongodb.Init(ctx)
+	err = mongodb.Init(ctx, true, true)
 	if err != nil {
 		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
 		os.Exit(1)

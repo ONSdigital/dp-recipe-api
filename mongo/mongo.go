@@ -24,31 +24,32 @@ type Mongo struct {
 	Connection *dpMongoDriver.MongoConnection
 	Username   string
 	Password   string
-	CAFilePath string
 	URI        string
+	IsSSL      bool
 }
 
-func (m *Mongo) getConnectionConfig() *dpMongoDriver.MongoConnectionConfig {
+func (m *Mongo) getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern bool) *dpMongoDriver.MongoConnectionConfig {
 	return &dpMongoDriver.MongoConnectionConfig{
-		CaFilePath:              m.CAFilePath,
+		IsSSL:                   m.IsSSL,
 		ConnectTimeoutInSeconds: connectTimeoutInSeconds,
 		QueryTimeoutInSeconds:   queryTimeoutInSeconds,
 
-		Username:             m.Username,
-		Password:             m.Password,
-		ClusterEndpoint:      m.URI,
-		Database:             m.Database,
-		Collection:           m.Collection,
-		SkipCertVerification: true,
+		Username:                      m.Username,
+		Password:                      m.Password,
+		ClusterEndpoint:               m.URI,
+		Database:                      m.Database,
+		Collection:                    m.Collection,
+		IsWriteConcernMajorityEnabled: shouldEnableWriteConcern,
+		IsStrongReadConcernEnabled:    shouldEnableReadConcern,
 	}
 }
 
 // Init creates a new mgo.Connection with a strong consistency and a write mode of "majority".
-func (m *Mongo) Init(ctx context.Context) (err error) {
+func (m *Mongo) Init(ctx context.Context, shouldEnableReadConcern, shouldEnableWriteConcern bool) (err error) {
 	if m.Connection != nil {
 		return errors.New("Datastore Connection already exists")
 	}
-	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig())
+	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern))
 	if err != nil {
 		return err
 	}
@@ -62,7 +63,7 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 	query := m.Connection.GetConfiguredCollection().Find(nil)
 	totalCount, err := query.Count(ctx)
 	if err != nil {
-		if dpMongoDriver.IsErrCollectionNotFound(err) {
+		if dpMongoDriver.IsErrNoDocumentFound(err) {
 			return emptyRecipeResults(offset, limit), nil
 		}
 		log.Event(ctx, "error counting items", log.ERROR, log.Error(err))
@@ -77,7 +78,7 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 			Limit(int64(limit)).
 			IterAll(ctx, &recipeItems)
 		if err != nil {
-			if dpMongoDriver.IsErrCollectionNotFound(err) {
+			if dpMongoDriver.IsErrNoDocumentFound(err) {
 				return emptyRecipeResults(offset, limit), nil
 			}
 			return nil, err
@@ -108,7 +109,7 @@ func (m *Mongo) GetRecipe(ctx context.Context, id string) (*models.Recipe, error
 	var recipe models.Recipe
 	err := m.Connection.GetConfiguredCollection().FindOne(ctx, bson.M{"_id": id}, &recipe)
 	if err != nil {
-		if dpMongoDriver.IsErrCollectionNotFound(err) {
+		if dpMongoDriver.IsErrNoDocumentFound(err) {
 			return nil, errs.ErrRecipeNotFound
 		}
 		return nil, err
@@ -127,7 +128,7 @@ func (m *Mongo) AddRecipe(ctx context.Context, item models.Recipe) error {
 func (m *Mongo) UpdateAllRecipe(ctx context.Context, id string, update bson.M) (err error) {
 	_, err = m.Connection.GetConfiguredCollection().UpdateId(ctx, id, update)
 	if err != nil {
-		if dpMongoDriver.IsErrCollectionNotFound(err) {
+		if dpMongoDriver.IsErrNoDocumentFound(err) {
 			return errs.ErrRecipeNotFound
 		}
 	}

@@ -26,7 +26,7 @@ type MongoConfig struct {
 	Database   string `envconfig:"MONGODB_DATABASE"`
 	Username   string `envconfig:"MONGODB_USERNAME"    json:"-"`
 	Password   string `envconfig:"MONGODB_PASSWORD"    json:"-"`
-	CAFilePath string `envconfig:"MONGODB_CA_FILE_PATH"`
+	IsSSL      bool   `envconfig:"MONGODB_IS_SSL"`
 }
 
 var cfg *Configuration
@@ -50,9 +50,9 @@ func Get() (*Configuration, error) {
 			BindAddr:   "localhost:27017",
 			Collection: "recipes",
 			Database:   "recipes",
-			Username:   "test",
-			Password:   "test",
-			CAFilePath: "",
+			Username:   "",
+			Password:   "",
+			IsSSL:      false,
 		},
 	}
 
