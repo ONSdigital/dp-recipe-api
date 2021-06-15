@@ -1,5 +1,37 @@
 [
   {
+    "alias": "Cantabular Example 1",
+    "format": "cantabular-table",
+    "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223a",
+    "cantabular_blob": "Example",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "",
+            "id": "city",
+            "name": "City"
+          },
+          {
+            "href": "",
+            "id": "siblings",
+            "name": "Siblings"
+          },
+          {
+            "href": "",
+            "id": "sex",
+            "name": "Sex"
+          }
+        ],
+        "dataset_id": "cantabular-example-1",
+        "editions": [
+          "2021"
+        ],
+        "title": "Example Cantabular Dataset City Siblings And Sex"
+      }
+    ]
+  },
+  {
     "alias": "CPIH",
     "files": [
       {
