@@ -14,8 +14,18 @@
           },
           {
             "href": "",
+            "id": "country",
+            "name": "Country"
+          },
+          {
+            "href": "",
             "id": "siblings",
-            "name": "Siblings"
+            "name": "Number Of Siblings"
+          },
+          {
+            "href": "",
+            "id": "siblings_3",
+            "name": "Number Of Siblings (3 mappings)"
           },
           {
             "href": "",
