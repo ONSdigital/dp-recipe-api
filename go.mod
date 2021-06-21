@@ -6,7 +6,7 @@ require (
 	github.com/ONSdigital/dp-api-clients-go v1.32.10
 	github.com/ONSdigital/dp-authorisation v0.1.0
 	github.com/ONSdigital/dp-healthcheck v1.0.5
-	github.com/ONSdigital/dp-mongodb v1.5.0
+	github.com/ONSdigital/dp-mongodb/v2 v2.2.0
 	github.com/ONSdigital/dp-net v1.0.11 // indirect
 	github.com/ONSdigital/dp-rchttp v1.0.0
 	github.com/ONSdigital/go-ns v0.0.0-20200902154605-290c8b5ba5eb
@@ -22,5 +22,3 @@ require (
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
 	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
 )
-
-replace github.com/ONSdigital/dp-mongodb v1.5.0 => github.com/ONSdigital/dp-mongodb v1.5.1-0.20210613162655-0f90bde40748
