@@ -74,8 +74,8 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 	if limit > 0 {
 		err := query.
 			Sort(nil).
-			Skip(int64(offset)).
-			Limit(int64(limit)).
+			Skip(offset).
+			Limit(limit).
 			IterAll(ctx, &recipeItems)
 		if err != nil {
 			if dpMongoDriver.IsErrNoDocumentFound(err) {
