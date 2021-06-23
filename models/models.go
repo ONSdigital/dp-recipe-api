@@ -12,10 +12,10 @@ import (
 
 //RecipeResults - struct for list of recipes
 type RecipeResults struct {
-	Count      int      `json:"count"`
-	Offset     int      `json:"offset"`
-	Limit      int      `json:"limit"`
-	TotalCount int      `json:"total_count"`
+	Count      int       `json:"count"`
+	Offset     int       `json:"offset"`
+	Limit      int       `json:"limit"`
+	TotalCount int       `json:"total_count"`
 	Items      []*Recipe `json:"items"`
 }
 

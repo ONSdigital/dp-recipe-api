@@ -33,3 +33,7 @@ test:
 	go test -race -cover ./...
 
 .PHONEY: test build debug
+
+.PHONY: fixfmt
+fixfmt:
+	go fmt ./...

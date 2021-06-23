@@ -60,7 +60,6 @@ func (m *Mongo) Init(ctx context.Context, shouldEnableReadConcern, shouldEnableW
 // GetRecipes retrieves all recipe documents from Mongo
 func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
 
-	query := m.Connection.GetConfiguredCollection().Find(nil)
 	query := m.Connection.GetConfiguredCollection().Find(bson.D{})
 	totalCount, err := query.Count(ctx)
 	if err != nil {
