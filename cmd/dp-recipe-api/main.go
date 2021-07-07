@@ -79,7 +79,7 @@ func main() {
 	}
 
 	var err error
-	err = mongodb.Init(ctx, true, true)
+	err = mongodb.Init(ctx, false, true)
 	if err != nil {
 		log.Event(ctx, "failed to initialise mongo", log.FATAL, log.Error(err))
 		os.Exit(1)
