@@ -3,7 +3,7 @@ package mongo
 import (
 	"context"
 	"errors"
-	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v2/pkg/mongodb"
+	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v2/mongodb"
 	"go.mongodb.org/mongo-driver/bson"
 	"strconv"
 
