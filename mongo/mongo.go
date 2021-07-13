@@ -3,9 +3,10 @@ package mongo
 import (
 	"context"
 	"errors"
+	"strconv"
+
 	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v2/mongodb"
 	"go.mongodb.org/mongo-driver/bson"
-	"strconv"
 
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/models"
@@ -120,7 +121,7 @@ func (m *Mongo) GetRecipe(ctx context.Context, id string) (*models.Recipe, error
 
 //AddRecipe adds a recipe document
 func (m *Mongo) AddRecipe(ctx context.Context, item models.Recipe) error {
-	_, err := m.Connection.GetConfiguredCollection().UpsertId(ctx, item.ID, item)
+	_, err := m.Connection.GetConfiguredCollection().UpsertId(ctx, item.ID, bson.M{"$set": item})
 	return err
 }
 
