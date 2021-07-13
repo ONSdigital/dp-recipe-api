@@ -342,7 +342,7 @@ definitions:
       format:
         type: string
         description: "The recipe format"
-        enum: ["v4"]
+        enum: ["v4", "cantabular-blob", "cantabular-table"]
       files:
         type: array
         items: 
@@ -352,6 +352,10 @@ definitions:
           description: "A list of all instances created using this recipe"
           items:
             $ref: '#/definitions/Instance'
+      cantabular_blob:
+          type: string
+          description: "A Cantabular-specific collection of data"
+          example: "People"
   InputFile:
     type: object
     required: [description]
