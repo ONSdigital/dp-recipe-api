@@ -6,7 +6,6 @@ import (
 
 	clientsidentity "github.com/ONSdigital/dp-api-clients-go/identity"
 	"github.com/ONSdigital/dp-authorisation/auth"
-	dphandlers "github.com/ONSdigital/dp-net/handlers"
 	dphttp "github.com/ONSdigital/dp-net/http"
 	"github.com/ONSdigital/dp-recipe-api/api"
 	"github.com/ONSdigital/dp-recipe-api/config"
@@ -125,8 +124,6 @@ func (svc *Service) createMiddleware(cfg *config.Configuration) alice.Chain {
 	// healthcheck
 	healthcheckHandler := healthcheckMiddleware(svc.healthCheck.Handler, "/health")
 	middleware := alice.New(healthcheckHandler)
-
-	middleware = middleware.Append(dphandlers.IdentityWithHTTPClient(svc.identityClient))
 
 	return middleware
 }

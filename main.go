@@ -7,11 +7,8 @@ import (
 	"syscall"
 
 	"github.com/ONSdigital/dp-api-clients-go/zebedee"
-	"github.com/ONSdigital/dp-authorisation/auth"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	mongoHealth "github.com/ONSdigital/dp-mongodb/v2/health"
-	rchttp "github.com/ONSdigital/dp-rchttp"
-	"github.com/ONSdigital/dp-recipe-api/api"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/service"
@@ -66,7 +63,7 @@ func run(ctx context.Context) error {
 
 	// Run the service
 	svc := service.New(cfg, svcList)
-	if err := svc.Run(ctx, BuildTime, GitCommit, Version, svcErrors); err != nil {
+	if err := svc.Run(ctx, "15455", GitCommit, Version, svcErrors); err != nil {
 		return errors.Wrap(err, "running service failed")
 	}
 
@@ -78,20 +75,6 @@ func run(ctx context.Context) error {
 		log.Event(ctx, "os signal received", log.Data{"signal": sig}, log.INFO)
 	}
 	return svc.Close(ctx)
-}
-
-func getAuthorisationHandlers(ctx context.Context, cfg *config.Configuration) api.AuthHandler {
-	authClient := auth.NewPermissionsClient(rchttp.NewClient())
-	authVerifier := auth.DefaultPermissionsVerifier()
-
-	// for checking caller permissions when we only have a user/service token
-	permissions := auth.NewHandler(
-		auth.NewPermissionsRequestBuilder(cfg.ZebedeeURL),
-		authClient,
-		authVerifier,
-	)
-
-	return permissions
 }
 
 // registerCheckers adds the checkers for the provided clients to the health check object

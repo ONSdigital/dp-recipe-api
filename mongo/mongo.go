@@ -57,6 +57,15 @@ func (m *Mongo) Init(ctx context.Context, shouldEnableReadConcern, shouldEnableW
 		return err
 	}
 	m.Connection = mongoConnection
+	databaseCollectionBuilder := make(map[dpMongoHealth.Database][]dpMongoHealth.Collection)
+	databaseCollectionBuilder[(dpMongoHealth.Database)(m.Database)] = []dpMongoHealth.Collection{(dpMongoHealth.Collection)(m.Collection)}
+
+	// Create client and health client from session AND collections
+	client := dpMongoHealth.NewClientWithCollections(mongoConnection, databaseCollectionBuilder)
+	m.healthClient = &dpMongoHealth.CheckMongoClient{
+		Client:      *client,
+		Healthcheck: client.Healthcheck,
+	}
 	return nil
 }
 
