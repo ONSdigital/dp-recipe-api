@@ -7,19 +7,19 @@ import (
 	"context"
 	"github.com/ONSdigital/dp-recipe-api/models"
 	"github.com/ONSdigital/dp-recipe-api/store"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"sync"
 )
 
-// Ensure, that StorerMock does implement Storer.
+// Ensure, that StorerMock does implement store.Storer.
 // If this is not the case, regenerate this file with moq.
 var _ store.Storer = &StorerMock{}
 
-// StorerMock is a mock implementation of Storer.
+// StorerMock is a mock implementation of store.Storer.
 //
 // 	func TestSomethingThatUsesStorer(t *testing.T) {
 //
-// 		// make and configure a mocked Storer
+// 		// make and configure a mocked store.Storer
 // 		mockedStorer := &StorerMock{
 // 			AddCodelistFunc: func(ctx context.Context, recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
 // 				panic("mock out the AddCodelist method")
@@ -33,7 +33,7 @@ var _ store.Storer = &StorerMock{}
 // 			GetRecipesFunc: func(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
 // 				panic("mock out the GetRecipes method")
 // 			},
-// 			UpdateAllRecipeFunc: func(ctx context.Context, id string, update bson.M) error {
+// 			UpdateAllRecipeFunc: func(ctx context.Context, id string, update primitive.M) error {
 // 				panic("mock out the UpdateAllRecipe method")
 // 			},
 // 			UpdateCodelistFunc: func(ctx context.Context, recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error {
@@ -47,7 +47,7 @@ var _ store.Storer = &StorerMock{}
 // 			},
 // 		}
 //
-// 		// use mockedStorer in code that requires Storer
+// 		// use mockedStorer in code that requires store.Storer
 // 		// and then make assertions.
 //
 // 	}
@@ -65,7 +65,7 @@ type StorerMock struct {
 	GetRecipesFunc func(ctx context.Context, offset int, limit int) (*models.RecipeResults, error)
 
 	// UpdateAllRecipeFunc mocks the UpdateAllRecipe method.
-	UpdateAllRecipeFunc func(ctx context.Context, id string, update bson.M) error
+	UpdateAllRecipeFunc func(ctx context.Context, id string, update primitive.M) error
 
 	// UpdateCodelistFunc mocks the UpdateCodelist method.
 	UpdateCodelistFunc func(ctx context.Context, recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error
@@ -119,7 +119,7 @@ type StorerMock struct {
 			// ID is the id argument value.
 			ID string
 			// Update is the update argument value.
-			Update bson.M
+			Update primitive.M
 		}
 		// UpdateCodelist holds details about calls to the UpdateCodelist method.
 		UpdateCodelist []struct {
@@ -318,14 +318,14 @@ func (mock *StorerMock) GetRecipesCalls() []struct {
 }
 
 // UpdateAllRecipe calls UpdateAllRecipeFunc.
-func (mock *StorerMock) UpdateAllRecipe(ctx context.Context, id string, update bson.M) error {
+func (mock *StorerMock) UpdateAllRecipe(ctx context.Context, id string, update primitive.M) error {
 	if mock.UpdateAllRecipeFunc == nil {
 		panic("StorerMock.UpdateAllRecipeFunc: method is nil but Storer.UpdateAllRecipe was just called")
 	}
 	callInfo := struct {
 		Ctx    context.Context
 		ID     string
-		Update bson.M
+		Update primitive.M
 	}{
 		Ctx:    ctx,
 		ID:     id,
@@ -343,12 +343,12 @@ func (mock *StorerMock) UpdateAllRecipe(ctx context.Context, id string, update b
 func (mock *StorerMock) UpdateAllRecipeCalls() []struct {
 	Ctx    context.Context
 	ID     string
-	Update bson.M
+	Update primitive.M
 } {
 	var calls []struct {
 		Ctx    context.Context
 		ID     string
-		Update bson.M
+		Update primitive.M
 	}
 	mock.lockUpdateAllRecipe.RLock()
 	calls = mock.calls.UpdateAllRecipe

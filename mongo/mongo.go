@@ -5,12 +5,13 @@ import (
 	"errors"
 	"strconv"
 
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
+	dpMongoHealth "github.com/ONSdigital/dp-mongodb/v2/health"
 	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v2/mongodb"
-	"go.mongodb.org/mongo-driver/bson"
-
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/models"
 	"github.com/ONSdigital/log.go/log"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 const (
@@ -20,13 +21,14 @@ const (
 
 // Mongo represents a simplistic MongoDB configuration.
 type Mongo struct {
-	Collection string
-	Database   string
-	Connection *dpMongoDriver.MongoConnection
-	Username   string
-	Password   string
-	URI        string
-	IsSSL      bool
+	Collection   string
+	Database     string
+	Connection   *dpMongoDriver.MongoConnection
+	Username     string
+	Password     string
+	URI          string
+	IsSSL        bool
+	healthClient *dpMongoHealth.CheckMongoClient
 }
 
 func (m *Mongo) getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern bool) *dpMongoDriver.MongoConnectionConfig {
@@ -158,4 +160,17 @@ func (m *Mongo) AddCodelist(ctx context.Context, recipeID string, instanceIndex 
 func (m *Mongo) UpdateCodelist(ctx context.Context, recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) (err error) {
 	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex) + ".code_lists." + strconv.Itoa(codelistIndex): updates}}
 	return m.UpdateAllRecipe(ctx, recipeID, update)
+}
+
+// Close closes the mongo session and returns any error
+func (m *Mongo) Close(ctx context.Context) error {
+	if m.Connection == nil {
+		return errors.New("cannot close a empty connection")
+	}
+	return m.Connection.Close(ctx)
+}
+
+// Checker is called by the healthcheck library to check the health state of this mongoDB instance
+func (m *Mongo) Checker(ctx context.Context, state *healthcheck.CheckState) error {
+	return m.healthClient.Checker(ctx, state)
 }

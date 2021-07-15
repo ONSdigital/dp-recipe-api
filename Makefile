@@ -22,11 +22,11 @@ audit:
 .PHONY: build
 build:
 	@mkdir -p $(BUILD_ARCH)/$(BIN_DIR)
-	go build $(LDFLAGS) -o $(BUILD_ARCH)/$(BIN_DIR)/dp-recipe-api cmd/dp-recipe-api/main.go
+	go build $(LDFLAGS) -o $(BUILD_ARCH)/$(BIN_DIR)/dp-recipe-api main.go
 
 .PHONY: debug
 debug:
-	HUMAN_LOG=1 go run -race $(LDFLAGS) cmd/dp-recipe-api/main.go
+	HUMAN_LOG=1 go run -race $(LDFLAGS) main.go
 
 .PHONY: test
 test:
@@ -34,6 +34,6 @@ test:
 
 .PHONEY: test build debug
 
-.PHONY: fixfmt
-fixfmt:
+.PHONY: fmt
+fmt:
 	go fmt ./...
