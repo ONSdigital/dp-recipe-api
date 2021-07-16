@@ -18,7 +18,7 @@ type DataStore struct {
 //go:generate moq -out datastoretest/mongo.go -pkg storetest . MongoDB
 
 // Storer represents basic data access via Get, Remove and Upsert methods (to be implemented in the future).
-type dataMongoDB interface {
+type Storer interface {
 	GetRecipes(ctx context.Context, offset int, limit int) (*models.RecipeResults, error)
 	GetRecipe(ctx context.Context, id string) (*models.Recipe, error)
 	AddRecipe(ctx context.Context, item models.Recipe) error
@@ -30,11 +30,7 @@ type dataMongoDB interface {
 }
 
 type MongoDB interface {
-	dataMongoDB
+	Storer
 	Close(context.Context) error
 	Checker(context.Context, *healthcheck.CheckState) error
-}
-
-type Storer interface {
-	dataMongoDB
 }
