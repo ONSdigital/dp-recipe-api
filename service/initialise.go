@@ -19,15 +19,15 @@ type ExternalServiceList struct {
 	Init        Initialiser
 }
 
+// Init implements the Initialiser interface to initialise dependencies
+type Init struct{}
+
 // NewServiceList creates a new service list with the provided initialiser
 func NewServiceList(initialiser Initialiser) *ExternalServiceList {
 	return &ExternalServiceList{
 		Init: initialiser,
 	}
 }
-
-// Init implements the Initialiser interface to initialise dependencies
-type Init struct{}
 
 // GetHTTPServer creates an http server
 func (e *ExternalServiceList) GetHTTPServer(bindAddr string, router http.Handler) HTTPServer {
