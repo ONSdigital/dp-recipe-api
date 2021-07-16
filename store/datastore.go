@@ -29,6 +29,7 @@ type Storer interface {
 	UpdateCodelist(ctx context.Context, recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) (err error)
 }
 
+// MongoDB represents all the required methods from mongo DB
 type MongoDB interface {
 	Storer
 	Close(context.Context) error
