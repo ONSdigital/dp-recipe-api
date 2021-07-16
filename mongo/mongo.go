@@ -24,8 +24,8 @@ type Mongo struct {
 	Collection   string
 	Database     string
 	Connection   *dpMongoDriver.MongoConnection
-	Username     string
-	Password     string
+	Username     string `json:"-"`
+	Password     string `json:"-"`
 	URI          string
 	IsSSL        bool
 	healthClient *dpMongoHealth.CheckMongoClient
