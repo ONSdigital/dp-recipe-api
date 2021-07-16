@@ -80,7 +80,7 @@ func (e *Init) DoGetMongoDB(ctx context.Context, cfg *config.MongoConfig) (store
 		Database:   cfg.Database,
 		URI:        cfg.BindAddr,
 	}
-	if err := mongodb.Init(ctx, true, true); err != nil {
+	if err := mongodb.Init(ctx, cfg.EnableReadConcern, cfg.EnableWriteConcern); err != nil {
 		return nil, err
 	}
 	log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{"URI": mongodb.URI})

@@ -48,11 +48,11 @@ func (m *Mongo) getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteCo
 }
 
 // Init creates a new mgo.Connection with a strong consistency and a write mode of "majority".
-func (m *Mongo) Init(ctx context.Context, shouldEnableReadConcern, shouldEnableWriteConcern bool) (err error) {
+func (m *Mongo) Init(ctx context.Context, enableReadConcern, enableWriteConcern bool) (err error) {
 	if m.Connection != nil {
 		return errors.New("Datastore Connection already exists")
 	}
-	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern))
+	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig(enableReadConcern, enableWriteConcern))
 	if err != nil {
 		return err
 	}
