@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"strconv"
+	"time"
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	dpMongoHealth "github.com/ONSdigital/dp-mongodb/v2/health"
@@ -14,28 +15,25 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-const (
-	connectTimeoutInSeconds = 5
-	queryTimeoutInSeconds   = 15
-)
-
 // Mongo represents a simplistic MongoDB configuration.
 type Mongo struct {
-	Collection   string
-	Database     string
-	Connection   *dpMongoDriver.MongoConnection
-	Username     string `json:"-"`
-	Password     string `json:"-"`
-	URI          string
-	IsSSL        bool
-	healthClient *dpMongoHealth.CheckMongoClient
+	Collection              string
+	Database                string
+	Connection              *dpMongoDriver.MongoConnection
+	Username                string `json:"-"`
+	Password                string `json:"-"`
+	URI                     string
+	IsSSL                   bool
+	healthClient            *dpMongoHealth.CheckMongoClient
+	ConnectTimeoutInSeconds time.Duration
+	QueryTimeoutInSeconds   time.Duration
 }
 
 func (m *Mongo) getConnectionConfig(enableReadConcern, enableWriteConcern bool) *dpMongoDriver.MongoConnectionConfig {
 	return &dpMongoDriver.MongoConnectionConfig{
 		IsSSL:                   m.IsSSL,
-		ConnectTimeoutInSeconds: connectTimeoutInSeconds,
-		QueryTimeoutInSeconds:   queryTimeoutInSeconds,
+		ConnectTimeoutInSeconds: m.ConnectTimeoutInSeconds,
+		QueryTimeoutInSeconds:   m.QueryTimeoutInSeconds,
 
 		Username:                      m.Username,
 		Password:                      m.Password,
