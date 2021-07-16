@@ -31,7 +31,7 @@ type Mongo struct {
 	healthClient *dpMongoHealth.CheckMongoClient
 }
 
-func (m *Mongo) getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern bool) *dpMongoDriver.MongoConnectionConfig {
+func (m *Mongo) getConnectionConfig(enableReadConcern, enableWriteConcern bool) *dpMongoDriver.MongoConnectionConfig {
 	return &dpMongoDriver.MongoConnectionConfig{
 		IsSSL:                   m.IsSSL,
 		ConnectTimeoutInSeconds: connectTimeoutInSeconds,
@@ -42,8 +42,8 @@ func (m *Mongo) getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteCo
 		ClusterEndpoint:               m.URI,
 		Database:                      m.Database,
 		Collection:                    m.Collection,
-		IsWriteConcernMajorityEnabled: shouldEnableWriteConcern,
-		IsStrongReadConcernEnabled:    shouldEnableReadConcern,
+		IsWriteConcernMajorityEnabled: enableWriteConcern,
+		IsStrongReadConcernEnabled:    enableReadConcern,
 	}
 }
 
