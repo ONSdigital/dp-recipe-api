@@ -80,7 +80,7 @@ func (api *RecipeAPI) RecipeHandler(w http.ResponseWriter, req *http.Request) {
 	logD := log.Data{"recipe_id": recipeID}
 
 	var r models.Recipe
-	recipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+	recipe, err := api.dataStore.Backend.GetRecipe(ctx, recipeID)
 	if err == errs.ErrRecipeNotFound {
 		log.Event(ctx, "recipe not found in mongo", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusNotFound)
@@ -146,7 +146,7 @@ func (api *RecipeAPI) AddRecipeHandler(w http.ResponseWriter, req *http.Request)
 	}
 
 	// Add Recipe to Mongo
-	err = api.dataStore.Backend.AddRecipe(recipe)
+	err = api.dataStore.Backend.AddRecipe(ctx, recipe)
 	if err != nil {
 		log.Event(ctx, "error adding recipe to mongo", log.ERROR, log.Error(err))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -200,7 +200,7 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 	}
 
 	// Get currentRecipe from ID given to get instance of the recipe
-	currentRecipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+	currentRecipe, err := api.dataStore.Backend.GetRecipe(ctx, recipeID)
 	if err != nil {
 		log.Event(ctx, "error retrieving specific recipe from mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -211,7 +211,7 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 	currentRecipe.OutputInstances = append(currentRecipe.OutputInstances, instance)
 
 	// Add instance to existing recipe in mongo
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, *currentRecipe)
+	err = api.dataStore.Backend.UpdateRecipe(ctx, recipeID, *currentRecipe)
 	if err != nil {
 		log.Event(ctx, "error adding instance by updating recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -272,7 +272,7 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	}
 
 	// Get currentRecipe from ID and retrieve specific instance for codelist to be stored
-	currentRecipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+	currentRecipe, err := api.dataStore.Backend.GetRecipe(ctx, recipeID)
 	if err != nil {
 		log.Event(ctx, "error retrieving specific recipe from mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -290,7 +290,7 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	currentRecipe.OutputInstances[instanceIndex].CodeLists = append(currentRecipe.OutputInstances[instanceIndex].CodeLists, codelist)
 
 	// Update the current recipe in mongo with the updated codelist in the specific instance
-	err = api.dataStore.Backend.AddCodelist(recipeID, instanceIndex, currentRecipe)
+	err = api.dataStore.Backend.AddCodelist(ctx, recipeID, instanceIndex, currentRecipe)
 	if err != nil {
 		log.Event(ctx, "error adding codelist by updating recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -344,7 +344,7 @@ func (api *RecipeAPI) UpdateRecipeHandler(w http.ResponseWriter, req *http.Reque
 	}
 
 	// Update Recipe to Mongo
-	err = api.dataStore.Backend.UpdateRecipe(recipeID, updates)
+	err = api.dataStore.Backend.UpdateRecipe(ctx, recipeID, updates)
 	if err != nil {
 		log.Event(ctx, "error updating recipe to mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -391,7 +391,7 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Find index of specific interface in output_instances of the recipe
-	currentRecipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+	currentRecipe, err := api.dataStore.Backend.GetRecipe(ctx, recipeID)
 	if err != nil {
 		log.Event(ctx, "error retrieving specific recipe from mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -410,7 +410,7 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	updates = setInstance(instanceID, currentInstance, updates)
 
 	// Update Recipe to Mongo
-	err = api.dataStore.Backend.UpdateInstance(recipeID, instanceIndex, updates)
+	err = api.dataStore.Backend.UpdateInstance(ctx, recipeID, instanceIndex, updates)
 	if err != nil {
 		log.Event(ctx, "error updating specific instance of recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -464,7 +464,7 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Find index of specific codelist and interface of codelist in output_instances of the recipe
-	currentRecipe, err := api.dataStore.Backend.GetRecipe(recipeID)
+	currentRecipe, err := api.dataStore.Backend.GetRecipe(ctx, recipeID)
 	if err != nil {
 		log.Event(ctx, "error retrieving specific recipe from mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -490,7 +490,7 @@ func (api *RecipeAPI) UpdateCodelistHandler(w http.ResponseWriter, req *http.Req
 	updates = setCodelist(codelistID, currentCodelist, updates)
 
 	// Update Recipe to Mongo
-	err = api.dataStore.Backend.UpdateCodelist(recipeID, instanceIndex, codelistIndex, updates)
+	err = api.dataStore.Backend.UpdateCodelist(ctx, recipeID, instanceIndex, codelistIndex, updates)
 	if err != nil {
 		log.Event(ctx, "error updating codelist to recipe in mongo", log.ERROR, log.Error(err), logD)
 		w.WriteHeader(http.StatusInternalServerError)

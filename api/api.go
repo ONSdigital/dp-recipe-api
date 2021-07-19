@@ -121,7 +121,6 @@ func newMiddleware(healthcheckHandler func(http.ResponseWriter, *http.Request)) 
 	}
 }
 
-
 func writeResponse(ctx context.Context, w http.ResponseWriter, statusCode int, b []byte, action string, logData log.Data) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
