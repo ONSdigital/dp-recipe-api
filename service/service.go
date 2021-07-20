@@ -16,10 +16,10 @@ import (
 	"github.com/pkg/errors"
 )
 
-//check that RecipeAPIStore satifies the the store.Storer interface
+// check that RecipeAPIStore satifies the the store.Storer interface
 var _ store.Storer = (*RecipeAPIStore)(nil)
 
-//RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
+// RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
 type RecipeAPIStore struct {
 	store.MongoDB
 }
