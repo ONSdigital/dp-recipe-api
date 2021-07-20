@@ -5,27 +5,34 @@ package storetest
 
 import (
 	"context"
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	"github.com/ONSdigital/dp-recipe-api/models"
 	"github.com/ONSdigital/dp-recipe-api/store"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"sync"
 )
 
-// Ensure, that StorerMock does implement store.Storer.
+// Ensure, that MongoDBMock does implement store.MongoDB.
 // If this is not the case, regenerate this file with moq.
-var _ store.Storer = &StorerMock{}
+var _ store.MongoDB = &MongoDBMock{}
 
-// StorerMock is a mock implementation of store.Storer.
+// MongoDBMock is a mock implementation of store.MongoDB.
 //
-// 	func TestSomethingThatUsesStorer(t *testing.T) {
+// 	func TestSomethingThatUsesMongoDB(t *testing.T) {
 //
-// 		// make and configure a mocked store.Storer
-// 		mockedStorer := &StorerMock{
+// 		// make and configure a mocked store.MongoDB
+// 		mockedMongoDB := &MongoDBMock{
 // 			AddCodelistFunc: func(ctx context.Context, recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
 // 				panic("mock out the AddCodelist method")
 // 			},
 // 			AddRecipeFunc: func(ctx context.Context, item models.Recipe) error {
 // 				panic("mock out the AddRecipe method")
+// 			},
+// 			CheckerFunc: func(contextMoqParam context.Context, checkState *healthcheck.CheckState) error {
+// 				panic("mock out the Checker method")
+// 			},
+// 			CloseFunc: func(contextMoqParam context.Context) error {
+// 				panic("mock out the Close method")
 // 			},
 // 			GetRecipeFunc: func(ctx context.Context, id string) (*models.Recipe, error) {
 // 				panic("mock out the GetRecipe method")
@@ -47,16 +54,22 @@ var _ store.Storer = &StorerMock{}
 // 			},
 // 		}
 //
-// 		// use mockedStorer in code that requires store.Storer
+// 		// use mockedMongoDB in code that requires store.MongoDB
 // 		// and then make assertions.
 //
 // 	}
-type StorerMock struct {
+type MongoDBMock struct {
 	// AddCodelistFunc mocks the AddCodelist method.
 	AddCodelistFunc func(ctx context.Context, recipeID string, instanceIndex int, currentRecipe *models.Recipe) error
 
 	// AddRecipeFunc mocks the AddRecipe method.
 	AddRecipeFunc func(ctx context.Context, item models.Recipe) error
+
+	// CheckerFunc mocks the Checker method.
+	CheckerFunc func(contextMoqParam context.Context, checkState *healthcheck.CheckState) error
+
+	// CloseFunc mocks the Close method.
+	CloseFunc func(contextMoqParam context.Context) error
 
 	// GetRecipeFunc mocks the GetRecipe method.
 	GetRecipeFunc func(ctx context.Context, id string) (*models.Recipe, error)
@@ -95,6 +108,18 @@ type StorerMock struct {
 			Ctx context.Context
 			// Item is the item argument value.
 			Item models.Recipe
+		}
+		// Checker holds details about calls to the Checker method.
+		Checker []struct {
+			// ContextMoqParam is the contextMoqParam argument value.
+			ContextMoqParam context.Context
+			// CheckState is the checkState argument value.
+			CheckState *healthcheck.CheckState
+		}
+		// Close holds details about calls to the Close method.
+		Close []struct {
+			// ContextMoqParam is the contextMoqParam argument value.
+			ContextMoqParam context.Context
 		}
 		// GetRecipe holds details about calls to the GetRecipe method.
 		GetRecipe []struct {
@@ -157,6 +182,8 @@ type StorerMock struct {
 	}
 	lockAddCodelist     sync.RWMutex
 	lockAddRecipe       sync.RWMutex
+	lockChecker         sync.RWMutex
+	lockClose           sync.RWMutex
 	lockGetRecipe       sync.RWMutex
 	lockGetRecipes      sync.RWMutex
 	lockUpdateAllRecipe sync.RWMutex
@@ -166,9 +193,9 @@ type StorerMock struct {
 }
 
 // AddCodelist calls AddCodelistFunc.
-func (mock *StorerMock) AddCodelist(ctx context.Context, recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
+func (mock *MongoDBMock) AddCodelist(ctx context.Context, recipeID string, instanceIndex int, currentRecipe *models.Recipe) error {
 	if mock.AddCodelistFunc == nil {
-		panic("StorerMock.AddCodelistFunc: method is nil but Storer.AddCodelist was just called")
+		panic("MongoDBMock.AddCodelistFunc: method is nil but MongoDB.AddCodelist was just called")
 	}
 	callInfo := struct {
 		Ctx           context.Context
@@ -189,8 +216,8 @@ func (mock *StorerMock) AddCodelist(ctx context.Context, recipeID string, instan
 
 // AddCodelistCalls gets all the calls that were made to AddCodelist.
 // Check the length with:
-//     len(mockedStorer.AddCodelistCalls())
-func (mock *StorerMock) AddCodelistCalls() []struct {
+//     len(mockedMongoDB.AddCodelistCalls())
+func (mock *MongoDBMock) AddCodelistCalls() []struct {
 	Ctx           context.Context
 	RecipeID      string
 	InstanceIndex int
@@ -209,9 +236,9 @@ func (mock *StorerMock) AddCodelistCalls() []struct {
 }
 
 // AddRecipe calls AddRecipeFunc.
-func (mock *StorerMock) AddRecipe(ctx context.Context, item models.Recipe) error {
+func (mock *MongoDBMock) AddRecipe(ctx context.Context, item models.Recipe) error {
 	if mock.AddRecipeFunc == nil {
-		panic("StorerMock.AddRecipeFunc: method is nil but Storer.AddRecipe was just called")
+		panic("MongoDBMock.AddRecipeFunc: method is nil but MongoDB.AddRecipe was just called")
 	}
 	callInfo := struct {
 		Ctx  context.Context
@@ -228,8 +255,8 @@ func (mock *StorerMock) AddRecipe(ctx context.Context, item models.Recipe) error
 
 // AddRecipeCalls gets all the calls that were made to AddRecipe.
 // Check the length with:
-//     len(mockedStorer.AddRecipeCalls())
-func (mock *StorerMock) AddRecipeCalls() []struct {
+//     len(mockedMongoDB.AddRecipeCalls())
+func (mock *MongoDBMock) AddRecipeCalls() []struct {
 	Ctx  context.Context
 	Item models.Recipe
 } {
@@ -243,10 +270,76 @@ func (mock *StorerMock) AddRecipeCalls() []struct {
 	return calls
 }
 
+// Checker calls CheckerFunc.
+func (mock *MongoDBMock) Checker(contextMoqParam context.Context, checkState *healthcheck.CheckState) error {
+	if mock.CheckerFunc == nil {
+		panic("MongoDBMock.CheckerFunc: method is nil but MongoDB.Checker was just called")
+	}
+	callInfo := struct {
+		ContextMoqParam context.Context
+		CheckState      *healthcheck.CheckState
+	}{
+		ContextMoqParam: contextMoqParam,
+		CheckState:      checkState,
+	}
+	mock.lockChecker.Lock()
+	mock.calls.Checker = append(mock.calls.Checker, callInfo)
+	mock.lockChecker.Unlock()
+	return mock.CheckerFunc(contextMoqParam, checkState)
+}
+
+// CheckerCalls gets all the calls that were made to Checker.
+// Check the length with:
+//     len(mockedMongoDB.CheckerCalls())
+func (mock *MongoDBMock) CheckerCalls() []struct {
+	ContextMoqParam context.Context
+	CheckState      *healthcheck.CheckState
+} {
+	var calls []struct {
+		ContextMoqParam context.Context
+		CheckState      *healthcheck.CheckState
+	}
+	mock.lockChecker.RLock()
+	calls = mock.calls.Checker
+	mock.lockChecker.RUnlock()
+	return calls
+}
+
+// Close calls CloseFunc.
+func (mock *MongoDBMock) Close(contextMoqParam context.Context) error {
+	if mock.CloseFunc == nil {
+		panic("MongoDBMock.CloseFunc: method is nil but MongoDB.Close was just called")
+	}
+	callInfo := struct {
+		ContextMoqParam context.Context
+	}{
+		ContextMoqParam: contextMoqParam,
+	}
+	mock.lockClose.Lock()
+	mock.calls.Close = append(mock.calls.Close, callInfo)
+	mock.lockClose.Unlock()
+	return mock.CloseFunc(contextMoqParam)
+}
+
+// CloseCalls gets all the calls that were made to Close.
+// Check the length with:
+//     len(mockedMongoDB.CloseCalls())
+func (mock *MongoDBMock) CloseCalls() []struct {
+	ContextMoqParam context.Context
+} {
+	var calls []struct {
+		ContextMoqParam context.Context
+	}
+	mock.lockClose.RLock()
+	calls = mock.calls.Close
+	mock.lockClose.RUnlock()
+	return calls
+}
+
 // GetRecipe calls GetRecipeFunc.
-func (mock *StorerMock) GetRecipe(ctx context.Context, id string) (*models.Recipe, error) {
+func (mock *MongoDBMock) GetRecipe(ctx context.Context, id string) (*models.Recipe, error) {
 	if mock.GetRecipeFunc == nil {
-		panic("StorerMock.GetRecipeFunc: method is nil but Storer.GetRecipe was just called")
+		panic("MongoDBMock.GetRecipeFunc: method is nil but MongoDB.GetRecipe was just called")
 	}
 	callInfo := struct {
 		Ctx context.Context
@@ -263,8 +356,8 @@ func (mock *StorerMock) GetRecipe(ctx context.Context, id string) (*models.Recip
 
 // GetRecipeCalls gets all the calls that were made to GetRecipe.
 // Check the length with:
-//     len(mockedStorer.GetRecipeCalls())
-func (mock *StorerMock) GetRecipeCalls() []struct {
+//     len(mockedMongoDB.GetRecipeCalls())
+func (mock *MongoDBMock) GetRecipeCalls() []struct {
 	Ctx context.Context
 	ID  string
 } {
@@ -279,9 +372,9 @@ func (mock *StorerMock) GetRecipeCalls() []struct {
 }
 
 // GetRecipes calls GetRecipesFunc.
-func (mock *StorerMock) GetRecipes(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
+func (mock *MongoDBMock) GetRecipes(ctx context.Context, offset int, limit int) (*models.RecipeResults, error) {
 	if mock.GetRecipesFunc == nil {
-		panic("StorerMock.GetRecipesFunc: method is nil but Storer.GetRecipes was just called")
+		panic("MongoDBMock.GetRecipesFunc: method is nil but MongoDB.GetRecipes was just called")
 	}
 	callInfo := struct {
 		Ctx    context.Context
@@ -300,8 +393,8 @@ func (mock *StorerMock) GetRecipes(ctx context.Context, offset int, limit int) (
 
 // GetRecipesCalls gets all the calls that were made to GetRecipes.
 // Check the length with:
-//     len(mockedStorer.GetRecipesCalls())
-func (mock *StorerMock) GetRecipesCalls() []struct {
+//     len(mockedMongoDB.GetRecipesCalls())
+func (mock *MongoDBMock) GetRecipesCalls() []struct {
 	Ctx    context.Context
 	Offset int
 	Limit  int
@@ -318,9 +411,9 @@ func (mock *StorerMock) GetRecipesCalls() []struct {
 }
 
 // UpdateAllRecipe calls UpdateAllRecipeFunc.
-func (mock *StorerMock) UpdateAllRecipe(ctx context.Context, id string, update primitive.M) error {
+func (mock *MongoDBMock) UpdateAllRecipe(ctx context.Context, id string, update primitive.M) error {
 	if mock.UpdateAllRecipeFunc == nil {
-		panic("StorerMock.UpdateAllRecipeFunc: method is nil but Storer.UpdateAllRecipe was just called")
+		panic("MongoDBMock.UpdateAllRecipeFunc: method is nil but MongoDB.UpdateAllRecipe was just called")
 	}
 	callInfo := struct {
 		Ctx    context.Context
@@ -339,8 +432,8 @@ func (mock *StorerMock) UpdateAllRecipe(ctx context.Context, id string, update p
 
 // UpdateAllRecipeCalls gets all the calls that were made to UpdateAllRecipe.
 // Check the length with:
-//     len(mockedStorer.UpdateAllRecipeCalls())
-func (mock *StorerMock) UpdateAllRecipeCalls() []struct {
+//     len(mockedMongoDB.UpdateAllRecipeCalls())
+func (mock *MongoDBMock) UpdateAllRecipeCalls() []struct {
 	Ctx    context.Context
 	ID     string
 	Update primitive.M
@@ -357,9 +450,9 @@ func (mock *StorerMock) UpdateAllRecipeCalls() []struct {
 }
 
 // UpdateCodelist calls UpdateCodelistFunc.
-func (mock *StorerMock) UpdateCodelist(ctx context.Context, recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error {
+func (mock *MongoDBMock) UpdateCodelist(ctx context.Context, recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) error {
 	if mock.UpdateCodelistFunc == nil {
-		panic("StorerMock.UpdateCodelistFunc: method is nil but Storer.UpdateCodelist was just called")
+		panic("MongoDBMock.UpdateCodelistFunc: method is nil but MongoDB.UpdateCodelist was just called")
 	}
 	callInfo := struct {
 		Ctx           context.Context
@@ -382,8 +475,8 @@ func (mock *StorerMock) UpdateCodelist(ctx context.Context, recipeID string, ins
 
 // UpdateCodelistCalls gets all the calls that were made to UpdateCodelist.
 // Check the length with:
-//     len(mockedStorer.UpdateCodelistCalls())
-func (mock *StorerMock) UpdateCodelistCalls() []struct {
+//     len(mockedMongoDB.UpdateCodelistCalls())
+func (mock *MongoDBMock) UpdateCodelistCalls() []struct {
 	Ctx           context.Context
 	RecipeID      string
 	InstanceIndex int
@@ -404,9 +497,9 @@ func (mock *StorerMock) UpdateCodelistCalls() []struct {
 }
 
 // UpdateInstance calls UpdateInstanceFunc.
-func (mock *StorerMock) UpdateInstance(ctx context.Context, recipeID string, instanceIndex int, updates models.Instance) error {
+func (mock *MongoDBMock) UpdateInstance(ctx context.Context, recipeID string, instanceIndex int, updates models.Instance) error {
 	if mock.UpdateInstanceFunc == nil {
-		panic("StorerMock.UpdateInstanceFunc: method is nil but Storer.UpdateInstance was just called")
+		panic("MongoDBMock.UpdateInstanceFunc: method is nil but MongoDB.UpdateInstance was just called")
 	}
 	callInfo := struct {
 		Ctx           context.Context
@@ -427,8 +520,8 @@ func (mock *StorerMock) UpdateInstance(ctx context.Context, recipeID string, ins
 
 // UpdateInstanceCalls gets all the calls that were made to UpdateInstance.
 // Check the length with:
-//     len(mockedStorer.UpdateInstanceCalls())
-func (mock *StorerMock) UpdateInstanceCalls() []struct {
+//     len(mockedMongoDB.UpdateInstanceCalls())
+func (mock *MongoDBMock) UpdateInstanceCalls() []struct {
 	Ctx           context.Context
 	RecipeID      string
 	InstanceIndex int
@@ -447,9 +540,9 @@ func (mock *StorerMock) UpdateInstanceCalls() []struct {
 }
 
 // UpdateRecipe calls UpdateRecipeFunc.
-func (mock *StorerMock) UpdateRecipe(ctx context.Context, recipeID string, updates models.Recipe) error {
+func (mock *MongoDBMock) UpdateRecipe(ctx context.Context, recipeID string, updates models.Recipe) error {
 	if mock.UpdateRecipeFunc == nil {
-		panic("StorerMock.UpdateRecipeFunc: method is nil but Storer.UpdateRecipe was just called")
+		panic("MongoDBMock.UpdateRecipeFunc: method is nil but MongoDB.UpdateRecipe was just called")
 	}
 	callInfo := struct {
 		Ctx      context.Context
@@ -468,8 +561,8 @@ func (mock *StorerMock) UpdateRecipe(ctx context.Context, recipeID string, updat
 
 // UpdateRecipeCalls gets all the calls that were made to UpdateRecipe.
 // Check the length with:
-//     len(mockedStorer.UpdateRecipeCalls())
-func (mock *StorerMock) UpdateRecipeCalls() []struct {
+//     len(mockedMongoDB.UpdateRecipeCalls())
+func (mock *MongoDBMock) UpdateRecipeCalls() []struct {
 	Ctx      context.Context
 	RecipeID string
 	Updates  models.Recipe

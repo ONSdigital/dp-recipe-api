@@ -4,57 +4,66 @@ import (
 	"context"
 	"errors"
 	"strconv"
+	"time"
 
+	"github.com/ONSdigital/dp-healthcheck/healthcheck"
+	dpMongoHealth "github.com/ONSdigital/dp-mongodb/v2/health"
 	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v2/mongodb"
-	"go.mongodb.org/mongo-driver/bson"
-
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/models"
 	"github.com/ONSdigital/log.go/log"
-)
-
-const (
-	connectTimeoutInSeconds = 5
-	queryTimeoutInSeconds   = 15
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 // Mongo represents a simplistic MongoDB configuration.
 type Mongo struct {
-	Collection string
-	Database   string
-	Connection *dpMongoDriver.MongoConnection
-	Username   string
-	Password   string
-	URI        string
-	IsSSL      bool
+	Collection              string
+	Database                string
+	Connection              *dpMongoDriver.MongoConnection
+	Username                string `json:"-"`
+	Password                string `json:"-"`
+	URI                     string
+	IsSSL                   bool
+	healthClient            *dpMongoHealth.CheckMongoClient
+	ConnectTimeoutInSeconds time.Duration
+	QueryTimeoutInSeconds   time.Duration
 }
 
-func (m *Mongo) getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern bool) *dpMongoDriver.MongoConnectionConfig {
+func (m *Mongo) getConnectionConfig(enableReadConcern, enableWriteConcern bool) *dpMongoDriver.MongoConnectionConfig {
 	return &dpMongoDriver.MongoConnectionConfig{
 		IsSSL:                   m.IsSSL,
-		ConnectTimeoutInSeconds: connectTimeoutInSeconds,
-		QueryTimeoutInSeconds:   queryTimeoutInSeconds,
+		ConnectTimeoutInSeconds: m.ConnectTimeoutInSeconds,
+		QueryTimeoutInSeconds:   m.QueryTimeoutInSeconds,
 
 		Username:                      m.Username,
 		Password:                      m.Password,
 		ClusterEndpoint:               m.URI,
 		Database:                      m.Database,
 		Collection:                    m.Collection,
-		IsWriteConcernMajorityEnabled: shouldEnableWriteConcern,
-		IsStrongReadConcernEnabled:    shouldEnableReadConcern,
+		IsWriteConcernMajorityEnabled: enableWriteConcern,
+		IsStrongReadConcernEnabled:    enableReadConcern,
 	}
 }
 
 // Init creates a new mgo.Connection with a strong consistency and a write mode of "majority".
-func (m *Mongo) Init(ctx context.Context, shouldEnableReadConcern, shouldEnableWriteConcern bool) (err error) {
+func (m *Mongo) Init(ctx context.Context, enableReadConcern, enableWriteConcern bool) (err error) {
 	if m.Connection != nil {
 		return errors.New("Datastore Connection already exists")
 	}
-	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern))
+	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig(enableReadConcern, enableWriteConcern))
 	if err != nil {
 		return err
 	}
 	m.Connection = mongoConnection
+	databaseCollectionBuilder := make(map[dpMongoHealth.Database][]dpMongoHealth.Collection)
+	databaseCollectionBuilder[(dpMongoHealth.Database)(m.Database)] = []dpMongoHealth.Collection{(dpMongoHealth.Collection)(m.Collection)}
+
+	// Create client and health client from session AND collections
+	client := dpMongoHealth.NewClientWithCollections(mongoConnection, databaseCollectionBuilder)
+	m.healthClient = &dpMongoHealth.CheckMongoClient{
+		Client:      *client,
+		Healthcheck: client.Healthcheck,
+	}
 	return nil
 }
 
@@ -158,4 +167,17 @@ func (m *Mongo) AddCodelist(ctx context.Context, recipeID string, instanceIndex 
 func (m *Mongo) UpdateCodelist(ctx context.Context, recipeID string, instanceIndex int, codelistIndex int, updates models.CodeList) (err error) {
 	update := bson.M{"$set": bson.M{"output_instances." + strconv.Itoa(instanceIndex) + ".code_lists." + strconv.Itoa(codelistIndex): updates}}
 	return m.UpdateAllRecipe(ctx, recipeID, update)
+}
+
+// Close closes the mongo session and returns any error
+func (m *Mongo) Close(ctx context.Context) error {
+	if m.Connection == nil {
+		return errors.New("cannot close a empty connection")
+	}
+	return m.Connection.Close(ctx)
+}
+
+// Checker is called by the healthcheck library to check the health state of this mongoDB instance
+func (m *Mongo) Checker(ctx context.Context, state *healthcheck.CheckState) error {
+	return m.healthClient.Checker(ctx, state)
 }
