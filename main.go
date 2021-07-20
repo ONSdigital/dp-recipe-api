@@ -63,7 +63,7 @@ func run(ctx context.Context) error {
 
 	// Run the service
 	svc := service.New(cfg, svcList)
-	if err := svc.Run(ctx, "15455", GitCommit, Version, svcErrors); err != nil {
+	if err := svc.Run(ctx, BuildTime, GitCommit, Version, svcErrors); err != nil {
 		return errors.Wrap(err, "running service failed")
 	}
 
