@@ -28,7 +28,7 @@ type AuthHandler interface {
 	Require(required auth.Permissions, handler http.HandlerFunc) http.HandlerFunc
 }
 
-//RecipeAPI contains store and features for managing the recipe
+// RecipeAPI contains store and features for managing the recipe
 type RecipeAPI struct {
 	dataStore     store.DataStore
 	Router        *mux.Router
@@ -62,17 +62,17 @@ func Setup(ctx context.Context, cfg *config.Configuration, router *mux.Router, d
 	return api
 }
 
-//get - register a GET http.HandlerFunc.
+// get - register a GET http.HandlerFunc.
 func (api *RecipeAPI) get(path string, handler http.HandlerFunc) {
 	api.Router.HandleFunc(path, handler).Methods("GET")
 }
 
-//post - register a POST http.HandlerFunc.
+// post - register a POST http.HandlerFunc.
 func (api *RecipeAPI) post(path string, handler http.HandlerFunc) {
 	api.Router.HandleFunc(path, handler).Methods("POST")
 }
 
-//put - register a PUT http.HandlerFunc.
+// put - register a PUT http.HandlerFunc.
 func (api *RecipeAPI) put(path string, handler http.HandlerFunc) {
 	api.Router.HandleFunc(path, handler).Methods("PUT")
 }
