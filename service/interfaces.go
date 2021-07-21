@@ -18,7 +18,7 @@ import (
 type Initialiser interface {
 	DoGetHTTPServer(bindAddr string, router http.Handler) HTTPServer
 	DoGetHealthCheck(cfg *config.Configuration, buildTime, gitCommit, version string) (HealthChecker, error)
-	DoGetMongoDB(ctx context.Context, cfg *config.MongoConfig) (store.MongoDB, error)
+	DoGetMongoDB(ctx context.Context, cfg *config.Configuration) (store.MongoDB, error)
 }
 
 // HTTPServer defines the required methods from the HTTP server

@@ -16,10 +16,10 @@ import (
 	"github.com/pkg/errors"
 )
 
-//check that RecipeAPIStore satifies the the store.Storer interface
+// check that RecipeAPIStore satifies the the store.Storer interface
 var _ store.Storer = (*RecipeAPIStore)(nil)
 
-//RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
+// RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
 type RecipeAPIStore struct {
 	store.MongoDB
 }
@@ -63,7 +63,7 @@ func (svc *Service) SetMongoDB(mongoDB store.MongoDB) {
 func (svc *Service) Run(ctx context.Context, buildTime, gitCommit, version string, svcErrors chan error) (err error) {
 
 	// Get MongoDB connection
-	svc.mongoDB, err = svc.serviceList.GetMongoDB(ctx, &svc.config.MongoConfig)
+	svc.mongoDB, err = svc.serviceList.GetMongoDB(ctx, svc.config)
 	if err != nil {
 		log.Event(ctx, "could not obtain mongo session", log.ERROR, log.Error(err))
 		return err

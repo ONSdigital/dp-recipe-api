@@ -17,15 +17,15 @@ import (
 	"github.com/pkg/errors"
 )
 
-//check that RecipeAPIStore satifies the the store.Storer interface
+// check that RecipeAPIStore satifies the the store.Storer interface
 var _ store.Storer = (*RecipeAPIStore)(nil)
 
-//RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
+// RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
 type RecipeAPIStore struct {
 	*mongo.Mongo
 }
 
-//health check variables - app version informaton retrieved on runtime
+// health check variables - app version informaton retrieved on runtime
 var (
 	// BuildTime represents the time in which the service was built
 	BuildTime string
