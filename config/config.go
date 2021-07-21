@@ -21,16 +21,12 @@ type Configuration struct {
 
 // MongoConfig contains the config required to connect to MongoDB.
 type MongoConfig struct {
-	BindAddr                string        `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
-	Collection              string        `envconfig:"MONGODB_COLLECTION"`
-	Database                string        `envconfig:"MONGODB_DATABASE"`
-	Username                string        `envconfig:"MONGODB_USERNAME"    json:"-"`
-	Password                string        `envconfig:"MONGODB_PASSWORD"    json:"-"`
-	IsSSL                   bool          `envconfig:"MONGODB_IS_SSL"`
-	EnableReadConcern       bool          `envconfig:"MONGODB_ENABLE_READ_CONCERN"`
-	EnableWriteConcern      bool          `envconfig:"MONGODB_ENABLE_WRITE_CONCERN"`
-	ConnectTimeoutInSeconds time.Duration `envconfig:"MONGODB_CONNECT_TIMEOUT"`
-	QueryTimeoutInSeconds   time.Duration `envconfig:"MONGODB_QUERY_TIMEOUT"`
+	BindAddr   string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
+	Collection string `envconfig:"MONGODB_COLLECTION"`
+	Database   string `envconfig:"MONGODB_DATABASE"`
+	Username   string `envconfig:"MONGODB_USERNAME"    json:"-"`
+	Password   string `envconfig:"MONGODB_PASSWORD"    json:"-"`
+	IsSSL      bool   `envconfig:"MONGODB_IS_SSL"`
 }
 
 var cfg *Configuration
@@ -51,16 +47,12 @@ func Get() (*Configuration, error) {
 		HealthCheckCriticalTimeout: 90 * time.Second,
 		ZebedeeURL:                 "http://localhost:8082",
 		MongoConfig: MongoConfig{
-			BindAddr:                "localhost:27017",
-			Collection:              "recipes",
-			Database:                "recipes",
-			Username:                "",
-			Password:                "",
-			IsSSL:                   false,
-			EnableReadConcern:       true,
-			EnableWriteConcern:      true,
-			ConnectTimeoutInSeconds: 5 * time.Second,
-			QueryTimeoutInSeconds:   15 * time.Second,
+			BindAddr:   "localhost:27017",
+			Collection: "recipes",
+			Database:   "recipes",
+			Username:   "",
+			Password:   "",
+			IsSSL:      false,
 		},
 	}
 

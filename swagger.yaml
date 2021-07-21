@@ -342,7 +342,7 @@ definitions:
       format:
         type: string
         description: "The recipe format"
-        enum: ["v4", "cantabular_blob", "cantabular_table"]
+        enum: ["v4", "cantabular-blob", "cantabular-table"]
       files:
         type: array
         items: 
