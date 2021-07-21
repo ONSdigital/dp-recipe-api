@@ -27,6 +27,9 @@ one of:
 | MONGODB_BIND_ADDR            | localhost:27017                        | The MongoDB bind address
 | MONGODB_DATABASE             | recipes                                | The MongoDB dataset database
 | MONGODB_COLLECTION           | recipes                                | MongoDB collection
+| MONGODB_USERNAME             | test                                   | MongoDB Username
+| MONGODB_PASSWORD             | test                                   | MongoDB Password
+| MONGODB_IS_SSL               | false                                  | is SSL enabled for mongo server
 | GRACEFUL_SHUTDOWN_TIMEOUT    | 5s                                     | The graceful shutdown timeout in seconds
 | HEALTHCHECK_INTERVAL         | 30s                                    | The time between calling healthcheck endpoints for check subsystems
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s                                    | The time taken for the health changes from warning state to critical due to subsystem check failures

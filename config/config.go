@@ -21,9 +21,16 @@ type Configuration struct {
 
 // MongoConfig contains the config required to connect to MongoDB.
 type MongoConfig struct {
-	BindAddr   string `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
-	Collection string `envconfig:"MONGODB_COLLECTION"`
-	Database   string `envconfig:"MONGODB_DATABASE"`
+	BindAddr           string        `envconfig:"MONGODB_BIND_ADDR"   json:"-"`
+	Collection         string        `envconfig:"MONGODB_COLLECTION"`
+	Database           string        `envconfig:"MONGODB_DATABASE"`
+	Username           string        `envconfig:"MONGODB_USERNAME"    json:"-"`
+	Password           string        `envconfig:"MONGODB_PASSWORD"    json:"-"`
+	IsSSL              bool          `envconfig:"MONGODB_IS_SSL"`
+	EnableReadConcern  bool          `envconfig:"MONGODB_ENABLE_READ_CONCERN"`
+	EnableWriteConcern bool          `envconfig:"MONGODB_ENABLE_WRITE_CONCERN"`
+	QueryTimeout       time.Duration `envconfig:"MONGODB_QUERY_TIMEOUT"`
+	ConnectionTimeout  time.Duration `envconfig:"MONGODB_CONNECT_TIMEOUT"`
 }
 
 var cfg *Configuration
@@ -44,9 +51,16 @@ func Get() (*Configuration, error) {
 		HealthCheckCriticalTimeout: 90 * time.Second,
 		ZebedeeURL:                 "http://localhost:8082",
 		MongoConfig: MongoConfig{
-			BindAddr:   "localhost:27017",
-			Collection: "recipes",
-			Database:   "recipes",
+			BindAddr:           "localhost:27017",
+			Collection:         "recipes",
+			Database:           "recipes",
+			Username:           "",
+			Password:           "",
+			IsSSL:              false,
+			QueryTimeout:       15 * time.Second,
+			ConnectionTimeout:  5 * time.Second,
+			EnableReadConcern:  false,
+			EnableWriteConcern: true,
 		},
 	}
 
