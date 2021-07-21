@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"strconv"
+	"time"
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 	dpMongoHealth "github.com/ONSdigital/dp-mongodb/v2/health"
@@ -14,28 +15,25 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-const (
-	connectTimeoutInSeconds = 5
-	queryTimeoutInSeconds   = 15
-)
-
 // Mongo represents a simplistic MongoDB configuration.
 type Mongo struct {
-	Collection   string
-	Database     string
-	Connection   *dpMongoDriver.MongoConnection
-	Username     string
-	Password     string
-	URI          string
-	IsSSL        bool
-	healthClient *dpMongoHealth.CheckMongoClient
+	Collection                 string
+	Database                   string
+	Connection                 *dpMongoDriver.MongoConnection
+	Username                   string
+	Password                   string
+	URI                        string
+	IsSSL                      bool
+	healthClient               *dpMongoHealth.CheckMongoClient
+	QueryTimeoutInSeconds      time.Duration
+	ConnectionTimeoutInSeconds time.Duration
 }
 
 func (m *Mongo) getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern bool) *dpMongoDriver.MongoConnectionConfig {
 	return &dpMongoDriver.MongoConnectionConfig{
 		IsSSL:                   m.IsSSL,
-		ConnectTimeoutInSeconds: connectTimeoutInSeconds,
-		QueryTimeoutInSeconds:   queryTimeoutInSeconds,
+		ConnectTimeoutInSeconds: m.ConnectionTimeoutInSeconds,
+		QueryTimeoutInSeconds:   m.QueryTimeoutInSeconds,
 
 		Username:                      m.Username,
 		Password:                      m.Password,
@@ -48,11 +46,11 @@ func (m *Mongo) getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteCo
 }
 
 // Init creates a new mgo.Connection with a strong consistency and a write mode of "majority".
-func (m *Mongo) Init(ctx context.Context, shouldEnableReadConcern, shouldEnableWriteConcern bool) (err error) {
+func (m *Mongo) Init(ctx context.Context, enableReadConcern, enableWriteConcern bool) (err error) {
 	if m.Connection != nil {
 		return errors.New("Datastore Connection already exists")
 	}
-	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig(shouldEnableReadConcern, shouldEnableWriteConcern))
+	mongoConnection, err := dpMongoDriver.Open(m.getConnectionConfig(enableReadConcern, enableWriteConcern))
 	if err != nil {
 		return err
 	}

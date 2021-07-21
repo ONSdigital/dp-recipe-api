@@ -76,11 +76,16 @@ func (e *Init) DoGetHealthCheck(cfg *config.Configuration, buildTime, gitCommit,
 // DoGetMongoDB returns a MongoDB
 func (e *Init) DoGetMongoDB(ctx context.Context, cfg *config.Configuration) (store.MongoDB, error) {
 	mongodb := &mongo.Mongo{
-		Collection: cfg.MongoConfig.Collection,
-		Database:   cfg.MongoConfig.Database,
-		URI:        cfg.MongoConfig.BindAddr,
+		Collection:                 cfg.MongoConfig.Collection,
+		Database:                   cfg.MongoConfig.Database,
+		URI:                        cfg.MongoConfig.BindAddr,
+		Username:                   cfg.MongoConfig.Username,
+		Password:                   cfg.MongoConfig.Password,
+		IsSSL:                      cfg.MongoConfig.IsSSL,
+		QueryTimeoutInSeconds:      cfg.MongoConfig.QueryTimeout,
+		ConnectionTimeoutInSeconds: cfg.MongoConfig.ConnectionTimeout,
 	}
-	if err := mongodb.Init(ctx, true, true); err != nil {
+	if err := mongodb.Init(ctx, cfg.MongoConfig.EnableReadConcern, cfg.MongoConfig.EnableWriteConcern); err != nil {
 		return nil, err
 	}
 	log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{"URI": mongodb.URI})
