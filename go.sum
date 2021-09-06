@@ -20,8 +20,12 @@ github.com/ONSdigital/dp-mocking v0.0.0-20190905163309-fee2702ad1b9 h1:+WXVfTDyW
 github.com/ONSdigital/dp-mocking v0.0.0-20190905163309-fee2702ad1b9/go.mod h1:BcIRgitUju//qgNePRBmNjATarTtynAgc0yV29VpLEk=
 github.com/ONSdigital/dp-mongodb v1.5.0 h1:Jrqixx0xr9aPSPya0Wce8Ly1zVwB0M6nC3K4umNPfqI=
 github.com/ONSdigital/dp-mongodb v1.5.0/go.mod h1:zm2gWzuqR+aiy2y2NLnfBIafvhKQ0IVPtiClaYyLkmo=
+github.com/ONSdigital/dp-mongodb v1.6.0 h1:RuIAeHo4HgB/LbGaCzvXXfEz36LYeBjY9rMIKDAS10o=
+github.com/ONSdigital/dp-mongodb v1.6.0/go.mod h1:DMVcvTIuIbm4F/4ww5iMRKq+dFa6QinyXWUaYd+0+bM=
 github.com/ONSdigital/dp-mongodb/v2 v2.3.0 h1:dVU8AdbsREREfHZdNTdsDiKryfFay/CejwrWtzQRP8M=
 github.com/ONSdigital/dp-mongodb/v2 v2.3.0/go.mod h1:MjnhhOPx1EN4HmkN4/DZmg2XdJHOsSNvfMPL2HMsxLw=
+github.com/ONSdigital/dp-mongodb/v2 v2.8.0 h1:Ss+hxn1CNLNU7i9899v3qj6TevWahqzcVOiTcwZxwVo=
+github.com/ONSdigital/dp-mongodb/v2 v2.8.0/go.mod h1:S65BXr1nw8DUx2dsjlQAKbarac2UcMoBWm25d5YiVfw=
 github.com/ONSdigital/dp-net v1.0.5-0.20200805082802-e518bc287596/go.mod h1:wDVhk2pYosQ1q6PXxuFIRYhYk2XX5+1CeRRnXpSczPY=
 github.com/ONSdigital/dp-net v1.0.5-0.20200805145012-9227a11caddb/go.mod h1:MrSZwDUvp8u1VJEqa+36Gwq4E7/DdceW+BDCvGes6Cs=
 github.com/ONSdigital/dp-net v1.0.5-0.20200805150805-cac050646ab5/go.mod h1:de3LB9tedE0tObBwa12dUOt5rvTW4qQkF5rXtt4b6CE=
@@ -49,6 +53,8 @@ github.com/ONSdigital/log.go v1.0.1-0.20200805145532-1f25087a0744/go.mod h1:y4E9
 github.com/ONSdigital/log.go v1.0.1 h1:SZ5wRZAwlt2jQUZ9AUzBB/PL+iG15KapfQpJUdA18/4=
 github.com/ONSdigital/log.go v1.0.1/go.mod h1:dIwSXuvFB5EsZG5x44JhsXZKMd80zlb0DZxmiAtpL4M=
 github.com/ONSdigital/log.go/v2 v2.0.0/go.mod h1:PR7vXrv9dZKUc7SI/0toxBbStk84snmybBnWpe+xY2o=
+github.com/ONSdigital/log.go/v2 v2.0.5 h1:kl2lF0vr3BQDwPTAUcarDvX4Um3uE3fjVRfLoHAarBc=
+github.com/ONSdigital/log.go/v2 v2.0.5/go.mod h1:PR7vXrv9dZKUc7SI/0toxBbStk84snmybBnWpe+xY2o=
 github.com/acobaugh/osrelease v0.0.0-20181218015638-a93a0a55a249 h1:fMi9ZZ/it4orHj3xWrM6cLkVFcCbkXQALFUiNtHtCPs=
 github.com/acobaugh/osrelease v0.0.0-20181218015638-a93a0a55a249/go.mod h1:iU1PxQMQwoHZZWmMKrMkrNlY+3+p9vxIjpZOVyxWa0g=
 github.com/aslakhellesoy/gox v1.0.100/go.mod h1:AJl542QsKKG96COVsv0N74HHzVQgDIQPceVUh1aeU2M=
