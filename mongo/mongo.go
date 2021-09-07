@@ -11,7 +11,7 @@ import (
 	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v2/mongodb"
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/models"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -76,7 +76,7 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 		if dpMongoDriver.IsErrNoDocumentFound(err) {
 			return emptyRecipeResults(offset, limit), nil
 		}
-		log.Event(ctx, "error counting items", log.ERROR, log.Error(err))
+		log.Error(ctx, "error counting items", err)
 		return nil, err
 	}
 

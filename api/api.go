@@ -10,7 +10,7 @@ import (
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/store"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 )
 
@@ -82,7 +82,7 @@ func writeResponse(ctx context.Context, w http.ResponseWriter, statusCode int, b
 	w.WriteHeader(statusCode)
 	if _, err := w.Write(b); err != nil {
 		logData["endpoint"] = action
-		log.Event(ctx, "failed to write response body", log.ERROR, log.Error(err), logData)
+		log.Error(ctx, "failed to write response body", err, logData)
 	}
 }
 
@@ -118,5 +118,5 @@ func handleCustomErr(ctx context.Context, w http.ResponseWriter, err error, logD
 
 func logResponseStatus(ctx context.Context, logData log.Data, status int, err error) {
 	logData["responseStatus"] = status
-	log.Event(ctx, "request unsuccessful", log.ERROR, log.Error(err), logData)
+	log.Error(ctx, "request unsuccessful", err, logData)
 }

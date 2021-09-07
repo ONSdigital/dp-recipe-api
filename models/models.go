@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 )
 
 // RecipeResults - struct for list of recipes
@@ -136,7 +136,7 @@ func (codelist *CodeList) validateCodelist(ctx context.Context) (missingFields [
 func (codelist *CodeList) validateCodelistHRef(ctx context.Context) bool {
 	hRefURL, err := url.Parse(codelist.HRef)
 	if err != nil {
-		log.Event(ctx, "error parsing codelist.href", log.ERROR, log.Error(err))
+		log.Error(ctx, "error parsing codelist.href", err)
 		return false
 	}
 	urlPathBool := strings.Contains(hRefURL.Path, "/code-lists") && strings.Contains(hRefURL.Path, codelist.ID)

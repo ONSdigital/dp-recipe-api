@@ -10,7 +10,7 @@ import (
 	"github.com/ONSdigital/dp-recipe-api/api"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/store"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 	"github.com/justinas/alice"
 	"github.com/pkg/errors"
@@ -65,7 +65,7 @@ func (svc *Service) Run(ctx context.Context, buildTime, gitCommit, version strin
 	// Get MongoDB connection
 	svc.mongoDB, err = svc.serviceList.GetMongoDB(ctx, svc.config)
 	if err != nil {
-		log.Event(ctx, "could not obtain mongo session", log.ERROR, log.Error(err))
+		log.Error(ctx, "could not obtain mongo session", err)
 		return err
 	}
 	store := store.DataStore{Backend: RecipeAPIStore{svc.mongoDB}}
@@ -75,7 +75,7 @@ func (svc *Service) Run(ctx context.Context, buildTime, gitCommit, version strin
 	// Get HealthCheck
 	svc.healthCheck, err = svc.serviceList.GetHealthCheck(svc.config, buildTime, gitCommit, version)
 	if err != nil {
-		log.Event(ctx, "could not instantiate healthcheck", log.FATAL, log.Error(err))
+		log.Fatal(ctx, "could not instantiate healthcheck", err)
 		return err
 	}
 	if err := svc.registerCheckers(ctx); err != nil {
@@ -146,7 +146,7 @@ func healthcheckMiddleware(healthcheckHandler func(http.ResponseWriter, *http.Re
 // Close gracefully shuts the service down in the required order, with timeout
 func (svc *Service) Close(ctx context.Context) error {
 	timeout := svc.config.GracefulShutdownTimeout
-	log.Event(ctx, "commencing graceful shutdown", log.Data{"graceful_shutdown_timeout": timeout}, log.INFO)
+	log.Info(ctx, "commencing graceful shutdown", log.Data{"graceful_shutdown_timeout": timeout})
 	shutdownContext, cancel := context.WithTimeout(ctx, timeout)
 	hasShutdownError := false
 
@@ -161,14 +161,14 @@ func (svc *Service) Close(ctx context.Context) error {
 
 		// stop any incoming requests
 		if err := svc.server.Shutdown(shutdownContext); err != nil {
-			log.Event(shutdownContext, "failed to shutdown http server", log.Error(err), log.ERROR)
+			log.Error(shutdownContext, "failed to shutdown http server", err)
 			hasShutdownError = true
 		}
 
 		// Close MongoDB (if it exists)
 		if svc.serviceList.MongoDB {
 			if err := svc.mongoDB.Close(shutdownContext); err != nil {
-				log.Event(shutdownContext, "failed to close mongo db session", log.ERROR, log.Error(err))
+				log.Error(shutdownContext, "failed to close mongo db session", err)
 				hasShutdownError = true
 			}
 		}
@@ -179,18 +179,18 @@ func (svc *Service) Close(ctx context.Context) error {
 
 	// timeout expired
 	if shutdownContext.Err() == context.DeadlineExceeded {
-		log.Event(shutdownContext, "shutdown timed out", log.ERROR, log.Error(shutdownContext.Err()))
+		log.Error(shutdownContext, "shutdown timed out", shutdownContext.Err())
 		return shutdownContext.Err()
 	}
 
 	// other error
 	if hasShutdownError {
 		err := errors.New("failed to shutdown gracefully")
-		log.Event(shutdownContext, "failed to shutdown gracefully ", log.ERROR, log.Error(err))
+		log.Error(shutdownContext, "failed to shutdown gracefully ", err)
 		return err
 	}
 
-	log.Event(shutdownContext, "graceful shutdown was successful", log.INFO)
+	log.Info(shutdownContext, "graceful shutdown was successful")
 	return nil
 }
 
@@ -200,12 +200,12 @@ func (svc *Service) registerCheckers(ctx context.Context) (err error) {
 
 	if err = svc.healthCheck.AddCheck("Zebedee", svc.identityClient.Checker); err != nil {
 		hasErrors = true
-		log.Event(ctx, "error adding check for zebedeee", log.ERROR, log.Error(err))
+		log.Error(ctx, "error adding check for zebedeee", err)
 	}
 
 	if err = svc.healthCheck.AddCheck("Mongo DB", svc.mongoDB.Checker); err != nil {
 		hasErrors = true
-		log.Event(ctx, "error adding check for mongo db", log.ERROR, log.Error(err))
+		log.Error(ctx, "error adding check for mongo db", err)
 	}
 
 	if hasErrors {
