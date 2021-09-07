@@ -3,11 +3,11 @@ module github.com/ONSdigital/dp-recipe-api
 go 1.16
 
 require (
-	github.com/ONSdigital/dp-api-clients-go v1.41.1
-	github.com/ONSdigital/dp-authorisation v0.1.0
-	github.com/ONSdigital/dp-healthcheck v1.0.5
+	github.com/ONSdigital/dp-api-clients-go v1.43.0
+	github.com/ONSdigital/dp-authorisation v0.2.0
+	github.com/ONSdigital/dp-healthcheck v1.1.0
 	github.com/ONSdigital/dp-mongodb/v2 v2.8.0
-	github.com/ONSdigital/dp-net v1.0.12
+	github.com/ONSdigital/dp-net v1.2.0
 	github.com/ONSdigital/dp-rchttp v1.0.0
 	github.com/ONSdigital/go-ns v0.0.0-20210410105122-6d6a140e952e // indirect
 	github.com/ONSdigital/log.go/v2 v2.0.9
