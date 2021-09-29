@@ -8,7 +8,7 @@ import (
 
 	"github.com/ONSdigital/dp-api-clients-go/zebedee"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	mongoHealth "github.com/ONSdigital/dp-mongodb/v2/health"
+	mongoHealth "github.com/ONSdigital/dp-mongodb/v3/health"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/service"
