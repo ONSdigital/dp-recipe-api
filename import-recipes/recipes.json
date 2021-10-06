@@ -14,16 +14,6 @@
           },
           {
             "href": "",
-            "id": "country",
-            "name": "Country"
-          },
-          {
-            "href": "",
-            "id": "siblings",
-            "name": "Number Of Siblings"
-          },
-          {
-            "href": "",
             "id": "siblings_3",
             "name": "Number Of Siblings (3 mappings)"
           },
@@ -37,7 +27,7 @@
         "editions": [
           "2021"
         ],
-        "title": "Example Cantabular Dataset City Siblings And Sex"
+        "title": "Example Cantabular Dataset City Siblings (3 mappings) And Sex"
       }
     ]
   },

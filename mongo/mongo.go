@@ -7,11 +7,11 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	dpMongoHealth "github.com/ONSdigital/dp-mongodb/v2/health"
-	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v2/mongodb"
+	dpMongoHealth "github.com/ONSdigital/dp-mongodb/v3/health"
+	dpMongoDriver "github.com/ONSdigital/dp-mongodb/v3/mongodb"
 	errs "github.com/ONSdigital/dp-recipe-api/apierrors"
 	"github.com/ONSdigital/dp-recipe-api/models"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -76,7 +76,7 @@ func (m *Mongo) GetRecipes(ctx context.Context, offset int, limit int) (*models.
 		if dpMongoDriver.IsErrNoDocumentFound(err) {
 			return emptyRecipeResults(offset, limit), nil
 		}
-		log.Event(ctx, "error counting items", log.ERROR, log.Error(err))
+		log.Error(ctx, "error counting items", err)
 		return nil, err
 	}
 
@@ -130,13 +130,13 @@ func (m *Mongo) GetRecipe(ctx context.Context, id string) (*models.Recipe, error
 
 // AddRecipe adds a recipe document
 func (m *Mongo) AddRecipe(ctx context.Context, item models.Recipe) error {
-	_, err := m.Connection.GetConfiguredCollection().UpsertId(ctx, item.ID, bson.M{"$set": item})
+	_, err := m.Connection.GetConfiguredCollection().UpsertById(ctx, item.ID, bson.M{"$set": item})
 	return err
 }
 
 // UpdateAllRecipe updates an existing recipe document
 func (m *Mongo) UpdateAllRecipe(ctx context.Context, id string, update bson.M) (err error) {
-	_, err = m.Connection.GetConfiguredCollection().UpdateId(ctx, id, update)
+	_, err = m.Connection.GetConfiguredCollection().UpdateById(ctx, id, update)
 	if err != nil {
 		if dpMongoDriver.IsErrNoDocumentFound(err) {
 			return errs.ErrRecipeNotFound

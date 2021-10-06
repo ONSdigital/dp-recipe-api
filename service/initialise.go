@@ -9,7 +9,7 @@ import (
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/store"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 )
 
 // ExternalServiceList holds the initialiser and initialisation state of external services.
@@ -49,7 +49,7 @@ func (e *ExternalServiceList) GetHealthCheck(cfg *config.Configuration, buildTim
 func (e *ExternalServiceList) GetMongoDB(ctx context.Context, cfg *config.Configuration) (store.MongoDB, error) {
 	mongodb, err := e.Init.DoGetMongoDB(ctx, cfg)
 	if err != nil {
-		log.Event(ctx, "failed to initialise mongo", log.ERROR, log.Error(err))
+		log.Error(ctx, "failed to initialise mongo", err)
 		return nil, err
 	}
 	e.MongoDB = true
@@ -88,6 +88,6 @@ func (e *Init) DoGetMongoDB(ctx context.Context, cfg *config.Configuration) (sto
 	if err := mongodb.Init(ctx, cfg.MongoConfig.EnableReadConcern, cfg.MongoConfig.EnableWriteConcern); err != nil {
 		return nil, err
 	}
-	log.Event(ctx, "listening to mongo db session", log.INFO, log.Data{"URI": mongodb.URI})
+	log.Info(ctx, "listening to mongo db session", log.Data{"URI": mongodb.URI})
 	return mongodb, nil
 }

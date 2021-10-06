@@ -8,12 +8,12 @@ import (
 
 	"github.com/ONSdigital/dp-api-clients-go/zebedee"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	mongoHealth "github.com/ONSdigital/dp-mongodb/v2/health"
+	mongoHealth "github.com/ONSdigital/dp-mongodb/v3/health"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/service"
 	"github.com/ONSdigital/dp-recipe-api/store"
-	"github.com/ONSdigital/log.go/log"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/pkg/errors"
 )
 
@@ -40,7 +40,7 @@ func main() {
 	ctx := context.Background()
 
 	if err := run(ctx); err != nil {
-		log.Event(ctx, "application unexpectedly failed", log.ERROR, log.Error(err))
+		log.Error(ctx, "application unexpectedly failed", err)
 		os.Exit(1)
 	}
 }
@@ -56,10 +56,10 @@ func run(ctx context.Context) error {
 	// Read config
 	cfg, err := config.Get()
 	if err != nil {
-		log.Event(ctx, "failed to retrieve configuration", log.FATAL, log.Error(err))
+		log.Fatal(ctx, "failed to retrieve configuration", err)
 		return err
 	}
-	log.Event(ctx, "config on startup", log.INFO, log.Data{"config": cfg, "build_time": BuildTime, "git-commit": GitCommit})
+	log.Info(ctx, "config on startup", log.Data{"config": cfg, "build_time": BuildTime, "git-commit": GitCommit})
 
 	// Run the service
 	svc := service.New(cfg, svcList)
@@ -70,9 +70,9 @@ func run(ctx context.Context) error {
 	// Blocks until an os interrupt or a fatal error occurs
 	select {
 	case err := <-svcErrors:
-		log.Event(ctx, "service error received", log.ERROR, log.Error(err))
+		log.Error(ctx, "service error received", err)
 	case sig := <-signals:
-		log.Event(ctx, "os signal received", log.Data{"signal": sig}, log.INFO)
+		log.Info(ctx, "os signal received", log.Data{"signal": sig})
 	}
 	return svc.Close(ctx)
 }
@@ -82,7 +82,7 @@ func registerCheckers(ctx context.Context, hc *healthcheck.HealthCheck, mongoCli
 	var hasErrors bool
 	if err := hc.AddCheck("Zebedee", zebedeeClient.Checker); err != nil {
 		hasErrors = true
-		log.Event(ctx, "error adding check for zebedeee", log.ERROR, log.Error(err))
+		log.Error(ctx, "error adding check for zebedeee", err)
 	}
 
 	mongoHealth := mongoHealth.CheckMongoClient{
@@ -91,11 +91,11 @@ func registerCheckers(ctx context.Context, hc *healthcheck.HealthCheck, mongoCli
 	}
 	if err := hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
 		hasErrors = true
-		log.Event(ctx, "error adding mongoDB checker", log.FATAL, log.Error(err))
+		log.Fatal(ctx, "error adding mongoDB checker", err)
 		os.Exit(1)
 	}
 
 	if hasErrors {
-		log.Event(ctx, "error registering checkers for healthcheck", log.ERROR)
+		log.Error(ctx, "error registering checkers for healthcheck", errors.New("error registering checkers for healthcheck"))
 	}
 }
