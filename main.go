@@ -7,20 +7,10 @@ import (
 	"syscall"
 
 	"github.com/ONSdigital/dp-recipe-api/config"
-	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/service"
-	"github.com/ONSdigital/dp-recipe-api/store"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/pkg/errors"
 )
-
-// check that RecipeAPIStore satifies the the store.Storer interface
-var _ store.Storer = (*RecipeAPIStore)(nil)
-
-// RecipeAPIStore is a wrapper which embeds Mongo struct which between them satisfy the store.Storer interface.
-type RecipeAPIStore struct {
-	*mongo.Mongo
-}
 
 // health check variables - app version informaton retrieved on runtime
 var (
