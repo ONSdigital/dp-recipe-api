@@ -6,9 +6,6 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/ONSdigital/dp-api-clients-go/zebedee"
-	"github.com/ONSdigital/dp-healthcheck/healthcheck"
-	mongoHealth "github.com/ONSdigital/dp-mongodb/v3/health"
 	"github.com/ONSdigital/dp-recipe-api/config"
 	"github.com/ONSdigital/dp-recipe-api/mongo"
 	"github.com/ONSdigital/dp-recipe-api/service"
@@ -75,27 +72,4 @@ func run(ctx context.Context) error {
 		log.Info(ctx, "os signal received", log.Data{"signal": sig})
 	}
 	return svc.Close(ctx)
-}
-
-// registerCheckers adds the checkers for the provided clients to the health check object
-func registerCheckers(ctx context.Context, hc *healthcheck.HealthCheck, mongoClient *mongoHealth.Client, zebedeeClient *zebedee.Client) {
-	var hasErrors bool
-	if err := hc.AddCheck("Zebedee", zebedeeClient.Checker); err != nil {
-		hasErrors = true
-		log.Error(ctx, "error adding check for zebedeee", err)
-	}
-
-	mongoHealth := mongoHealth.CheckMongoClient{
-		Client:      *mongoClient,
-		Healthcheck: mongoClient.Healthcheck,
-	}
-	if err := hc.AddCheck("mongoDB", mongoHealth.Checker); err != nil {
-		hasErrors = true
-		log.Fatal(ctx, "error adding mongoDB checker", err)
-		os.Exit(1)
-	}
-
-	if hasErrors {
-		log.Error(ctx, "error registering checkers for healthcheck", errors.New("error registering checkers for healthcheck"))
-	}
 }
