@@ -54,9 +54,10 @@ const HRefURL = "http://localhost:22400/code-lists/"
 
 var (
 	validFormats = map[string]bool{
-		"v4":               true,
-		"cantabular_blob":  true,
-		"cantabular_table": true,
+		"v4":                        true,
+		"cantabular_blob":           true,
+		"cantabular_table":          true,
+		"cantabular_flexible_table": true,
 	}
 )
 
@@ -166,10 +167,11 @@ func (recipe *Recipe) ValidateAddRecipe(ctx context.Context) error {
 
 	if recipe.Format == "cantabular_blob" && recipe.CantabularBlob == "" {
 		missingFields = append(missingFields, "cantabular_blob")
-	} else {
-		if recipe.Format == "cantabular_table" && recipe.CantabularBlob == "" {
-			missingFields = append(missingFields, "cantabular_table")
-		}
+	} else if recipe.Format == "cantabular_table" && recipe.CantabularBlob == "" {
+		missingFields = append(missingFields, "cantabular_table")
+	} else if recipe.Format == "cantabular_flexible_table" && recipe.CantabularBlob == "" {
+		missingFields = append(missingFields, "cantabular_flexible_table")
+
 	}
 
 	if recipe.Format == "v4" {
