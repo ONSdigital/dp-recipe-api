@@ -24,7 +24,6 @@ func TestSpec(t *testing.T) {
 				So(cfg.HealthCheckInterval, ShouldEqual, 30*time.Second)
 				So(cfg.HealthCheckCriticalTimeout, ShouldEqual, 90*time.Second)
 				So(cfg.MongoConfig.ClusterEndpoint, ShouldEqual, "localhost:27017")
-				So(cfg.MongoConfig.Collection, ShouldEqual, "recipes")
 				So(cfg.MongoConfig.Database, ShouldEqual, "recipes")
 				So(cfg.DefaultLimit, ShouldEqual, 20)
 				So(cfg.DefaultMaxLimit, ShouldEqual, 1000)

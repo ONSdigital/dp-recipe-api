@@ -45,7 +45,6 @@ func Get() (*Configuration, error) {
 			Username:                      "",
 			Password:                      "",
 			Database:                      "recipes",
-			Collection:                    "recipes",
 			ReplicaSet:                    "",
 			IsStrongReadConcernEnabled:    false,
 			IsWriteConcernMajorityEnabled: true,

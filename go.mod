@@ -2,6 +2,8 @@ module github.com/ONSdigital/dp-recipe-api
 
 go 1.17
 
+replace github.com/ONSdigital/dp-mongodb/v3 v3.0.0-beta.5 => /Users/patrickconnolly/development/go/ons/dp-mongodb
+
 require (
 	github.com/ONSdigital/dp-api-clients-go v1.43.0
 	github.com/ONSdigital/dp-authorisation v0.2.0
