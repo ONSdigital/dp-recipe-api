@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/ONSdigital/dp-api-clients-go v1.43.0
 	github.com/ONSdigital/dp-authorisation v0.2.0
-	github.com/ONSdigital/dp-healthcheck v1.2.2
+	github.com/ONSdigital/dp-healthcheck v1.2.3-0.20220105154950-0c24359b5ce8
 	github.com/ONSdigital/dp-mongodb/v3 v3.0.0-beta.5
 	github.com/ONSdigital/dp-net v1.2.0
 	github.com/ONSdigital/dp-rchttp v1.0.0
