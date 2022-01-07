@@ -6,7 +6,7 @@ require (
 	github.com/ONSdigital/dp-api-clients-go v1.43.0
 	github.com/ONSdigital/dp-authorisation v0.2.0
 	github.com/ONSdigital/dp-healthcheck v1.2.3
-	github.com/ONSdigital/dp-mongodb/v3 v3.0.0-beta.5
+	github.com/ONSdigital/dp-mongodb/v3 v3.0.0-beta.6
 	github.com/ONSdigital/dp-net v1.2.0
 	github.com/ONSdigital/dp-rchttp v1.0.0
 	github.com/ONSdigital/log.go/v2 v2.0.9
@@ -16,7 +16,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/pkg/errors v0.9.1
 	github.com/smartystreets/goconvey v1.7.2
-	go.mongodb.org/mongo-driver v1.8.1
+	go.mongodb.org/mongo-driver v1.8.2
 )
 
 require (
