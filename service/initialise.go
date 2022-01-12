@@ -46,7 +46,7 @@ func (e *ExternalServiceList) GetHealthCheck(cfg *config.Configuration, buildTim
 }
 
 // GetMongoDB returns a mongodb health client and dataset mongo object
-func (e *ExternalServiceList) GetMongoDB(ctx context.Context, cfg *config.Configuration) (store.MongoDB, error) {
+func (e *ExternalServiceList) GetMongoDB(ctx context.Context, cfg config.MongoConfig) (store.MongoDB, error) {
 	mongodb, err := e.Init.DoGetMongoDB(ctx, cfg)
 	if err != nil {
 		log.Error(ctx, "failed to initialise mongo", err)
@@ -74,20 +74,12 @@ func (e *Init) DoGetHealthCheck(cfg *config.Configuration, buildTime, gitCommit,
 }
 
 // DoGetMongoDB returns a MongoDB
-func (e *Init) DoGetMongoDB(ctx context.Context, cfg *config.Configuration) (store.MongoDB, error) {
-	mongodb := &mongo.Mongo{
-		Collection:                 cfg.MongoConfig.Collection,
-		Database:                   cfg.MongoConfig.Database,
-		URI:                        cfg.MongoConfig.BindAddr,
-		Username:                   cfg.MongoConfig.Username,
-		Password:                   cfg.MongoConfig.Password,
-		IsSSL:                      cfg.MongoConfig.IsSSL,
-		QueryTimeoutInSeconds:      cfg.MongoConfig.QueryTimeout,
-		ConnectionTimeoutInSeconds: cfg.MongoConfig.ConnectionTimeout,
-	}
-	if err := mongodb.Init(ctx, cfg.MongoConfig.EnableReadConcern, cfg.MongoConfig.EnableWriteConcern); err != nil {
+func (e *Init) DoGetMongoDB(ctx context.Context, cfg config.MongoConfig) (store.MongoDB, error) {
+	m, err := mongo.NewDatastore(ctx, cfg)
+	if err != nil {
 		return nil, err
 	}
-	log.Info(ctx, "listening to mongo db session", log.Data{"URI": mongodb.URI})
-	return mongodb, nil
+	log.Info(ctx, "listening to mongo db session", log.Data{"URI": m.ClusterEndpoint})
+
+	return m, nil
 }

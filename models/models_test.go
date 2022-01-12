@@ -332,6 +332,15 @@ func TestValidateAddRecipe(t *testing.T) {
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [cantabular_table]").Error())
 		})
 
+		Convey("when format is cantabular_flexible_table and cantabular_blob field is missing", func() {
+			recipe := createRecipeData()
+			recipe.Format = "cantabular_flexible_table"
+			recipe.CantabularBlob = ""
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [cantabular_flexible_table]").Error())
+		})
+
 		Convey("when input-files.description is missing", func() {
 			recipe := createRecipeData()
 			recipe.InputFiles[0].Description = ""
@@ -386,6 +395,14 @@ func TestValidateAddRecipe(t *testing.T) {
 			So(err, ShouldBeNil)
 		})
 
+		Convey("when format is cantabular_flexible_table and input-files is missing", func() {
+			recipe := createRecipeData()
+			recipe.InputFiles = nil
+			recipe.Format = "cantabular_flexible_table"
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldBeNil)
+		})
+
 	})
 
 	Convey("Error returned with invalid field", t, func() {
@@ -429,6 +446,13 @@ func TestValidateAddRecipe(t *testing.T) {
 		Convey("when cantabular_table format is valid", func() {
 			recipe := createRecipeData()
 			recipe.Format = "cantabular_table"
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("when cantabular_flexible_table format is valid", func() {
+			recipe := createRecipeData()
+			recipe.Format = "cantabular_flexible_table"
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})

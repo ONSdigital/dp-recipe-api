@@ -63,7 +63,7 @@ func (svc *Service) SetMongoDB(mongoDB store.MongoDB) {
 func (svc *Service) Run(ctx context.Context, buildTime, gitCommit, version string, svcErrors chan error) (err error) {
 
 	// Get MongoDB connection
-	svc.mongoDB, err = svc.serviceList.GetMongoDB(ctx, svc.config)
+	svc.mongoDB, err = svc.serviceList.GetMongoDB(ctx, svc.config.MongoConfig)
 	if err != nil {
 		log.Error(ctx, "could not obtain mongo session", err)
 		return err
