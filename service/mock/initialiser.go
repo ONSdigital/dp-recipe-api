@@ -29,7 +29,7 @@ var _ service.Initialiser = &InitialiserMock{}
 // 			DoGetHealthCheckFunc: func(cfg *config.Configuration, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
 // 				panic("mock out the DoGetHealthCheck method")
 // 			},
-// 			DoGetMongoDBFunc: func(ctx context.Context, cfg mongodb.MongoConnectionConfig) (store.MongoDB, error) {
+// 			DoGetMongoDBFunc: func(ctx context.Context, cfg mongodb.MongoDriverConfig) (store.MongoDB, error) {
 // 				panic("mock out the DoGetMongoDB method")
 // 			},
 // 		}
@@ -46,7 +46,7 @@ type InitialiserMock struct {
 	DoGetHealthCheckFunc func(cfg *config.Configuration, buildTime string, gitCommit string, version string) (service.HealthChecker, error)
 
 	// DoGetMongoDBFunc mocks the DoGetMongoDB method.
-	DoGetMongoDBFunc func(ctx context.Context, cfg mongodb.MongoConnectionConfig) (store.MongoDB, error)
+	DoGetMongoDBFunc func(ctx context.Context, cfg mongodb.MongoDriverConfig) (store.MongoDB, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -73,7 +73,7 @@ type InitialiserMock struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
 			// Cfg is the cfg argument value.
-			Cfg mongodb.MongoConnectionConfig
+			Cfg mongodb.MongoDriverConfig
 		}
 	}
 	lockDoGetHTTPServer  sync.RWMutex
@@ -160,13 +160,13 @@ func (mock *InitialiserMock) DoGetHealthCheckCalls() []struct {
 }
 
 // DoGetMongoDB calls DoGetMongoDBFunc.
-func (mock *InitialiserMock) DoGetMongoDB(ctx context.Context, cfg mongodb.MongoConnectionConfig) (store.MongoDB, error) {
+func (mock *InitialiserMock) DoGetMongoDB(ctx context.Context, cfg mongodb.MongoDriverConfig) (store.MongoDB, error) {
 	if mock.DoGetMongoDBFunc == nil {
 		panic("InitialiserMock.DoGetMongoDBFunc: method is nil but Initialiser.DoGetMongoDB was just called")
 	}
 	callInfo := struct {
 		Ctx context.Context
-		Cfg mongodb.MongoConnectionConfig
+		Cfg mongodb.MongoDriverConfig
 	}{
 		Ctx: ctx,
 		Cfg: cfg,
@@ -182,11 +182,11 @@ func (mock *InitialiserMock) DoGetMongoDB(ctx context.Context, cfg mongodb.Mongo
 //     len(mockedInitialiser.DoGetMongoDBCalls())
 func (mock *InitialiserMock) DoGetMongoDBCalls() []struct {
 	Ctx context.Context
-	Cfg mongodb.MongoConnectionConfig
+	Cfg mongodb.MongoDriverConfig
 } {
 	var calls []struct {
 		Ctx context.Context
-		Cfg mongodb.MongoConnectionConfig
+		Cfg mongodb.MongoDriverConfig
 	}
 	mock.lockDoGetMongoDB.RLock()
 	calls = mock.calls.DoGetMongoDB
