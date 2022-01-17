@@ -23,7 +23,7 @@ var (
 )
 
 func main() {
-	log.Namespace = "recipe-api"
+	log.Namespace = "dp-recipe-api"
 	ctx := context.Background()
 
 	if err := run(ctx); err != nil {
