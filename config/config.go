@@ -3,12 +3,12 @@ package config
 import (
 	"time"
 
-	"github.com/ONSdigital/dp-mongodb/v3/mongodb"
+	mongodriver "github.com/ONSdigital/dp-mongodb/v3/mongodb"
 
 	"github.com/kelseyhightower/envconfig"
 )
 
-type MongoConfig = mongodb.MongoConnectionConfig
+type MongoConfig = mongodriver.MongoDriverConfig
 
 // Configuration structure which hold information for configuring the import API
 type Configuration struct {
@@ -45,13 +45,13 @@ func Get() (*Configuration, error) {
 			Username:                      "",
 			Password:                      "",
 			Database:                      "recipes",
-			Collection:                    "recipes",
+			Collections:                   map[string]string{"recipes": "recipes"},
 			ReplicaSet:                    "",
 			IsStrongReadConcernEnabled:    false,
 			IsWriteConcernMajorityEnabled: true,
-			ConnectTimeoutInSeconds:       5 * time.Second,
-			QueryTimeoutInSeconds:         15 * time.Second,
-			TLSConnectionConfig: mongodb.TLSConnectionConfig{
+			ConnectTimeout:                5 * time.Second,
+			QueryTimeout:                  15 * time.Second,
+			TLSConnectionConfig: mongodriver.TLSConnectionConfig{
 				IsSSL:      false,
 				VerifyCert: false,
 			},
