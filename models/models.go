@@ -31,10 +31,11 @@ type Recipe struct {
 
 // CodeList - Code lists for instance
 type CodeList struct {
-	ID          string `bson:"id,omitempty" json:"id,omitempty"`
-	HRef        string `bson:"href,omitempty" json:"href,omitempty"`
-	Name        string `bson:"name,omitempty" json:"name,omitempty"`
-	IsHierarchy *bool  `bson:"is_hierarchy,omitempty" json:"is_hierarchy,omitempty"`
+	ID                    string `bson:"id,omitempty" json:"id,omitempty"`
+	HRef                  string `bson:"href,omitempty" json:"href,omitempty"`
+	Name                  string `bson:"name,omitempty" json:"name,omitempty"`
+	IsHierarchy           *bool  `bson:"is_hierarchy,omitempty" json:"is_hierarchy,omitempty"`
+	IsCantabularGeography *bool  `bsob:"is_cantabular_geography,omitempty" json:"is_cantabular_geography,omitempty"`
 }
 
 // Instance - struct for instance of recipe
@@ -128,6 +129,10 @@ func (codelist *CodeList) validateCodelist(ctx context.Context) (missingFields [
 
 	if codelist.IsHierarchy == nil {
 		missingFields = append(missingFields, "isHierarchy")
+	}
+
+	if codelist.IsCantabularGeography == nil {
+		missingFields = append(missingFields, "isCantabularGeography")
 	}
 
 	return missingFields, invalidFields
