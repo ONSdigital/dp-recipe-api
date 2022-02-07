@@ -10,16 +10,22 @@
           {
             "href": "",
             "id": "city",
+            "is_hierarchy": false,
+            "is_cantabular_geography": false,
             "name": "City"
           },
           {
             "href": "",
             "id": "siblings_3",
+            "is_hierarchy": false,
+            "is_cantabular_geography": false,
             "name": "Number Of Siblings (3 mappings)"
           },
           {
             "href": "",
             "id": "sex",
+            "is_hierarchy": false,
+            "is_cantabular_geography": false,
             "name": "Sex"
           }
         ],
