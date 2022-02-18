@@ -40,7 +40,7 @@
   {
     "alias": "Cantabular Example 2",
     "format": "cantabular_flexible_table",
-    "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223a",
+    "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223b",
     "cantabular_blob": "Example",
     "output_instances": [
       {
@@ -71,7 +71,7 @@
   {
     "alias": "Cantabular Example 3",
     "format": "cantabular_flexible_table",
-    "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223a",
+    "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223c",
     "cantabular_blob": "Example",
     "output_instances": [
       {
