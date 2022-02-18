@@ -38,6 +38,61 @@
     ]
   },
   {
+    "alias": "Cantabular Example 2",
+    "format": "cantabular_flexible_table",
+    "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223a",
+    "cantabular_blob": "Example",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "",
+            "id": "city",
+            "is_hierarchy": false,
+            "is_cantabular_geography": true,
+            "name": "City"
+          },
+          {
+            "href": "",
+            "id": "siblings_3",
+            "is_hierarchy": false,
+            "is_cantabular_geography": false,
+            "name": "Number Of Siblings (3 mappings)"
+          }
+        ],
+        "dataset_id": "cantabular-example-2",
+        "editions": [
+          "2021"
+        ],
+        "title": "Example Cantabular Dataset City Siblings (3 mappings) And Sex"
+      }
+    ]
+  },
+  {
+    "alias": "Cantabular Example 3",
+    "format": "cantabular_flexible_table",
+    "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223a",
+    "cantabular_blob": "Example",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "",
+            "id": "city",
+            "is_hierarchy": false,
+            "is_cantabular_geography": true,
+            "name": "City"
+          }
+        ],
+        "dataset_id": "cantabular-example-3",
+        "editions": [
+          "2021"
+        ],
+        "title": "Broken - no Non Geographies. Example Cantabular Dataset City Siblings (3 mappings) And Sex"
+      }
+    ]
+  },
+  {
     "alias": "CPIH",
     "files": [
       {
