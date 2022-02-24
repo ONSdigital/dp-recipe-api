@@ -38,10 +38,10 @@
     ]
   },
   {
-    "alias": "Cantabular Example 2",
-    "format": "cantabular_flexible_table",
-    "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223b",
+    "alias": "Cantabular Flexible Example",
     "cantabular_blob": "Example",
+    "format": "cantabular_flexible_table",
+    "_id": "ea1e031b-3064-427d-8fed-4b35c99bf1a0",
     "output_instances": [
       {
         "code_lists": [
@@ -60,16 +60,16 @@
             "name": "Number Of Siblings (3 mappings)"
           }
         ],
-        "dataset_id": "cantabular-example-2",
+        "dataset_id": "cantabular-flexible-example",
         "editions": [
           "2021"
         ],
-        "title": "Example Cantabular Dataset City Siblings (3 mappings) And Sex"
+        "title": "Cantabular Flexible Example"
       }
     ]
   },
   {
-    "alias": "Cantabular Example 3",
+    "alias": "Cantabular Broken Example",
     "format": "cantabular_flexible_table",
     "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223c",
     "cantabular_blob": "Example",
@@ -84,7 +84,7 @@
             "name": "City"
           }
         ],
-        "dataset_id": "cantabular-example-3",
+        "dataset_id": "cantabular-broken-example",
         "editions": [
           "2021"
         ],
