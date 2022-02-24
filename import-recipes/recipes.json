@@ -8,25 +8,25 @@
       {
         "code_lists": [
           {
-            "href": "",
+            "href": "http://cantabular-dimension-api/city",
             "id": "city",
             "is_hierarchy": false,
-            "is_cantabular_geography": false,
-            "name": "City"
+            "is_cantabular_geography": true,
+            "name": "geography"
           },
           {
-            "href": "",
+            "href": "http://cantabular-dimension-api/siblings_3",
             "id": "siblings_3",
-            "is_hierarchy": false,
+              "is_hierarchy": false,
             "is_cantabular_geography": false,
-            "name": "Number Of Siblings (3 mappings)"
+            "name": "numberofsiblings3mappings"
           },
           {
-            "href": "",
+            "href": "http://cantabular-dimension-api/sex",
             "id": "sex",
             "is_hierarchy": false,
             "is_cantabular_geography": false,
-            "name": "Sex"
+            "name": "sex"
           }
         ],
         "dataset_id": "cantabular-example-1",
@@ -46,18 +46,19 @@
       {
         "code_lists": [
           {
-            "href": "",
+            "href": "http://codelists/city",
             "id": "city",
             "is_hierarchy": false,
             "is_cantabular_geography": true,
-            "name": "City"
+            "is_cantabular_default_geography": true,
+            "name": "geography"
           },
           {
-            "href": "",
+            "href": "http://codelist/siblings_3",
             "id": "siblings_3",
             "is_hierarchy": false,
             "is_cantabular_geography": false,
-            "name": "Number Of Siblings (3 mappings)"
+            "name": "siblings"
           }
         ],
         "dataset_id": "cantabular-flexible-example",
