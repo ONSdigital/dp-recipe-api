@@ -46,14 +46,14 @@
       {
         "code_lists": [
           {
-            "href": "",
+            "href": "http://api.localhost:23200/v1/city",
             "id": "city",
             "is_hierarchy": false,
             "is_cantabular_geography": true,
             "name": "City"
           },
           {
-            "href": "",
+            "href": "http://api.localhost:23200/v1/siblings_3",
             "id": "siblings_3",
             "is_hierarchy": false,
             "is_cantabular_geography": false,
