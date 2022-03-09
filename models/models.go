@@ -31,11 +31,12 @@ type Recipe struct {
 
 // CodeList - Code lists for instance
 type CodeList struct {
-	ID                    string `bson:"id,omitempty" json:"id,omitempty"`
-	HRef                  string `bson:"href,omitempty" json:"href,omitempty"`
-	Name                  string `bson:"name,omitempty" json:"name,omitempty"`
-	IsHierarchy           *bool  `bson:"is_hierarchy,omitempty" json:"is_hierarchy,omitempty"`
-	IsCantabularGeography *bool  `bsob:"is_cantabular_geography,omitempty" json:"is_cantabular_geography,omitempty"`
+	ID                           string `bson:"id,omitempty" json:"id,omitempty"`
+	HRef                         string `bson:"href,omitempty" json:"href,omitempty"`
+	Name                         string `bson:"name,omitempty" json:"name,omitempty"`
+	IsHierarchy                  *bool  `bson:"is_hierarchy,omitempty" json:"is_hierarchy,omitempty"`
+	IsCantabularGeography        *bool  `bson:"is_cantabular_geography,omitempty" json:"is_cantabular_geography,omitempty"`
+	IsCantabularDefaultGeography *bool  `bson:"is_cantabular_default_geography,omitempty" json:"is_cantabular_default_geography,omitempty"`
 }
 
 // Instance - struct for instance of recipe
@@ -133,6 +134,10 @@ func (codelist *CodeList) validateCodelist(ctx context.Context) (missingFields [
 
 	if codelist.IsCantabularGeography == nil {
 		missingFields = append(missingFields, "isCantabularGeography")
+	}
+
+	if codelist.IsCantabularDefaultGeography == nil {
+		missingFields = append(missingFields, "isCantabularDefaultGeography")
 	}
 
 	return missingFields, invalidFields

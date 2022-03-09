@@ -11,16 +11,19 @@ import (
 var (
 	ctx         = context.Background()
 	falseVal    = false
+	trueVal     = true
 	falseValPtr = &falseVal
+	trueValPtr  = &trueVal
 )
 
 func createCodeList() CodeList {
 	return CodeList{
-		ID:                    "789",
-		Name:                  "codelist-test",
-		HRef:                  "http://localhost:22400/code-lists/789",
-		IsHierarchy:           falseValPtr,
-		IsCantabularGeography: falseValPtr,
+		ID:                           "789",
+		Name:                         "codelist-test",
+		HRef:                         "http://localhost:22400/code-lists/789",
+		IsHierarchy:                  falseValPtr,
+		IsCantabularGeography:        falseValPtr,
+		IsCantabularDefaultGeography: trueValPtr,
 	}
 }
 
@@ -198,6 +201,15 @@ func TestValidateCodelist(t *testing.T) {
 			missingFields, invalidFields := codelist.validateCodelist(ctx)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"isCantabularGeography"})
+			So(invalidFields, ShouldBeNil)
+		})
+
+		Convey("when isCantabularDefaultGeography is missing", func() {
+			codelist := createCodeList()
+			codelist.IsCantabularDefaultGeography = nil
+			missingFields, invalidFields := codelist.validateCodelist(ctx)
+			So(missingFields, ShouldNotBeNil)
+			So(missingFields, ShouldResemble, []string{"isCantabularDefaultGeography"})
 			So(invalidFields, ShouldBeNil)
 		})
 
@@ -864,6 +876,14 @@ func TestValidateAddCodelists(t *testing.T) {
 			err := codelist.ValidateAddCodelist(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [isCantabularGeography]").Error())
+		})
+
+		Convey("when isCantabularDefaultGeography is missing", func() {
+			codelist := createCodeList()
+			codelist.IsCantabularDefaultGeography = nil
+			err := codelist.ValidateAddCodelist(ctx)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [isCantabularDefaultGeography]").Error())
 		})
 
 	})
