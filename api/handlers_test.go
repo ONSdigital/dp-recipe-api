@@ -311,7 +311,7 @@ func TestAddInstanceReturnsBadRequestError(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
 		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
-		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }
 
@@ -379,7 +379,7 @@ func TestUpdateInstanceReturnsBadRequest(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
 		So(len(mockedDataStore.UpdateInstanceCalls()), ShouldEqual, 0)
-		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }
 
@@ -446,7 +446,7 @@ func TestAddCodelistReturnsBadRequestError(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
 		So(len(mockedDataStore.AddCodelistCalls()), ShouldEqual, 0)
-		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }
 
