@@ -140,7 +140,7 @@ func (codelist *CodeList) validateCodelist(ctx context.Context, isCantabularFlex
 		missingFields = append(missingFields, "isCantabularGeography")
 	}
 
-	if codelist.IsCantabularDefaultGeography == nil {
+	if codelist.IsCantabularDefaultGeography == nil && isCantabularFlexibleTable {
 		missingFields = append(missingFields, "isCantabularDefaultGeography")
 	}
 

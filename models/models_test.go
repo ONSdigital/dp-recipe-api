@@ -207,7 +207,7 @@ func TestValidateCodelist(t *testing.T) {
 		Convey("when isCantabularDefaultGeography is missing", func() {
 			codelist := createCodeList()
 			codelist.IsCantabularDefaultGeography = nil
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, true)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"isCantabularDefaultGeography"})
 			So(invalidFields, ShouldBeNil)
@@ -881,7 +881,7 @@ func TestValidateAddCodelists(t *testing.T) {
 		Convey("when isCantabularDefaultGeography is missing", func() {
 			codelist := createCodeList()
 			codelist.IsCantabularDefaultGeography = nil
-			err := codelist.ValidateAddCodelist(ctx, false)
+			err := codelist.ValidateAddCodelist(ctx, true)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [isCantabularDefaultGeography]").Error())
 		})
