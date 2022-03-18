@@ -24,16 +24,17 @@ var (
 	// Test data for request body
 	recipeTest   = `{"id":"123","alias":"test","format":"v4","files":[{"description":"test files"}],"output_instances":[` + instanceTest + `]}`
 	instanceTest = `{"dataset_id":"1234","editions":["edition-test"],"title":"test","code_lists" :[` + codelistTest + `]}`
-	codelistTest = `{"id":"12345", "href":"http://localhost:22400/code-lists/12345", "name":"codelist-test-name", "is_hierarchy":false, "is_cantabular_geography":true}`
+	codelistTest = `{"id":"12345", "href":"http://localhost:22400/code-lists/12345", "name":"codelist-test-name", "is_hierarchy":false, "is_cantabular_geography":true, "is_cantabular_default_geography":true}`
 
 	// Test data of recipe retrieved from GetRecipe()
 	initialCodelist = []models.CodeList{
 		{
-			ID:                    "789",
-			Name:                  "codelist-test",
-			HRef:                  "http://localhost:22400/code-lists/789",
-			IsHierarchy:           falseValPtr,
-			IsCantabularGeography: trueValPtr,
+			ID:                           "789",
+			Name:                         "codelist-test",
+			HRef:                         "http://localhost:22400/code-lists/789",
+			IsHierarchy:                  falseValPtr,
+			IsCantabularGeography:        trueValPtr,
+			IsCantabularDefaultGeography: trueValPtr,
 		},
 	}
 	initialInstance = []models.Instance{
@@ -310,7 +311,7 @@ func TestAddInstanceReturnsBadRequestError(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
 		So(len(mockedDataStore.UpdateRecipeCalls()), ShouldEqual, 0)
-		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }
 
@@ -378,7 +379,7 @@ func TestUpdateInstanceReturnsBadRequest(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
 		So(len(mockedDataStore.UpdateInstanceCalls()), ShouldEqual, 0)
-		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }
 
@@ -445,7 +446,7 @@ func TestAddCodelistReturnsBadRequestError(t *testing.T) {
 
 		So(w.Code, ShouldEqual, http.StatusBadRequest)
 		So(len(mockedDataStore.AddCodelistCalls()), ShouldEqual, 0)
-		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 0)
+		So(len(mockedDataStore.GetRecipeCalls()), ShouldEqual, 1)
 	})
 }
 

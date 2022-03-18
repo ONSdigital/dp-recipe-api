@@ -193,19 +193,19 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 		return
 	}
 
-	// Validation to check if all the instance fields are entered
-	err = instance.ValidateAddInstance(ctx)
-	if err != nil {
-		log.Error(ctx, "bad request error as invalid instance given in request body", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
 	// Get currentRecipe from ID given to get instance of the recipe
 	currentRecipe, err := api.dataStore.Backend.GetRecipe(ctx, recipeID)
 	if err != nil {
 		log.Error(ctx, "error retrieving specific recipe from mongo", err, logD)
 		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Validation to check if all the instance fields are entered
+	err = instance.ValidateAddInstance(ctx, currentRecipe.IsCantabularFlexibleTable())
+	if err != nil {
+		log.Error(ctx, "bad request error as invalid instance given in request body", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -265,19 +265,19 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 		codelist.HRef = models.HRefURL + codelist.ID
 	}
 
-	// Validation to check if all the instance fields are entered
-	err = codelist.ValidateAddCodelist(ctx)
-	if err != nil {
-		log.Error(ctx, "bad request error as invalid codelist given in request body", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
 	// Get currentRecipe from ID and retrieve specific instance for codelist to be stored
 	currentRecipe, err := api.dataStore.Backend.GetRecipe(ctx, recipeID)
 	if err != nil {
 		log.Error(ctx, "error retrieving specific recipe from mongo", err, logD)
 		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Validation to check if all the instance fields are entered
+	err = codelist.ValidateAddCodelist(ctx, currentRecipe.IsCantabularFlexibleTable())
+	if err != nil {
+		log.Error(ctx, "bad request error as invalid codelist given in request body", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -384,19 +384,19 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 		return
 	}
 
-	// Validation to check fields of instance and if all the code lists of the instance are entered if update of codelist given
-	err = updates.ValidateUpdateInstance(ctx)
-	if err != nil {
-		log.Error(ctx, "bad request error for invalid updates given in request body", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
 	// Find index of specific interface in output_instances of the recipe
 	currentRecipe, err := api.dataStore.Backend.GetRecipe(ctx, recipeID)
 	if err != nil {
 		log.Error(ctx, "error retrieving specific recipe from mongo", err, logD)
 		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Validation to check fields of instance and if all the code lists of the instance are entered if update of codelist given
+	err = updates.ValidateUpdateInstance(ctx, currentRecipe.IsCantabularFlexibleTable())
+	if err != nil {
+		log.Error(ctx, "bad request error for invalid updates given in request body", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
