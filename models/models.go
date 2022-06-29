@@ -154,7 +154,15 @@ func (codelist *CodeList) validateCodelistHRef(ctx context.Context) bool {
 		log.Error(ctx, "error parsing codelist.href", err)
 		return false
 	}
-	urlPathBool := strings.Contains(hRefURL.Path, "/code-lists") && strings.Contains(hRefURL.Path, codelist.ID)
+
+	urlPathBool := strings.Contains(
+		strings.ToLower(hRefURL.Path),
+		strings.ToLower("/code-lists"),
+	) && strings.Contains(
+		strings.ToLower(hRefURL.Path),
+		strings.ToLower(codelist.ID),
+	)
+
 	if hRefURL.Scheme != "" && hRefURL.Host != "" && urlPathBool {
 		return true
 	}
