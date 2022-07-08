@@ -304,6 +304,14 @@ func TestValidateCodelistHRef(t *testing.T) {
 			valid := codelist.validateCodelistHRef(ctx)
 			So(valid, ShouldBeTrue)
 		})
+
+		Convey("when codelist.href contains its scheme, host, path and codelist.id in appropriate url format but different case", func() {
+			codelist := createCodeList()
+			codelist.ID = "FOO"
+			codelist.HRef = "http://localhost:22400/code-lists/foo"
+			valid := codelist.validateCodelistHRef(ctx)
+			So(valid, ShouldBeTrue)
+		})
 	})
 }
 
