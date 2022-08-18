@@ -70,6 +70,46 @@
     ]
   },
   {
+    "alias": "Cantabular Multivariate Example",
+    "cantabular_blob": "dummy_data_households",
+    "format": "cantabular_multivariate_table",
+    "output_instances": [
+      {
+        "code_lists": [
+          {
+            "href": "http://codelists/ladcd",
+            "id": "ladcd",
+            "is_hierarchy": false,
+            "is_cantabular_geography": true,
+            "is_cantabular_default_geography": true,
+            "name": "geography"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/occupancy_rating_bedrooms_5a",
+            "id": "occupancy_rating_bedrooms_5a",
+            "is_hierarchy": false,
+            "is_cantabular_geography": false,
+            "is_cantabular_default_geography": false,
+            "name": "occupancyratingbedrooms"
+          },
+          {
+            "href": "http://localhost:22400/code-lists/occupancy_rating_bedrooms_5a",
+            "id": "accommodation_type_2a",
+            "is_hierarchy": false,
+            "is_cantabular_geography": false,
+            "is_cantabular_default_geography": false,
+            "name": "accomodationtype"
+          }
+        ],
+        "dataset_id": "cantabular-multivariate-example",
+        "editions": [
+          "2021"
+        ],
+        "title": "Cantabular Multivariate Example"
+      }
+    ]
+  },
+  {
     "alias": "Cantabular Broken Example",
     "format": "cantabular_flexible_table",
     "_id": "38542eb6-d3a6-4cc4-ba3f-32b25f23223c",

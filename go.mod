@@ -1,6 +1,6 @@
 module github.com/ONSdigital/dp-recipe-api
 
-go 1.18
+go 1.17
 
 require (
 	github.com/ONSdigital/dp-api-clients-go v1.43.0
