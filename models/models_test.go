@@ -31,7 +31,7 @@ func createRecipeData() Recipe {
 	return Recipe{
 		ID:              "123",
 		Alias:           "test",
-		Format:          "v4",
+		Format:          v4,
 		InputFiles:      []file{{Description: "test files"}},
 		OutputInstances: []Instance{createInstance()},
 		CantabularBlob:  "blob1",
@@ -338,7 +338,7 @@ func TestValidateAddRecipe(t *testing.T) {
 
 		Convey("when format is cantabular_blob and cantabular_blob field is missing", func() {
 			recipe := createRecipeData()
-			recipe.Format = "cantabular_blob"
+			recipe.Format = cantabularBlob
 			recipe.CantabularBlob = ""
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldNotBeNil)
@@ -347,7 +347,7 @@ func TestValidateAddRecipe(t *testing.T) {
 
 		Convey("when format is cantabular_table and cantabular_blob field is missing", func() {
 			recipe := createRecipeData()
-			recipe.Format = "cantabular_table"
+			recipe.Format = cantabularTable
 			recipe.CantabularBlob = ""
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldNotBeNil)
@@ -356,11 +356,20 @@ func TestValidateAddRecipe(t *testing.T) {
 
 		Convey("when format is cantabular_flexible_table and cantabular_blob field is missing", func() {
 			recipe := createRecipeData()
-			recipe.Format = "cantabular_flexible_table"
+			recipe.Format = cantabularFlexibleTable
 			recipe.CantabularBlob = ""
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [cantabular_flexible_table]").Error())
+		})
+
+		Convey("when format is cantabular_multivariate_table and cantabular_blob field is missing", func() {
+			recipe := createRecipeData()
+			recipe.Format = cantabularMultivariateTable
+			recipe.CantabularBlob = ""
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldNotBeNil)
+			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [cantabular_multivariate_table]").Error())
 		})
 
 		Convey("when input-files.description is missing", func() {
@@ -404,7 +413,7 @@ func TestValidateAddRecipe(t *testing.T) {
 		Convey("when format is cantabular_blob and input-files is missing", func() {
 			recipe := createRecipeData()
 			recipe.InputFiles = nil
-			recipe.Format = "cantabular_blob"
+			recipe.Format = cantabularBlob
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
@@ -412,7 +421,7 @@ func TestValidateAddRecipe(t *testing.T) {
 		Convey("when format is cantabular_table and input-files is missing", func() {
 			recipe := createRecipeData()
 			recipe.InputFiles = nil
-			recipe.Format = "cantabular_table"
+			recipe.Format = cantabularTable
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
@@ -420,7 +429,15 @@ func TestValidateAddRecipe(t *testing.T) {
 		Convey("when format is cantabular_flexible_table and input-files is missing", func() {
 			recipe := createRecipeData()
 			recipe.InputFiles = nil
-			recipe.Format = "cantabular_flexible_table"
+			recipe.Format = cantabularFlexibleTable
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("when format is cantabular_multivariate_table and input-files is missing", func() {
+			recipe := createRecipeData()
+			recipe.InputFiles = nil
+			recipe.Format = cantabularMultivariateTable
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
@@ -453,28 +470,35 @@ func TestValidateAddRecipe(t *testing.T) {
 
 		Convey("when v4 format is valid", func() {
 			recipe := createRecipeData()
-			recipe.Format = "v4"
+			recipe.Format = v4
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when cantabular_blob format is valid", func() {
 			recipe := createRecipeData()
-			recipe.Format = "cantabular_blob"
+			recipe.Format = cantabularBlob
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when cantabular_table format is valid", func() {
 			recipe := createRecipeData()
-			recipe.Format = "cantabular_table"
+			recipe.Format = cantabularTable
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when cantabular_flexible_table format is valid", func() {
 			recipe := createRecipeData()
-			recipe.Format = "cantabular_flexible_table"
+			recipe.Format = cantabularFlexibleTable
+			err := recipe.ValidateAddRecipe(ctx)
+			So(err, ShouldBeNil)
+		})
+
+		Convey("when cantabular_multivariate_table format is valid", func() {
+			recipe := createRecipeData()
+			recipe.Format = cantabularMultivariateTable
 			err := recipe.ValidateAddRecipe(ctx)
 			So(err, ShouldBeNil)
 		})
@@ -599,7 +623,7 @@ func TestValidateUpdateRecipe(t *testing.T) {
 			Convey("and id update is not given", func() {
 
 				Convey("and format is valid", func() {
-					recipe := Recipe{Format: "v4"}
+					recipe := Recipe{Format: v4}
 					err := recipe.ValidateUpdateRecipe(ctx)
 					So(err, ShouldBeNil)
 				})

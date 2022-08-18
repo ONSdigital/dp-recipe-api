@@ -10,6 +10,14 @@ import (
 	"github.com/ONSdigital/log.go/v2/log"
 )
 
+const (
+	v4                          = "v4"
+	cantabularBlob              = "cantabular_blob"
+	cantabularTable             = "cantabular_table"
+	cantabularFlexibleTable     = "cantabular_flexible_table"
+	cantabularMultivariateTable = "cantabular_multivariate_table"
+)
+
 // RecipeResults - struct for list of recipes
 type RecipeResults struct {
 	Count      int       `json:"count"`
@@ -56,20 +64,27 @@ const HRefURL = "http://localhost:22400/code-lists/"
 
 var (
 	validFormats = map[string]bool{
-		"v4":                        true,
-		"cantabular_blob":           true,
-		"cantabular_table":          true,
-		"cantabular_flexible_table": true,
+		v4:                          true,
+		cantabularBlob:              true,
+		cantabularTable:             true,
+		cantabularFlexibleTable:     true,
+		cantabularMultivariateTable: true,
 	}
 )
 
 func (recipe *Recipe) IsCantabularFlexibleTable() bool {
-	return recipe.Format == "cantabular_flexible_table"
+	return recipe.Format == cantabularFlexibleTable || recipe.Format == cantabularMultivariateTable
+}
+
+func (recipe *Recipe) IsCantabularType() bool {
+	return recipe.Format == cantabularBlob ||
+		recipe.Format == cantabularTable ||
+		recipe.Format == cantabularFlexibleTable ||
+		recipe.Format == cantabularMultivariateTable
 }
 
 // validateInstance - checks if fields of OutputInstances are not empty for ValidateAddRecipe and ValidateAddInstance
 func (instance *Instance) validateInstance(ctx context.Context, isCantabularFlexibleTable bool) (missingFields []string, invalidFields []string) {
-
 	if instance.DatasetID == "" {
 		missingFields = append(missingFields, "dataset_id")
 	}
@@ -90,107 +105,100 @@ func (instance *Instance) validateInstance(ctx context.Context, isCantabularFlex
 
 	if instance.CodeLists != nil && len(instance.CodeLists) > 0 {
 		for i, codelist := range instance.CodeLists {
-			codelistMissingFields, codelistInvalidFields := codelist.validateCodelist(ctx, isCantabularFlexibleTable)
+			missing, invalid := codelist.validateCodelist(ctx, isCantabularFlexibleTable)
 
-			if len(codelistMissingFields) > 0 {
-				for mIndex, mField := range codelistMissingFields {
-					codelistMissingFields[mIndex] = "code-lists[" + strconv.Itoa(i) + "]." + mField
+			if len(missing) > 0 {
+				for j, field := range missing {
+					missing[j] = "code-lists[" + strconv.Itoa(i) + "]." + field
 				}
 			}
-			if len(codelistInvalidFields) > 0 {
-				for iIndex, iField := range codelistInvalidFields {
-					codelistInvalidFields[iIndex] = "code-lists[" + strconv.Itoa(i) + "]." + iField
+			if len(invalid) > 0 {
+				for j, field := range invalid {
+					invalid[j] = "code-lists[" + strconv.Itoa(i) + "]." + field
 				}
 			}
 
-			missingFields = append(missingFields, codelistMissingFields...)
-			invalidFields = append(invalidFields, codelistInvalidFields...)
+			missingFields = append(missingFields, missing...)
+			invalidFields = append(invalidFields, invalid...)
 		}
 	} else {
 		missingFields = append(missingFields, "code-lists")
 	}
 
-	return missingFields, invalidFields
+	return
 }
 
 // validateCodelists - checks if fields of CodeList are not empty for ValidateAddRecipe, ValidateAddInstance, ValidateAddCodelist
-func (codelist *CodeList) validateCodelist(ctx context.Context, isCantabularFlexibleTable bool) (missingFields []string, invalidFields []string) {
-
-	if codelist.ID == "" {
+func (c *CodeList) validateCodelist(ctx context.Context, isCantabularFlexibleTable bool) (missingFields []string, invalidFields []string) {
+	if c.ID == "" {
 		missingFields = append(missingFields, "id")
 	}
 
-	if codelist.HRef == "" {
+	if c.HRef == "" {
 		missingFields = append(missingFields, "href")
 	} else {
-		if !codelist.validateCodelistHRef(ctx) {
+		if !c.validateCodelistHRef(ctx) {
 			invalidFields = append(invalidFields, "href should be in format (URL/id)")
 		}
 	}
 
-	if codelist.Name == "" {
+	if c.Name == "" {
 		missingFields = append(missingFields, "name")
 	}
 
-	if codelist.IsHierarchy == nil {
+	if c.IsHierarchy == nil {
 		missingFields = append(missingFields, "isHierarchy")
 	}
 
-	if codelist.IsCantabularGeography == nil && isCantabularFlexibleTable {
+	if c.IsCantabularGeography == nil && isCantabularFlexibleTable {
 		missingFields = append(missingFields, "isCantabularGeography")
 	}
 
-	if codelist.IsCantabularDefaultGeography == nil && isCantabularFlexibleTable {
+	if c.IsCantabularDefaultGeography == nil && isCantabularFlexibleTable {
 		missingFields = append(missingFields, "isCantabularDefaultGeography")
 	}
 
-	return missingFields, invalidFields
+	return
 }
 
 // ValidateCodelistHRef - checks if the format of the codelist.href is correct
-func (codelist *CodeList) validateCodelistHRef(ctx context.Context) bool {
-	hRefURL, err := url.Parse(codelist.HRef)
+func (c *CodeList) validateCodelistHRef(ctx context.Context) bool {
+	href, err := url.Parse(c.HRef)
 	if err != nil {
 		log.Error(ctx, "error parsing codelist.href", err)
 		return false
 	}
-	urlPathBool := strings.Contains(hRefURL.Path, "/code-lists") && strings.Contains(hRefURL.Path, codelist.ID)
-	if hRefURL.Scheme != "" && hRefURL.Host != "" && urlPathBool {
+	validPath := strings.Contains(href.Path, "/code-lists") && strings.Contains(href.Path, c.ID)
+	if href.Scheme != "" && href.Host != "" && validPath {
 		return true
 	}
 	return false
 }
 
 // ValidateAddRecipe - checks if all the fields of the recipe are non-empty
-func (recipe *Recipe) ValidateAddRecipe(ctx context.Context) error {
-	var missingFields []string
-	var invalidFields []string
+func (r *Recipe) ValidateAddRecipe(ctx context.Context) error {
+	var missingFields, invalidFields []string
 
 	// recipe.ID generated by API if ID not given so never missing (generates a V4 UUID)
 
-	if recipe.Alias == "" {
+	if r.Alias == "" {
 		missingFields = append(missingFields, "alias")
 	}
-	if recipe.Format == "" {
+	if r.Format == "" {
 		missingFields = append(missingFields, "format")
 	} else {
-		if !validFormats[recipe.Format] {
+		if !validFormats[r.Format] {
 			invalidFields = append(invalidFields, "format is not valid")
 		}
 	}
 
-	if recipe.Format == "cantabular_blob" && recipe.CantabularBlob == "" {
-		missingFields = append(missingFields, "cantabular_blob")
-	} else if recipe.Format == "cantabular_table" && recipe.CantabularBlob == "" {
-		missingFields = append(missingFields, "cantabular_table")
-	} else if recipe.Format == "cantabular_flexible_table" && recipe.CantabularBlob == "" {
-		missingFields = append(missingFields, "cantabular_flexible_table")
-
+	if r.IsCantabularType() && r.CantabularBlob == "" {
+		missingFields = append(missingFields, r.Format)
 	}
 
-	if recipe.Format == "v4" {
-		if recipe.InputFiles != nil && len(recipe.InputFiles) > 0 {
-			for i, file := range recipe.InputFiles {
+	if r.Format == v4 {
+		if r.InputFiles != nil && len(r.InputFiles) > 0 {
+			for i, file := range r.InputFiles {
 				if file.Description == "" {
 					missingFields = append(missingFields, "input-files["+strconv.Itoa(i)+"].description")
 				}
@@ -200,21 +208,21 @@ func (recipe *Recipe) ValidateAddRecipe(ctx context.Context) error {
 		}
 	}
 
-	if recipe.OutputInstances != nil && len(recipe.OutputInstances) > 0 {
-		for i, instance := range recipe.OutputInstances {
-			instanceMissingFields, instanceInvalidFields := instance.validateInstance(ctx, recipe.IsCantabularFlexibleTable())
-			if len(instanceMissingFields) > 0 {
-				for mIndex, mField := range instanceMissingFields {
-					instanceMissingFields[mIndex] = "output-instances[" + strconv.Itoa(i) + "]." + mField
+	if r.OutputInstances != nil && len(r.OutputInstances) > 0 {
+		for i, instance := range r.OutputInstances {
+			missing, invalid := instance.validateInstance(ctx, r.IsCantabularFlexibleTable())
+			if len(missing) > 0 {
+				for j, field := range missing {
+					missing[j] = "output-instances[" + strconv.Itoa(i) + "]." + field
 				}
 			}
-			if len(instanceInvalidFields) > 0 {
-				for iIndex, iField := range instanceInvalidFields {
-					instanceInvalidFields[iIndex] = "output-instances[" + strconv.Itoa(i) + "]." + iField
+			if len(invalid) > 0 {
+				for j, field := range invalid {
+					invalid[j] = "output-instances[" + strconv.Itoa(i) + "]." + field
 				}
 			}
-			missingFields = append(missingFields, instanceMissingFields...)
-			invalidFields = append(invalidFields, instanceInvalidFields...)
+			missingFields = append(missingFields, missing...)
+			invalidFields = append(invalidFields, invalid...)
 		}
 	} else {
 		missingFields = append(missingFields, "output-instances")
@@ -229,17 +237,15 @@ func (recipe *Recipe) ValidateAddRecipe(ctx context.Context) error {
 	}
 
 	return nil
-
 }
 
 // ValidateAddInstance - checks if fields of OutputInstances are not empty
 func (instance *Instance) ValidateAddInstance(ctx context.Context, isCantabularFlexibleTable bool) error {
-	var missingFields []string
-	var invalidFields []string
+	var missingFields, invalidFields []string
 
-	instanceMissingField, instanceInvalidField := instance.validateInstance(ctx, isCantabularFlexibleTable)
-	missingFields = append(missingFields, instanceMissingField...)
-	invalidFields = append(invalidFields, instanceInvalidField...)
+	missing, invalid := instance.validateInstance(ctx, isCantabularFlexibleTable)
+	missingFields = append(missingFields, missing...)
+	invalidFields = append(invalidFields, invalid...)
 
 	if missingFields != nil {
 		return fmt.Errorf("missing mandatory fields: %v", missingFields)
@@ -253,13 +259,12 @@ func (instance *Instance) ValidateAddInstance(ctx context.Context, isCantabularF
 }
 
 // ValidateAddCodelist - checks if fields of Codelist are not empty
-func (codelist *CodeList) ValidateAddCodelist(ctx context.Context, isCantabularFlexibleTable bool) error {
-	var missingFields []string
-	var invalidFields []string
+func (c *CodeList) ValidateAddCodelist(ctx context.Context, isCantabularFlexibleTable bool) error {
+	var missingFields, invalidFields []string
 
-	codelistMissingFields, codelistinvalidFields := codelist.validateCodelist(ctx, isCantabularFlexibleTable)
-	missingFields = append(missingFields, codelistMissingFields...)
-	invalidFields = append(invalidFields, codelistinvalidFields...)
+	missing, invalid := c.validateCodelist(ctx, isCantabularFlexibleTable)
+	missingFields = append(missingFields, missing...)
+	invalidFields = append(invalidFields, invalid...)
 
 	if missingFields != nil {
 		return fmt.Errorf("missing mandatory fields: %v", missingFields)
@@ -273,57 +278,56 @@ func (codelist *CodeList) ValidateAddCodelist(ctx context.Context, isCantabularF
 }
 
 // ValidateUpdateRecipe - checks updates of recipe for PUT request
-func (recipe *Recipe) ValidateUpdateRecipe(ctx context.Context) error {
-	var missingFields []string
-	var invalidFields []string
+func (r *Recipe) ValidateUpdateRecipe(ctx context.Context) error {
+	var missingFields, invalidFields []string
 
 	// Validation to check at least one field of the recipe is updated
-	allStringFieldsEmpty := recipe.ID == "" && recipe.Format == "" && recipe.Alias == ""
-	allRemainingFieldsNil := recipe.InputFiles == nil && recipe.OutputInstances == nil
-	if allStringFieldsEmpty && allRemainingFieldsNil {
+	stringFieldsEmpty := r.ID == "" && r.Format == "" && r.Alias == ""
+	remainingFieldsNil := r.InputFiles == nil && r.OutputInstances == nil
+	if stringFieldsEmpty && remainingFieldsNil {
 		invalidFields = append(invalidFields, "no recipe fields updates given")
 	}
 
-	if recipe.ID != "" {
+	if r.ID != "" {
 		invalidFields = append(invalidFields, "id cannot be changed")
 	}
-	if recipe.Format != "" {
-		if !validFormats[recipe.Format] {
+	if r.Format != "" {
+		if !validFormats[r.Format] {
 			invalidFields = append(invalidFields, "format is not valid")
 		}
 	}
 
-	if recipe.InputFiles != nil && len(recipe.InputFiles) > 0 {
-		for i, file := range recipe.InputFiles {
+	if r.InputFiles != nil && len(r.InputFiles) > 0 {
+		for i, file := range r.InputFiles {
 			if file.Description == "" {
 				invalidFields = append(invalidFields, "empty input-files["+strconv.Itoa(i)+"].description given")
 			}
 		}
 	}
-	if recipe.InputFiles != nil && len(recipe.InputFiles) == 0 {
+	if r.InputFiles != nil && len(r.InputFiles) == 0 {
 		invalidFields = append(invalidFields, "empty input-files update given")
 	}
 
 	// When doing the update, as recipe.OutputInstances is an array, it needs to make sure that all fields of the instance are complete
 	// This functionality is already available in validateInstance
-	if recipe.OutputInstances != nil && len(recipe.OutputInstances) > 0 {
-		for i, instance := range recipe.OutputInstances {
-			instanceMissingFields, instanceInvalidFields := instance.validateInstance(ctx, recipe.IsCantabularFlexibleTable())
-			if len(instanceMissingFields) > 0 {
-				for mIndex, mField := range instanceMissingFields {
-					instanceMissingFields[mIndex] = "output-instances[" + strconv.Itoa(i) + "]." + mField
+	if r.OutputInstances != nil && len(r.OutputInstances) > 0 {
+		for i, instance := range r.OutputInstances {
+			missing, invalid := instance.validateInstance(ctx, r.IsCantabularFlexibleTable())
+			if len(missing) > 0 {
+				for j, field := range missing {
+					missing[j] = "output-instances[" + strconv.Itoa(i) + "]." + field
 				}
 			}
-			if len(instanceInvalidFields) > 0 {
-				for iIndex, iField := range instanceInvalidFields {
-					instanceInvalidFields[iIndex] = "output-instances[" + strconv.Itoa(i) + "]." + iField
+			if len(invalid) > 0 {
+				for j, field := range invalid {
+					invalid[j] = "output-instances[" + strconv.Itoa(i) + "]." + field
 				}
 			}
-			missingFields = append(missingFields, instanceMissingFields...)
-			invalidFields = append(invalidFields, instanceInvalidFields...)
+			missingFields = append(missingFields, missing...)
+			invalidFields = append(invalidFields, invalid...)
 		}
 	}
-	if recipe.OutputInstances != nil && len(recipe.OutputInstances) == 0 {
+	if r.OutputInstances != nil && len(r.OutputInstances) == 0 {
 		invalidFields = append(invalidFields, "empty output-instances update given")
 	}
 
@@ -341,13 +345,12 @@ func (recipe *Recipe) ValidateUpdateRecipe(ctx context.Context) error {
 
 // ValidateUpdateInstance - checks fields of instance before updating the instance of the recipe
 func (instance *Instance) ValidateUpdateInstance(ctx context.Context, isCantabularFlexibleTable bool) error {
-	var missingFields []string
-	var invalidFields []string
+	var missingFields, invalidFields []string
 
 	// Validation to check if at least one instance field is updated
-	allStringFieldsEmpty := instance.DatasetID == "" && instance.Title == ""
-	allRemainingFieldsNil := instance.Editions == nil && instance.CodeLists == nil
-	if allStringFieldsEmpty && allRemainingFieldsNil {
+	stringFieldsEmpty := instance.DatasetID == "" && instance.Title == ""
+	remainingFieldsNil := instance.Editions == nil && instance.CodeLists == nil
+	if stringFieldsEmpty && remainingFieldsNil {
 		invalidFields = append(invalidFields, "no instance fields updates given")
 	}
 
@@ -366,19 +369,19 @@ func (instance *Instance) ValidateUpdateInstance(ctx context.Context, isCantabul
 	// This functionality is already available in validateCodelists
 	if instance.CodeLists != nil && len(instance.CodeLists) > 0 {
 		for i, codelist := range instance.CodeLists {
-			codelistMissingFields, codelistInvalidFields := codelist.validateCodelist(ctx, isCantabularFlexibleTable)
-			if len(codelistMissingFields) > 0 {
-				for mIndex, mField := range codelistMissingFields {
-					codelistMissingFields[mIndex] = "code-lists[" + strconv.Itoa(i) + "]." + mField
+			missing, invalid := codelist.validateCodelist(ctx, isCantabularFlexibleTable)
+			if len(missing) > 0 {
+				for j, field := range missing {
+					missing[j] = "code-lists[" + strconv.Itoa(i) + "]." + field
 				}
 			}
-			if len(codelistInvalidFields) > 0 {
-				for iIndex, iField := range codelistInvalidFields {
-					codelistInvalidFields[iIndex] = "code-lists[" + strconv.Itoa(i) + "]." + iField
+			if len(invalid) > 0 {
+				for j, field := range invalid {
+					invalid[j] = "code-lists[" + strconv.Itoa(i) + "]." + field
 				}
 			}
-			missingFields = append(missingFields, codelistMissingFields...)
-			invalidFields = append(invalidFields, codelistInvalidFields...)
+			missingFields = append(missingFields, missing...)
+			invalidFields = append(invalidFields, invalid...)
 		}
 	}
 
@@ -396,17 +399,17 @@ func (instance *Instance) ValidateUpdateInstance(ctx context.Context, isCantabul
 }
 
 // ValidateUpdateCodeList - checks fields of codelist before updating the codelist in instance of the recipe
-func (codelist *CodeList) ValidateUpdateCodeList(ctx context.Context) error {
+func (c *CodeList) ValidateUpdateCodeList(ctx context.Context) error {
 	var invalidFields []string
 
 	// Validation to check if at least one codelist field is updated
-	allStringFieldsEmpty := codelist.ID == "" && codelist.Name == "" && codelist.HRef == ""
-	if allStringFieldsEmpty && codelist.IsHierarchy == nil {
+	stringFieldsEmpty := c.ID == "" && c.Name == "" && c.HRef == ""
+	if stringFieldsEmpty && c.IsHierarchy == nil {
 		invalidFields = append(invalidFields, "no codelist fields updates given")
 	}
 
-	if codelist.HRef != "" {
-		if !codelist.validateCodelistHRef(ctx) {
+	if c.HRef != "" {
+		if !c.validateCodelistHRef(ctx) {
 			invalidFields = append(invalidFields, "href should be in format (URL/id)")
 		}
 	}
