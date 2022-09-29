@@ -237,23 +237,7 @@ func TestValidateCodelist(t *testing.T) {
 			So(invalidFields, ShouldResemble, []string{"href should be in format (URL/id)"})
 		})
 
-	})
-
-	Convey("Empty invalid field successfully returned", t, func() {
-
-		Convey("when href is correctly entered", func() {
-			codelist := createCodeList()
-			codelist.HRef = "http://localhost:22400/code-lists/789"
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, false)
-			So(missingFields, ShouldBeNil)
-			So(invalidFields, ShouldBeNil)
-		})
-
-	})
-
-	Convey("Non-empty invalid field successfully returned - id and name not matching", t, func() {
-
-		Convey("when href is incorrectly entered", func() {
+		Convey("when name and id fields do not match", func() {
 			codelist := createCodeList()
 			codelist.HRef = "http://localhost:22400/code-lists/789"
 			codelist.Name = "123"
@@ -266,9 +250,17 @@ func TestValidateCodelist(t *testing.T) {
 
 	})
 
-	Convey("Empty invalid field successfully returned - id and name matching", t, func() {
+	Convey("Empty invalid field successfully returned", t, func() {
 
-		Convey("when href is incorrectly entered", func() {
+		Convey("when href is correctly entered", func() {
+			codelist := createCodeList()
+			codelist.HRef = "http://localhost:22400/code-lists/789"
+			missingFields, invalidFields := codelist.validateCodelist(ctx, false, false)
+			So(missingFields, ShouldBeNil)
+			So(invalidFields, ShouldBeNil)
+		})
+
+		Convey("when name and id fields do match", func() {
 			codelist := createCodeList()
 			codelist.HRef = "http://localhost:22400/code-lists/789"
 			codelist.Name = "789"
@@ -279,7 +271,6 @@ func TestValidateCodelist(t *testing.T) {
 		})
 
 	})
-
 }
 
 func TestValidateCodelistHRef(t *testing.T) {
