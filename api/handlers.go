@@ -202,7 +202,7 @@ func (api *RecipeAPI) AddInstanceHandler(w http.ResponseWriter, req *http.Reques
 	}
 
 	// Validation to check if all the instance fields are entered
-	err = instance.ValidateAddInstance(ctx, currentRecipe.IsCantabularFlexibleTable(), currentRecipe)
+	err = instance.ValidateAddInstance(ctx, currentRecipe)
 	if err != nil {
 		log.Error(ctx, "bad request error as invalid instance given in request body", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -274,7 +274,7 @@ func (api *RecipeAPI) AddCodelistHandler(w http.ResponseWriter, req *http.Reques
 	}
 
 	// Validation to check if all the instance fields are entered
-	err = codelist.ValidateAddCodelist(ctx, currentRecipe.IsCantabularFlexibleTable(), currentRecipe)
+	err = codelist.ValidateAddCodelist(ctx, currentRecipe)
 	if err != nil {
 		log.Error(ctx, "bad request error as invalid codelist given in request body", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -393,7 +393,7 @@ func (api *RecipeAPI) UpdateInstanceHandler(w http.ResponseWriter, req *http.Req
 	}
 
 	// Validation to check fields of instance and if all the code lists of the instance are entered if update of codelist given
-	err = updates.ValidateUpdateInstance(ctx, currentRecipe.IsCantabularFlexibleTable(), currentRecipe)
+	err = updates.ValidateUpdateInstance(ctx, currentRecipe)
 	if err != nil {
 		log.Error(ctx, "bad request error for invalid updates given in request body", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)

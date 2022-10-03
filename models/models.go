@@ -84,7 +84,7 @@ func (recipe *Recipe) IsCantabularType() bool {
 }
 
 // validateInstance - checks if fields of OutputInstances are not empty for ValidateAddRecipe and ValidateAddInstance
-func (instance *Instance) validateInstance(ctx context.Context, isCantabularFlexibleTable bool, recipe *Recipe) (missingFields []string, invalidFields []string) {
+func (instance *Instance) validateInstance(ctx context.Context, recipe *Recipe) (missingFields []string, invalidFields []string) {
 	if instance.DatasetID == "" {
 		missingFields = append(missingFields, "dataset_id")
 	}
@@ -105,7 +105,7 @@ func (instance *Instance) validateInstance(ctx context.Context, isCantabularFlex
 
 	if instance.CodeLists != nil && len(instance.CodeLists) > 0 {
 		for i, codelist := range instance.CodeLists {
-			missing, invalid := codelist.validateCodelist(ctx, isCantabularFlexibleTable, recipe)
+			missing, invalid := codelist.validateCodelist(ctx, recipe)
 
 			if len(missing) > 0 {
 				for j, field := range missing {
@@ -129,7 +129,9 @@ func (instance *Instance) validateInstance(ctx context.Context, isCantabularFlex
 }
 
 // validateCodelists - checks if fields of CodeList are not empty for ValidateAddRecipe, ValidateAddInstance, ValidateAddCodelist
-func (c *CodeList) validateCodelist(ctx context.Context, isCantabularFlexibleTable bool, recipe *Recipe) (missingFields []string, invalidFields []string) {
+func (c *CodeList) validateCodelist(ctx context.Context, recipe *Recipe) (missingFields []string, invalidFields []string) {
+	isCantabularFormat := recipe.Format == cantabularFlexibleTable || recipe.Format == cantabularMultivariateTable
+
 	if c.ID == "" {
 		missingFields = append(missingFields, "id")
 	}
@@ -154,11 +156,11 @@ func (c *CodeList) validateCodelist(ctx context.Context, isCantabularFlexibleTab
 		missingFields = append(missingFields, "isHierarchy")
 	}
 
-	if c.IsCantabularGeography == nil && isCantabularFlexibleTable {
+	if c.IsCantabularGeography == nil && isCantabularFormat {
 		missingFields = append(missingFields, "isCantabularGeography")
 	}
 
-	if c.IsCantabularDefaultGeography == nil && isCantabularFlexibleTable {
+	if c.IsCantabularDefaultGeography == nil && isCantabularFormat {
 		missingFields = append(missingFields, "isCantabularDefaultGeography")
 	}
 
@@ -214,7 +216,7 @@ func (r *Recipe) ValidateAddRecipe(ctx context.Context) error {
 
 	if r.OutputInstances != nil && len(r.OutputInstances) > 0 {
 		for i, instance := range r.OutputInstances {
-			missing, invalid := instance.validateInstance(ctx, r.IsCantabularFlexibleTable(), r)
+			missing, invalid := instance.validateInstance(ctx, r)
 			if len(missing) > 0 {
 				for j, field := range missing {
 					missing[j] = "output-instances[" + strconv.Itoa(i) + "]." + field
@@ -244,10 +246,10 @@ func (r *Recipe) ValidateAddRecipe(ctx context.Context) error {
 }
 
 // ValidateAddInstance - checks if fields of OutputInstances are not empty
-func (instance *Instance) ValidateAddInstance(ctx context.Context, isCantabularFlexibleTable bool, recipe *Recipe) error {
+func (instance *Instance) ValidateAddInstance(ctx context.Context, recipe *Recipe) error {
 	var missingFields, invalidFields []string
 
-	missing, invalid := instance.validateInstance(ctx, isCantabularFlexibleTable, recipe)
+	missing, invalid := instance.validateInstance(ctx, recipe)
 	missingFields = append(missingFields, missing...)
 	invalidFields = append(invalidFields, invalid...)
 
@@ -263,10 +265,10 @@ func (instance *Instance) ValidateAddInstance(ctx context.Context, isCantabularF
 }
 
 // ValidateAddCodelist - checks if fields of Codelist are not empty
-func (c *CodeList) ValidateAddCodelist(ctx context.Context, isCantabularFlexibleTable bool, recipe *Recipe) error {
+func (c *CodeList) ValidateAddCodelist(ctx context.Context, recipe *Recipe) error {
 	var missingFields, invalidFields []string
 
-	missing, invalid := c.validateCodelist(ctx, isCantabularFlexibleTable, recipe)
+	missing, invalid := c.validateCodelist(ctx, recipe)
 	missingFields = append(missingFields, missing...)
 	invalidFields = append(invalidFields, invalid...)
 
@@ -316,7 +318,7 @@ func (r *Recipe) ValidateUpdateRecipe(ctx context.Context) error {
 	// This functionality is already available in validateInstance
 	if r.OutputInstances != nil && len(r.OutputInstances) > 0 {
 		for i, instance := range r.OutputInstances {
-			missing, invalid := instance.validateInstance(ctx, r.IsCantabularFlexibleTable(), r)
+			missing, invalid := instance.validateInstance(ctx, r)
 			if len(missing) > 0 {
 				for j, field := range missing {
 					missing[j] = "output-instances[" + strconv.Itoa(i) + "]." + field
@@ -348,7 +350,7 @@ func (r *Recipe) ValidateUpdateRecipe(ctx context.Context) error {
 }
 
 // ValidateUpdateInstance - checks fields of instance before updating the instance of the recipe
-func (instance *Instance) ValidateUpdateInstance(ctx context.Context, isCantabularFlexibleTable bool, recipe *Recipe) error {
+func (instance *Instance) ValidateUpdateInstance(ctx context.Context, recipe *Recipe) error {
 	var missingFields, invalidFields []string
 
 	// Validation to check if at least one instance field is updated
@@ -373,7 +375,7 @@ func (instance *Instance) ValidateUpdateInstance(ctx context.Context, isCantabul
 	// This functionality is already available in validateCodelists
 	if instance.CodeLists != nil && len(instance.CodeLists) > 0 {
 		for i, codelist := range instance.CodeLists {
-			missing, invalid := codelist.validateCodelist(ctx, isCantabularFlexibleTable, recipe)
+			missing, invalid := codelist.validateCodelist(ctx, recipe)
 			if len(missing) > 0 {
 				for j, field := range missing {
 					missing[j] = "code-lists[" + strconv.Itoa(i) + "]." + field

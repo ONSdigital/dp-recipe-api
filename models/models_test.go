@@ -56,7 +56,7 @@ func TestValidateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.DatasetID = ""
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"dataset_id"})
 			So(invalidFields, ShouldBeNil)
@@ -66,7 +66,7 @@ func TestValidateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.Editions = nil
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"editions"})
 			So(invalidFields, ShouldBeNil)
@@ -76,7 +76,7 @@ func TestValidateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.Editions = []string{""}
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"editions[0]"})
 			So(invalidFields, ShouldBeNil)
@@ -88,7 +88,7 @@ func TestValidateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.Title = ""
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"title"})
 			So(invalidFields, ShouldBeNil)
@@ -98,7 +98,7 @@ func TestValidateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.CodeLists = nil
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"code-lists"})
 			So(invalidFields, ShouldBeNil)
@@ -108,7 +108,7 @@ func TestValidateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.CodeLists[0].Name = ""
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"code-lists[0].name"})
 			So(invalidFields, ShouldBeNil)
@@ -123,7 +123,7 @@ func TestValidateInstance(t *testing.T) {
 		Convey("when all fields are output-instances are given", func() {
 			recipe := createRecipeData()
 			instance := createInstance()
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldBeNil)
 		})
@@ -136,7 +136,7 @@ func TestValidateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.CodeLists[0].HRef = "incorrect-href"
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldNotBeNil)
 			So(invalidFields, ShouldResemble, []string{"code-lists[0].href should be in format (URL/id)"})
@@ -152,7 +152,7 @@ func TestValidateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.CodeLists[0].HRef = "http://localhost:22400/code-lists/789"
-			missingFields, invalidFields := instance.validateInstance(ctx, false, &recipe)
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldBeNil)
 		})
@@ -172,7 +172,7 @@ func TestValidateCodelist(t *testing.T) {
 			codelist.ID = ""
 			// HRef Updated as the format of HRef follows the value from ID
 			codelist.HRef = "http://localhost:22400/code-lists/"
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"id"})
 			So(invalidFields, ShouldBeNil)
@@ -182,7 +182,7 @@ func TestValidateCodelist(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.HRef = ""
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"href"})
 			So(invalidFields, ShouldBeNil)
@@ -192,7 +192,7 @@ func TestValidateCodelist(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.Name = ""
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"name"})
 			So(invalidFields, ShouldBeNil)
@@ -202,7 +202,7 @@ func TestValidateCodelist(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.IsHierarchy = nil
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"isHierarchy"})
 			So(invalidFields, ShouldBeNil)
@@ -212,7 +212,8 @@ func TestValidateCodelist(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.IsCantabularGeography = nil
-			missingFields, invalidFields := codelist.validateCodelist(ctx, true, &recipe)
+			recipe.Format = "cantabular_flexible_table"
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"isCantabularGeography"})
 			So(invalidFields, ShouldBeNil)
@@ -222,7 +223,8 @@ func TestValidateCodelist(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.IsCantabularDefaultGeography = nil
-			missingFields, invalidFields := codelist.validateCodelist(ctx, true, &recipe)
+			recipe.Format = "cantabular_flexible_table"
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldNotBeNil)
 			So(missingFields, ShouldResemble, []string{"isCantabularDefaultGeography"})
 			So(invalidFields, ShouldBeNil)
@@ -235,7 +237,7 @@ func TestValidateCodelist(t *testing.T) {
 		Convey("when all fields are codelist are given", func() {
 			recipe := createRecipeData()
 			codelist := createCodeList()
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldBeNil)
 		})
@@ -248,7 +250,7 @@ func TestValidateCodelist(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.HRef = "incorrect-href"
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldNotBeNil)
 			So(invalidFields, ShouldResemble, []string{"href should be in format (URL/id)"})
@@ -261,7 +263,7 @@ func TestValidateCodelist(t *testing.T) {
 			codelist.HRef = "http://localhost:22400/code-lists/789"
 			codelist.Name = "123"
 			codelist.ID = "789"
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldNotBeNil)
 			So(invalidFields, ShouldResemble, []string{"name and id should be matching values"})
@@ -275,7 +277,7 @@ func TestValidateCodelist(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.HRef = "http://localhost:22400/code-lists/789"
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldBeNil)
 		})
@@ -287,7 +289,7 @@ func TestValidateCodelist(t *testing.T) {
 			codelist.HRef = "http://localhost:22400/code-lists/789"
 			codelist.Name = "789"
 			codelist.ID = "789"
-			missingFields, invalidFields := codelist.validateCodelist(ctx, false, &recipe)
+			missingFields, invalidFields := codelist.validateCodelist(ctx, &recipe)
 			So(missingFields, ShouldBeNil)
 			So(invalidFields, ShouldBeNil)
 		})
@@ -706,7 +708,7 @@ func TestValidateAddInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.DatasetID = ""
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [dataset_id]").Error())
 		})
@@ -715,7 +717,7 @@ func TestValidateAddInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.Editions = nil
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [editions]").Error())
 		})
@@ -724,7 +726,7 @@ func TestValidateAddInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.Editions = []string{""}
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [editions[0]]").Error())
 
@@ -735,7 +737,7 @@ func TestValidateAddInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.Title = ""
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [title]").Error())
 		})
@@ -744,7 +746,7 @@ func TestValidateAddInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.CodeLists = nil
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists]").Error())
 		})
@@ -753,7 +755,7 @@ func TestValidateAddInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.CodeLists[0].Name = ""
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists[0].name]").Error())
 
@@ -767,7 +769,7 @@ func TestValidateAddInstance(t *testing.T) {
 		Convey("when all fields are output-instances are given", func() {
 			recipe := createRecipeData()
 			instance := createInstance()
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldBeNil)
 		})
 
@@ -779,7 +781,7 @@ func TestValidateAddInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.CodeLists[0].HRef = "incorrect-href"
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [code-lists[0].href should be in format (URL/id)]").Error())
 
@@ -794,7 +796,7 @@ func TestValidateAddInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := createInstance()
 			instance.CodeLists[0].HRef = "http://localhost:22400/code-lists/789"
-			err := instance.ValidateAddInstance(ctx, false, &recipe)
+			err := instance.ValidateAddInstance(ctx, &recipe)
 			So(err, ShouldBeNil)
 		})
 
@@ -810,7 +812,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 		Convey("when empty editions update is given", func() {
 			recipe := createRecipeData()
 			instance := Instance{Editions: []string{}}
-			err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+			err := instance.ValidateUpdateInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [editions]").Error())
 
@@ -819,7 +821,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 		Convey("when any edition update of editions is incomplete", func() {
 			recipe := createRecipeData()
 			instance := Instance{Editions: []string{""}}
-			err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+			err := instance.ValidateUpdateInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [editions[0]]").Error())
 
@@ -830,7 +832,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			instance.CodeLists[0].Name = ""
-			err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+			err := instance.ValidateUpdateInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists[0].name]").Error())
 
@@ -842,7 +844,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := Instance{CodeLists: []CodeList{createCodeList(), createCodeList()}}
 			instance.CodeLists[1].Name = ""
-			err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+			err := instance.ValidateUpdateInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [code-lists[1].name]").Error())
 
@@ -856,14 +858,14 @@ func TestValidateUpdateInstance(t *testing.T) {
 		Convey("when complete editions update is given", func() {
 			recipe := createRecipeData()
 			instance := Instance{Editions: []string{"editions"}}
-			err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+			err := instance.ValidateUpdateInstance(ctx, &recipe)
 			So(err, ShouldBeNil)
 		})
 
 		Convey("when all code lists fields are not missing", func() {
 			recipe := createRecipeData()
 			instance := Instance{CodeLists: []CodeList{createCodeList()}}
-			err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+			err := instance.ValidateUpdateInstance(ctx, &recipe)
 			So(err, ShouldBeNil)
 		})
 
@@ -874,7 +876,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 		Convey("when no instance fields updates is given", func() {
 			recipe := createRecipeData()
 			instance := Instance{}
-			err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+			err := instance.ValidateUpdateInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [no instance fields updates given]").Error())
 		})
@@ -883,7 +885,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 			recipe := createRecipeData()
 			instance := Instance{CodeLists: []CodeList{createCodeList()}}
 			instance.CodeLists[0].HRef = "incorrect-href"
-			err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+			err := instance.ValidateUpdateInstance(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [code-lists[0].href should be in format (URL/id)]").Error())
 
@@ -903,7 +905,7 @@ func TestValidateUpdateInstance(t *testing.T) {
 					// instance just updating code lists of instance
 					recipe := createRecipeData()
 					instance := Instance{CodeLists: []CodeList{createCodeList()}}
-					err := instance.ValidateUpdateInstance(ctx, false, &recipe)
+					err := instance.ValidateUpdateInstance(ctx, &recipe)
 					So(err, ShouldBeNil)
 				})
 
@@ -926,7 +928,7 @@ func TestValidateAddCodelists(t *testing.T) {
 			codelist.ID = ""
 			// HRef Updated as the format of HRef follows the value from ID
 			codelist.HRef = "http://localhost:22400/code-lists/"
-			err := codelist.ValidateAddCodelist(ctx, false, &recipe)
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [id]").Error())
 		})
@@ -935,7 +937,7 @@ func TestValidateAddCodelists(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.HRef = ""
-			err := codelist.ValidateAddCodelist(ctx, false, &recipe)
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [href]").Error())
 		})
@@ -944,7 +946,7 @@ func TestValidateAddCodelists(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.Name = ""
-			err := codelist.ValidateAddCodelist(ctx, false, &recipe)
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [name]").Error())
 		})
@@ -953,7 +955,7 @@ func TestValidateAddCodelists(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.IsHierarchy = nil
-			err := codelist.ValidateAddCodelist(ctx, false, &recipe)
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [isHierarchy]").Error())
 		})
@@ -962,7 +964,8 @@ func TestValidateAddCodelists(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.IsCantabularGeography = nil
-			err := codelist.ValidateAddCodelist(ctx, true, &recipe)
+			recipe.Format = "cantabular_flexible_table"
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [isCantabularGeography]").Error())
 		})
@@ -971,7 +974,8 @@ func TestValidateAddCodelists(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.IsCantabularDefaultGeography = nil
-			err := codelist.ValidateAddCodelist(ctx, true, &recipe)
+			recipe.Format = "cantabular_flexible_table"
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("missing mandatory fields: [isCantabularDefaultGeography]").Error())
 		})
@@ -983,7 +987,7 @@ func TestValidateAddCodelists(t *testing.T) {
 		Convey("when all fields are codelist are given", func() {
 			recipe := createRecipeData()
 			codelist := createCodeList()
-			err := codelist.ValidateAddCodelist(ctx, false, &recipe)
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldBeNil)
 		})
 
@@ -995,7 +999,7 @@ func TestValidateAddCodelists(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.HRef = "incorrect-href"
-			err := codelist.ValidateAddCodelist(ctx, false, &recipe)
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldNotBeNil)
 			So(err.Error(), ShouldResemble, errors.New("invalid fields: [href should be in format (URL/id)]").Error())
 		})
@@ -1008,7 +1012,7 @@ func TestValidateAddCodelists(t *testing.T) {
 			recipe := createRecipeData()
 			codelist := createCodeList()
 			codelist.HRef = "http://localhost:22400/code-lists/789"
-			err := codelist.ValidateAddCodelist(ctx, false, &recipe)
+			err := codelist.ValidateAddCodelist(ctx, &recipe)
 			So(err, ShouldBeNil)
 		})
 
