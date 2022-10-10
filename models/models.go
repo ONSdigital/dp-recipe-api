@@ -130,7 +130,6 @@ func (instance *Instance) validateInstance(ctx context.Context, recipe *Recipe) 
 
 // validateCodelists - checks if fields of CodeList are not empty for ValidateAddRecipe, ValidateAddInstance, ValidateAddCodelist
 func (c *CodeList) validateCodelist(ctx context.Context, recipe *Recipe) (missingFields []string, invalidFields []string) {
-	isCantabularFormat := recipe.Format == cantabularFlexibleTable || recipe.Format == cantabularMultivariateTable
 
 	if c.ID == "" {
 		missingFields = append(missingFields, "id")
@@ -156,11 +155,11 @@ func (c *CodeList) validateCodelist(ctx context.Context, recipe *Recipe) (missin
 		missingFields = append(missingFields, "isHierarchy")
 	}
 
-	if c.IsCantabularGeography == nil && isCantabularFormat {
+	if recipe.IsCantabularType() && c.IsCantabularGeography == nil {
 		missingFields = append(missingFields, "isCantabularGeography")
 	}
 
-	if c.IsCantabularDefaultGeography == nil && isCantabularFormat {
+	if recipe.IsCantabularType() && c.IsCantabularDefaultGeography == nil {
 		missingFields = append(missingFields, "isCantabularDefaultGeography")
 	}
 
