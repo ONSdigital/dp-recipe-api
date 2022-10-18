@@ -12,14 +12,14 @@
             "id": "city",
             "is_hierarchy": false,
             "is_cantabular_geography": true,
-            "name": "geography"
+            "name": "city"
           },
           {
             "href": "http://cantabular-dimension-api/siblings_3",
             "id": "siblings_3",
               "is_hierarchy": false,
             "is_cantabular_geography": false,
-            "name": "numberofsiblings3mappings"
+            "name": "siblings_3"
           },
           {
             "href": "http://cantabular-dimension-api/sex",
@@ -51,14 +51,14 @@
             "is_hierarchy": false,
             "is_cantabular_geography": true,
             "is_cantabular_default_geography": true,
-            "name": "geography"
+            "name": "city"
           },
           {
             "href": "http://codelist/siblings_3",
             "id": "siblings_3",
             "is_hierarchy": false,
             "is_cantabular_geography": false,
-            "name": "siblings"
+            "name": "siblings_3"
           }
         ],
         "dataset_id": "cantabular-flexible-example",
@@ -82,7 +82,7 @@
             "is_hierarchy": false,
             "is_cantabular_geography": true,
             "is_cantabular_default_geography": true,
-            "name": "geography"
+            "name": "ladcd"
           },
           {
             "href": "http://localhost:22400/code-lists/occupancy_rating_bedrooms_5a",
@@ -90,7 +90,7 @@
             "is_hierarchy": false,
             "is_cantabular_geography": false,
             "is_cantabular_default_geography": false,
-            "name": "occupancyratingbedrooms"
+            "name": "occupancy_rating_bedrooms_5a"
           },
           {
             "href": "http://localhost:22400/code-lists/occupancy_rating_bedrooms_5a",
@@ -98,7 +98,7 @@
             "is_hierarchy": false,
             "is_cantabular_geography": false,
             "is_cantabular_default_geography": false,
-            "name": "accomodationtype"
+            "name": "accomodation_type_2a"
           }
         ],
         "dataset_id": "cantabular-multivariate-example",
