@@ -49,10 +49,11 @@ type CodeList struct {
 
 // Instance - struct for instance of recipe
 type Instance struct {
-	DatasetID string     `bson:"dataset_id,omitempty" json:"dataset_id,omitempty"`
-	Editions  []string   `bson:"editions,omitempty" json:"editions,omitempty"`
-	Title     string     `bson:"title,omitempty" json:"title,omitempty"`
-	CodeLists []CodeList `bson:"code_lists,omitempty" json:"code_lists,omitempty"`
+	DatasetID       string     `bson:"dataset_id,omitempty" json:"dataset_id,omitempty"`
+	Editions        []string   `bson:"editions,omitempty" json:"editions,omitempty"`
+	Title           string     `bson:"title,omitempty" json:"title,omitempty"`
+	CodeLists       []CodeList `bson:"code_lists,omitempty" json:"code_lists,omitempty"`
+	LowestGeography string     `bson:"lowest_geography,omitempty" json:"lowest_geography,omitempty"`
 }
 
 type file struct {
@@ -125,6 +126,11 @@ func (instance *Instance) validateInstance(ctx context.Context, recipe *Recipe) 
 		missingFields = append(missingFields, "code-lists")
 	}
 
+	if recipe.IsCantabularType() {
+		if len(instance.LowestGeography) == 0 {
+			missingFields = append(missingFields, "lowest_geography")
+		}
+	}
 	return
 }
 

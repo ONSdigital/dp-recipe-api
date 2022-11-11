@@ -40,10 +40,11 @@ func createRecipeData() Recipe {
 
 func createInstance() Instance {
 	return Instance{
-		DatasetID: "456",
-		Editions:  []string{"editions"},
-		Title:     "test",
-		CodeLists: []CodeList{createCodeList()},
+		DatasetID:       "456",
+		Editions:        []string{"editions"},
+		Title:           "test",
+		CodeLists:       []CodeList{createCodeList()},
+		LowestGeography: "lowest_geo",
 	}
 }
 
@@ -114,6 +115,17 @@ func TestValidateInstance(t *testing.T) {
 			So(invalidFields, ShouldBeNil)
 
 			instance.CodeLists[0].Name = "codelist-test" // Reset to original
+		})
+
+		Convey("when lowest_geography is missing", func() {
+			recipe := createRecipeData()
+			recipe.Format = "cantabular_flexible_table"
+			instance := createInstance()
+			instance.LowestGeography = ""
+			missingFields, invalidFields := instance.validateInstance(ctx, &recipe)
+			So(missingFields, ShouldNotBeNil)
+			So(missingFields, ShouldResemble, []string{"lowest_geography"})
+			So(invalidFields, ShouldBeNil)
 		})
 
 	})
