@@ -1739,8 +1739,8 @@
       {
         "code_lists": [
           {
-            "href": "http://localhost:22400/code-lists/yyyy-years",
-            "id": "yyyy-yy",
+            "href": "http://localhost:22400/code-lists/yyyy-to-yyyy-yy",
+            "id": "yyyy-to-yyyy-yy",
             "name": "time"
           },
           {
