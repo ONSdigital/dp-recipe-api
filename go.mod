@@ -1,6 +1,6 @@
 module github.com/ONSdigital/dp-recipe-api
 
-go 1.19
+go 1.23.2
 
 require (
 	github.com/ONSdigital/dp-api-clients-go v1.43.0
@@ -28,6 +28,7 @@ require (
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20220104163920-15ed2e8cf2bd // indirect
+	github.com/gorilla/schema v1.4.1 // indirect
 	github.com/hokaccha/go-prettyjson v0.0.0-20211117102719-0474bc63780f // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
