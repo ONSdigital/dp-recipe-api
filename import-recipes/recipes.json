@@ -39,26 +39,26 @@
   },
   {
     "alias": "Cantabular Flexible Example",
-    "cantabular_blob": "Example",
+    "cantabular_blob": "UR",
     "format": "cantabular_flexible_table",
     "_id": "ea1e031b-3064-427d-8fed-4b35c99bf1a0",
     "output_instances": [
       {
         "code_lists": [
           {
-            "href": "http://codelists/city",
-            "id": "city",
+            "href": "http://codelists/utla",
+            "id": "utla",
             "is_hierarchy": false,
             "is_cantabular_geography": true,
             "is_cantabular_default_geography": true,
-            "name": "geography"
+            "name": "utla"
           },
           {
-            "href": "http://codelist/siblings_3",
-            "id": "siblings_3",
+            "href": "http://codelist/age_arrival_uk_23a",
+            "id": "age_arrival_uk_23a",
             "is_hierarchy": false,
             "is_cantabular_geography": false,
-            "name": "siblings"
+            "name": "age_arrival_uk_23a"
           }
         ],
         "dataset_id": "cantabular-flexible-example",
